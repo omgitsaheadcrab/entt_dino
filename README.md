@@ -6,7 +6,7 @@ Entity Component System (ECS) from the [EnTT library](https://github.com/skypjac
 ## Dependencies
 
 - [CMake](https://cmake.org/) version 3.7 or later.
-- [SDL2]((https://www.libsdl.org/)) and
+- [SDL2](https://www.libsdl.org/) and
 [SDL2_image](https://www.libsdl.org/projects/SDL_image/) for input and
 rendering.
 
