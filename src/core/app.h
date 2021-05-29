@@ -6,8 +6,8 @@
  * @copyright Copyright © 2021 Tobias Backer Dirks
  */
 
-#ifndef SRC_CORE_APP_H_
-#define SRC_CORE_APP_H_
+#ifndef ENTT_DINO_SRC_CORE_APP_H_
+#define ENTT_DINO_SRC_CORE_APP_H_
 
 #include <SDL2/SDL.h>
 
@@ -25,4 +25,4 @@ class Application {
   SDL_Renderer *renderer;
 };
 
-#endif /* SRC_CORE_APP_H_ */
+#endif /* ENTT_DINO_SRC_CORE_APP_H_ */

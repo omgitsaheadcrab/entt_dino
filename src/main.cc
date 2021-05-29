@@ -9,7 +9,7 @@
 #include <exception>
 #include <iostream>
 
-#include "core/app.h"
+#include "src/core/app.h"
 
 int main(int argc, char *argv[]) {
   try {

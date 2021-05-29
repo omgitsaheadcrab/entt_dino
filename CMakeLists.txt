@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.7)
 
-project(entt-dino LANGUAGES CXX)
+project(entt_dino LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -23,6 +23,6 @@ file(GLOB_RECURSE SOURCE_FILES
   "${PROJECT_SOURCE_DIR}/src/*.h"
 )
 
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2main_INCLUDE_DIRS}  ${SDL2_IMAGE_INCLUDE_DIRS} ${CMAKE_BINARY_DIR})
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2main_INCLUDE_DIRS}  ${SDL2_IMAGE_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR})
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBS} ${SDL2_IMAGE_LIBRARIES} EnTT)

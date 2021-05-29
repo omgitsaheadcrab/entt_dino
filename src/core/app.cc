@@ -8,7 +8,7 @@
 
 #include <stdexcept>
 
-#include "app.h"
+#include "src/core/app.h"
 
 const int Application::screen_width {800};
 const int Application::screen_height {244};
