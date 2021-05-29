@@ -6,6 +6,17 @@
  * @copyright Copyright © 2021 Tobias Backer Dirks
  */
 
+#include <exception>
+#include <iostream>
+
+#include "core/app.h"
+
 int main(int argc, char *argv[]) {
-    return 0;
+  try {
+    Application app;
+  } catch (std::exception &e) {
+    std::cout << e.what() << "\n";
+    return 1;
+  }
+  return 0;
 }
