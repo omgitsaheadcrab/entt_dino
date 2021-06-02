@@ -19,10 +19,10 @@ class Application {
   void run();
 
  private:
-  static const int screen_width;
-  static const int screen_height;
-  SDL_Window *window;
-  SDL_Renderer *renderer;
+  static const int screen_width_;
+  static const int screen_height_;
+  SDL_Window *window_;
+  SDL_Renderer *renderer_;
 };
 
 #endif /* ENTT_DINO_SRC_CORE_APP_H_ */
