@@ -13,16 +13,21 @@
 
 class Application {
  public:
-  Application();
+  Application() = delete;
+  Application(const char* name, const int screen_width, const int screen_height,
+              const double fps);
   ~Application();
 
   void run();
 
  private:
-  static const int screen_width_;
-  static const int screen_height_;
-  SDL_Window *window_;
-  SDL_Renderer *renderer_;
+  const char* name_;
+  const int screen_width_;
+  const int screen_height_;
+  const double fps_;
+  const double frame_delay_;
+  SDL_Window* window_;
+  SDL_Renderer* renderer_;
 };
 
 #endif /* ENTT_DINO_SRC_CORE_APP_H_ */
