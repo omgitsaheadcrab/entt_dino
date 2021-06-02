@@ -6,7 +6,7 @@
  * @copyright Copyright © 2021 Tobias Backer Dirks
  */
 
-#include "src/core/app.h"
+#include "core/app.h"
 
 #include <stdexcept>
 
