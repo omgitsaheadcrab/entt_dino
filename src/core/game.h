@@ -1,0 +1,19 @@
+/**
+ * @file      game.h
+ * @brief     Game logic and event loop.
+ * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
+ * @date      2021-06-02
+ * @copyright Copyright © 2021 Tobias Backer Dirks
+ */
+
+#ifndef ENTT_DINO_SRC_CORE_GAME_H_
+#define ENTT_DINO_SRC_CORE_GAME_H_
+
+class Game
+{
+ public:
+  Game();
+  virtual ~Game();
+};
+
+#endif /* ENTT_DINO_SRC_CORE_GAME_H_ */
