@@ -13,7 +13,16 @@ class Game
 {
  public:
   Game();
-  virtual ~Game();
+  ~Game() = default;
+
+  bool running();
+  void init();
+  void events();
+  void update();
+  void render();
+
+ private:
+  bool is_running_;
 };
 
 #endif /* ENTT_DINO_SRC_CORE_GAME_H_ */

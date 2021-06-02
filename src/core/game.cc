@@ -7,3 +7,36 @@
  */
 
 #include "core/game.h"
+
+#include <SDL2/SDL.h>
+
+Game::Game() = default;
+
+bool Game::running() { return is_running_; }
+
+void Game::init() { is_running_ = true; }
+
+void Game::events() {
+  SDL_Event event;
+
+  SDL_PollEvent(&event);
+
+  switch (event.type) {
+    case SDL_QUIT:
+      is_running_ = false;
+      break;
+    case SDL_KEYDOWN:
+      switch (event.key.keysym.sym) {
+        case SDLK_ESCAPE:  // Press ESC to quit
+          is_running_ = false;
+          break;
+      }
+      break;
+    default:
+      break;
+  }
+}
+
+void Game::update() {}
+
+void Game::render() {}

@@ -44,4 +44,23 @@ Application::~Application() {
 
 void Application::run() {
   std::cout << "Veni. Vidi. Reverti.\n";
+
+  double frame_start;
+  double frame_time;
+
+  Game game;
+  game.init();
+
+  while (game.running()) {
+    frame_start = SDL_GetTicks();
+
+    game.events();
+    game.update();
+    game.render();
+
+    frame_time = SDL_GetTicks() - frame_start;
+    if (frame_delay_ > frame_time) {
+      SDL_Delay(frame_delay_ - frame_time);
+    }
+  }
 }
