@@ -43,8 +43,6 @@ Application::~Application() {
 }
 
 void Application::run() {
-  std::cout << "Veni. Vidi. Reverti.\n";
-
   double frame_start;
   double frame_time;
 
@@ -63,4 +61,5 @@ void Application::run() {
       SDL_Delay(frame_delay_ - frame_time);
     }
   }
+  std::cout << "Veni. Vidi. Reverti.\n";
 }
