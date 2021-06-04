@@ -9,8 +9,7 @@
 #ifndef ENTT_DINO_SRC_CORE_GAME_H_
 #define ENTT_DINO_SRC_CORE_GAME_H_
 
-class Game
-{
+class Game {
  public:
   Game();
   ~Game() = default;
