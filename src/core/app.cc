@@ -52,7 +52,7 @@ void Application::Run() {
   while (game.running()) {
     frame_start = SDL_GetTicks();
 
-    game.Events();
+    game.HandleEvents();
     game.Update();
     game.Render();
 

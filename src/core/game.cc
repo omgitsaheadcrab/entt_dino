@@ -14,7 +14,7 @@ bool Game::running() { return is_running_; }
 
 void Game::Init() { is_running_ = true; }
 
-void Game::Events() {
+void Game::HandleEvents() {
   SDL_Event event;
 
   SDL_PollEvent(&event);

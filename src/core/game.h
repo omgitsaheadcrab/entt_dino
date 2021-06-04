@@ -16,7 +16,7 @@ class Game {
 
   bool running();
   void Init();
-  void Events();
+  void HandleEvents();
   void Update();
   void Render();
 
