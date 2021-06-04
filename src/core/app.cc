@@ -42,19 +42,19 @@ Application::~Application() {
   SDL_Quit();
 }
 
-void Application::run() {
+void Application::Run() {
   double frame_start;
   double frame_time;
 
   Game game;
-  game.init();
+  game.Init();
 
   while (game.running()) {
     frame_start = SDL_GetTicks();
 
-    game.events();
-    game.update();
-    game.render();
+    game.Events();
+    game.Update();
+    game.Render();
 
     frame_time = SDL_GetTicks() - frame_start;
     if (frame_delay_ > frame_time) {

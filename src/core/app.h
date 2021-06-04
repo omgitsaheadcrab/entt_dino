@@ -18,7 +18,7 @@ class Application {
               const double fps);
   ~Application();
 
-  void run();
+  void Run();
 
  private:
   const char* name_;

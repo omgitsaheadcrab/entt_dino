@@ -14,7 +14,7 @@
 int main(int argc, char *argv[]) {
   try {
     Application app("entt_dino", 800, 244, 60.0);
-    app.run();
+    app.Run();
   } catch (std::exception &e) {
     std::cout << e.what() << "\n";
     return 1;

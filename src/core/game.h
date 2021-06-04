@@ -16,10 +16,10 @@ class Game
   ~Game() = default;
 
   bool running();
-  void init();
-  void events();
-  void update();
-  void render();
+  void Init();
+  void Events();
+  void Update();
+  void Render();
 
  private:
   bool is_running_;
