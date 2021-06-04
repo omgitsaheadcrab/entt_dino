@@ -11,7 +11,7 @@
 
 class Game {
  public:
-  Game();
+  Game() = default;
   ~Game() = default;
 
   bool running();

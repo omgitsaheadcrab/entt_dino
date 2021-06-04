@@ -10,8 +10,6 @@
 
 #include <SDL2/SDL.h>
 
-Game::Game() = default;
-
 bool Game::running() { return is_running_; }
 
 void Game::Init() { is_running_ = true; }
