@@ -14,8 +14,8 @@
 class Application {
  public:
   Application() = delete;
-  Application(const char* kName, const int kScreen_width, const int kScreen_height,
-              const double kFps);
+  Application(const char* kName, const int kScreen_width,
+              const int kScreen_height, const double kFps);
   ~Application();
 
   void Run();
