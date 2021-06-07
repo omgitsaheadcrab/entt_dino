@@ -14,14 +14,14 @@ class Game {
   Game() = default;
   ~Game() = default;
 
-  bool running();
+  bool is_over();
   void Init();
   void HandleEvents();
   void Update();
   void Render();
 
  private:
-  bool is_running_;
+  bool over_;
 };
 
 #endif /* ENTT_DINO_SRC_CORE_GAME_H_ */

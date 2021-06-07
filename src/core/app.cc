@@ -15,16 +15,16 @@
 
 #include "core/game.h"
 
-Application::Application(const char* name, const int screen_width,
-                         const int screen_height, const double fps)
-    : name_{name},
-      screen_width_{screen_width},
-      screen_height_{screen_height},
-      fps_{fps},
-      frame_delay_{1000.0 / fps},
-      window_{SDL_CreateWindow(name, SDL_WINDOWPOS_CENTERED,
-                               SDL_WINDOWPOS_CENTERED, screen_width,
-                               screen_height, SDL_WINDOW_RESIZABLE)},
+Application::Application(const char* kName, const int kScreen_width,
+                         const int kScreen_height, const double kFps)
+    : kName_{kName},
+      kScreen_width_{kScreen_width},
+      k_Screen_height_{kScreen_height},
+      kFps_{kFps},
+      kFrame_Delay_{1000.0 / kFps},
+      window_{SDL_CreateWindow(kName, SDL_WINDOWPOS_CENTERED,
+                               SDL_WINDOWPOS_CENTERED, kScreen_width,
+                               kScreen_height, SDL_WINDOW_RESIZABLE)},
       renderer_{SDL_CreateRenderer(
           window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE)} {
   if (window_ == nullptr) {
@@ -33,7 +33,7 @@ Application::Application(const char* name, const int screen_width,
   if (renderer_ == nullptr) {
     throw std::runtime_error("`SDL_CreateRenderer` failed to create renderer.");
   }
-  SDL_RenderSetLogicalSize(renderer_, screen_width_, screen_height_);
+  SDL_RenderSetLogicalSize(renderer_, kScreen_width_, k_Screen_height_);
 }
 
 Application::~Application() {
@@ -49,7 +49,7 @@ void Application::Run() {
   Game game;
   game.Init();
 
-  while (game.running()) {
+  while (!game.is_over()) {
     frame_start = SDL_GetTicks();
 
     game.HandleEvents();
@@ -57,8 +57,8 @@ void Application::Run() {
     game.Render();
 
     frame_time = SDL_GetTicks() - frame_start;
-    if (frame_delay_ > frame_time) {
-      SDL_Delay(frame_delay_ - frame_time);
+    if (kFrame_Delay_ > frame_time) {
+      SDL_Delay(kFrame_Delay_ - frame_time);
     }
   }
   std::cout << "Veni. Vidi. Reverti.\n";

@@ -14,18 +14,18 @@
 class Application {
  public:
   Application() = delete;
-  Application(const char* name, const int screen_width, const int screen_height,
-              const double fps);
+  Application(const char* kName, const int kScreen_width, const int kScreen_height,
+              const double kFps);
   ~Application();
 
   void Run();
 
  private:
-  const char* name_;
-  const int screen_width_;
-  const int screen_height_;
-  const double fps_;
-  const double frame_delay_;
+  const char* kName_;
+  const int kScreen_width_;
+  const int k_Screen_height_;
+  const double kFps_;
+  const double kFrame_Delay_;
   SDL_Window* window_;
   SDL_Renderer* renderer_;
 };

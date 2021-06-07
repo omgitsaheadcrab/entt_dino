@@ -10,9 +10,9 @@
 
 #include <SDL2/SDL.h>
 
-bool Game::running() { return is_running_; }
+bool Game::is_over() { return over_; }
 
-void Game::Init() { is_running_ = true; }
+void Game::Init() { over_ = false; }
 
 void Game::HandleEvents() {
   SDL_Event event;
@@ -21,12 +21,12 @@ void Game::HandleEvents() {
 
   switch (event.type) {
     case SDL_QUIT:
-      is_running_ = false;
+      over_ = true;
       break;
     case SDL_KEYDOWN:
       switch (event.key.keysym.sym) {
         case SDLK_ESCAPE:  // Press ESC to quit
-          is_running_ = false;
+          over_ = true;
           break;
       }
       break;
