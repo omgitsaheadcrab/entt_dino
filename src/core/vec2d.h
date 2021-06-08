@@ -20,7 +20,8 @@ struct vec2d {
   vec2d() : x(0), y(0) {}
   vec2d(T _x, T _y) : x(_x), y(_y) {}
   vec2d(const vec2d& v) : x(v.x), y(v.y) {}
-  auto operator=(const vec2d& v) = default;
+  vec2d& operator=(const vec2d& v) = default;
+
   T mag() const { return T(std::sqrt(x * x + y * y)); }
 };
 
