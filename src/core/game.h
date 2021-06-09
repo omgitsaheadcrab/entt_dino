@@ -9,6 +9,8 @@
 #ifndef ENTT_DINO_SRC_CORE_GAME_H_
 #define ENTT_DINO_SRC_CORE_GAME_H_
 
+#include <entt/entity/registry.hpp>
+
 class Game {
  public:
   Game() = default;
@@ -22,6 +24,7 @@ class Game {
 
  private:
   bool over_;
+  entt::registry registry_;
 };
 
 #endif /* ENTT_DINO_SRC_CORE_GAME_H_ */
