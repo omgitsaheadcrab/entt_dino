@@ -8,6 +8,8 @@
 
 #include "core/game.h"
 
+#include <SDL2/SDL.h>
+
 #include "ent/background.h"
 
 struct SDL_Renderer;
