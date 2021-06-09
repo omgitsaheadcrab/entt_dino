@@ -11,13 +11,15 @@
 
 #include <entt/entity/registry.hpp>
 
+struct SDL_Renderer;
+
 class Game {
  public:
   Game() = default;
   ~Game() = default;
 
   bool is_over();
-  void Init();
+  void Init(SDL_Renderer* renderer);
   void HandleEvents();
   void Update();
   void Render();

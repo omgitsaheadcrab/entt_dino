@@ -8,11 +8,14 @@
 
 #include "core/game.h"
 
-#include <SDL2/SDL.h>
+
+struct SDL_Renderer;
 
 bool Game::is_over() { return over_; }
 
-void Game::Init() { over_ = false; }
+void Game::Init(SDL_Renderer* renderer) {
+  over_ = false;
+}
 
 void Game::HandleEvents() {
   SDL_Event event;
