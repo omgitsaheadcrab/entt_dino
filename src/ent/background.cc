@@ -10,6 +10,7 @@
 
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
+#include <string>
 
 #include "comp/sprite.h"
 #include "comp/transform.h"
@@ -18,15 +19,26 @@
 
 struct SDL_Renderer;
 
+namespace {
+
+vf2d position{0.0, 0.0};
+vf2d direction{0.0, 0.0};
+vf2d scale{0.0, 0.0};
+
+vf2d sprite_position{0.0, 0.0};
+vf2d sprite_size{0.0, 0.0};
+
+std::string path = "res/image.png";
+
+}  // namespace
+
 namespace entities {
 
 void CreateBackground(entt::registry* registry, SDL_Renderer* renderer) {
   const entt::entity e = registry->create();
-  registry->emplace<components::Transform>(e, vf2d{0.0, 0.0}, vf2d{0.0, 0.0},
-                                           vf2d{0.0, 0.0});
+  registry->emplace<components::Transform>(e, position, direction, scale);
   registry->emplace<components::Sprite>(
-      e, graphics::LoadTexture("res/image.png", renderer), vf2d{0.0, 0.0},
-      vf2d{0.0, 0.0});
+      e, graphics::LoadTexture(path, renderer), sprite_position, sprite_size);
 }
 
 }  // namespace entities
