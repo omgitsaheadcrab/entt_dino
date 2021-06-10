@@ -13,6 +13,10 @@
 
 struct SDL_Renderer;
 
+namespace entities {
+
 void CreateBackground(entt::registry* registry, SDL_Renderer* renderer);
+
+}  // namespace entities
 
 #endif /* ENTT_DINO_SRC_ENT_BACKGROUND_H_ */
