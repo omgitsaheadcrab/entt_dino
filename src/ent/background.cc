@@ -8,9 +8,10 @@
 
 #include "ent/background.h"
 
+#include <string>
+
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
-#include <string>
 
 #include "comp/sprite.h"
 #include "comp/transform.h"
@@ -28,7 +29,7 @@ vf2d scale{0.0, 0.0};
 vf2d sprite_position{0.0, 0.0};
 vf2d sprite_size{0.0, 0.0};
 
-std::string path = "res/image.png";
+const char path[] = "res/image.png";
 
 }  // namespace
 

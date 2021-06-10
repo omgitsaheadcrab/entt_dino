@@ -15,7 +15,7 @@
 
 namespace graphics {
 
-SDL_Texture* LoadTexture(std::string path, SDL_Renderer* renderer);
+SDL_Texture* LoadTexture(const std::string path, SDL_Renderer* renderer);
 
 }  // namespace graphics
 
