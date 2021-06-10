@@ -13,6 +13,6 @@
 
 struct SDL_Renderer;
 
-void CreateBackground(entt::registry& registry, SDL_Renderer* renderer);
+void CreateBackground(entt::registry* registry, SDL_Renderer* renderer);
 
 #endif /* ENTT_DINO_SRC_ENT_BACKGROUND_H_ */

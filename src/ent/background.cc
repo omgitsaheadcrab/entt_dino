@@ -18,10 +18,10 @@
 
 struct SDL_Renderer;
 
-void CreateBackground(entt::registry& registry, SDL_Renderer* renderer) {
-  const entt::entity e = registry.create();
-  registry.emplace<Transform>(e, vf2d{0.0, 0.0}, vf2d{0.0, 0.0},
-                              vf2d{0.0, 0.0});
-  registry.emplace<Sprite>(e, LoadTexture("res/image.png", renderer),
-                           vf2d{0.0, 0.0}, vf2d{0.0, 0.0});
+void CreateBackground(entt::registry* registry, SDL_Renderer* renderer) {
+  const entt::entity e = registry->create();
+  registry->emplace<Transform>(e, vf2d{0.0, 0.0}, vf2d{0.0, 0.0},
+                               vf2d{0.0, 0.0});
+  registry->emplace<Sprite>(e, LoadTexture("res/image.png", renderer),
+                            vf2d{0.0, 0.0}, vf2d{0.0, 0.0});
 }
