@@ -13,6 +13,10 @@
 
 #include <string>
 
+namespace graphics {
+
 SDL_Texture* LoadTexture(std::string path, SDL_Renderer* renderer);
+
+}  // namespace graphics
 
 #endif /* ENTT_DINO_SRC_CORE_GRAPHICS_H_ */

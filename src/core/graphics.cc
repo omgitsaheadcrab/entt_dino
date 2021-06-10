@@ -14,6 +14,8 @@
 #include <iostream>
 #include <string>
 
+namespace graphics {
+
 SDL_Texture* LoadTexture(std::string path, SDL_Renderer* renderer) {
   SDL_Texture* texture = nullptr;
   SDL_Surface* loaded_surface = IMG_Load(path.c_str());
@@ -31,3 +33,5 @@ SDL_Texture* LoadTexture(std::string path, SDL_Renderer* renderer) {
   }
   return texture;
 }
+
+}  // namespace graphics
