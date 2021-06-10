@@ -21,4 +21,4 @@ struct Transform {
 
 }  // namespace components
 
-#endif /* ENTT_DINO_SRC_COMP_TRANSFORM_H_ */
+#endif  // ENTT_DINO_SRC_COMP_TRANSFORM_H_

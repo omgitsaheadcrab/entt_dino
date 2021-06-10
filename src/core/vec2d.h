@@ -30,4 +30,4 @@ typedef vec2d<uint32_t> vu2d;
 typedef vec2d<float> vf2d;
 typedef vec2d<double> vd2d;
 
-#endif /* ENTT_DINO_SRC_CORE_VEC2D_H_ */
+#endif  // ENTT_DINO_SRC_CORE_VEC2D_H_

@@ -20,4 +20,4 @@ struct RigidBody {
 
 }  // namespace components
 
-#endif /* ENTT_DINO_SRC_COMP_RIGID_BODY_H_ */
+#endif  // ENTT_DINO_SRC_COMP_RIGID_BODY_H_

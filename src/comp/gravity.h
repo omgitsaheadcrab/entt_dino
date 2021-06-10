@@ -19,4 +19,4 @@ struct Gravity {
 
 }  // namespace components
 
-#endif /* ENTT_DINO_SRC_COMP_GRAVITY_H_ */
+#endif  // ENTT_DINO_SRC_COMP_GRAVITY_H_

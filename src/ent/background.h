@@ -19,4 +19,4 @@ void CreateBackground(entt::registry* registry, SDL_Renderer* renderer);
 
 }  // namespace entities
 
-#endif /* ENTT_DINO_SRC_ENT_BACKGROUND_H_ */
+#endif  // ENTT_DINO_SRC_ENT_BACKGROUND_H_

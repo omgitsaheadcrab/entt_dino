@@ -23,4 +23,4 @@ struct Sprite {
 
 }  // namespace components
 
-#endif /* ENTT_DINO_SRC_COMP_SPRITE_H_ */
+#endif  // ENTT_DINO_SRC_COMP_SPRITE_H_

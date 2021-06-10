@@ -29,4 +29,4 @@ class Game {
   entt::registry registry_;
 };
 
-#endif /* ENTT_DINO_SRC_CORE_GAME_H_ */
+#endif  // ENTT_DINO_SRC_CORE_GAME_H_

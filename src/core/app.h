@@ -30,4 +30,4 @@ class Application {
   SDL_Renderer* renderer_;
 };
 
-#endif /* ENTT_DINO_SRC_CORE_APP_H_ */
+#endif  // ENTT_DINO_SRC_CORE_APP_H_
