@@ -11,8 +11,12 @@
 
 #include "core/vec2d.h"
 
+namespace components {
+
 struct Gravity {
   vf2d force;
 };
+
+}  // namespace components
 
 #endif /* ENTT_DINO_SRC_COMP_GRAVITY_H_ */

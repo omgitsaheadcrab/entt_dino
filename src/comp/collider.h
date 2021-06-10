@@ -11,8 +11,12 @@
 
 #include "core/vec2d.h"
 
+namespace components {
+
 struct Collider {
   vf2d size;
 };
+
+}  // namespace components
 
 #endif /* ENTT_DINO_SRC_COMP_COLLIDER_H_ */

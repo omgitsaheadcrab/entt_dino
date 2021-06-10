@@ -11,9 +11,13 @@
 
 #include "core/vec2d.h"
 
+namespace components {
+
 struct RigidBody {
   vf2d velocity;
   vf2d acceleration;
 };
+
+}  // namespace components
 
 #endif /* ENTT_DINO_SRC_COMP_RIGID_BODY_H_ */

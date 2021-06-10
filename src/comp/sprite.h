@@ -13,10 +13,14 @@
 
 #include "core/vec2d.h"
 
+namespace components {
+
 struct Sprite {
   SDL_Texture* sheet;
   vf2d position;
   vf2d size;
 };
+
+}  // namespace components
 
 #endif /* ENTT_DINO_SRC_COMP_SPRITE_H_ */

@@ -11,10 +11,14 @@
 
 #include "core/vec2d.h"
 
+namespace components {
+
 struct Transform {
   vf2d position;
   vf2d direction;
   vf2d scale;
 };
+
+}  // namespace components
 
 #endif /* ENTT_DINO_SRC_COMP_TRANSFORM_H_ */
