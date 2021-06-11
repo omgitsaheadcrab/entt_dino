@@ -1,5 +1,6 @@
 # EnTT Dino
 [![MITLicensed](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Build status](https://github.com/omgitsaheadcrab/entt_dino/actions/workflows/cmake.yml/badge.svg)
 
 A [Dinosaur Game](https://en.wikipedia.org/wiki/Dinosaur_Game) clone using the
 Entity Component System (ECS) from the [EnTT library](https://github.com/skypjack/entt).
