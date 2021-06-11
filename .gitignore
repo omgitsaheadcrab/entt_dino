@@ -4,3 +4,4 @@ build/*
 !bin/.gitkeep
 !build/.gitkeep
 /.ccls-cache/
+/.cache/
