@@ -12,13 +12,12 @@
 #include <SDL2/SDL_image.h>
 
 #include <iostream>
-#include <string>
 
 namespace graphics {
 
-SDL_Texture* LoadTexture(const std::string path, SDL_Renderer* renderer) {
+SDL_Texture* LoadTexture(const char path[], SDL_Renderer* renderer) {
   SDL_Texture* texture = nullptr;
-  SDL_Surface* loaded_surface = IMG_Load(path.c_str());
+  SDL_Surface* loaded_surface = IMG_Load(path);
 
   if (loaded_surface == nullptr) {
     std::cout << "Unable to load image " << path

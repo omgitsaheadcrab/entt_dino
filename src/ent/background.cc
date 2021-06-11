@@ -8,8 +8,6 @@
 
 #include "ent/background.h"
 
-#include <string>
-
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
