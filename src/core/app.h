@@ -9,7 +9,8 @@
 #ifndef ENTT_DINO_SRC_CORE_APP_H_
 #define ENTT_DINO_SRC_CORE_APP_H_
 
-#include <SDL2/SDL.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_video.h>
 
 class Application {
  public:

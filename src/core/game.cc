@@ -12,8 +12,6 @@
 
 #include "ent/background.h"
 
-struct SDL_Renderer;
-
 bool Game::is_over() { return over_; }
 
 void Game::Init(SDL_Renderer* renderer) {

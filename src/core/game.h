@@ -9,9 +9,9 @@
 #ifndef ENTT_DINO_SRC_CORE_GAME_H_
 #define ENTT_DINO_SRC_CORE_GAME_H_
 
-#include <entt/entity/registry.hpp>
+#include <SDL2/SDL_render.h>
 
-struct SDL_Renderer;
+#include <entt/entity/registry.hpp>
 
 class Game {
  public:

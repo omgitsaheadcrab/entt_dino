@@ -9,7 +9,7 @@
 #ifndef ENTT_DINO_SRC_CORE_GRAPHICS_H_
 #define ENTT_DINO_SRC_CORE_GRAPHICS_H_
 
-#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_render.h>
 
 namespace graphics {
 

@@ -13,9 +13,7 @@
 
 #include <iostream>
 
-namespace graphics {
-
-SDL_Texture* LoadTexture(const char path[], SDL_Renderer* renderer) {
+SDL_Texture* graphics::LoadTexture(const char path[], SDL_Renderer* renderer) {
   SDL_Texture* texture = nullptr;
   SDL_Surface* loaded_surface = IMG_Load(path);
 
@@ -32,5 +30,3 @@ SDL_Texture* LoadTexture(const char path[], SDL_Renderer* renderer) {
   }
   return texture;
 }
-
-}  // namespace graphics
