@@ -9,7 +9,7 @@
 #ifndef ENTT_DINO_SRC_COMP_SPRITE_H_
 #define ENTT_DINO_SRC_COMP_SPRITE_H_
 
-#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_render.h>
 
 #include "core/vec2d.h"
 
