@@ -54,7 +54,7 @@ void Application::Run() {
 
     game.HandleEvents();
     game.Update();
-    game.Render();
+    game.Render(renderer_);
 
     frame_time = SDL_GetTicks() - frame_start;
     if (kFrame_Delay_ > frame_time) {

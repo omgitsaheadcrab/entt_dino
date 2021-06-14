@@ -11,6 +11,7 @@
 #include <SDL2/SDL.h>
 
 #include "ent/background.h"
+#include "sys/render.h"
 
 bool Game::is_over() { return over_; }
 
@@ -42,4 +43,9 @@ void Game::HandleEvents() {
 
 void Game::Update() {}
 
-void Game::Render() {}
+void Game::Render(SDL_Renderer* renderer) {
+  SDL_SetRenderDrawColor(renderer, 239, 239, 239, 255);
+  SDL_RenderClear(renderer);
+  systems::Render(renderer, registry_);
+  SDL_RenderPresent(renderer);
+}

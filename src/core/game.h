@@ -22,7 +22,7 @@ class Game {
   void Init(SDL_Renderer* renderer);
   void HandleEvents();
   void Update();
-  void Render();
+  void Render(SDL_Renderer* renderer);
 
  private:
   bool over_;
