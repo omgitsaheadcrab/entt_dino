@@ -46,6 +46,6 @@ void Game::Update() {}
 void Game::Render(SDL_Renderer* renderer) {
   SDL_SetRenderDrawColor(renderer, 239, 239, 239, 255);
   SDL_RenderClear(renderer);
-  systems::Render(renderer, registry_);
+  systems::Render(renderer, &registry_);
   SDL_RenderPresent(renderer);
 }
