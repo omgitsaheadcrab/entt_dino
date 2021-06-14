@@ -8,6 +8,8 @@
 
 #include "ent/background.h"
 
+#include <SDL2/SDL_rect.h>
+
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
@@ -20,14 +22,11 @@ struct SDL_Renderer;
 
 namespace {
 
-vf2d position{0.0, 0.0};
+SDL_Rect position{0, 212, 400, 32};
 vf2d direction{0.0, 0.0};
-vf2d scale{0.0, 0.0};
-
-vf2d sprite_position{0.0, 0.0};
-vf2d sprite_size{0.0, 0.0};
 
 const char path[] = "res/image.png";
+SDL_Rect clip{0, 0, 400, 32};
 
 }  // namespace
 
@@ -35,9 +34,9 @@ namespace entities {
 
 void CreateBackground(entt::registry* registry, SDL_Renderer* renderer) {
   const entt::entity e = registry->create();
-  registry->emplace<components::Transform>(e, position, direction, scale);
+  registry->emplace<components::Transform>(e, &position, direction);
   registry->emplace<components::Sprite>(
-      e, graphics::LoadTexture(path, renderer), sprite_position, sprite_size);
+      e, graphics::LoadTexture(path, renderer), &clip);
 }
 
 }  // namespace entities

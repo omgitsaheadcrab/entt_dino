@@ -9,14 +9,15 @@
 #ifndef ENTT_DINO_SRC_COMP_TRANSFORM_H_
 #define ENTT_DINO_SRC_COMP_TRANSFORM_H_
 
+#include <SDL2/SDL_rect.h>
+
 #include "core/vec2d.h"
 
 namespace components {
 
 struct Transform {
-  vf2d position;
+  SDL_Rect* position;
   vf2d direction;
-  vf2d scale;
 };
 
 }  // namespace components

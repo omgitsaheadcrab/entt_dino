@@ -9,16 +9,14 @@
 #ifndef ENTT_DINO_SRC_COMP_SPRITE_H_
 #define ENTT_DINO_SRC_COMP_SPRITE_H_
 
+#include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
-
-#include "core/vec2d.h"
 
 namespace components {
 
 struct Sprite {
   SDL_Texture* sheet;
-  vf2d position;
-  vf2d size;
+  SDL_Rect* clip = nullptr;
 };
 
 }  // namespace components
