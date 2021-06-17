@@ -9,6 +9,7 @@
 #include "ent/background.h"
 
 #include <SDL2/SDL_rect.h>
+#include <SDL2/SDL_render.h>
 
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
@@ -18,8 +19,6 @@
 #include "comp/transform.h"
 #include "core/graphics.h"
 #include "core/vec2d.h"
-
-struct SDL_Renderer;
 
 namespace {
 

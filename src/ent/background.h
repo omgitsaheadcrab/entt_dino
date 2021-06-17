@@ -9,9 +9,9 @@
 #ifndef ENTT_DINO_SRC_ENT_BACKGROUND_H_
 #define ENTT_DINO_SRC_ENT_BACKGROUND_H_
 
-#include <entt/entity/fwd.hpp>
+#include <SDL2/SDL_render.h>
 
-struct SDL_Renderer;
+#include <entt/entity/registry.hpp>
 
 namespace entities {
 
