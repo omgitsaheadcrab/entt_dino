@@ -16,7 +16,7 @@ namespace components {
 
 struct Sprite {
   SDL_Texture* sheet;
-  SDL_Rect* clip = nullptr;
+  SDL_Rect clip;
 };
 
 }  // namespace components

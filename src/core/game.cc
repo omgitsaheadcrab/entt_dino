@@ -19,6 +19,7 @@ void Game::Init(SDL_Renderer* renderer) {
   over_ = false;
   entities::CreateBackground(&registry_, renderer, 0);
   entities::CreateBackground(&registry_, renderer, 400);
+  entities::CreateBackground(&registry_, renderer, 800);
 }
 
 void Game::HandleEvents() {
