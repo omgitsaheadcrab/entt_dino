@@ -14,7 +14,7 @@
 namespace components {
 
 struct Transform {
-  SDL_Rect* position;
+  SDL_Rect position;
 };
 
 }  // namespace components

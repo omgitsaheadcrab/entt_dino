@@ -9,13 +9,15 @@
 #ifndef ENTT_DINO_SRC_ENT_BACKGROUND_H_
 #define ENTT_DINO_SRC_ENT_BACKGROUND_H_
 
+#include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
 #include <entt/entity/registry.hpp>
 
 namespace entities {
 
-void CreateBackground(entt::registry* registry, SDL_Renderer* renderer);
+void CreateBackground(entt::registry* registry, SDL_Renderer* renderer,
+                      int xpos);
 
 }  // namespace entities
 

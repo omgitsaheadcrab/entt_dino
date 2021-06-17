@@ -37,12 +37,14 @@ SDL_Rect position{0, 212, 400, 32};
 
 namespace entities {
 
-void CreateBackground(entt::registry* registry, SDL_Renderer* renderer) {
+void CreateBackground(entt::registry* registry, SDL_Renderer* renderer,
+                      int xpos) {
   const entt::entity e = registry->create();
   registry->emplace<components::RigidBody>(e, velocity, acceleration);
   registry->emplace<components::Sprite>(
       e, graphics::LoadTexture(path, renderer), &clip);
-  registry->emplace<components::Transform>(e, &position);
+  position.x = xpos;
+  registry->emplace<components::Transform>(e, position);
 }
 
 }  // namespace entities

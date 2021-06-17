@@ -17,7 +17,8 @@ bool Game::is_over() { return over_; }
 
 void Game::Init(SDL_Renderer* renderer) {
   over_ = false;
-  entities::CreateBackground(&registry_, renderer);
+  entities::CreateBackground(&registry_, renderer, 0);
+  entities::CreateBackground(&registry_, renderer, 400);
 }
 
 void Game::HandleEvents() {
