@@ -11,13 +11,10 @@
 
 #include <SDL2/SDL_rect.h>
 
-#include "core/vec2d.h"
-
 namespace components {
 
 struct Transform {
   SDL_Rect* position;
-  vf2d direction;
 };
 
 }  // namespace components

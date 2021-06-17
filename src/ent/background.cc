@@ -13,6 +13,7 @@
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
+#include "comp/rigid_body.h"
 #include "comp/sprite.h"
 #include "comp/transform.h"
 #include "core/graphics.h"
@@ -22,11 +23,16 @@ struct SDL_Renderer;
 
 namespace {
 
-SDL_Rect position{0, 212, 400, 32};
-vf2d direction{0.0, 0.0};
+// Rigid Body
+vf2d velocity{-1.0, 0.0};
+const vf2d acceleration{0.0, 0.0};
 
+// Sprite
 const char path[] = "res/image.png";
 SDL_Rect clip{0, 0, 400, 32};
+
+// Transform
+SDL_Rect position{0, 212, 400, 32};
 
 }  // namespace
 
@@ -34,9 +40,10 @@ namespace entities {
 
 void CreateBackground(entt::registry* registry, SDL_Renderer* renderer) {
   const entt::entity e = registry->create();
-  registry->emplace<components::Transform>(e, &position, direction);
+  registry->emplace<components::RigidBody>(e, velocity, acceleration);
   registry->emplace<components::Sprite>(
       e, graphics::LoadTexture(path, renderer), &clip);
+  registry->emplace<components::Transform>(e, &position);
 }
 
 }  // namespace entities
