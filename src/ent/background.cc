@@ -20,6 +20,7 @@
 #include "core/graphics.h"
 #include "core/random.h"
 #include "core/vec2d.h"
+#include "util/res.h"
 
 namespace {
 
@@ -28,7 +29,7 @@ vf2d velocity{-1.0, 0.0};
 const vf2d acceleration{0.0, 0.0};
 
 // Sprite
-const char path[] = "res/image.png";
+const std::string path{utils::GetResPath() + "image.png"};
 SDL_Rect clip{0, 0, 400, 32};
 
 // Transform
@@ -45,7 +46,7 @@ void CreateBackground(entt::registry* registry, SDL_Renderer* renderer,
   const entt::entity e = registry->create();
   registry->emplace<components::RigidBody>(e, velocity, acceleration);
   registry->emplace<components::Sprite>(
-      e, graphics::LoadTexture(path, renderer), clip);
+      e, graphics::LoadTexture(path.c_str(), renderer), clip);
   registry->emplace<components::Transform>(e, position);
 }
 
