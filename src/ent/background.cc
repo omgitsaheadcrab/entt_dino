@@ -40,7 +40,7 @@ namespace entities {
 
 void CreateBackground(entt::registry* registry, SDL_Renderer* renderer,
                       int xpos) {
-  clip.y = clip.h * utils::uniform_random(0, 1);
+  clip.y = clip.h * utils::uniform_random(0, 2);
   position.x = xpos;
   const entt::entity e = registry->create();
   registry->emplace<components::RigidBody>(e, velocity, acceleration);
