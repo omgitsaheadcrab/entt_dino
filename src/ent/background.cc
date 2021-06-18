@@ -13,12 +13,12 @@
 
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
-#include <random>
 
 #include "comp/rigid_body.h"
 #include "comp/sprite.h"
 #include "comp/transform.h"
 #include "core/graphics.h"
+#include "core/random.h"
 #include "core/vec2d.h"
 
 namespace {
@@ -34,19 +34,14 @@ SDL_Rect clip{0, 0, 400, 32};
 // Transform
 SDL_Rect position{0, 212, 400, 32};
 
-// Random sprite generation
-std::mt19937 randgen(std::random_device{}());
-std::uniform_int_distribution<int> random_sprite_range(0, 2);
-
 }  // namespace
 
 namespace entities {
 
 void CreateBackground(entt::registry* registry, SDL_Renderer* renderer,
                       int xpos) {
-  clip.y = clip.h * random_sprite_range(randgen);
+  clip.y = clip.h * utils::uniform_random(0, 1);
   position.x = xpos;
-
   const entt::entity e = registry->create();
   registry->emplace<components::RigidBody>(e, velocity, acceleration);
   registry->emplace<components::Sprite>(
