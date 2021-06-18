@@ -11,7 +11,7 @@
 
 namespace utils {
 
-int uniform_random(const int lower_bound, const int upper_bound);
+int UniformRandom(const int lower_bound, const int upper_bound);
 
 }  // namespace utils
 

@@ -18,8 +18,8 @@
 #include "comp/sprite.h"
 #include "comp/transform.h"
 #include "core/graphics.h"
-#include "core/random.h"
 #include "core/vec2d.h"
+#include "util/random.h"
 #include "util/res.h"
 
 namespace {
@@ -41,7 +41,7 @@ namespace entities {
 
 void CreateBackground(entt::registry* registry, SDL_Renderer* renderer,
                       int xpos) {
-  clip.y = clip.h * utils::uniform_random(0, 2);
+  clip.y = clip.h * utils::UniformRandom(0, 2);
   position.x = xpos;
   const entt::entity e = registry->create();
   registry->emplace<components::RigidBody>(e, velocity, acceleration);
