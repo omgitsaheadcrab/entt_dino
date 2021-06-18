@@ -1,6 +1,6 @@
 /**
  * @file      res.cc
- * @brief     Locate resources
+ * @brief     Locate resource directory
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
  * @date      2021-06-18
  * @copyright Copyright © 2021 Tobias Backer Dirks
