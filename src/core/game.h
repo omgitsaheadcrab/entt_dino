@@ -21,7 +21,7 @@ class Game {
   bool is_over();
   void Init(SDL_Renderer* renderer);
   void HandleEvents();
-  void Update();
+  void Update(SDL_Renderer* renderer);
   void Render(SDL_Renderer* renderer);
 
  private:

@@ -12,6 +12,7 @@
 
 #include "ent/background.h"
 #include "sys/movement.h"
+#include "sys/offscreen.h"
 #include "sys/render.h"
 
 bool Game::is_over() { return over_; }
@@ -44,7 +45,10 @@ void Game::HandleEvents() {
   }
 }
 
-void Game::Update() { systems::Move(&registry_); }
+void Game::Update(SDL_Renderer* renderer) {
+  systems::Move(&registry_);
+  systems::Offscreen(&registry_, renderer);
+}
 
 void Game::Render(SDL_Renderer* renderer) {
   SDL_SetRenderDrawColor(renderer, 239, 239, 239, 255);

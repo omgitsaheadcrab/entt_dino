@@ -53,7 +53,7 @@ void Application::Run() {
     frame_start = SDL_GetTicks();
 
     game.HandleEvents();
-    game.Update();
+    game.Update(renderer_);
     game.Render(renderer_);
 
     frame_time = SDL_GetTicks() - frame_start;
