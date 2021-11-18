@@ -31,7 +31,7 @@ cmake ..
 make
 ```
 
-The resultant `entt-dino` executable can then be found in `bin/`.
+The resultant `entt_dino` executable can then be found in `bin/`.
 
 ## Licence
 
