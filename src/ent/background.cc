@@ -11,6 +11,8 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
+#include <string>
+
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
@@ -25,15 +27,15 @@
 namespace {
 
 // Rigid Body
-vf2d velocity{-1.0, 0.0};
-const vf2d acceleration{0.0, 0.0};
+vf2d velocity {-1.0, 0.0};
+const vf2d acceleration {0.0, 0.0};
 
 // Sprite
-const std::string path{utils::GetResPath() + "image.png"};
-SDL_Rect clip{0, 0, 400, 32};
+const std::string path {utils::GetResPath("image.png")};
+SDL_Rect clip {0, 0, 400, 32};
 
 // Transform
-SDL_Rect position{0, 212, 400, 32};
+SDL_Rect position {0, 212, 400, 32};
 
 }  // namespace
 

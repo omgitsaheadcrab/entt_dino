@@ -12,7 +12,7 @@
 
 namespace {
 
-std::mt19937 randgen(std::random_device{}());
+std::mt19937 randgen(std::random_device {}());
 
 }  // namespace
 

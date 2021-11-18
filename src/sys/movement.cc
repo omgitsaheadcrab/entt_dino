@@ -8,8 +8,9 @@
 
 #include "sys/movement.h"
 
-#include <entt/entity/registry.hpp>
 #include <iostream>
+
+#include <entt/entity/registry.hpp>
 
 #include "comp/rigid_body.h"
 #include "comp/transform.h"

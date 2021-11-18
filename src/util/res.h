@@ -13,8 +13,8 @@
 
 namespace utils {
 
-std::string GetResPath();
+std::string GetResPath(std::string image_name);
 
-}  // utils
+}  // namespace utils
 
 #endif  // ENTT_DINO_SRC_UTIL_RES_H_

@@ -17,15 +17,15 @@
 
 Application::Application(const char* kName, const int kScreen_width,
                          const int kScreen_height, const double kFps)
-    : kName_{kName},
-      kScreen_width_{kScreen_width},
-      k_Screen_height_{kScreen_height},
-      kFps_{kFps},
-      kFrame_Delay_{1000.0 / kFps},
-      window_{SDL_CreateWindow(kName, SDL_WINDOWPOS_CENTERED,
-                               SDL_WINDOWPOS_CENTERED, kScreen_width,
-                               kScreen_height, SDL_WINDOW_RESIZABLE)},
-      renderer_{SDL_CreateRenderer(
+    : kName_ {kName},
+      kScreen_width_ {kScreen_width},
+      k_Screen_height_ {kScreen_height},
+      kFps_ {kFps},
+      kFrame_Delay_ {1000.0 / kFps},
+      window_ {SDL_CreateWindow(kName, SDL_WINDOWPOS_CENTERED,
+                                SDL_WINDOWPOS_CENTERED, kScreen_width,
+                                kScreen_height, SDL_WINDOW_RESIZABLE)},
+      renderer_ {SDL_CreateRenderer(
           window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE)} {
   if (window_ == nullptr) {
     throw std::runtime_error("`SDL_CreateWindow` failed to create window.");

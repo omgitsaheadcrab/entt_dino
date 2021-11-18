@@ -6,8 +6,8 @@
  * @copyright Copyright © 2021 Tobias Backer Dirks
  */
 
-#ifndef ENTT_DINO_SRC_CORE_RANDOM_H_
-#define ENTT_DINO_SRC_CORE_RANDOM_H_
+#ifndef ENTT_DINO_SRC_UTIL_RANDOM_H_
+#define ENTT_DINO_SRC_UTIL_RANDOM_H_
 
 namespace utils {
 
@@ -15,4 +15,4 @@ int UniformRandom(const int lower_bound, const int upper_bound);
 
 }  // namespace utils
 
-#endif  // ENTT_DINO_SRC_CORE_RANDOM_H_
+#endif  // ENTT_DINO_SRC_UTIL_RANDOM_H_

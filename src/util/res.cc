@@ -21,7 +21,7 @@
  * Return resource path.
  * @see Will Usher's `SDL2` Tutorials.
  */
-std::string utils::GetResPath() {
+std::string utils::GetResPath(std::string image_name) {
   static std::string res_path;
   if (res_path.empty()) {
     char* base_path = SDL_GetBasePath();
@@ -33,7 +33,7 @@ std::string utils::GetResPath() {
       return "";
     }
     size_t pos = res_path.rfind("bin");
-    res_path = res_path.substr(0, pos) + "res/";
+    res_path = res_path.substr(0, pos) + "res/" + image_name;
   }
   return res_path;
 }
