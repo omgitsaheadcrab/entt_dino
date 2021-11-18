@@ -11,11 +11,9 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "SDL_rect.h"
-
 namespace systems {
 
-void Despawn(entt::registry* registry, SDL_Rect* bounds);
+void Despawn(entt::registry* registry);
 
 }  // namespace systems
 

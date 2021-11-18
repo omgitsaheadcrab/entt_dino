@@ -49,7 +49,7 @@ void Game::HandleEvents() {
 
 void Game::Update(SDL_Renderer* renderer) {
   systems::Move(&registry_);
-  systems::Despawn(&registry_, &bounds_);
+  systems::Despawn(&registry_);
 }
 
 void Game::Render(SDL_Renderer* renderer) {

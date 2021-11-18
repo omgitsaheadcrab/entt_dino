@@ -12,10 +12,10 @@
 
 #include "comp/transform.h"
 
-void systems::Despawn(entt::registry* registry, SDL_Rect* bounds) {
+void systems::Despawn(entt::registry* registry) {
   const auto view = registry->view<components::Transform>();
   for (auto [entity, transform] : view.each()) {
-    if (transform.position.x <= -(bounds->w) / 2) {
+    if (transform.position.x <= -transform.position.w) {
       registry->destroy(entity);
     }
   }
