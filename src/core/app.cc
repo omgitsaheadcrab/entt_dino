@@ -47,7 +47,7 @@ void Application::Run() {
   double frame_time;
 
   Game game;
-  game.Init(renderer_);
+  game.Init(renderer_, kScreen_width_, k_Screen_height_);
 
   while (!game.is_over()) {
     frame_start = SDL_GetTicks();

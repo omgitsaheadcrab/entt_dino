@@ -11,17 +11,19 @@
 #include <SDL2/SDL.h>
 
 #include "ent/background.h"
+#include "sys/despawn.h"
 #include "sys/movement.h"
-#include "sys/offscreen.h"
 #include "sys/render.h"
 
 bool Game::is_over() { return over_; }
 
-void Game::Init(SDL_Renderer* renderer) {
+void Game::Init(SDL_Renderer* renderer, const int kWindow_width,
+                const int kWindow_height) {
   over_ = false;
-  entities::CreateBackground(&registry_, renderer, 0);
-  entities::CreateBackground(&registry_, renderer, 400);
-  entities::CreateBackground(&registry_, renderer, 800);
+  bounds_ = SDL_Rect {0, 0, kWindow_width, kWindow_height};
+  for (auto i = 0; i < 3; ++i) {
+    entities::CreateBackground(&registry_, renderer, i * bounds_.w / 2);
+  }
 }
 
 void Game::HandleEvents() {
@@ -47,7 +49,7 @@ void Game::HandleEvents() {
 
 void Game::Update(SDL_Renderer* renderer) {
   systems::Move(&registry_);
-  systems::Offscreen(&registry_, renderer);
+  systems::Despawn(&registry_, &bounds_);
 }
 
 void Game::Render(SDL_Renderer* renderer) {

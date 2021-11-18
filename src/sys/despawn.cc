@@ -1,24 +1,22 @@
 /**
- * @file      offscreen.cc
- * @brief     Offscreen respawn system
+ * @file      despawn.cc
+ * @brief     Despawn system
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
  * @date      2021-11-18
  * @copyright Copyright © 2021 Tobias Backer Dirks
  */
 
-#include "sys/offscreen.h"
+#include "sys/despawn.h"
 
 #include <entt/entity/registry.hpp>
 
 #include "comp/transform.h"
-#include "ent/background.h"
 
-void systems::Offscreen(entt::registry* registry, SDL_Renderer* renderer) {
+void systems::Despawn(entt::registry* registry, SDL_Rect* bounds) {
   const auto view = registry->view<components::Transform>();
   for (auto [entity, transform] : view.each()) {
-    if (transform.position.x <= -400) {
+    if (transform.position.x <= -(bounds->w) / 2) {
       registry->destroy(entity);
-      entities::CreateBackground(registry, renderer, 800);
     }
   }
 }
