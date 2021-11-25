@@ -13,7 +13,7 @@
 
 namespace systems {
 
-void Move(entt::registry *registry);
+void Move(entt::registry *registry, unsigned int base_speed);
 
 }  // namespace systems
 

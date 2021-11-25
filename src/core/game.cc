@@ -24,6 +24,7 @@ bool Game::is_over() { return over_; }
 void Game::Init(SDL_Renderer* renderer, const int kWindow_width,
                 const int kWindow_height) {
   over_ = false;
+  base_speed_ = 1;
   bounds_ = SDL_Rect {0, 0, kWindow_width, kWindow_height};
   systems::SpawnBackgroundElements(&registry_, renderer, &bg_entities_,
                                    &bounds_);
@@ -43,6 +44,9 @@ void Game::HandleEvents() {
         case SDLK_ESCAPE:  // Press ESC to quit
           over_ = true;
           break;
+        case SDLK_SPACE:
+          base_speed_ += 1;
+          break;
       }
       break;
     default:
@@ -51,7 +55,7 @@ void Game::HandleEvents() {
 }
 
 void Game::Update(SDL_Renderer* renderer) {
-  systems::Move(&registry_);
+  systems::Move(&registry_, base_speed_);
   std::set<entt::entity> del = systems::Despawn(&registry_);
   for (auto& e : del) {
     bg_entities_.erase(e);

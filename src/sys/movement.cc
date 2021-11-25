@@ -13,10 +13,10 @@
 #include "comp/rigid_body.h"
 #include "comp/transform.h"
 
-void systems::Move(entt::registry* registry) {
+void systems::Move(entt::registry* registry, unsigned int base_speed) {
   const auto view =
       registry->view<components::Transform, components::RigidBody>();
   view.each([&](auto& transform, const auto& rigid_body) {
-    transform.position.x += rigid_body.velocity.x;
+    transform.position.x += rigid_body.velocity.x*base_speed;
   });
 }

@@ -6,6 +6,8 @@
  * @copyright Copyright © 2021 Tobias Backer Dirks
  */
 
+#include "ent/floor.h"
+
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
@@ -20,14 +22,13 @@
 #include "comp/transform.h"
 #include "core/graphics.h"
 #include "core/vec2d.h"
-#include "ent/floor.h"
 #include "util/random.h"
 #include "util/res.h"
 
 namespace {
 
 // Rigid Body
-vf2d velocity {-5.0, 0.0};
+vf2d velocity {-1.0, 0.0};
 const vf2d acceleration {0.0, 0.0};
 
 // Sprite

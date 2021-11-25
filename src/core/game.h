@@ -30,10 +30,11 @@ class Game {
   void Render(SDL_Renderer* renderer);
 
  private:
+  unsigned int base_speed_;
+  std::set<entt::entity> bg_entities_;
+  SDL_Rect bounds_;
   bool over_;
   entt::registry registry_;
-  SDL_Rect bounds_;
-  std::set<entt::entity> bg_entities_;
 };
 
 #endif  // ENTT_DINO_SRC_CORE_GAME_H_
