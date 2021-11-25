@@ -8,15 +8,24 @@
 
 #include "sys/despawn.h"
 
+#include <iostream>
+#include <set>
+#include <string>
+
+#include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
 #include "comp/transform.h"
 
-void systems::Despawn(entt::registry* registry) {
+std::set<entt::entity> systems::Despawn(entt::registry* registry) {
+  std::set<entt::entity> deleted;
   const auto view = registry->view<components::Transform>();
   for (auto [entity, transform] : view.each()) {
     if (transform.position.x <= -transform.position.w) {
+      std::cout << int(entity) << " was deleted\n";
+      deleted.emplace(entity);
       registry->destroy(entity);
     }
   }
+  return deleted;
 }

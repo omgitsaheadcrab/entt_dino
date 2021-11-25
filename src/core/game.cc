@@ -10,7 +10,11 @@
 
 #include <SDL2/SDL.h>
 
-#include "ent/background.h"
+#include <set>
+
+#include <entt/entity/entity.hpp>
+
+#include "sys/background.h"
 #include "sys/despawn.h"
 #include "sys/movement.h"
 #include "sys/render.h"
@@ -21,9 +25,8 @@ void Game::Init(SDL_Renderer* renderer, const int kWindow_width,
                 const int kWindow_height) {
   over_ = false;
   bounds_ = SDL_Rect {0, 0, kWindow_width, kWindow_height};
-  for (auto i = 0; i < 3; ++i) {
-    entities::CreateBackground(&registry_, renderer, i * bounds_.w / 2);
-  }
+  systems::SpawnBackgroundElements(&registry_, renderer, &bg_entities_,
+                                   &bounds_);
 }
 
 void Game::HandleEvents() {
@@ -49,7 +52,12 @@ void Game::HandleEvents() {
 
 void Game::Update(SDL_Renderer* renderer) {
   systems::Move(&registry_);
-  systems::Despawn(&registry_);
+  std::set<entt::entity> del = systems::Despawn(&registry_);
+  for (auto& e : del) {
+    bg_entities_.erase(e);
+  }
+  systems::SpawnBackgroundElements(&registry_, renderer, &bg_entities_,
+                                   &bounds_);
 }
 
 void Game::Render(SDL_Renderer* renderer) {

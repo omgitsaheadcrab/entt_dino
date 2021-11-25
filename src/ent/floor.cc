@@ -1,16 +1,15 @@
 /**
- * @file      background.cc
- * @brief     Background entity
+ * @file      floor.cc
+ * @brief     Floor entity
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
  * @date      2021-06-09
  * @copyright Copyright © 2021 Tobias Backer Dirks
  */
 
-#include "ent/background.h"
-
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
+#include <iostream>
 #include <string>
 
 #include <entt/entity/entity.hpp>
@@ -21,13 +20,14 @@
 #include "comp/transform.h"
 #include "core/graphics.h"
 #include "core/vec2d.h"
+#include "ent/floor.h"
 #include "util/random.h"
 #include "util/res.h"
 
 namespace {
 
 // Rigid Body
-vf2d velocity {-1.0, 0.0};
+vf2d velocity {-5.0, 0.0};
 const vf2d acceleration {0.0, 0.0};
 
 // Sprite
@@ -41,8 +41,8 @@ SDL_Rect position {0, 212, 400, 32};
 
 namespace entities {
 
-void CreateBackground(entt::registry* registry, SDL_Renderer* renderer,
-                      int xpos) {
+entt::entity CreateFloor(entt::registry* registry, SDL_Renderer* renderer,
+                         int xpos) {
   clip.y = clip.h * utils::UniformRandom(0, 2);
   position.x = xpos;
   const entt::entity e = registry->create();
@@ -50,6 +50,8 @@ void CreateBackground(entt::registry* registry, SDL_Renderer* renderer,
   registry->emplace<components::Sprite>(
       e, graphics::LoadTexture(path.c_str(), renderer), clip);
   registry->emplace<components::Transform>(e, position);
+  std::cout << int(e) << " was created\n";
+  return e;
 }
 
 }  // namespace entities

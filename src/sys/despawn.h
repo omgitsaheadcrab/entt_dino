@@ -9,11 +9,14 @@
 #ifndef ENTT_DINO_SRC_SYS_DESPAWN_H_
 #define ENTT_DINO_SRC_SYS_DESPAWN_H_
 
+#include <set>
+
+#include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
 namespace systems {
 
-void Despawn(entt::registry* registry);
+std::set<entt::entity> Despawn(entt::registry* registry);
 
 }  // namespace systems
 

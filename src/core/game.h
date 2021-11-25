@@ -12,6 +12,9 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
+#include <set>
+
+#include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
 class Game {
@@ -30,6 +33,7 @@ class Game {
   bool over_;
   entt::registry registry_;
   SDL_Rect bounds_;
+  std::set<entt::entity> bg_entities_;
 };
 
 #endif  // ENTT_DINO_SRC_CORE_GAME_H_
