@@ -18,24 +18,43 @@
 #include <entt/entity/registry.hpp>
 
 #include "comp/transform.h"
+#include "ent/cloud.h"
 #include "ent/floor.h"
 
 void systems::SpawnBackgroundElements(entt::registry* registry,
                                       SDL_Renderer* renderer,
-                                      std::set<entt::entity>* bg_entities,
+                                      std::set<entt::entity>* cloud_entities,
+                                      std::set<entt::entity>* floor_entities,
                                       SDL_Rect* bounds) {
   const auto view = registry->view<components::Transform>();
-  if (bg_entities->empty()) {
-    entt::entity new_last = entities::CreateFloor(registry, renderer, 0);
-    bg_entities->emplace(new_last);
+  if (floor_entities->empty()) {
+    entt::entity floor = entities::CreateFloor(registry, renderer, 0);
+    floor_entities->emplace(floor);
   }
-  while (bg_entities->size() < 3) {
-    entt::entity last = *bg_entities->rbegin();
+  while (floor_entities->size() < 3) {
+    entt::entity last = *floor_entities->rbegin();
     for (auto [entity, transform] : view.each()) {
       if (entity == last) {
         entt::entity new_last = entities::CreateFloor(
             registry, renderer, transform.position.x + transform.position.w);
-        bg_entities->emplace(new_last);
+        floor_entities->emplace(new_last);
+      }
+    }
+  }
+
+  if (cloud_entities->empty()) {
+    entt::entity cloud =
+        entities::CreateCloud(registry, renderer, bounds->w / 2);
+    cloud_entities->emplace(cloud);
+  }
+  while (cloud_entities->size() < 2) {
+    entt::entity last = *cloud_entities->rbegin();
+    for (auto [entity, transform] : view.each()) {
+      if (entity == last) {
+        entt::entity new_last = entities::CreateCloud(
+            registry, renderer,
+            transform.position.x + transform.position.w + bounds->w / 2);
+        cloud_entities->emplace(new_last);
       }
     }
   }

@@ -22,7 +22,7 @@
  * @see Will Usher's `SDL2` Tutorials.
  */
 std::string utils::GetResPath(std::string image_name) {
-  static std::string res_path;
+  std::string res_path;
   if (res_path.empty()) {
     char* base_path = SDL_GetBasePath();
     if (base_path) {

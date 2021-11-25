@@ -1,12 +1,12 @@
 /**
- * @file      floor.cc
- * @brief     Floor entity
+ * @file      cloud.cc
+ * @brief     Cloud entity
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2021-06-09
+ * @date      2021-11-25
  * @copyright Copyright © 2021 Tobias Backer Dirks
  */
 
-#include "ent/floor.h"
+#include "ent/cloud.h"
 
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
@@ -28,23 +28,23 @@
 namespace {
 
 // Rigid Body
-vf2d velocity {-2.0, 0.0};
+vf2d velocity {-1.0, 0.0};
 const vf2d acceleration {0.0, 0.0};
 
 // Sprite
-const std::string path {utils::GetResPath("image.png")};
-SDL_Rect clip {0, 0, 400, 32};
+const std::string path {utils::GetResPath("cloud.png")};
+SDL_Rect clip {0, 0, 64, 16};
 
 // Transform
-SDL_Rect position {0, 212, 400, 32};
+SDL_Rect position {0, 0, 64, 16};
 
 }  // namespace
 
 namespace entities {
 
-entt::entity CreateFloor(entt::registry* registry, SDL_Renderer* renderer,
+entt::entity CreateCloud(entt::registry* registry, SDL_Renderer* renderer,
                          int xpos) {
-  clip.y = clip.h * utils::UniformRandom(0, 2);
+  position.y = 30 * utils::UniformRandom(1, 3);
   position.x = xpos;
   const entt::entity e = registry->create();
   registry->emplace<components::RigidBody>(e, velocity, acceleration);

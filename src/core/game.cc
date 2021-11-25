@@ -26,8 +26,8 @@ void Game::Init(SDL_Renderer* renderer, const int kWindow_width,
   over_ = false;
   base_speed_ = 1;
   bounds_ = SDL_Rect {0, 0, kWindow_width, kWindow_height};
-  systems::SpawnBackgroundElements(&registry_, renderer, &bg_entities_,
-                                   &bounds_);
+  systems::SpawnBackgroundElements(&registry_, renderer, &cloud_entities_,
+                                   &floor_entities_, &bounds_);
 }
 
 void Game::HandleEvents() {
@@ -58,10 +58,11 @@ void Game::Update(SDL_Renderer* renderer) {
   systems::Move(&registry_, base_speed_);
   std::set<entt::entity> del = systems::Despawn(&registry_);
   for (auto& e : del) {
-    bg_entities_.erase(e);
+    floor_entities_.erase(e);
+    cloud_entities_.erase(e);
   }
-  systems::SpawnBackgroundElements(&registry_, renderer, &bg_entities_,
-                                   &bounds_);
+  systems::SpawnBackgroundElements(&registry_, renderer, &cloud_entities_,
+                                   &floor_entities_, &bounds_);
 }
 
 void Game::Render(SDL_Renderer* renderer) {

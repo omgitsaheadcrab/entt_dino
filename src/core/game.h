@@ -31,8 +31,9 @@ class Game {
 
  private:
   unsigned int base_speed_;
-  std::set<entt::entity> bg_entities_;
   SDL_Rect bounds_;
+  std::set<entt::entity> cloud_entities_;
+  std::set<entt::entity> floor_entities_;
   bool over_;
   entt::registry registry_;
 };
