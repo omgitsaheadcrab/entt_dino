@@ -43,23 +43,26 @@ Application::~Application() {
 }
 
 void Application::Run() {
-  double frame_start;
-  double frame_time;
+  double previous_time = SDL_GetTicks();
+  double lag = 0.0;
 
   Game game;
   game.Init(renderer_, kScreen_width_, k_Screen_height_);
 
   while (!game.is_over()) {
-    frame_start = SDL_GetTicks();
+    double current_time = SDL_GetTicks();
+    double elapsed = current_time - previous_time;
+    previous_time = current_time;
+    lag += elapsed;
 
     game.HandleEvents();
-    game.Update(renderer_);
-    game.Render(renderer_);
 
-    frame_time = SDL_GetTicks() - frame_start;
-    if (kFrame_Delay_ > frame_time) {
-      SDL_Delay(kFrame_Delay_ - frame_time);
+    while (lag >= kFrame_Delay_) {
+      game.Update(renderer_);
+      lag -= kFrame_Delay_;
     }
+
+    game.Render(renderer_);
   }
   std::cout << "Veni. Vidi. Reverti.\n";
 }
