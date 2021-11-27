@@ -18,6 +18,7 @@
 #include "sys/despawn.h"
 #include "sys/movement.h"
 #include "sys/render.h"
+#include "ent/dino.h"
 
 bool Game::is_over() { return over_; }
 
@@ -26,6 +27,7 @@ void Game::Init(SDL_Renderer* renderer, const int kWindow_width,
   over_ = false;
   base_speed_ = 1;
   bounds_ = SDL_Rect {0, 0, kWindow_width, kWindow_height};
+  entities::CreateDino(&registry_, renderer, &bounds_);
   systems::SpawnBackgroundElements(&registry_, renderer, &cloud_entities_,
                                    &floor_entities_, &bounds_);
 }
