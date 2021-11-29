@@ -32,7 +32,7 @@ vf2d velocity {-1.0, 0.0};
 const vf2d acceleration {0.0, 0.0};
 
 // Sprite
-const std::string path {utils::GetResPath("cloud.png")};
+const std::string path {utils::GetResPath("cloud.png")};  // NOLINT
 SDL_Rect clip {0, 0, 64, 16};
 
 // Transform
