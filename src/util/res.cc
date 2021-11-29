@@ -11,8 +11,8 @@
 #include <SDL2/SDL_error.h>
 #include <SDL2/SDL_filesystem.h>
 #include <SDL2/SDL_stdinc.h>
+#include <spdlog/spdlog.h>
 
-#include <iostream>
 #include <string>
 
 #include "SDL_error.h"
@@ -29,7 +29,7 @@ std::string utils::GetResPath(std::string image_name) {
       res_path = base_path;
       SDL_free(base_path);
     } else {
-      std::cerr << "Failed to get base path: " << SDL_GetError() << "\n";
+      SPDLOG_ERROR("Failed to get base path: {}", SDL_GetError());
       return "";
     }
     size_t pos = res_path.rfind("bin");

@@ -10,8 +10,8 @@
 
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
+#include <spdlog/spdlog.h>
 
-#include <iostream>
 #include <string>
 
 #include <entt/entity/entity.hpp>
@@ -51,7 +51,7 @@ entt::entity CreateCloud(entt::registry* registry, SDL_Renderer* renderer,
   registry->emplace<components::Sprite>(
       e, graphics::LoadTexture(path.c_str(), renderer), clip);
   registry->emplace<components::Transform>(e, position);
-  std::cout << int(e) << " was created\n";
+  SPDLOG_DEBUG("{} was created", static_cast<int>(e));
   return e;
 }
 

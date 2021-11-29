@@ -14,11 +14,11 @@
 
 #include <entt/entity/entity.hpp>
 
+#include "ent/dino.h"
 #include "sys/background.h"
 #include "sys/despawn.h"
 #include "sys/movement.h"
 #include "sys/render.h"
-#include "ent/dino.h"
 
 bool Game::is_over() { return over_; }
 

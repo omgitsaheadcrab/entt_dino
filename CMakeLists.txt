@@ -25,4 +25,9 @@ file(GLOB_RECURSE SOURCE_FILES
 
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2main_INCLUDE_DIRS}  ${SDL2_IMAGE_INCLUDE_DIRS} "${CMAKE_SOURCE_DIR}/src")
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBS} ${SDL2_IMAGE_LIBRARIES} EnTT)
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBS} ${SDL2_IMAGE_LIBRARIES} EnTT spdlog)
+
+if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE SPDLOG_ACTIVE_LEVEL "SPDLOG_LEVEL_DEBUG")
+  set_directory_properties(PROPERTIES COMPILE_DEFINITIONS "_DEBUG")
+endif ()

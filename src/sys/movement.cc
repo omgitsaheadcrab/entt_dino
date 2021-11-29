@@ -17,6 +17,6 @@ void systems::Move(entt::registry* registry, unsigned int base_speed) {
   const auto view =
       registry->view<components::Transform, components::RigidBody>();
   view.each([&](auto& transform, const auto& rigid_body) {
-    transform.position.x += rigid_body.velocity.x*base_speed;
+    transform.position.x += rigid_body.velocity.x * base_speed;
   });
 }

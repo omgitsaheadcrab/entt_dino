@@ -8,7 +8,8 @@
 
 #include "sys/despawn.h"
 
-#include <iostream>
+#include <spdlog/spdlog.h>
+
 #include <set>
 #include <string>
 
@@ -22,7 +23,7 @@ std::set<entt::entity> systems::Despawn(entt::registry* registry) {
   const auto view = registry->view<components::Transform>();
   for (auto [entity, transform] : view.each()) {
     if (transform.position.x <= -transform.position.w) {
-      std::cout << int(entity) << " was deleted\n";
+      SPDLOG_DEBUG("{} was deleted", static_cast<int>(entity));
       deleted.emplace(entity);
       registry->destroy(entity);
     }
