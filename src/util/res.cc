@@ -23,17 +23,16 @@
  */
 std::string utils::GetResPath(std::string image_name) {
   std::string res_path;
-  if (res_path.empty()) {
-    char* base_path = SDL_GetBasePath();
-    if (base_path) {
-      res_path = base_path;
-      SDL_free(base_path);
-    } else {
-      SPDLOG_ERROR("Failed to get base path: {}", SDL_GetError());
-      return "";
-    }
-    size_t pos = res_path.rfind("bin");
-    res_path = res_path.substr(0, pos) + "res/" + image_name;
+  char* base_path = SDL_GetBasePath();
+  if (base_path) {
+    res_path = base_path;
+    SDL_free(base_path);
+  } else {
+    SPDLOG_ERROR("Failed to get base path: {}", SDL_GetError());
+    return "";
   }
+  size_t pos = res_path.rfind("bin");
+  res_path = res_path.substr(0, pos) + "res/" + image_name;
+
   return res_path;
 }
