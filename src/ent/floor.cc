@@ -12,6 +12,8 @@
 #include <SDL2/SDL_render.h>
 #include <spdlog/spdlog.h>
 
+#include <memory>
+
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
