@@ -11,9 +11,12 @@
 
 #include <SDL2/SDL_render.h>
 
+#include <memory>
+
 namespace graphics {
 
-SDL_Texture* LoadTexture(const char path[], SDL_Renderer* renderer);
+SDL_Texture* LoadTexture(const std::shared_ptr<char[]> path,
+                         SDL_Renderer* renderer);
 
 }  // namespace graphics
 

@@ -9,11 +9,12 @@
 #ifndef ENTT_DINO_SRC_UTIL_RES_H_
 #define ENTT_DINO_SRC_UTIL_RES_H_
 
+#include <memory>
 #include <string>
 
 namespace utils {
 
-std::string GetResPath(std::string image_name);
+const std::shared_ptr<char[]> GetResPath(const std::string image_name);
 
 }  // namespace utils
 

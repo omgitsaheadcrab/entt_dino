@@ -12,7 +12,7 @@
 #include <SDL2/SDL_render.h>
 #include <spdlog/spdlog.h>
 
-#include <string>
+#include <memory>
 
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
@@ -32,7 +32,7 @@ vf2d velocity {-1.0, 0.0};
 const vf2d acceleration {0.0, 0.0};
 
 // Sprite
-const std::string path {utils::GetResPath("cloud.png")};  // NOLINT
+static const std::shared_ptr<char[]> path {utils::GetResPath("cloud.png")};
 SDL_Rect clip {0, 0, 64, 16};
 
 // Transform
@@ -49,7 +49,7 @@ entt::entity CreateCloud(entt::registry* registry, SDL_Renderer* renderer,
   const entt::entity e = registry->create();
   registry->emplace<components::RigidBody>(e, velocity, acceleration);
   registry->emplace<components::Sprite>(
-      e, graphics::LoadTexture(path.c_str(), renderer), clip);
+      e, graphics::LoadTexture(path, renderer), clip);
   registry->emplace<components::Transform>(e, position);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
   return e;
