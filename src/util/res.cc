@@ -37,7 +37,7 @@ const std::shared_ptr<char[]> utils::GetResPath(const std::string& image_name) {
   res_path = res_path.substr(0, pos) + "res/" + image_name;
 
   // convert to c string as global constants should be char arrays
-  std::shared_ptr<char[]> res_path_c(new char[res_path.size()]);
+  std::shared_ptr<char[]> res_path_c(new char[res_path.size() + 1]);
   std::snprintf(res_path_c.get(), res_path.size() + 1, "%s", res_path.c_str());
   return res_path_c;
 }
