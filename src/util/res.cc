@@ -23,7 +23,7 @@
  * Return resource path.
  * @see Will Usher's `SDL2` Tutorials.
  */
-const std::shared_ptr<char[]> utils::GetResPath(const std::string image_name) {
+const std::shared_ptr<char[]> utils::GetResPath(const std::string& image_name) {
   std::string res_path;
   char* base_path = SDL_GetBasePath();
   if (base_path) {

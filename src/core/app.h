@@ -12,17 +12,18 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
 
+#include <string>
+
 class Application {
  public:
   Application() = delete;
-  Application(const char* kName, const int kScreen_width,
+  Application(const std::string& kName, const int kScreen_width,
               const int kScreen_height, const double kFps);
   ~Application();
 
   void Run();
 
  private:
-  const char* kName_;
   const int kScreen_width_;
   const int k_Screen_height_;
   const double kFps_;

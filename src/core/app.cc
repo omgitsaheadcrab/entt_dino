@@ -12,17 +12,17 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <string>
 
 #include "core/game.h"
 
-Application::Application(const char* kName, const int kScreen_width,
+Application::Application(const std::string& kName, const int kScreen_width,
                          const int kScreen_height, const double kFps)
-    : kName_ {kName},
-      kScreen_width_ {kScreen_width},
+    : kScreen_width_ {kScreen_width},
       k_Screen_height_ {kScreen_height},
       kFps_ {kFps},
       kFrame_Delay_ {1000.0 / kFps},
-      window_ {SDL_CreateWindow(kName, SDL_WINDOWPOS_CENTERED,
+      window_ {SDL_CreateWindow(kName.c_str(), SDL_WINDOWPOS_CENTERED,
                                 SDL_WINDOWPOS_CENTERED, kScreen_width,
                                 kScreen_height, SDL_WINDOW_RESIZABLE)},
       renderer_ {SDL_CreateRenderer(

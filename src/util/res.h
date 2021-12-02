@@ -14,7 +14,7 @@
 
 namespace utils {
 
-const std::shared_ptr<char[]> GetResPath(const std::string image_name);
+const std::shared_ptr<char[]> GetResPath(const std::string& image_name);
 
 }  // namespace utils
 
