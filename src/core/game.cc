@@ -33,7 +33,7 @@ void Game::Init(SDL_Renderer* renderer, const int kWindow_width,
 }
 
 void Game::HandleEvents() {
-  SDL_Event event;
+  SDL_Event event {0};
 
   SDL_PollEvent(&event);
 
