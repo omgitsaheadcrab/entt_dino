@@ -33,7 +33,7 @@ Application::Application(const std::string& kName, const int kScreen_width,
   if (renderer_ == nullptr) {
     throw std::runtime_error("`SDL_CreateRenderer` failed to create renderer.");
   }
-  SDL_Init(SDL_INIT_EVERYTHING);
+  SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
   SDL_RenderSetLogicalSize(renderer_, kScreen_width_, k_Screen_height_);
 }
 
