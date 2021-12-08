@@ -29,7 +29,7 @@ class Game {
   void Update(SDL_Renderer* renderer);
   void Render(SDL_Renderer* renderer);
 
-  bool is_over();
+  bool is_over() const;
 
  private:
   uint32_t base_speed_;

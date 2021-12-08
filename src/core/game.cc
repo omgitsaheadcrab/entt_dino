@@ -20,7 +20,7 @@
 #include "sys/movement.h"
 #include "sys/render.h"
 
-bool Game::is_over() { return over_; }
+bool Game::is_over() const { return over_; }
 
 void Game::Init(SDL_Renderer* renderer, const int kWindow_width,
                 const int kWindow_height) {
