@@ -9,11 +9,13 @@
 #ifndef ENTT_DINO_SRC_SYS_MOVEMENT_H_
 #define ENTT_DINO_SRC_SYS_MOVEMENT_H_
 
+#include <cstdint>
+
 #include <entt/entity/registry.hpp>
 
 namespace systems {
 
-void Move(entt::registry *registry, unsigned int base_speed);
+void Move(entt::registry* registry, uint32_t base_speed);
 
 }  // namespace systems
 

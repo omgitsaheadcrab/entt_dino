@@ -8,12 +8,14 @@
 
 #include "sys/movement.h"
 
+#include <cstdint>
+
 #include <entt/entity/registry.hpp>
 
 #include "comp/rigid_body.h"
 #include "comp/transform.h"
 
-void systems::Move(entt::registry* registry, unsigned int base_speed) {
+void systems::Move(entt::registry* registry, uint32_t base_speed) {
   const auto view =
       registry->view<components::Transform, components::RigidBody>();
   view.each([&](auto& transform, const auto& rigid_body) {

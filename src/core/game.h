@@ -12,6 +12,7 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
+#include <cstdint>
 #include <set>
 
 #include <entt/entity/entity.hpp>
@@ -30,7 +31,7 @@ class Game {
   void Render(SDL_Renderer* renderer);
 
  private:
-  unsigned int base_speed_;
+  uint32_t base_speed_;
   SDL_Rect bounds_;
   std::set<entt::entity> cloud_entities_;
   std::set<entt::entity> floor_entities_;
