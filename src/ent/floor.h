@@ -18,7 +18,7 @@
 namespace entities {
 
 entt::entity CreateFloor(entt::registry* registry, SDL_Renderer* renderer,
-                         int xpos);
+                         const int xpos);
 
 }  // namespace entities
 

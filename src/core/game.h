@@ -23,12 +23,13 @@ class Game {
   Game() = default;
   ~Game() = default;
 
-  bool is_over();
   void Init(SDL_Renderer* renderer, const int kWindow_width,
             const int kWindow_height);
   void HandleEvents();
   void Update(SDL_Renderer* renderer);
   void Render(SDL_Renderer* renderer);
+
+  bool is_over();
 
  private:
   uint32_t base_speed_;

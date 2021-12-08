@@ -18,7 +18,7 @@
 namespace entities {
 
 entt::entity CreateDino(entt::registry* registry, SDL_Renderer* renderer,
-                        SDL_Rect* bounds);
+                        const SDL_Rect& bounds);
 
 }  // namespace entities
 

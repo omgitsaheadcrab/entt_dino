@@ -42,9 +42,9 @@ SDL_Rect position {0, 0, 42, 44};
 namespace entities {
 
 entt::entity CreateDino(entt::registry* registry, SDL_Renderer* renderer,
-                        SDL_Rect* bounds) {
-  position.x = bounds->w * 0.05;
-  position.y = bounds->h * 0.77;
+                        const SDL_Rect& bounds) {
+  position.x = bounds.w * 0.05;
+  position.y = bounds.h * 0.77;
   const entt::entity e = registry->create();
   registry->emplace<components::RigidBody>(e, velocity, acceleration);
   registry->emplace<components::Sprite>(

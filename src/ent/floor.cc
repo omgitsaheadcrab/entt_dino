@@ -43,7 +43,7 @@ SDL_Rect position {0, 212, 400, 32};
 namespace entities {
 
 entt::entity CreateFloor(entt::registry* registry, SDL_Renderer* renderer,
-                         int xpos) {
+                         const int xpos) {
   clip.y = clip.h * utils::UniformRandom(0, 2);
   position.x = xpos;
   const entt::entity e = registry->create();

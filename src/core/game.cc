@@ -27,9 +27,9 @@ void Game::Init(SDL_Renderer* renderer, const int kWindow_width,
   over_ = false;
   base_speed_ = 1;
   bounds_ = SDL_Rect {0, 0, kWindow_width, kWindow_height};
-  entities::CreateDino(&registry_, renderer, &bounds_);
+  entities::CreateDino(&registry_, renderer, bounds_);
   systems::SpawnBackgroundElements(&registry_, renderer, &cloud_entities_,
-                                   &floor_entities_, &bounds_);
+                                   &floor_entities_, bounds_);
 }
 
 void Game::HandleEvents() {
@@ -64,7 +64,7 @@ void Game::Update(SDL_Renderer* renderer) {
     cloud_entities_.erase(e);
   }
   systems::SpawnBackgroundElements(&registry_, renderer, &cloud_entities_,
-                                   &floor_entities_, &bounds_);
+                                   &floor_entities_, bounds_);
 }
 
 void Game::Render(SDL_Renderer* renderer) {

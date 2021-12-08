@@ -22,7 +22,7 @@ namespace systems {
 void SpawnBackgroundElements(entt::registry* registry, SDL_Renderer* renderer,
                              std::set<entt::entity>* cloud_entities,
                              std::set<entt::entity>* floor_entities,
-                             SDL_Rect* bounds);
+                             const SDL_Rect& bounds);
 
 }  // namespace systems
 

@@ -24,7 +24,7 @@ void systems::SpawnBackgroundElements(entt::registry* registry,
                                       SDL_Renderer* renderer,
                                       std::set<entt::entity>* cloud_entities,
                                       std::set<entt::entity>* floor_entities,
-                                      SDL_Rect* bounds) {
+                                      const SDL_Rect& bounds) {
   const auto view = registry->view<components::Transform>();
   if (floor_entities->empty()) {
     entt::entity floor = entities::CreateFloor(registry, renderer, 0);
@@ -43,7 +43,7 @@ void systems::SpawnBackgroundElements(entt::registry* registry,
 
   if (cloud_entities->empty()) {
     entt::entity cloud =
-        entities::CreateCloud(registry, renderer, bounds->w / 2);
+        entities::CreateCloud(registry, renderer, bounds.w / 2);
     cloud_entities->emplace(cloud);
   }
   while (cloud_entities->size() < 2) {
@@ -52,7 +52,7 @@ void systems::SpawnBackgroundElements(entt::registry* registry,
       if (entity == last) {
         entt::entity new_last = entities::CreateCloud(
             registry, renderer,
-            transform.position.x + transform.position.w + bounds->w / 2);
+            transform.position.x + transform.position.w + bounds.w / 2);
         cloud_entities->emplace(new_last);
       }
     }

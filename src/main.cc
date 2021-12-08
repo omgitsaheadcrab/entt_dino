@@ -12,7 +12,7 @@
 
 #include "core/app.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   try {
 #ifdef _DEBUG
     spdlog::set_level(spdlog::level::debug);

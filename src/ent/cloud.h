@@ -18,7 +18,7 @@
 namespace entities {
 
 entt::entity CreateCloud(entt::registry* registry, SDL_Renderer* renderer,
-                         int xpos);
+                         const int xpos);
 
 }  // namespace entities
 

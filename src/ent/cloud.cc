@@ -43,7 +43,7 @@ SDL_Rect position {0, 0, 64, 16};
 namespace entities {
 
 entt::entity CreateCloud(entt::registry* registry, SDL_Renderer* renderer,
-                         int xpos) {
+                         const int xpos) {
   position.y = 30 * utils::UniformRandom(1, 3);
   position.x = xpos;
   const entt::entity e = registry->create();
