@@ -27,6 +27,6 @@ Window::~Window() {
   SDL_Quit();
 }
 
-SDL_Event* Window::get_event() { return &event_; }
+SDL_Event* Window::event() { return &event_; }
 
-SDL_Renderer* Window::get_renderer() { return renderer_; }
+SDL_Renderer* Window::renderer() { return renderer_; }

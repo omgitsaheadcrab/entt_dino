@@ -19,8 +19,8 @@ class Window {
   Window(const char kName[], const int kWindowWidth, const int kWindowHeight);
   ~Window();
 
-  SDL_Event* get_event();
-  SDL_Renderer* get_renderer();
+  SDL_Event* event();
+  SDL_Renderer* renderer();
 
  private:
   SDL_Event event_ {0};

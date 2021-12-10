@@ -31,20 +31,20 @@ Game::Game(const int kWindowWidth, const int kWindowHeight, const double kFps)
 void Game::Init() {
   over_ = false;
   base_speed_ = 1;
-  entities::CreateDino(&registry_, window_.get_renderer(), bounds_);
-  systems::SpawnBackgroundElements(&registry_, window_.get_renderer(),
+  entities::CreateDino(&registry_, window_.renderer(), bounds_);
+  systems::SpawnBackgroundElements(&registry_, window_.renderer(),
                                    &cloud_entities_, &floor_entities_, bounds_);
 }
 
 void Game::HandleEvents() {
-  SDL_PollEvent(window_.get_event());
+  SDL_PollEvent(window_.event());
 
-  switch (window_.get_event()->type) {
+  switch (window_.event()->type) {
     case SDL_QUIT:
       over_ = true;
       break;
     case SDL_KEYDOWN:
-      switch (window_.get_event()->key.keysym.sym) {
+      switch (window_.event()->key.keysym.sym) {
         case SDLK_ESCAPE:  // Press ESC to quit
           over_ = true;
           break;
@@ -65,15 +65,15 @@ void Game::Update() {
     floor_entities_.erase(e);
     cloud_entities_.erase(e);
   }
-  systems::SpawnBackgroundElements(&registry_, window_.get_renderer(),
+  systems::SpawnBackgroundElements(&registry_, window_.renderer(),
                                    &cloud_entities_, &floor_entities_, bounds_);
 }
 
 void Game::Render() {
-  SDL_SetRenderDrawColor(window_.get_renderer(), 239, 239, 239, 255);
-  SDL_RenderClear(window_.get_renderer());
-  systems::Render(window_.get_renderer(), &registry_);
-  SDL_RenderPresent(window_.get_renderer());
+  SDL_SetRenderDrawColor(window_.renderer(), 239, 239, 239, 255);
+  SDL_RenderClear(window_.renderer());
+  systems::Render(window_.renderer(), &registry_);
+  SDL_RenderPresent(window_.renderer());
 }
 
 void Game::Run() {
