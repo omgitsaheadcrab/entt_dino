@@ -10,7 +10,6 @@
 #define ENTT_DINO_SRC_CORE_GAME_H_
 
 #include <SDL2/SDL_rect.h>
-#include <SDL2/SDL_render.h>
 
 #include <cstdint>
 #include <set>
@@ -18,26 +17,29 @@
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
+#include "core/window.h"
+
 class Game {
  public:
-  Game() = default;
-  ~Game() = default;
+  Game() = delete;
+  Game(const int kWindowWidth, const int kWindowHeight, const double kFps);
+  ~Game();
 
-  void Init(SDL_Renderer* renderer, const int kWindow_width,
-            const int kWindow_height);
+  void Init();
   void HandleEvents();
-  void Update(SDL_Renderer* renderer);
-  void Render(SDL_Renderer* renderer);
-
-  bool is_over() const;
+  void Update();
+  void Render();
+  void Run();
 
  private:
   uint32_t base_speed_;
   SDL_Rect bounds_;
+  const double kFps_;
   std::set<entt::entity> cloud_entities_;
   std::set<entt::entity> floor_entities_;
   bool over_;
   entt::registry registry_;
+  Window window_;
 };
 
 #endif  // ENTT_DINO_SRC_CORE_GAME_H_
