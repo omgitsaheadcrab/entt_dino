@@ -9,7 +9,6 @@
 #ifndef ENTT_DINO_SRC_ENT_FLOOR_H_
 #define ENTT_DINO_SRC_ENT_FLOOR_H_
 
-#include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
 #include <entt/entity/entity.hpp>
