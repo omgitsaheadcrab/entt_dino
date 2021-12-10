@@ -23,7 +23,7 @@ class Game {
  public:
   Game() = delete;
   Game(const int kWindowWidth, const int kWindowHeight, const double kFps);
-  ~Game();
+  ~Game() = default;
 
   void Init();
   void HandleEvents();

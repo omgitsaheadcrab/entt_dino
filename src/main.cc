@@ -8,6 +8,8 @@
 
 #include <spdlog/spdlog.h>
 
+#include <iostream>
+
 #include "core/game.h"
 
 int main(int argc, char* argv[]) {
@@ -16,5 +18,6 @@ int main(int argc, char* argv[]) {
 #endif  // _DEBUG
   Game game(800, 244, 60.0);
   game.Run();
+  std::cout << "Veni. Vidi. Reverti.\n";
   return 0;
 }

@@ -10,7 +10,6 @@
 
 #include <SDL2/SDL.h>
 
-#include <iostream>
 #include <set>
 
 #include <entt/entity/entity.hpp>
@@ -27,11 +26,6 @@ Game::Game(const int kWindowWidth, const int kWindowHeight, const double kFps)
       kFps_ {kFps},
       bounds_ {0, 0, kWindowWidth, kWindowHeight} {
   Init();
-}
-
-Game::~Game() {
-  SDL_Quit();
-  std::cout << "Veni. Vidi. Reverti.\n";
 }
 
 void Game::Init() {

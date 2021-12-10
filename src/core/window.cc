@@ -24,6 +24,7 @@ Window::Window(const char kName[], const int kWindowWidth,
 Window::~Window() {
   SDL_DestroyRenderer(renderer_);
   SDL_DestroyWindow(window_);
+  SDL_Quit();
 }
 
 SDL_Event* Window::get_event() { return &event_; }
