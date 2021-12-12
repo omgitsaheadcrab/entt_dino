@@ -44,6 +44,7 @@ namespace entities {
 
 entt::entity CreateCloud(entt::registry* registry, SDL_Renderer* renderer,
                          const int xpos) {
+  // TODO(omgitsaheadcrab): move all data out of cloud factory
   position.y = 30 * utils::UniformRandom(1, 3);
   position.x = xpos;
   const entt::entity e = registry->create();

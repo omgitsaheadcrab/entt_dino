@@ -44,6 +44,7 @@ namespace entities {
 
 entt::entity CreateFloor(entt::registry* registry, SDL_Renderer* renderer,
                          const int xpos) {
+  // TODO(omgitsaheadcrab): move all data out of floor factory
   clip.y = clip.h * utils::UniformRandom(0, 2);
   position.x = xpos;
   const entt::entity e = registry->create();

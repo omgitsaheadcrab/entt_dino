@@ -43,6 +43,7 @@ namespace entities {
 
 entt::entity CreateDino(entt::registry* registry, SDL_Renderer* renderer,
                         const SDL_Rect& bounds) {
+  // TODO(omgitsaheadcrab): move all data out of dino factory
   position.x = bounds.w * 0.05;
   position.y = bounds.h * 0.77;
   const entt::entity e = registry->create();
