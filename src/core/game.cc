@@ -79,20 +79,35 @@ void Game::Run() {
   const double kMSPerUpdate {1000.0 / kUpdatesPerSecond_};
   double previous_time = SDL_GetTicks();
   double lag = 0.0;
+  int frames = 0;
+  double frames_elapsed = 0.0;
+  double fps = 0.0;
 
   while (!over_) {
     double current_time = SDL_GetTicks();
     double elapsed = current_time - previous_time;
     previous_time = current_time;
     lag += elapsed;
+    frames_elapsed += elapsed;
 
+    // HandleEvents as often as possible
     HandleEvents();
 
+    // Update only once per kMSPerUpdate
     while (lag >= kMSPerUpdate) {
       Update();
       lag -= kMSPerUpdate;
     }
 
+    // Render as often as possible
     Render();
+    frames++;
+
+    // Frame rate counter (updates every 250ms)
+    if (frames_elapsed > 250.0) {
+      fps = static_cast<double>(frames) / (frames_elapsed / 1000.0);
+      frames = 0;
+      frames_elapsed = 0.0;
+    }
   }
 }
