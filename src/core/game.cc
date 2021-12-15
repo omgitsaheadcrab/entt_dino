@@ -77,7 +77,7 @@ void Game::Render() {
 }
 
 void Game::Run() {
-  const double kFrameDelay {1000.0 / kFps_};
+  const double kMSPerUpdate {1000.0 / kFps_};
   double previous_time = SDL_GetTicks();
   double lag = 0.0;
 
@@ -89,9 +89,9 @@ void Game::Run() {
 
     HandleEvents();
 
-    while (lag >= kFrameDelay) {
+    while (lag >= kMSPerUpdate) {
       Update();
-      lag -= kFrameDelay;
+      lag -= kMSPerUpdate;
     }
 
     Render();
