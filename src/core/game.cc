@@ -21,9 +21,8 @@
 #include "sys/movement.h"
 #include "sys/render.h"
 
-Game::Game(const int kWindowWidth, const int kWindowHeight, const double kFps)
+Game::Game(const int kWindowWidth, const int kWindowHeight)
     : window_ {"entt_dino", kWindowWidth, kWindowHeight},
-      kFps_ {kFps},
       bounds_ {0, 0, kWindowWidth, kWindowHeight} {
   Init();
 }
@@ -77,7 +76,7 @@ void Game::Render() {
 }
 
 void Game::Run() {
-  const double kMSPerUpdate {1000.0 / kFps_};
+  const double kMSPerUpdate {1000.0 / kUpdatesPerSecond_};
   double previous_time = SDL_GetTicks();
   double lag = 0.0;
 

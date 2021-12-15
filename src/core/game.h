@@ -22,7 +22,7 @@
 class Game {
  public:
   Game() = delete;
-  Game(const int kWindowWidth, const int kWindowHeight, const double kFps);
+  Game(const int kWindowWidth, const int kWindowHeight);
   ~Game() = default;
 
   void Init();
@@ -33,10 +33,10 @@ class Game {
 
  private:
   uint32_t base_speed_;
-  SDL_Rect bounds_;
-  const double kFps_;
+  const SDL_Rect bounds_;
   std::set<entt::entity> cloud_entities_;
   std::set<entt::entity> floor_entities_;
+  const double kUpdatesPerSecond_ = 60.0;
   bool over_;
   entt::registry registry_;
   Window window_;
