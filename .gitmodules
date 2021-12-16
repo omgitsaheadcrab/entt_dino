@@ -1,6 +1,6 @@
 [submodule "ext/entt"]
 	path = ext/entt
-	url = git@github.com:skypjack/entt.git
+	url = https://github.com/skypjack/entt.git
 [submodule "ext/spdlog"]
 	path = ext/spdlog
-	url = https://github.com/gabime/spdlog
+	url = https://github.com/gabime/spdlog.git
