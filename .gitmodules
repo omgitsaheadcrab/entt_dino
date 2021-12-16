@@ -4,3 +4,9 @@
 [submodule "ext/spdlog"]
 	path = ext/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "ext/SDL"]
+	path = ext/SDL
+	url = https://github.com/libsdl-org/SDL.git
+[submodule "ext/SDL_image"]
+	path = ext/SDL_image
+	url = https://github.com/libsdl-org/SDL_image.git

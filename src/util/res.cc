@@ -17,8 +17,6 @@
 #include <memory>
 #include <string>
 
-#include "SDL_error.h"
-
 /**
  * Return resource path.
  * @see Will Usher's `SDL2` Tutorials.

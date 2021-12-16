@@ -8,8 +8,8 @@
 
 #include "sys/render.h"
 
+#include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
-#include <SDL_rect.h>
 
 #include <entt/entity/registry.hpp>
 
