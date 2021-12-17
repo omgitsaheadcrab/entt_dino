@@ -22,7 +22,7 @@ file(GLOB_RECURSE SOURCE_FILES
   "${PROJECT_SOURCE_DIR}/src/*.h"
 )
 
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2main_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS}"${CMAKE_SOURCE_DIR}/src")
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2main_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} "${CMAKE_SOURCE_DIR}/src")
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} EnTT spdlog ${SDL2_LIBRARIES} SDL2_image)
 
