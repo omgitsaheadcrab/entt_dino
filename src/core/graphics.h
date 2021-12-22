@@ -10,13 +10,13 @@
 #define ENTT_DINO_SRC_CORE_GRAPHICS_H_
 
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_surface.h>
 
 #include <memory>
 
 namespace graphics {
 
-SDL_Texture* LoadTexture(const std::shared_ptr<char[]> path,
-                         SDL_Renderer* renderer);
+SDL_Texture* LoadTexture(SDL_Surface* surface, SDL_Renderer* renderer);
 
 }  // namespace graphics
 

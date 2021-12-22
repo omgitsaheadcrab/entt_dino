@@ -8,27 +8,22 @@
 
 #include "core/graphics.h"
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_surface.h>
 #include <spdlog/spdlog.h>
 
-#include <memory>
-
-SDL_Texture* graphics::LoadTexture(const std::shared_ptr<char[]> path,
+SDL_Texture* graphics::LoadTexture(SDL_Surface* surface,
                                    SDL_Renderer* renderer) {
   SDL_Texture* texture = nullptr;
-  SDL_Surface* loaded_surface = IMG_Load(path.get());
 
-  if (loaded_surface == nullptr) {
-    SPDLOG_ERROR("Unable to load image {}! SDL_image Error: ", path.get(),
-                 IMG_GetError());
+  if (surface == nullptr) {
+    SPDLOG_ERROR("Unable to load resource!");
   } else {
-    texture = SDL_CreateTextureFromSurface(renderer, loaded_surface);
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
     if (texture == nullptr) {
-      SPDLOG_ERROR("Unable to create texture from {}! SDL_image Error: ",
-                   path.get(), IMG_GetError());
+      SPDLOG_ERROR("Unable to create texture");
     }
-    SDL_FreeSurface(loaded_surface);
+    SDL_FreeSurface(surface);
   }
   return texture;
 }
