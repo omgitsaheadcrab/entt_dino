@@ -23,7 +23,8 @@
  * Return resource path.
  * @see Will Usher's `SDL2` Tutorials.
  */
-const std::shared_ptr<char[]> utils::GetResPath(const std::string& image_name) {
+const std::shared_ptr<char[]> utils::GetResPath(
+    const std::string& resource_name) {
   std::string res_path;
   char* base_path = SDL_GetBasePath();
   if (base_path) {
@@ -34,7 +35,7 @@ const std::shared_ptr<char[]> utils::GetResPath(const std::string& image_name) {
     return nullptr;
   }
   size_t pos = res_path.rfind("bin");
-  res_path = res_path.substr(0, pos) + "res/" + image_name;
+  res_path = res_path.substr(0, pos) + "res/" + resource_name;
 
   // convert to c string as global constants should be char arrays
   std::shared_ptr<char[]> res_path_c(new char[res_path.size() + 1]);

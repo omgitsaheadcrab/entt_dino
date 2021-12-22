@@ -8,14 +8,14 @@ Entity Component System (ECS) from the [EnTT library](https://github.com/skypjac
 ## Dependencies
 
 - [CMake](https://cmake.org/) version 3.7 or later.
-- [SDL2](https://www.libsdl.org/) and
+- [SDL2](https://www.libsdl.org/),
 [SDL2_image](https://www.libsdl.org/projects/SDL_image/) for input and
-rendering.
+rendering and [SDL2_ttf](https://www.libsdl.org/projects/SDL_ttf/) for fonts.
 
 To install these on `Arch Linux`:
 
 ```sh
-sudo pacman -S cmake sdl2 sdl2_image
+sudo pacman -S cmake sdl2 sdl2_image sdl2_ttf
 ```
 
 For other platforms and distributions please refer to your package manager's

@@ -31,7 +31,8 @@ vf2d velocity {0.0, 0.0};
 const vf2d acceleration {0.0, 0.0};
 
 // Sprite
-static const std::shared_ptr<char[]> path {utils::GetResPath("dino.png")};
+static const std::shared_ptr<char[]> path {
+    utils::GetResPath("sprites/dino.png")};
 SDL_Rect clip {0, 0, 42, 44};
 
 // Transform

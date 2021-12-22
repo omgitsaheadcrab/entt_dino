@@ -32,7 +32,8 @@ vf2d velocity {-1.0, 0.0};
 const vf2d acceleration {0.0, 0.0};
 
 // Sprite
-static const std::shared_ptr<char[]> path {utils::GetResPath("cloud.png")};
+static const std::shared_ptr<char[]> path {
+    utils::GetResPath("sprites/cloud.png")};
 SDL_Rect clip {0, 0, 64, 16};
 
 // Transform

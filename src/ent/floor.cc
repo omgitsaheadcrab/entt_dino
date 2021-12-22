@@ -32,7 +32,8 @@ vf2d velocity {-2.0, 0.0};
 const vf2d acceleration {0.0, 0.0};
 
 // Sprite
-static const std::shared_ptr<char[]> path {utils::GetResPath("floor.png")};
+static const std::shared_ptr<char[]> path {
+    utils::GetResPath("sprites/floor.png")};
 SDL_Rect clip {0, 0, 400, 32};
 
 // Transform
