@@ -16,7 +16,7 @@
 #include "comp/sprite.h"
 #include "comp/transform.h"
 
-void systems::Render(SDL_Renderer* renderer, entt::registry* registry) {
+void systems::RenderSprites(SDL_Renderer* renderer, entt::registry* registry) {
   const auto view = registry->view<components::Sprite, components::Transform>();
   view.each([&](const auto& sprite, const auto& transform) {
     SDL_RenderCopy(renderer, sprite.sheet, &sprite.clip, &transform.position);

@@ -15,7 +15,7 @@
 
 namespace systems {
 
-void Render(SDL_Renderer* renderer, entt::registry* registry);
+void RenderSprites(SDL_Renderer* renderer, entt::registry* registry);
 
 }  // namespace systems
 
