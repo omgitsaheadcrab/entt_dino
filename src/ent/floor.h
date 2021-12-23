@@ -9,15 +9,15 @@
 #ifndef ENTT_DINO_SRC_ENT_FLOOR_H_
 #define ENTT_DINO_SRC_ENT_FLOOR_H_
 
-#include <SDL2/SDL_render.h>
-
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
+#include "core/res_manager.h"
+
 namespace entities {
 
-entt::entity CreateFloor(entt::registry* registry, SDL_Renderer* renderer,
-                         const int xpos);
+entt::entity CreateFloor(entt::registry* registry,
+                         const ResourceManager& res_manager, const int xpos);
 
 }  // namespace entities
 

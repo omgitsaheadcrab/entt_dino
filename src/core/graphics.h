@@ -12,8 +12,6 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
 
-#include <memory>
-
 namespace graphics {
 
 SDL_Texture* LoadTexture(SDL_Surface* surface, SDL_Renderer* renderer);

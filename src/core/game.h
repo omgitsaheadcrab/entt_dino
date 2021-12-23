@@ -17,6 +17,7 @@
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
+#include "core/res_manager.h"
 #include "core/window.h"
 
 class Game {
@@ -39,6 +40,7 @@ class Game {
   const double kUpdatesPerSecond_ = 60.0;
   bool over_;
   entt::registry registry_;
+  ResourceManager res_manager_;
   Window window_;
 };
 

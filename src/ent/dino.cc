@@ -8,12 +8,10 @@
 
 #include "ent/dino.h"
 
-#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_rect.h>
-#include <SDL2/SDL_render.h>
 #include <spdlog/spdlog.h>
 
-#include <memory>
+#include <vector>
 
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
@@ -21,7 +19,7 @@
 #include "comp/rigid_body.h"
 #include "comp/sprite.h"
 #include "comp/transform.h"
-#include "core/graphics.h"
+#include "core/res_manager.h"
 #include "core/vec2d.h"
 #include "util/res.h"
 
@@ -31,28 +29,27 @@ namespace {
 vf2d velocity {0.0, 0.0};
 const vf2d acceleration {0.0, 0.0};
 
-// Sprite
-static const std::shared_ptr<char[]> path {
-    utils::GetResPath("sprites/dino.png")};
-SDL_Rect clip {0, 0, 42, 44};
-
 // Transform
-SDL_Rect position {0, 0, 42, 44};
+SDL_Rect position {0, 0, 0, 0};
 
 }  // namespace
 
 namespace entities {
 
-entt::entity CreateDino(entt::registry* registry, SDL_Renderer* renderer,
+entt::entity CreateDino(entt::registry* registry,
+                        const ResourceManager& res_manager,
                         const SDL_Rect& bounds) {
-  // TODO(omgitsaheadcrab): move all data out of dino factory
+  std::vector<SDL_Rect> clips = res_manager.GetSpriteClips("dino");
   position.x = bounds.w * 0.05;
   position.y = bounds.h * 0.77;
+  position.h = clips[0].h;
+  position.w = clips[0].w;
+
   const entt::entity e = registry->create();
   registry->emplace<components::RigidBody>(e, velocity, acceleration);
-  registry->emplace<components::Sprite>(
-      e, graphics::LoadTexture(IMG_Load(path.get()), renderer), clip);
   registry->emplace<components::Transform>(e, position);
+  registry->emplace<components::Sprite>(
+      e, res_manager.sprite_textures.find("dino")->second, clips[0]);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
   return e;
 }

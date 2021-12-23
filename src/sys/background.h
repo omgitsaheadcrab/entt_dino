@@ -10,16 +10,18 @@
 #define ENTT_DINO_SRC_SYS_BACKGROUND_H_
 
 #include <SDL2/SDL_rect.h>
-#include <SDL2/SDL_render.h>
 
 #include <set>
 
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
+#include "core/res_manager.h"
+
 namespace systems {
 
-void SpawnBackgroundElements(entt::registry* registry, SDL_Renderer* renderer,
+void SpawnBackgroundElements(entt::registry* registry,
+                             const ResourceManager& res_manager,
                              std::set<entt::entity>* cloud_entities,
                              std::set<entt::entity>* floor_entities,
                              const SDL_Rect& bounds);

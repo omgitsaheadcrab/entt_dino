@@ -14,6 +14,7 @@
 
 #include <entt/entity/entity.hpp>
 
+#include "core/res_manager.h"
 #include "core/window.h"
 #include "ent/dino.h"
 #include "sys/background.h"
@@ -30,9 +31,10 @@ Game::Game(const int kWindowWidth, const int kWindowHeight)
 void Game::Init() {
   over_ = false;
   base_speed_ = 1;
-  entities::CreateDino(&registry_, window_.renderer(), bounds_);
-  systems::SpawnBackgroundElements(&registry_, window_.renderer(),
-                                   &cloud_entities_, &floor_entities_, bounds_);
+  res_manager_.Init(window_.renderer());
+  entities::CreateDino(&registry_, res_manager_, bounds_);
+  systems::SpawnBackgroundElements(&registry_, res_manager_, &cloud_entities_,
+                                   &floor_entities_, bounds_);
 }
 
 void Game::HandleEvents() {
@@ -64,8 +66,8 @@ void Game::Update() {
     floor_entities_.erase(e);
     cloud_entities_.erase(e);
   }
-  systems::SpawnBackgroundElements(&registry_, window_.renderer(),
-                                   &cloud_entities_, &floor_entities_, bounds_);
+  systems::SpawnBackgroundElements(&registry_, res_manager_, &cloud_entities_,
+                                   &floor_entities_, bounds_);
 }
 
 void Game::Render() {

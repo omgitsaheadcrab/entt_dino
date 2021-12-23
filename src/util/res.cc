@@ -10,36 +10,27 @@
 
 #include <SDL2/SDL_error.h>
 #include <SDL2/SDL_filesystem.h>
-#include <SDL2/SDL_stdinc.h>
 #include <spdlog/spdlog.h>
 
-#include <cstring>
-#include <memory>
 #include <string>
-
-#include "SDL_error.h"
 
 /**
  * Return resource path.
  * @see Will Usher's `SDL2` Tutorials.
  */
-const std::shared_ptr<char[]> utils::GetResPath(
-    const std::string& resource_name) {
-  std::string res_path;
-  char* base_path = SDL_GetBasePath();
-  if (base_path) {
-    res_path = base_path;
-    SDL_free(base_path);
-  } else {
-    SPDLOG_ERROR("Failed to get base path: {}", SDL_GetError());
-    return nullptr;
+std::string utils::GetResPath() {
+  static std::string res_path;
+  if (res_path.empty()) {
+    char* base_path = SDL_GetBasePath();
+    if (base_path) {
+      res_path = base_path;
+      SDL_free(base_path);
+    } else {
+      SPDLOG_ERROR("Failed to get base path: {}", SDL_GetError());
+      return nullptr;
+    }
+    size_t pos = res_path.rfind("bin");
+    res_path = res_path.substr(0, pos) + "res/";
   }
-  size_t pos = res_path.rfind("bin");
-  res_path = res_path.substr(0, pos) + "res/" + resource_name;
-
-  // convert to c string as global constants should be char arrays
-  std::shared_ptr<char[]> res_path_c(new char[res_path.size() + 1]);
-  // make_shared<char[]> will be available in C++20
-  std::snprintf(res_path_c.get(), res_path.size() + 1, "%s", res_path.c_str());
-  return res_path_c;
+  return res_path;
 }

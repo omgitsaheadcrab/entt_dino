@@ -24,6 +24,7 @@ SDL_Texture* graphics::LoadTexture(SDL_Surface* surface,
       SPDLOG_ERROR("Unable to create texture");
     }
     SDL_FreeSurface(surface);
+    surface = nullptr;
   }
   return texture;
 }
