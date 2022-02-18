@@ -27,12 +27,14 @@ class ResourceManager {
   void Init(SDL_Renderer* renderer);
   std::vector<SDL_Rect> GetSpriteClips(const std::string sprite) const;
 
-  nlohmann::json resources;
   std::unordered_map<std::string, SDL_Texture*> sprite_textures;
 
  private:
-  void LoadSprites(SDL_Renderer* renderer);
+  void LoadSprites();
   void ParseSprites();
+
+  SDL_Renderer* renderer_;
+  nlohmann::json resources_;
 };
 
 #endif  // ENTT_DINO_SRC_CORE_RES_MANAGER_H_
