@@ -27,11 +27,14 @@ class ResourceManager {
   void Init(SDL_Renderer* renderer);
   std::vector<SDL_Rect> GetSpriteClips(const std::string sprite) const;
 
+  std::unordered_map<std::string, SDL_Texture*> font_textures;
   std::unordered_map<std::string, SDL_Texture*> sprite_textures;
 
  private:
   void LoadSprites();
   void ParseSprites();
+  void LoadFonts();
+  void ParseFonts();
 
   SDL_Renderer* renderer_;
   nlohmann::json resources_;

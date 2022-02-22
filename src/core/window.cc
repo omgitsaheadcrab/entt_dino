@@ -9,6 +9,7 @@
 #include "core/window.h"
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 Window::Window(const char kName[], const int kWindowWidth,
                const int kWindowHeight)
@@ -18,12 +19,14 @@ Window::Window(const char kName[], const int kWindowWidth,
       renderer_ {SDL_CreateRenderer(
           window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE)} {
   SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+  TTF_Init();
   SDL_RenderSetLogicalSize(renderer_, kWindowWidth, kWindowHeight);
 }
 
 Window::~Window() {
   SDL_DestroyRenderer(renderer_);
   SDL_DestroyWindow(window_);
+  TTF_Quit();
   SDL_Quit();
 }
 
