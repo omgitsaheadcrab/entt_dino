@@ -28,6 +28,7 @@ class ResourceManager {
   std::vector<SDL_Rect> GetSpriteClips(const std::string sprite) const;
 
   std::unordered_map<std::string, SDL_Texture*> font_textures;
+  std::unordered_map<std::string, std::vector<SDL_Rect>> font_glyphs;
   std::unordered_map<std::string, SDL_Texture*> sprite_textures;
 
  private:

@@ -81,20 +81,24 @@ void ResourceManager::ParseFonts() {
       resources_["fonts"][entry.path().stem()]["name"] =
           entry.path().stem().string();
       resources_["fonts"][entry.path().stem()]["filepath"] = filepath;
+      resources_["fonts"][entry.path().stem()]["extension"] = ".ttf";
     }
   }
 }
 
 void ResourceManager::LoadFonts() {
-  int max_glyphs = 128;
-  int font_size = 8;
+  int MAX_GLYPHS = 128;
+  int FONT_SIZE = 10;
+  int FONT_TEXTURE_SIZE = 512;
+
   for (auto& font : resources_["fonts"]) {
     SPDLOG_DEBUG("Loading font: {}", font["name"]);
-    std::vector<SDL_Rect> glyphs(max_glyphs, SDL_Rect());
+    std::vector<SDL_Rect> glyphs(MAX_GLYPHS, SDL_Rect());
 
-    TTF_Font* ttf_font =
-        TTF_OpenFont(font["filepath"].get<std::string>().c_str(), font_size);
-    int FONT_TEXTURE_SIZE = 512;
+    std::string font_path = font["filepath"].get<std::string>() + "/" +
+                            font["name"].get<std::string>() +
+                            font["extension"].get<std::string>();
+    TTF_Font* ttf_font = TTF_OpenFont(font_path.c_str(), FONT_SIZE);
     SDL_Surface* surface = SDL_CreateRGBSurface(
         0, FONT_TEXTURE_SIZE, FONT_TEXTURE_SIZE, 32, 0, 0, 0, 0xff);
     SDL_SetColorKey(surface, SDL_TRUE,
@@ -115,7 +119,6 @@ void ResourceManager::LoadFonts() {
 
       if (dest.x + dest.w >= FONT_TEXTURE_SIZE) {
         dest.x = 0;
-
         dest.y += dest.h + 1;
 
         if (dest.y + dest.h >= FONT_TEXTURE_SIZE) {
@@ -141,6 +144,7 @@ void ResourceManager::LoadFonts() {
       dest.x += dest.w;
     }
     font_textures[font["name"]] = graphics::LoadTexture(surface, renderer_);
+    font_glyphs[font["name"]] = glyphs;
     TTF_CloseFont(ttf_font);
   }
 }
