@@ -101,7 +101,7 @@ void ResourceManager::LoadFont(const std::string name, const int size) {
       resources_["fonts"][name]["filepath"].get<std::string>() + "/" + name +
       resources_["fonts"][name]["extension"].get<std::string>();
 
-  auto font = fonts::LoadFontMap(name, size, font_path, renderer_);
+  auto font = fonts::LoadFontCache(name, size, font_path, renderer_);
   fonts[name][size] = font;
 }
 
