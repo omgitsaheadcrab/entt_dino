@@ -8,13 +8,11 @@
 
 #include "core/res_manager.h"
 
-#include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
-#include <SDL2/SDL_ttf.h>
 #include <spdlog/spdlog.h>
 
 #include <filesystem>
@@ -25,15 +23,23 @@
 
 #include <nlohmann/json.hpp>
 
+#include "core/fonts.h"
 #include "core/graphics.h"
 #include "util/res.h"
+
+ResourceManager::~ResourceManager() {
+  for (const auto& font : fonts) {
+    for (const auto& size : font.second) {
+      delete size;
+    }
+  }
+}
 
 void ResourceManager::Init(SDL_Renderer* renderer) {
   renderer_ = renderer;
   ParseSprites();
   LoadSprites();
   ParseFonts();
-  LoadFonts();
 }
 
 void ResourceManager::ParseSprites() {
@@ -78,74 +84,55 @@ void ResourceManager::ParseFonts() {
   for (const auto& entry : std::filesystem::directory_iterator(font_dir)) {
     if (entry.path().extension() == ".ttf") {
       std::string filepath = entry.path().parent_path().string();
-      resources_["fonts"][entry.path().stem()]["name"] =
-          entry.path().stem().string();
       resources_["fonts"][entry.path().stem()]["filepath"] = filepath;
       resources_["fonts"][entry.path().stem()]["extension"] = ".ttf";
+      std::vector<fonts::Font*> sizes;
+      fonts[entry.path().stem().string()] = sizes;
     }
   }
 }
 
-void ResourceManager::LoadFonts() {
-  int MAX_GLYPHS = 128;
-  int FONT_SIZE = 10;
-  int FONT_TEXTURE_SIZE = 512;
+void ResourceManager::LoadFont(const std::string name, const int size) {
+  fonts[name].resize(size + 1);
+  SPDLOG_DEBUG("Loading font: {}:{}pt", name, size);
 
-  for (auto& font : resources_["fonts"]) {
-    SPDLOG_DEBUG("Loading font: {}", font["name"]);
-    std::vector<SDL_Rect> glyphs(MAX_GLYPHS, SDL_Rect());
+  // TODO(omgitsaheadcrab): move to helper
+  const std::string font_path =
+      resources_["fonts"][name]["filepath"].get<std::string>() + "/" + name +
+      resources_["fonts"][name]["extension"].get<std::string>();
 
-    std::string font_path = font["filepath"].get<std::string>() + "/" +
-                            font["name"].get<std::string>() +
-                            font["extension"].get<std::string>();
-    TTF_Font* ttf_font = TTF_OpenFont(font_path.c_str(), FONT_SIZE);
-    SDL_Surface* surface = SDL_CreateRGBSurface(
-        0, FONT_TEXTURE_SIZE, FONT_TEXTURE_SIZE, 32, 0, 0, 0, 0xff);
-    SDL_SetColorKey(surface, SDL_TRUE,
-                    SDL_MapRGBA(surface->format, 0, 0, 0, 0));
-    SDL_Surface* text;
-    SDL_Rect dest;
-    SDL_Rect* g;
-    char c[2];
-    dest.x = 0;
-    dest.y = 0;
-    SDL_Color white = {255, 255, 255};
+  auto font = fonts::LoadFontMap(name, size, font_path, renderer_);
+  fonts[name][size] = font;
+}
 
-    for (auto i = ' '; i <= 'z'; i++) {
-      c[0] = i;
-      c[1] = 0;
-      text = TTF_RenderUTF8_Blended(ttf_font, c, white);
-      TTF_SizeText(ttf_font, c, &dest.w, &dest.h);
+void ResourceManager::DrawText(const char* text, int x, const int y,
+                               const SDL_Color color, const char* font_name,
+                               const int font_size) {
+  int i, character;
+  SDL_Rect *glyph, dest;
 
-      if (dest.x + dest.w >= FONT_TEXTURE_SIZE) {
-        dest.x = 0;
-        dest.y += dest.h + 1;
+  if (fonts[font_name].size() <= font_size || !fonts[font_name][font_size]) {
+    LoadFont(font_name, font_size);
+  }
 
-        if (dest.y + dest.h >= FONT_TEXTURE_SIZE) {
-          SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION,
-                         SDL_LOG_PRIORITY_CRITICAL,
-                         "Out of glyph space in %dx%d font atlas texture map.",
-                         FONT_TEXTURE_SIZE, FONT_TEXTURE_SIZE);
-          exit(1);
-        }
-      }
+  auto font = fonts[font_name][font_size];
+  SDL_SetTextureColorMod(font->texture, color.r, color.g, color.b);
 
-      SDL_BlitSurface(text, NULL, surface, &dest);
+  i = 0;
+  character = text[i++];
 
-      g = &glyphs[i];
+  while (character) {
+    glyph = &font->glyphs[character];
 
-      g->x = dest.x;
-      g->y = dest.y;
-      g->w = dest.w;
-      g->h = dest.h;
+    dest.x = x;
+    dest.y = y;
+    dest.w = glyph->w;
+    dest.h = glyph->h;
 
-      SDL_FreeSurface(text);
+    SDL_RenderCopy(renderer_, font->texture, glyph, &dest);
 
-      dest.x += dest.w;
-    }
-    font_textures[font["name"]] = graphics::LoadTexture(surface, renderer_);
-    font_glyphs[font["name"]] = glyphs;
-    TTF_CloseFont(ttf_font);
+    x += glyph->w;
+    character = text[i++];
   }
 }
 
