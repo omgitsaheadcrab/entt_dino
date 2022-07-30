@@ -105,8 +105,9 @@ void ResourceManager::LoadFont(const std::string name, const int size) {
   fonts[name][size] = font;
 }
 
-void ResourceManager::DrawText(const char* text, int x, const int y,
-                               const SDL_Color color, const char* font_name,
+void ResourceManager::DrawText(const std::string text, int x, const int y,
+                               const SDL_Color color,
+                               const std::string font_name,
                                const int font_size) {
   int i, character;
   SDL_Rect *glyph, dest;

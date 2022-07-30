@@ -9,6 +9,7 @@
 #include "core/window.h"
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_ttf.h>
 
 Window::Window(const char kName[], const int kWindowWidth,
@@ -17,7 +18,8 @@ Window::Window(const char kName[], const int kWindowWidth,
                                 SDL_WINDOWPOS_CENTERED, kWindowWidth,
                                 kWindowHeight, SDL_WINDOW_RESIZABLE)},
       renderer_ {SDL_CreateRenderer(
-          window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE)} {
+          window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE)},
+      bounds_ {0, 0, kWindowWidth, kWindowHeight} {
   SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
   TTF_Init();
   SDL_RenderSetLogicalSize(renderer_, kWindowWidth, kWindowHeight);
@@ -29,6 +31,8 @@ Window::~Window() {
   TTF_Quit();
   SDL_Quit();
 }
+
+SDL_Rect Window::bounds() { return bounds_; }
 
 SDL_Event* Window::event() { return &event_; }
 

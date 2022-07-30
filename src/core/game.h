@@ -9,14 +9,13 @@
 #ifndef ENTT_DINO_SRC_CORE_GAME_H_
 #define ENTT_DINO_SRC_CORE_GAME_H_
 
-#include <SDL2/SDL_rect.h>
-
 #include <cstdint>
 #include <set>
 
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
+#include "core/hud.h"
 #include "core/res_manager.h"
 #include "core/window.h"
 
@@ -34,12 +33,15 @@ class Game {
 
  private:
   uint32_t base_speed_;
-  const SDL_Rect bounds_;
   std::set<entt::entity> cloud_entities_;
   std::set<entt::entity> floor_entities_;
   const double kUpdatesPerSecond_ = 60.0;
+  bool dead_;
   bool over_;
+  unsigned int score_;
+  int fps_;
   entt::registry registry_;
+  HUD hud_;
   ResourceManager res_manager_;
   Window window_;
 };

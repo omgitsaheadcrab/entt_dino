@@ -10,6 +10,7 @@
 #define ENTT_DINO_SRC_CORE_WINDOW_H_
 
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
 
@@ -21,8 +22,10 @@ class Window {
 
   SDL_Event* event();
   SDL_Renderer* renderer();
+  SDL_Rect bounds();
 
  private:
+  const SDL_Rect bounds_;
   SDL_Event event_ {0};
   SDL_Window* window_;
   SDL_Renderer* renderer_;
