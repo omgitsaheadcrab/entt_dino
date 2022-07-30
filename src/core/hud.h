@@ -20,7 +20,6 @@ struct Element {
   std::string text;
   SDL_Color color;
   SDL_Rect position;
-  int value = 0;
 };
 
 class HUD {
@@ -28,7 +27,8 @@ class HUD {
   ~HUD() = default;
 
   void Init(Window* window, ResourceManager* res_manager);
-  void Update(const int score, const int fps, const bool dead);
+  void Update(const int score, const int high_score, const int fps,
+              const bool dead);
   void Draw(const bool dead);
 
  private:

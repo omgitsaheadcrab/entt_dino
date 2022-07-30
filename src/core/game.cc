@@ -32,6 +32,7 @@ void Game::Init() {
   dead_ = false;
   over_ = false;
   score_ = 0;
+  high_score_ = 0;
   fps_ = 0;
   base_speed_ = 1;
   res_manager_.Init(window_.renderer());
@@ -59,6 +60,7 @@ void Game::HandleEvents() {
           break;
         case SDLK_d:
           dead_ = true;
+          high_score_ = score_ > high_score_ ? score_ : high_score_;
           break;
         case SDLK_r:
           score_ = 0;
@@ -81,7 +83,7 @@ void Game::Update() {
   }
   systems::SpawnBackgroundElements(&registry_, res_manager_, &cloud_entities_,
                                    &floor_entities_, window_.bounds());
-  hud_.Update(score_, fps_, dead_);
+  hud_.Update(score_, high_score_, fps_, dead_);
 }
 
 void Game::Render() {

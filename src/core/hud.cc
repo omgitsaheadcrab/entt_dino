@@ -36,17 +36,13 @@ void HUD::Init(Window* window, ResourceManager* res_manager) {
                          static_cast<int>(window->bounds().h * 0.40), 0, 0}};
 }
 
-void HUD::Update(const int score, const int fps, const bool dead) {
-  fps_.value = fps;
+void HUD::Update(const int score, const int high_score, const int fps,
+                 const bool dead) {
   fps_.text = ZeroPad(fps);
-  current_score_.value = score;
   current_score_.text = ZeroPad(score);
 
   if (dead) {
-    if (score > high_score_.value) {
-      high_score_.value = score;
-      high_score_.text = "HI  " + ZeroPad(score);
-    }
+    high_score_.text = "HI  " + ZeroPad(high_score);
   }
 }
 

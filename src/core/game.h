@@ -39,6 +39,7 @@ class Game {
   bool dead_;
   bool over_;
   unsigned int score_;
+  unsigned int high_score_;
   int fps_;
   entt::registry registry_;
   HUD hud_;
