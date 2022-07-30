@@ -28,8 +28,9 @@ class ResourceManager {
 
   void Init(SDL_Renderer* renderer);
   std::vector<SDL_Rect> GetSpriteClips(const std::string sprite) const;
-  void DrawText(const char* text, int x, const int y, const SDL_Color color,
-                const char* font_name, const int font_size);
+  void DrawText(const std::string text, int x, const int y,
+                const SDL_Color color, const std::string font_name,
+                const int font_size);
 
   std::unordered_map<std::string, std::vector<fonts::Font*>> fonts;
   std::unordered_map<std::string, SDL_Texture*> sprite_textures;

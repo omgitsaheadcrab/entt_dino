@@ -14,6 +14,7 @@
 
 #include <entt/entity/entity.hpp>
 
+#include "core/hud.h"
 #include "core/res_manager.h"
 #include "core/window.h"
 #include "ent/dino.h"
@@ -23,18 +24,20 @@
 #include "sys/render.h"
 
 Game::Game(const int kWindowWidth, const int kWindowHeight)
-    : window_ {"entt_dino", kWindowWidth, kWindowHeight},
-      bounds_ {0, 0, kWindowWidth, kWindowHeight} {
+    : window_ {"entt_dino", kWindowWidth, kWindowHeight} {
   Init();
 }
 
 void Game::Init() {
+  dead_ = false;
   over_ = false;
+  score_ = 0;
   base_speed_ = 1;
   res_manager_.Init(window_.renderer());
-  entities::CreateDino(&registry_, res_manager_, bounds_);
+  hud_.Init(&window_, &res_manager_);
+  entities::CreateDino(&registry_, res_manager_, window_.bounds());
   systems::SpawnBackgroundElements(&registry_, res_manager_, &cloud_entities_,
-                                   &floor_entities_, bounds_);
+                                   &floor_entities_, window_.bounds());
 }
 
 void Game::HandleEvents() {
@@ -51,6 +54,15 @@ void Game::HandleEvents() {
           break;
         case SDLK_SPACE:
           base_speed_ += 1;
+          score_ += 1;
+          break;
+        case SDLK_d:
+          dead_ = true;
+          break;
+        case SDLK_r:
+          score_ = 0;
+          base_speed_ = 1;
+          dead_ = false;
           break;
       }
       break;
@@ -60,20 +72,22 @@ void Game::HandleEvents() {
 }
 
 void Game::Update() {
-  systems::Move(&registry_, base_speed_);
+  systems::Move(&registry_, base_speed_, dead_);
   std::set<entt::entity> del = systems::Despawn(&registry_);
   for (auto& e : del) {
     floor_entities_.erase(e);
     cloud_entities_.erase(e);
   }
   systems::SpawnBackgroundElements(&registry_, res_manager_, &cloud_entities_,
-                                   &floor_entities_, bounds_);
+                                   &floor_entities_, window_.bounds());
+  hud_.Update(score_, fps_, dead_);
 }
 
 void Game::Render() {
   SDL_SetRenderDrawColor(window_.renderer(), 239, 239, 239, 255);
   SDL_RenderClear(window_.renderer());
   systems::RenderSprites(window_.renderer(), &registry_);
+  hud_.Draw(dead_);
   SDL_RenderPresent(window_.renderer());
 }
 
@@ -83,7 +97,6 @@ void Game::Run() {
   double lag = 0.0;
   int frames = 0;
   double frames_elapsed = 0.0;
-  double fps = 0.0;
 
   while (!over_) {
     double current_time = SDL_GetTicks();
@@ -107,7 +120,7 @@ void Game::Run() {
 
     // Frame rate counter (updates every 250ms)
     if (frames_elapsed > 250.0) {
-      fps = static_cast<double>(frames) / (frames_elapsed / 1000.0);
+      fps_ = static_cast<double>(frames) / (frames_elapsed / 1000.0);
       frames = 0;
       frames_elapsed = 0.0;
     }
