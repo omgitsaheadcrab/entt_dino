@@ -32,6 +32,7 @@ void Game::Init() {
   dead_ = false;
   over_ = false;
   score_ = 0;
+  fps_ = 0;
   base_speed_ = 1;
   res_manager_.Init(window_.renderer());
   hud_.Init(&window_, &res_manager_);
