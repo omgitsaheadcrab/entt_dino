@@ -36,7 +36,7 @@ void Game::Init() {
   fps_ = 0;
   base_speed_ = 1;
   res_manager_.Init(window_.renderer());
-  hud_.Init(&window_, &res_manager_);
+  hud_.Init(&window_, &res_manager_, window_.renderer());
   entities::CreateDino(&registry_, res_manager_, window_.bounds());
   systems::SpawnBackgroundElements(&registry_, res_manager_, &cloud_entities_,
                                    &floor_entities_, window_.bounds());
@@ -67,6 +67,15 @@ void Game::HandleEvents() {
           base_speed_ = 1;
           dead_ = false;
           break;
+      }
+      break;
+    case SDL_MOUSEBUTTONDOWN:
+      SDL_Point mouse_position;
+      SDL_GetMouseState(&mouse_position.x, &mouse_position.y);
+      if (hud_.RetryClicked(&mouse_position)) {
+        score_ = 0;
+        base_speed_ = 1;
+        dead_ = false;
       }
       break;
     default:
