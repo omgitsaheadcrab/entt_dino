@@ -8,10 +8,11 @@
 
 #include "core/hud.h"
 
+#include <SDL2/SDL_rect.h>
+#include <SDL2/SDL_render.h>
+
 #include <string>
 
-#include "SDL_rect.h"
-#include "SDL_render.h"
 #include "core/res_manager.h"
 #include "core/window.h"
 
