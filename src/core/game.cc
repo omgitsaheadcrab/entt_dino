@@ -69,6 +69,15 @@ void Game::HandleEvents() {
           break;
       }
       break;
+    case SDL_MOUSEBUTTONDOWN:
+      SDL_Point mouse_position;
+      SDL_GetMouseState(&mouse_position.x, &mouse_position.y);
+      if (hud_.RetryClicked(&mouse_position)) {
+        score_ = 0;
+        base_speed_ = 1;
+        dead_ = false;
+      }
+      break;
     default:
       break;
   }

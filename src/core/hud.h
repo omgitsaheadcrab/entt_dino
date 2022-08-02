@@ -10,37 +10,46 @@
 #define ENTT_DINO_SRC_CORE_HUD_H_
 
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_pixels.h>
+#include <SDL2/SDL_render.h>
 
 #include <string>
 
+#include "core/hud_elements.h"
 #include "core/res_manager.h"
 #include "core/window.h"
 
-struct Element {
-  std::string text;
-  SDL_Color color;
-  SDL_Rect position;
-};
+namespace HUD {
 
-class HUD {
+class Manager {
  public:
-  ~HUD() = default;
+  ~Manager() = default;
 
   void Init(Window* window, ResourceManager* res_manager);
   void Update(const int score, const int high_score, const int fps,
               const bool dead);
   void Draw(const bool dead);
+  bool RetryClicked(const SDL_Point* mouse_pos);
 
  private:
-  void DrawElement(const Element& e, const std::string font, const int size);
+  void DrawText(const HUD::Text& t, const std::string font, const int size);
+  void DrawIcon(const HUD::Icon& i);
+  HUD::Text CreateText(const std::string str, const double pos_w_scale,
+                       const double pos_h_scale, SDL_Color color);
+  HUD::Icon CreateIcon(const std::string name, const double pos_w_scale,
+                       const double pos_h_scale, SDL_Color color);
   std::string ZeroPad(const int num);
 
-  Element game_over_;
-  Element current_score_;
-  Element high_score_;
-  Element fps_;
+  HUD::Text game_over_;
+  HUD::Text current_score_;
+  HUD::Text high_score_;
+  HUD::Text fps_;
+  HUD::Icon retry_;
   Window* window_;
   ResourceManager* res_manager_;
+  SDL_Renderer* renderer_;
 };
+
+}  // namespace HUD
 
 #endif  // ENTT_DINO_SRC_CORE_HUD_H_

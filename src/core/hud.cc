@@ -8,60 +8,87 @@
 
 #include "core/hud.h"
 
+#include <SDL2/SDL_pixels.h>
+#include <SDL2/SDL_rect.h>
+#include <SDL2/SDL_render.h>
+
 #include <string>
 
-#include "SDL_rect.h"
+#include "core/hud_elements.h"
 #include "core/res_manager.h"
 #include "core/window.h"
 
 const SDL_Color dino_grey = {89, 86, 82};
 
-void HUD::Init(Window* window, ResourceManager* res_manager) {
+void HUD::Manager::Init(Window* window, ResourceManager* res_manager) {
   window_ = window;
   res_manager_ = res_manager;
-  fps_ = Element {"00000", dino_grey,
-                  SDL_Rect {static_cast<int>(window->bounds().w * 0.02),
-                            static_cast<int>(window->bounds().h * 0.03), 0, 0}};
-  current_score_ =
-      Element {"00000", dino_grey,
-               SDL_Rect {static_cast<int>(window->bounds().w * 0.92),
-                         static_cast<int>(window->bounds().h * 0.03), 0, 0}};
-  high_score_ =
-      Element {"", dino_grey,
-               SDL_Rect {static_cast<int>(window->bounds().w * 0.78),
-                         static_cast<int>(window->bounds().h * 0.03), 0, 0}};
-  game_over_ =
-      Element {"G  A  M  E     O  V  E  R", dino_grey,
-               SDL_Rect {static_cast<int>(window->bounds().w * 0.35),
-                         static_cast<int>(window->bounds().h * 0.40), 0, 0}};
+  renderer_ = window->renderer();
+  fps_ = CreateText("00000", 0.02, 0.03, dino_grey);
+  current_score_ = CreateText("00000", 0.92, 0.03, dino_grey);
+  high_score_ = CreateText("", 0.78, 0.03, dino_grey);
+  game_over_ = CreateText("G  A  M  E     O  V  E  R", 0.35, 0.40, dino_grey);
+  retry_ = CreateIcon("retry", 0.48, 0.52, dino_grey);
 }
 
-void HUD::Update(const int score, const int high_score, const int fps,
-                 const bool dead) {
-  fps_.text = ZeroPad(fps);
-  current_score_.text = ZeroPad(score);
+void HUD::Manager::Update(const int score, const int high_score, const int fps,
+                          const bool dead) {
+  fps_.str = ZeroPad(fps);
+  current_score_.str = ZeroPad(score);
 
   if (dead) {
-    high_score_.text = "HI  " + ZeroPad(high_score);
+    high_score_.str = "HI  " + ZeroPad(high_score);
   }
 }
 
-void HUD::Draw(const bool dead) {
-  DrawElement(fps_, "8-bit-hud", 8);
-  DrawElement(current_score_, "8-bit-hud", 8);
-  DrawElement(high_score_, "8-bit-hud", 8);
+void HUD::Manager::Draw(const bool dead) {
+  DrawText(fps_, "8-bit-hud", 8);
+  DrawText(current_score_, "8-bit-hud", 8);
+  DrawText(high_score_, "8-bit-hud", 8);
   if (dead) {
-    DrawElement(game_over_, "8-bit-hud", 12);
+    DrawText(game_over_, "8-bit-hud", 12);
+    DrawIcon(retry_);
   }
 }
 
-void HUD::DrawElement(const Element& e, const std::string font,
-                      const int size) {
-  res_manager_->DrawText(e.text.c_str(), e.position.x, e.position.y, e.color,
+bool HUD::Manager::RetryClicked(const SDL_Point* mouse_pos) {
+  return retry_.Clicked(mouse_pos);
+}
+
+void HUD::Manager::DrawText(const HUD::Text& t, const std::string font,
+                            const int size) {
+  res_manager_->DrawText(t.str.c_str(), t.position.x, t.position.y, t.color,
                          font, size);
 }
 
-std::string HUD::ZeroPad(const int num) {
+void HUD::Manager::DrawIcon(const HUD::Icon& i) {
+  SDL_SetTextureColorMod(i.texture, dino_grey.r, dino_grey.g, dino_grey.b);
+  SDL_RenderCopy(renderer_, i.texture, &i.clip, &i.position);
+}
+
+HUD::Text HUD::Manager::CreateText(const std::string str,
+                                   const double pos_w_scale,
+                                   const double pos_h_scale, SDL_Color color) {
+  return HUD::Text {
+      SDL_Rect {static_cast<int>(window_->bounds().w * pos_w_scale),
+                static_cast<int>(window_->bounds().h * pos_h_scale), 0, 0},
+      color, str};
+}
+
+HUD::Icon HUD::Manager::CreateIcon(const std::string name,
+                                   const double pos_w_scale,
+                                   const double pos_h_scale, SDL_Color color) {
+  auto pos =
+      SDL_Rect {static_cast<int>(window_->bounds().w * pos_w_scale),
+                static_cast<int>(window_->bounds().h * pos_h_scale), 0, 0};
+  auto clips = res_manager_->GetSpriteClips(name);
+  pos.h = clips[0].h;
+  pos.w = clips[0].w;
+  return HUD::Icon {pos, color,
+                    res_manager_->sprite_textures.find(name)->second, clips[0]};
+}
+
+std::string HUD::Manager::ZeroPad(const int num) {
   auto s = std::to_string(num);
   unsigned int number_of_zeros = 5 - s.length();
   s.insert(0, number_of_zeros, '0');

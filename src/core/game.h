@@ -42,7 +42,7 @@ class Game {
   unsigned int high_score_;
   int fps_;
   entt::registry registry_;
-  HUD hud_;
+  HUD::Manager hud_;
   ResourceManager res_manager_;
   Window window_;
 };
