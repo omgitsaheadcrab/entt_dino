@@ -10,11 +10,11 @@
 #define ENTT_DINO_SRC_CORE_HUD_H_
 
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_render.h>
 
 #include <string>
 
-#include "SDL_pixels.h"
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
 #include "core/window.h"

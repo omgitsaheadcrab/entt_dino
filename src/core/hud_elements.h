@@ -9,6 +9,7 @@
 #ifndef ENTT_DINO_SRC_CORE_HUD_ELEMENTS_H_
 #define ENTT_DINO_SRC_CORE_HUD_ELEMENTS_H_
 
+#include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
