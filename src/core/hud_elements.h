@@ -14,7 +14,7 @@
 
 #include <string>
 
-namespace HUDElements {
+namespace HUD {
 
 struct Element {
   SDL_Rect position;
@@ -30,6 +30,6 @@ struct Icon : Element {
   SDL_Rect clip;
 };
 
-}  // namespace HUDElements
+}  // namespace HUD
 
 #endif  // ENTT_DINO_SRC_CORE_HUD_ELEMENTS_H_

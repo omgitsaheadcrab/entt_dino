@@ -18,39 +18,39 @@
 
 const SDL_Color dino_grey = {89, 86, 82};
 
-void HUD::Init(Window* window, ResourceManager* res_manager) {
+void HUD::Manager::Init(Window* window, ResourceManager* res_manager) {
   window_ = window;
   res_manager_ = res_manager;
   renderer_ = window->renderer();
-  fps_ = HUDElements::Text {
-      SDL_Rect {static_cast<int>(window->bounds().w * 0.02),
-                static_cast<int>(window->bounds().h * 0.03), 0, 0},
-      dino_grey, "00000"};
-  current_score_ = HUDElements::Text {
-      SDL_Rect {static_cast<int>(window->bounds().w * 0.92),
-                static_cast<int>(window->bounds().h * 0.03), 0, 0},
-      dino_grey, "00000"};
-  high_score_ = HUDElements::Text {
-      SDL_Rect {static_cast<int>(window->bounds().w * 0.78),
-                static_cast<int>(window->bounds().h * 0.03), 0, 0},
-      dino_grey, ""};
-  game_over_ = HUDElements::Text {
-      SDL_Rect {static_cast<int>(window->bounds().w * 0.35),
-                static_cast<int>(window->bounds().h * 0.40), 0, 0},
-      dino_grey, "G  A  M  E     O  V  E  R"};
+  fps_ =
+      HUD::Text {SDL_Rect {static_cast<int>(window->bounds().w * 0.02),
+                           static_cast<int>(window->bounds().h * 0.03), 0, 0},
+                 dino_grey, "00000"};
+  current_score_ =
+      HUD::Text {SDL_Rect {static_cast<int>(window->bounds().w * 0.92),
+                           static_cast<int>(window->bounds().h * 0.03), 0, 0},
+                 dino_grey, "00000"};
+  high_score_ =
+      HUD::Text {SDL_Rect {static_cast<int>(window->bounds().w * 0.78),
+                           static_cast<int>(window->bounds().h * 0.03), 0, 0},
+                 dino_grey, ""};
+  game_over_ =
+      HUD::Text {SDL_Rect {static_cast<int>(window->bounds().w * 0.35),
+                           static_cast<int>(window->bounds().h * 0.40), 0, 0},
+                 dino_grey, "G  A  M  E     O  V  E  R"};
   // Move to create Retry
   auto pos = SDL_Rect {static_cast<int>(window->bounds().w * 0.48),
                        static_cast<int>(window->bounds().h * 0.52), 0, 0};
   auto clips = res_manager_->GetSpriteClips("retry");
   pos.h = clips[0].h;
   pos.w = clips[0].w;
-  retry_ = HUDElements::Icon {
-      pos, dino_grey, res_manager->sprite_textures.find("retry")->second,
-      clips[0]};
+  retry_ =
+      HUD::Icon {pos, dino_grey,
+                 res_manager->sprite_textures.find("retry")->second, clips[0]};
 }
 
-void HUD::Update(const int score, const int high_score, const int fps,
-                 const bool dead) {
+void HUD::Manager::Update(const int score, const int high_score, const int fps,
+                          const bool dead) {
   fps_.str = ZeroPad(fps);
   current_score_.str = ZeroPad(score);
 
@@ -59,7 +59,7 @@ void HUD::Update(const int score, const int high_score, const int fps,
   }
 }
 
-void HUD::Draw(const bool dead) {
+void HUD::Manager::Draw(const bool dead) {
   DrawText(fps_, "8-bit-hud", 8);
   DrawText(current_score_, "8-bit-hud", 8);
   DrawText(high_score_, "8-bit-hud", 8);
@@ -69,22 +69,22 @@ void HUD::Draw(const bool dead) {
   }
 }
 
-bool HUD::RetryClicked(SDL_Point* mouse_pos) {
+bool HUD::Manager::RetryClicked(SDL_Point* mouse_pos) {
   return (SDL_PointInRect(mouse_pos, &retry_.position));
 }
 
-void HUD::DrawText(const HUDElements::Text& t, const std::string font,
-                   const int size) {
+void HUD::Manager::DrawText(const HUD::Text& t, const std::string font,
+                            const int size) {
   res_manager_->DrawText(t.str.c_str(), t.position.x, t.position.y, t.color,
                          font, size);
 }
 
-void HUD::DrawIcon(const HUDElements::Icon& i) {
+void HUD::Manager::DrawIcon(const HUD::Icon& i) {
   SDL_SetTextureColorMod(i.texture, dino_grey.r, dino_grey.g, dino_grey.b);
   SDL_RenderCopy(renderer_, i.texture, &i.clip, &i.position);
 }
 
-std::string HUD::ZeroPad(const int num) {
+std::string HUD::Manager::ZeroPad(const int num) {
   auto s = std::to_string(num);
   unsigned int number_of_zeros = 5 - s.length();
   s.insert(0, number_of_zeros, '0');

@@ -18,9 +18,11 @@
 #include "core/res_manager.h"
 #include "core/window.h"
 
-class HUD {
+namespace HUD {
+
+class Manager {
  public:
-  ~HUD() = default;
+  ~Manager() = default;
 
   void Init(Window* window, ResourceManager* res_manager);
   void Update(const int score, const int high_score, const int fps,
@@ -29,19 +31,20 @@ class HUD {
   bool RetryClicked(SDL_Point* mouse_pos);
 
  private:
-  void DrawText(const HUDElements::Text& t, const std::string font,
-                const int size);
-  void DrawIcon(const HUDElements::Icon& i);
+  void DrawText(const HUD::Text& t, const std::string font, const int size);
+  void DrawIcon(const HUD::Icon& i);
   std::string ZeroPad(const int num);
 
-  HUDElements::Text game_over_;
-  HUDElements::Text current_score_;
-  HUDElements::Text high_score_;
-  HUDElements::Text fps_;
-  HUDElements::Icon retry_;
+  HUD::Text game_over_;
+  HUD::Text current_score_;
+  HUD::Text high_score_;
+  HUD::Text fps_;
+  HUD::Icon retry_;
   Window* window_;
   ResourceManager* res_manager_;
   SDL_Renderer* renderer_;
 };
+
+}  // namespace HUD
 
 #endif  // ENTT_DINO_SRC_CORE_HUD_H_
