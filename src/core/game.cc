@@ -97,6 +97,7 @@ void Game::Update() {
 
 void Game::Render() {
   SDL_SetRenderDrawColor(window_.renderer(), 239, 239, 239, 255);
+  // SDL_SetRenderDrawColor(window_.renderer(), 16, 16, 16, 255);
   SDL_RenderClear(window_.renderer());
   systems::RenderSprites(window_.renderer(), &registry_);
   hud_.Draw(dead_);

@@ -19,6 +19,8 @@
 void systems::RenderSprites(SDL_Renderer* renderer, entt::registry* registry) {
   const auto view = registry->view<components::Sprite, components::Transform>();
   view.each([&](const auto& sprite, const auto& transform) {
+    SDL_SetTextureColorMod(sprite.sheet, 89, 86, 82);
+    // SDL_SetTextureColorMod(sprite.sheet, 166, 169, 173);
     SDL_RenderCopy(renderer, sprite.sheet, &sprite.clip, &transform.position);
   });
 }
