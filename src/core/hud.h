@@ -14,6 +14,7 @@
 
 #include <string>
 
+#include "SDL_pixels.h"
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
 #include "core/window.h"
@@ -33,6 +34,10 @@ class Manager {
  private:
   void DrawText(const HUD::Text& t, const std::string font, const int size);
   void DrawIcon(const HUD::Icon& i);
+  HUD::Text CreateText(const std::string str, const double pos_w_scale,
+                       const double pos_h_scale, SDL_Color color);
+  HUD::Icon CreateIcon(const std::string name, const double pos_w_scale,
+                       const double pos_h_scale, SDL_Color color);
   std::string ZeroPad(const int num);
 
   HUD::Text game_over_;
