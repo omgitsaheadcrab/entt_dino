@@ -36,7 +36,7 @@ void Game::Init() {
   fps_ = 0;
   base_speed_ = 1;
   res_manager_.Init(window_.renderer());
-  hud_.Init(&window_, &res_manager_, window_.renderer());
+  hud_.Init(&window_, &res_manager_);
   entities::CreateDino(&registry_, res_manager_, window_.bounds());
   systems::SpawnBackgroundElements(&registry_, res_manager_, &cloud_entities_,
                                    &floor_entities_, window_.bounds());

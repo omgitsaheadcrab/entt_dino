@@ -22,8 +22,7 @@ class HUD {
  public:
   ~HUD() = default;
 
-  void Init(Window* window, ResourceManager* res_manager,
-            SDL_Renderer* renderer);
+  void Init(Window* window, ResourceManager* res_manager);
   void Update(const int score, const int high_score, const int fps,
               const bool dead);
   void Draw(const bool dead);

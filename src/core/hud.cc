@@ -17,11 +17,10 @@
 
 const SDL_Color dino_grey = {89, 86, 82};
 
-void HUD::Init(Window* window, ResourceManager* res_manager,
-               SDL_Renderer* renderer) {
+void HUD::Init(Window* window, ResourceManager* res_manager) {
   window_ = window;
   res_manager_ = res_manager;
-  renderer_ = renderer;
+  renderer_ = window->renderer();
   fps_ = HUDElements::Text {
       SDL_Rect {static_cast<int>(window->bounds().w * 0.02),
                 static_cast<int>(window->bounds().h * 0.03), 0, 0},
