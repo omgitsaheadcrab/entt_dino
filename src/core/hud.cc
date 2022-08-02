@@ -51,7 +51,7 @@ void HUD::Manager::Draw(const bool dead) {
 }
 
 bool HUD::Manager::RetryClicked(SDL_Point* mouse_pos) {
-  return (SDL_PointInRect(mouse_pos, &retry_.position));
+  return retry_.Clicked(mouse_pos);
 }
 
 void HUD::Manager::DrawText(const HUD::Text& t, const std::string font,
