@@ -29,7 +29,7 @@ class Manager {
   void Update(const int score, const int high_score, const int fps,
               const bool dead);
   void Draw(const bool dead);
-  bool RetryClicked(SDL_Point* mouse_pos);
+  bool RetryClicked(const SDL_Point* mouse_pos);
 
  private:
   void DrawText(const HUD::Text& t, const std::string font, const int size);

@@ -50,7 +50,7 @@ void HUD::Manager::Draw(const bool dead) {
   }
 }
 
-bool HUD::Manager::RetryClicked(SDL_Point* mouse_pos) {
+bool HUD::Manager::RetryClicked(const SDL_Point* mouse_pos) {
   return retry_.Clicked(mouse_pos);
 }
 

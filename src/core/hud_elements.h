@@ -29,7 +29,7 @@ struct Icon : Element {
   SDL_Texture* texture;
   SDL_Rect clip;
 
-  bool Clicked(SDL_Point* mouse_pos);
+  bool Clicked(const SDL_Point* mouse_pos);
 };
 
 }  // namespace HUD
