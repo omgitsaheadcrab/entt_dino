@@ -10,27 +10,13 @@
 #define ENTT_DINO_SRC_CORE_HUD_H_
 
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_render.h>
 
 #include <string>
 
-#include "SDL_rect.h"
-#include "SDL_render.h"
+#include "core/hud_elements.h"
 #include "core/res_manager.h"
 #include "core/window.h"
-
-struct Element {
-  SDL_Rect position;
-  SDL_Color color;
-};
-
-struct Text : Element {
-  std::string str;
-};
-
-struct Icon : Element {
-  SDL_Texture* texture;
-  SDL_Rect clip;
-};
 
 class HUD {
  public:
@@ -44,15 +30,16 @@ class HUD {
   bool RetryClicked(SDL_Point* mouse_pos);
 
  private:
-  void DrawText(const Text& t, const std::string font, const int size);
-  void DrawIcon(const Icon& i);
+  void DrawText(const HUDElements::Text& t, const std::string font,
+                const int size);
+  void DrawIcon(const HUDElements::Icon& i);
   std::string ZeroPad(const int num);
 
-  Text game_over_;
-  Text current_score_;
-  Text high_score_;
-  Text fps_;
-  Icon retry_;
+  HUDElements::Text game_over_;
+  HUDElements::Text current_score_;
+  HUDElements::Text high_score_;
+  HUDElements::Text fps_;
+  HUDElements::Icon retry_;
   Window* window_;
   ResourceManager* res_manager_;
   SDL_Renderer* renderer_;
