@@ -25,7 +25,7 @@
 namespace {
 
 // Rigid Body
-vf2d velocity {-2.0, 0.0};
+const vf2d velocity {-2.0, 0.0};
 const vf2d acceleration {0.0, 0.0};
 
 // Transform
