@@ -30,7 +30,7 @@ vf2d velocity {-1.0, 0.0};
 const vf2d acceleration {0.0, 0.0};
 
 // Transform
-const int initial_y_pos = 30;
+constexpr int initial_y_pos = 30;
 SDL_Rect position {0, 0, 0, 0};
 
 }  // namespace

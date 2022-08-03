@@ -18,7 +18,7 @@
 #include "core/res_manager.h"
 #include "core/window.h"
 
-const SDL_Color dino_grey = {89, 86, 82};
+constexpr SDL_Color dino_grey = {89, 86, 82};
 
 void HUD::Manager::Init(Window* window, ResourceManager* res_manager) {
   window_ = window;

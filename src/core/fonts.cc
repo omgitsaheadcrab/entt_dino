@@ -22,9 +22,9 @@ fonts::Font* fonts::LoadFontCache(const std::string& name, const int size,
                                   const std::string& path,
                                   SDL_Renderer* renderer) {
   // Constants
-  const int MAX_GLYPHS = 128;
-  const int FONT_TEXTURE_SIZE = 512;
-  const SDL_Color white = {255, 255, 255};
+  constexpr int MAX_GLYPHS = 128;
+  constexpr int FONT_TEXTURE_SIZE = 512;
+  constexpr SDL_Color white = {255, 255, 255};
 
   auto ttf_font = TTF_OpenFont(path.c_str(), size);
   auto surface = SDL_CreateRGBSurface(0, FONT_TEXTURE_SIZE, FONT_TEXTURE_SIZE,
