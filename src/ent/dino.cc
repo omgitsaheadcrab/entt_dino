@@ -39,13 +39,13 @@ namespace entities {
 entt::entity CreateDino(entt::registry* registry,
                         const ResourceManager& res_manager,
                         const SDL_Rect& bounds) {
-  std::vector<SDL_Rect> clips = res_manager.GetSpriteClips("dino");
+  auto clips = res_manager.GetSpriteClips("dino");
   position.x = bounds.w * 0.05;
   position.y = bounds.h * 0.77;
   position.h = clips[0].h;
   position.w = clips[0].w;
 
-  const entt::entity e = registry->create();
+  auto e = registry->create();
   registry->emplace<components::RigidBody>(e, velocity, acceleration);
   registry->emplace<components::Transform>(e, position);
   registry->emplace<components::Sprite>(

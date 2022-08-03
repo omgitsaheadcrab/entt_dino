@@ -21,7 +21,7 @@
 std::string utils::GetResPath() {
   static std::string res_path;
   if (res_path.empty()) {
-    char* base_path = SDL_GetBasePath();
+    auto base_path = SDL_GetBasePath();
     if (base_path) {
       res_path = base_path;
       SDL_free(base_path);
@@ -29,7 +29,7 @@ std::string utils::GetResPath() {
       SPDLOG_ERROR("Failed to get base path: {}", SDL_GetError());
       return nullptr;
     }
-    size_t pos = res_path.rfind("bin");
+    auto pos = res_path.rfind("bin");
     res_path = res_path.substr(0, pos) + "res/";
   }
   return res_path;

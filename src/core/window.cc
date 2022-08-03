@@ -12,9 +12,11 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_ttf.h>
 
-Window::Window(const char kName[], const int kWindowWidth,
+#include <string>
+
+Window::Window(const std::string& kName, const int kWindowWidth,
                const int kWindowHeight)
-    : window_ {SDL_CreateWindow(kName, SDL_WINDOWPOS_CENTERED,
+    : window_ {SDL_CreateWindow(kName.c_str(), SDL_WINDOWPOS_CENTERED,
                                 SDL_WINDOWPOS_CENTERED, kWindowWidth,
                                 kWindowHeight, SDL_WINDOW_RESIZABLE)},
       renderer_ {SDL_CreateRenderer(
@@ -32,8 +34,8 @@ Window::~Window() {
   SDL_Quit();
 }
 
-SDL_Rect Window::bounds() { return bounds_; }
+const SDL_Rect& Window::bounds() { return bounds_; }
 
-SDL_Event* Window::event() { return &event_; }
+SDL_Event& Window::event() { return event_; }
 
 SDL_Renderer* Window::renderer() { return renderer_; }

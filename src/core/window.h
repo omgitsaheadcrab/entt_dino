@@ -14,15 +14,18 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
 
+#include <string>
+
 class Window {
  public:
   Window() = delete;
-  Window(const char kName[], const int kWindowWidth, const int kWindowHeight);
+  Window(const std::string& kName, const int kWindowWidth,
+         const int kWindowHeight);
   ~Window();
 
-  SDL_Event* event();
   SDL_Renderer* renderer();
-  SDL_Rect bounds();
+  SDL_Event& event();
+  const SDL_Rect& bounds();
 
  private:
   const SDL_Rect bounds_;

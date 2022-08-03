@@ -32,19 +32,19 @@ class Game {
   void Run();
 
  private:
-  uint32_t base_speed_;
-  std::set<entt::entity> cloud_entities_;
-  std::set<entt::entity> floor_entities_;
-  const double kUpdatesPerSecond_ = 60.0;
   bool dead_;
   bool over_;
-  unsigned int score_;
-  unsigned int high_score_;
-  int fps_;
+  uint32_t base_speed_;
+  uint32_t fps_;
+  uint32_t high_score_;
+  uint32_t score_;
+  std::set<entt::entity> cloud_entities_;
+  std::set<entt::entity> floor_entities_;
   entt::registry registry_;
   HUD::Manager hud_;
   ResourceManager res_manager_;
   Window window_;
+  const double kUpdatesPerSecond_ = 60.0;
 };
 
 #endif  // ENTT_DINO_SRC_CORE_GAME_H_
