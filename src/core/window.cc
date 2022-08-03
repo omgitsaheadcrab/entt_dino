@@ -34,8 +34,8 @@ Window::~Window() {
   SDL_Quit();
 }
 
-const SDL_Rect& Window::bounds() { return bounds_; }
+const SDL_Rect& Window::bounds() const { return bounds_; }
 
 SDL_Event& Window::event() { return event_; }
 
-SDL_Renderer* Window::renderer() { return renderer_; }
+SDL_Renderer* Window::renderer() const { return renderer_; }

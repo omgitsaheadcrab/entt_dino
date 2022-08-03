@@ -51,7 +51,7 @@ void HUD::Manager::Draw(const bool dead) {
   }
 }
 
-bool HUD::Manager::RetryClicked(const SDL_Point& mouse_pos) {
+bool HUD::Manager::RetryClicked(const SDL_Point& mouse_pos) const {
   return retry_.Clicked(mouse_pos);
 }
 
@@ -69,7 +69,7 @@ void HUD::Manager::DrawIcon(const HUD::Icon& i) {
 HUD::Text HUD::Manager::CreateText(const std::string& str,
                                    const double pos_w_scale,
                                    const double pos_h_scale,
-                                   const SDL_Color& color) {
+                                   const SDL_Color& color) const {
   return HUD::Text {
       SDL_Rect {static_cast<int>(window_->bounds().w * pos_w_scale),
                 static_cast<int>(window_->bounds().h * pos_h_scale), 0, 0},
@@ -79,7 +79,7 @@ HUD::Text HUD::Manager::CreateText(const std::string& str,
 HUD::Icon HUD::Manager::CreateIcon(const std::string& name,
                                    const double pos_w_scale,
                                    const double pos_h_scale,
-                                   const SDL_Color& color) {
+                                   const SDL_Color& color) const {
   auto pos =
       SDL_Rect {static_cast<int>(window_->bounds().w * pos_w_scale),
                 static_cast<int>(window_->bounds().h * pos_h_scale), 0, 0};
@@ -90,7 +90,7 @@ HUD::Icon HUD::Manager::CreateIcon(const std::string& name,
                     res_manager_->sprite_textures.find(name)->second, clips[0]};
 }
 
-std::string HUD::Manager::ZeroPad(const int num) {
+std::string HUD::Manager::ZeroPad(const int num) const {
   auto s = std::to_string(num);
   unsigned int number_of_zeros = 5 - s.length();
   s.insert(0, number_of_zeros, '0');

@@ -29,16 +29,16 @@ class Manager {
   void Update(const int score, const int high_score, const int fps,
               const bool dead);
   void Draw(const bool dead);
-  bool RetryClicked(const SDL_Point& mouse_pos);
+  bool RetryClicked(const SDL_Point& mouse_pos) const;
 
  private:
   void DrawText(const HUD::Text& t, const std::string& font, const int size);
   void DrawIcon(const HUD::Icon& i);
   HUD::Text CreateText(const std::string& str, const double pos_w_scale,
-                       const double pos_h_scale, const SDL_Color& color);
+                       const double pos_h_scale, const SDL_Color& color) const;
   HUD::Icon CreateIcon(const std::string& name, const double pos_w_scale,
-                       const double pos_h_scale, const SDL_Color& color);
-  std::string ZeroPad(const int num);
+                       const double pos_h_scale, const SDL_Color& color) const;
+  std::string ZeroPad(const int num) const;
 
   HUD::Icon retry_;
   HUD::Text fps_;

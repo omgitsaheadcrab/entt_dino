@@ -23,9 +23,9 @@ class Window {
          const int kWindowHeight);
   ~Window();
 
-  SDL_Renderer* renderer();
   SDL_Event& event();
-  const SDL_Rect& bounds();
+  SDL_Renderer* renderer() const;
+  const SDL_Rect& bounds() const;
 
  private:
   const SDL_Rect bounds_;
