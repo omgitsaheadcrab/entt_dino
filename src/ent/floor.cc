@@ -37,13 +37,13 @@ namespace entities {
 
 entt::entity CreateFloor(entt::registry* registry,
                          const ResourceManager& res_manager, const int xpos) {
-  std::vector<SDL_Rect> clips = res_manager.GetSpriteClips("floor");
-  const int clip_number = utils::UniformRandom(0, 2);
+  auto clips = res_manager.GetSpriteClips("floor");
+  auto clip_number = utils::UniformRandom(0, 2);
   position.x = xpos;
   position.h = clips[clip_number].h;
   position.w = clips[clip_number].w;
 
-  const entt::entity e = registry->create();
+  auto e = registry->create();
   registry->emplace<components::RigidBody>(e, velocity, acceleration);
   registry->emplace<components::Transform>(e, position);
   registry->emplace<components::Sprite>(

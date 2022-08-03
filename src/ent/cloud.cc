@@ -39,14 +39,13 @@ namespace entities {
 
 entt::entity CreateCloud(entt::registry* registry,
                          const ResourceManager& res_manager, const int xpos) {
-  std::vector<SDL_Rect> clips = res_manager.GetSpriteClips("cloud");
+  auto clips = res_manager.GetSpriteClips("cloud");
   position.x = xpos;
   position.y = initial_y_pos * utils::UniformRandom(1, 3);
-
   position.h = clips[0].h;
   position.w = clips[0].w;
 
-  const entt::entity e = registry->create();
+  auto e = registry->create();
   registry->emplace<components::RigidBody>(e, velocity, acceleration);
   registry->emplace<components::Transform>(e, position);
   registry->emplace<components::Sprite>(

@@ -28,9 +28,9 @@ class ResourceManager {
   ~ResourceManager();
 
   void Init(SDL_Renderer* renderer);
-  std::vector<SDL_Rect> GetSpriteClips(const std::string sprite) const;
-  void DrawText(const std::string text, int x, const int y,
-                const SDL_Color color, const std::string font_name,
+  std::vector<SDL_Rect> GetSpriteClips(const std::string& sprite) const;
+  void DrawText(const std::string& text, int x, const int y,
+                const SDL_Color& color, const std::string& font_name,
                 const int font_size);
 
   std::unordered_map<std::string, std::vector<fonts::Font*>> fonts;
@@ -40,7 +40,7 @@ class ResourceManager {
   void ParseSprites();
   void LoadSprites();
   void ParseFonts();
-  void LoadFont(const std::string name, const int size);
+  void LoadFont(const std::string& name, const int size);
 
   SDL_Renderer* renderer_;
   nlohmann::json resources_;

@@ -51,8 +51,8 @@ void ResourceManager::ParseSprites() {
       json_file >> sprite;
 
       resources_["sprites"][entry.path().stem()]["frames"] = sprite["frames"];
-      std::string filepath = entry.path().parent_path().string() + "/" +
-                             sprite["meta"]["image"].get<std::string>();
+      auto filepath = entry.path().parent_path().string() + "/" +
+                      sprite["meta"]["image"].get<std::string>();
       resources_["sprites"][entry.path().stem()]["filepath"] = filepath;
     }
   }
@@ -67,7 +67,7 @@ void ResourceManager::LoadSprites() {
 }
 
 std::vector<SDL_Rect> ResourceManager::GetSpriteClips(
-    const std::string sprite) const {
+    const std::string& sprite) const {
   std::vector<SDL_Rect> sprites;
 
   for (auto& frame : resources_["sprites"][sprite]["frames"]) {
@@ -83,7 +83,7 @@ void ResourceManager::ParseFonts() {
   std::string font_dir = utils::GetResPath() + "fonts";
   for (const auto& entry : std::filesystem::directory_iterator(font_dir)) {
     if (entry.path().extension() == ".ttf") {
-      std::string filepath = entry.path().parent_path().string();
+      auto filepath = entry.path().parent_path().string();
       resources_["fonts"][entry.path().stem()]["filepath"] = filepath;
       resources_["fonts"][entry.path().stem()]["extension"] = ".ttf";
       std::vector<fonts::Font*> sizes;
@@ -92,7 +92,7 @@ void ResourceManager::ParseFonts() {
   }
 }
 
-void ResourceManager::LoadFont(const std::string name, const int size) {
+void ResourceManager::LoadFont(const std::string& name, const int size) {
   fonts[name].resize(size + 1);
   SPDLOG_DEBUG("Loading font: {}:{}pt", name, size);
 
@@ -105,9 +105,9 @@ void ResourceManager::LoadFont(const std::string name, const int size) {
   fonts[name][size] = font;
 }
 
-void ResourceManager::DrawText(const std::string text, int x, const int y,
-                               const SDL_Color color,
-                               const std::string font_name,
+void ResourceManager::DrawText(const std::string& text, int x, const int y,
+                               const SDL_Color& color,
+                               const std::string& font_name,
                                const int font_size) {
   int i, character;
   SDL_Rect *glyph, dest;

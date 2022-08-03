@@ -29,12 +29,12 @@ Game::Game(const int kWindowWidth, const int kWindowHeight)
 }
 
 void Game::Init() {
-  dead_ = false;
   over_ = false;
-  score_ = 0;
-  high_score_ = 0;
-  fps_ = 0;
+  dead_ = false;
   base_speed_ = 1;
+  fps_ = 0;
+  high_score_ = 0;
+  score_ = 0;
   res_manager_.Init(window_.renderer());
   hud_.Init(&window_, &res_manager_);
   entities::CreateDino(&registry_, res_manager_, window_.bounds());
@@ -43,14 +43,14 @@ void Game::Init() {
 }
 
 void Game::HandleEvents() {
-  SDL_PollEvent(window_.event());
+  SDL_PollEvent(&window_.event());
 
-  switch (window_.event()->type) {
+  switch (window_.event().type) {
     case SDL_QUIT:
       over_ = true;
       break;
     case SDL_KEYDOWN:
-      switch (window_.event()->key.keysym.sym) {
+      switch (window_.event().key.keysym.sym) {
         case SDLK_ESCAPE:  // Press ESC to quit
           over_ = true;
           break;
@@ -72,7 +72,7 @@ void Game::HandleEvents() {
     case SDL_MOUSEBUTTONDOWN:
       SDL_Point mouse_position;
       SDL_GetMouseState(&mouse_position.x, &mouse_position.y);
-      if (hud_.RetryClicked(&mouse_position)) {
+      if (hud_.RetryClicked(mouse_position)) {
         score_ = 0;
         base_speed_ = 1;
         dead_ = false;

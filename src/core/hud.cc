@@ -51,11 +51,11 @@ void HUD::Manager::Draw(const bool dead) {
   }
 }
 
-bool HUD::Manager::RetryClicked(const SDL_Point* mouse_pos) {
+bool HUD::Manager::RetryClicked(const SDL_Point& mouse_pos) {
   return retry_.Clicked(mouse_pos);
 }
 
-void HUD::Manager::DrawText(const HUD::Text& t, const std::string font,
+void HUD::Manager::DrawText(const HUD::Text& t, const std::string& font,
                             const int size) {
   res_manager_->DrawText(t.str.c_str(), t.position.x, t.position.y, t.color,
                          font, size);
@@ -66,18 +66,20 @@ void HUD::Manager::DrawIcon(const HUD::Icon& i) {
   SDL_RenderCopy(renderer_, i.texture, &i.clip, &i.position);
 }
 
-HUD::Text HUD::Manager::CreateText(const std::string str,
+HUD::Text HUD::Manager::CreateText(const std::string& str,
                                    const double pos_w_scale,
-                                   const double pos_h_scale, SDL_Color color) {
+                                   const double pos_h_scale,
+                                   const SDL_Color& color) {
   return HUD::Text {
       SDL_Rect {static_cast<int>(window_->bounds().w * pos_w_scale),
                 static_cast<int>(window_->bounds().h * pos_h_scale), 0, 0},
       color, str};
 }
 
-HUD::Icon HUD::Manager::CreateIcon(const std::string name,
+HUD::Icon HUD::Manager::CreateIcon(const std::string& name,
                                    const double pos_w_scale,
-                                   const double pos_h_scale, SDL_Color color) {
+                                   const double pos_h_scale,
+                                   const SDL_Color& color) {
   auto pos =
       SDL_Rect {static_cast<int>(window_->bounds().w * pos_w_scale),
                 static_cast<int>(window_->bounds().h * pos_h_scale), 0, 0};

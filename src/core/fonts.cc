@@ -18,8 +18,8 @@
 
 #include "core/graphics.h"
 
-fonts::Font* fonts::LoadFontCache(const std::string name, const int size,
-                                  const std::string path,
+fonts::Font* fonts::LoadFontCache(const std::string& name, const int size,
+                                  const std::string& path,
                                   SDL_Renderer* renderer) {
   // Constants
   const int MAX_GLYPHS = 128;
