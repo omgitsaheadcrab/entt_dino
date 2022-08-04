@@ -32,12 +32,12 @@ class Game {
   void Run();
 
  private:
-  bool dead_;
   bool over_;
   uint32_t base_speed_;
   uint32_t fps_;
   uint32_t high_score_;
   uint32_t score_;
+  entt::entity dino_;
   std::set<entt::entity> cloud_entities_;
   std::set<entt::entity> floor_entities_;
   entt::registry registry_;

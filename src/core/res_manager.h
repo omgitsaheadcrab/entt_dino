@@ -14,6 +14,7 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
+#include <cstdint>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -29,9 +30,9 @@ class ResourceManager {
 
   void Init(SDL_Renderer* renderer);
   std::vector<SDL_Rect> GetSpriteClips(const std::string& sprite) const;
-  void DrawText(const std::string& text, int x, const int y,
+  void DrawText(const std::string& text, uint32_t x, const uint32_t y,
                 const SDL_Color& color, const std::string& font_name,
-                const int font_size);
+                const u_int32_t font_size);
 
   std::unordered_map<std::string, std::vector<fonts::Font*>> fonts;
   std::unordered_map<std::string, SDL_Texture*> sprite_textures;
@@ -40,7 +41,7 @@ class ResourceManager {
   void ParseSprites();
   void LoadSprites();
   void ParseFonts();
-  void LoadFont(const std::string& name, const int size);
+  void LoadFont(const std::string& name, const uint32_t size);
 
   SDL_Renderer* renderer_;
   nlohmann::json resources_;

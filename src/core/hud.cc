@@ -12,6 +12,7 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
+#include <cstdint>
 #include <string>
 
 #include "core/hud_elements.h"
@@ -31,8 +32,8 @@ void HUD::Manager::Init(Window* window, ResourceManager* res_manager) {
   retry_ = CreateIcon("retry", 0.48, 0.52, dino_grey);
 }
 
-void HUD::Manager::Update(const int score, const int high_score, const int fps,
-                          const bool dead) {
+void HUD::Manager::Update(const uint32_t score, const uint32_t high_score,
+                          const uint32_t fps, const bool dead) {
   fps_.str = ZeroPad(fps);
   current_score_.str = ZeroPad(score);
 
@@ -56,7 +57,7 @@ bool HUD::Manager::RetryClicked(const SDL_Point& mouse_pos) const {
 }
 
 void HUD::Manager::DrawText(const HUD::Text& t, const std::string& font,
-                            const int size) {
+                            const uint32_t size) {
   res_manager_->DrawText(t.str.c_str(), t.position.x, t.position.y, t.color,
                          font, size);
 }
@@ -90,7 +91,7 @@ HUD::Icon HUD::Manager::CreateIcon(const std::string& name,
                     res_manager_->sprite_textures.find(name)->second, clips[0]};
 }
 
-std::string HUD::Manager::ZeroPad(const int num) const {
+std::string HUD::Manager::ZeroPad(const uint32_t num) const {
   auto s = std::to_string(num);
   unsigned int number_of_zeros = 5 - s.length();
   s.insert(0, number_of_zeros, '0');

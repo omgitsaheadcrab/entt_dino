@@ -15,6 +15,7 @@
 #include <SDL2/SDL_surface.h>
 #include <spdlog/spdlog.h>
 
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <string>
@@ -92,7 +93,7 @@ void ResourceManager::ParseFonts() {
   }
 }
 
-void ResourceManager::LoadFont(const std::string& name, const int size) {
+void ResourceManager::LoadFont(const std::string& name, const uint32_t size) {
   fonts[name].resize(size + 1);
   SPDLOG_DEBUG("Loading font: {}:{}pt", name, size);
 
@@ -105,10 +106,10 @@ void ResourceManager::LoadFont(const std::string& name, const int size) {
   fonts[name][size] = font;
 }
 
-void ResourceManager::DrawText(const std::string& text, int x, const int y,
-                               const SDL_Color& color,
+void ResourceManager::DrawText(const std::string& text, uint32_t x,
+                               const uint32_t y, const SDL_Color& color,
                                const std::string& font_name,
-                               const int font_size) {
+                               const uint32_t font_size) {
   int i, character;
   SDL_Rect *glyph, dest;
 

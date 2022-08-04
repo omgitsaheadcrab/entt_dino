@@ -14,11 +14,12 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_ttf.h>
 
+#include <cstdint>
 #include <string>
 
 #include "core/graphics.h"
 
-fonts::Font* fonts::LoadFontCache(const std::string& name, const int size,
+fonts::Font* fonts::LoadFontCache(const std::string& name, const uint32_t size,
                                   const std::string& path,
                                   SDL_Renderer* renderer) {
   // Constants
