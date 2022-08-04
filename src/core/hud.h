@@ -13,6 +13,7 @@
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_render.h>
 
+#include <cstdint>
 #include <string>
 
 #include "core/hud_elements.h"
@@ -26,19 +27,20 @@ class Manager {
   ~Manager() = default;
 
   void Init(Window* window, ResourceManager* res_manager);
-  void Update(const int score, const int high_score, const int fps,
-              const bool dead);
+  void Update(const uint32_t score, const uint32_t high_score,
+              const uint32_t fps, const bool dead);
   void Draw(const bool dead);
   bool RetryClicked(const SDL_Point& mouse_pos) const;
 
  private:
-  void DrawText(const HUD::Text& t, const std::string& font, const int size);
+  void DrawText(const HUD::Text& t, const std::string& font,
+                const uint32_t size);
   void DrawIcon(const HUD::Icon& i);
   HUD::Text CreateText(const std::string& str, const double pos_w_scale,
                        const double pos_h_scale, const SDL_Color& color) const;
   HUD::Icon CreateIcon(const std::string& name, const double pos_w_scale,
                        const double pos_h_scale, const SDL_Color& color) const;
-  std::string ZeroPad(const int num) const;
+  std::string ZeroPad(const uint32_t num) const;
 
   HUD::Icon retry_;
   HUD::Text fps_;

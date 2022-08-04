@@ -12,6 +12,7 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -19,12 +20,12 @@ namespace fonts {
 
 struct Font {
   std::string name;
-  int size;
+  uint32_t size;
   SDL_Texture* texture;
   std::vector<SDL_Rect> glyphs;
 };
 
-Font* LoadFontCache(const std::string& name, const int size,
+Font* LoadFontCache(const std::string& name, const uint32_t size,
                     const std::string& path, SDL_Renderer* renderer);
 
 }  // namespace fonts
