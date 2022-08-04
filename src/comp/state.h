@@ -2,7 +2,7 @@
  * @file      state.h
  * @brief     State component
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2021-06-08
+ * @date      2022-08-04
  * @copyright Copyright © 2021 Tobias Backer Dirks
  */
 

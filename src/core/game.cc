@@ -20,11 +20,11 @@
 #include "core/res_manager.h"
 #include "core/window.h"
 #include "ent/dino.h"
-#include "sys/background.h"
 #include "sys/despawn.h"
-#include "sys/movement.h"
+#include "sys/manage.h"
+#include "sys/move.h"
 #include "sys/render.h"
-#include "sys/status.h"
+#include "sys/spawn.h"
 
 Game::Game(const int kWindowWidth, const int kWindowHeight)
     : window_ {"entt_dino", kWindowWidth, kWindowHeight} {
@@ -40,16 +40,16 @@ void Game::Init() {
   res_manager_.Init(window_.renderer());
   hud_.Init(&window_, &res_manager_);
   dino_ = entities::CreateDino(&registry_, res_manager_, window_.bounds());
-  components::State dino_state {false};
-  systems::SetEntityStatus(&registry_, dino_, &dino_state);
-  systems::SpawnBackgroundElements(&registry_, res_manager_, &cloud_entities_,
-                                   &floor_entities_, window_.bounds());
+  systems::spawn::Clouds(&registry_, res_manager_, &cloud_entities_,
+                         window_.bounds());
+  systems::spawn::Floor(&registry_, res_manager_, &floor_entities_,
+                        window_.bounds());
 }
 
 void Game::HandleEvents() {
   SDL_PollEvent(&window_.event());
 
-  auto dino_state = systems::GetEntityStatus(&registry_, dino_);
+  auto dino_state = systems::manage::GetEntityState(&registry_, dino_);
 
   switch (window_.event().type) {
     case SDL_QUIT:
@@ -89,19 +89,21 @@ void Game::HandleEvents() {
       break;
   }
 
-  systems::SetEntityStatus(&registry_, dino_, &dino_state);
+  systems::manage::SetEntityState(&registry_, dino_, &dino_state);
 }
 
 void Game::Update() {
-  systems::Move(&registry_, base_speed_);
-  std::set<entt::entity> del = systems::Despawn(&registry_);
+  systems::move::RigidBodies(&registry_, base_speed_);
+  std::set<entt::entity> del = systems::despawn::OutOfBounds(&registry_);
   for (auto& e : del) {
     floor_entities_.erase(e);
     cloud_entities_.erase(e);
   }
-  systems::SpawnBackgroundElements(&registry_, res_manager_, &cloud_entities_,
-                                   &floor_entities_, window_.bounds());
-  auto dino_state = systems::GetEntityStatus(&registry_, dino_);
+  systems::spawn::Clouds(&registry_, res_manager_, &cloud_entities_,
+                         window_.bounds());
+  systems::spawn::Floor(&registry_, res_manager_, &floor_entities_,
+                        window_.bounds());
+  auto dino_state = systems::manage::GetEntityState(&registry_, dino_);
   hud_.Update(score_, high_score_, fps_, dino_state.dead);
 }
 
@@ -109,8 +111,8 @@ void Game::Render() {
   SDL_SetRenderDrawColor(window_.renderer(), 239, 239, 239, 255);
   // SDL_SetRenderDrawColor(window_.renderer(), 16, 16, 16, 255);
   SDL_RenderClear(window_.renderer());
-  auto dino_state = systems::GetEntityStatus(&registry_, dino_);
-  systems::RenderSprites(window_.renderer(), &registry_);
+  auto dino_state = systems::manage::GetEntityState(&registry_, dino_);
+  systems::render::Sprites(window_.renderer(), &registry_);
   hud_.Draw(dino_state.dead);
   SDL_RenderPresent(window_.renderer());
 }

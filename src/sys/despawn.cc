@@ -18,7 +18,7 @@
 
 #include "comp/transform.h"
 
-std::set<entt::entity> systems::Despawn(entt::registry* registry) {
+std::set<entt::entity> systems::despawn::OutOfBounds(entt::registry* registry) {
   std::set<entt::entity> deleted;
   const auto view = registry->view<components::Transform>();
   for (auto [entity, transform] : view.each()) {
