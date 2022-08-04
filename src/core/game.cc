@@ -49,7 +49,7 @@ void Game::Init() {
 void Game::HandleEvents() {
   SDL_PollEvent(&window_.event());
 
-  auto state = systems::GetEntityStatus(&registry_, dino_);
+  auto dino_state = systems::GetEntityStatus(&registry_, dino_);
 
   switch (window_.event().type) {
     case SDL_QUIT:
@@ -66,13 +66,13 @@ void Game::HandleEvents() {
           break;
         case SDLK_d:
           base_speed_ = 0;
-          state.dead = true;
+          dino_state.dead = true;
           high_score_ = score_ > high_score_ ? score_ : high_score_;
           break;
         case SDLK_r:
           score_ = 0;
           base_speed_ = 1;
-          state.dead = false;
+          dino_state.dead = false;
           break;
       }
       break;
@@ -82,14 +82,14 @@ void Game::HandleEvents() {
       if (hud_.RetryClicked(mouse_position)) {
         score_ = 0;
         base_speed_ = 1;
-        state.dead = false;
+        dino_state.dead = false;
       }
       break;
     default:
       break;
   }
 
-  systems::SetEntityStatus(&registry_, dino_, state);
+  systems::SetEntityStatus(&registry_, dino_, dino_state);
 }
 
 void Game::Update() {
@@ -101,17 +101,17 @@ void Game::Update() {
   }
   systems::SpawnBackgroundElements(&registry_, res_manager_, &cloud_entities_,
                                    &floor_entities_, window_.bounds());
-  auto state = systems::GetEntityStatus(&registry_, dino_);
-  hud_.Update(score_, high_score_, fps_, state.dead);
+  auto dino_state = systems::GetEntityStatus(&registry_, dino_);
+  hud_.Update(score_, high_score_, fps_, dino_state.dead);
 }
 
 void Game::Render() {
   SDL_SetRenderDrawColor(window_.renderer(), 239, 239, 239, 255);
   // SDL_SetRenderDrawColor(window_.renderer(), 16, 16, 16, 255);
   SDL_RenderClear(window_.renderer());
-  auto state = systems::GetEntityStatus(&registry_, dino_);
+  auto dino_state = systems::GetEntityStatus(&registry_, dino_);
   systems::RenderSprites(window_.renderer(), &registry_);
-  hud_.Draw(state.dead);
+  hud_.Draw(dino_state.dead);
   SDL_RenderPresent(window_.renderer());
 }
 
