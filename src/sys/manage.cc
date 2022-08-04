@@ -16,8 +16,10 @@
 void systems::manage::SetState(entt::registry* registry,
                                const entt::entity& entity,
                                components::State* new_state) {
-  registry->patch<components::State>(
-      entity, [&](auto& state) { state.dead = new_state->dead; });
+  registry->patch<components::State>(entity, [&](auto& state) {
+    state.dead = new_state->dead;
+    state.jumping = new_state->jumping;
+  });
 }
 
 components::State systems::manage::GetState(entt::registry* registry,

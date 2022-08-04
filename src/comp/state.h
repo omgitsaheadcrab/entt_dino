@@ -13,6 +13,7 @@ namespace components {
 
 struct State {
   bool dead;
+  bool jumping;
 };
 
 }  // namespace components
