@@ -17,10 +17,9 @@
 
 void systems::SetEntityStatus(entt::registry* registry,
                               const entt::entity& entity,
-                              components::State& new_state) {
-  registry->patch<components::State>(entity, [&](auto& state) {
-    state.dead = new_state.dead;
-  });
+                              components::State* new_state) {
+  registry->patch<components::State>(
+      entity, [&](auto& state) { state.dead = new_state->dead; });
 }
 
 components::State systems::GetEntityStatus(entt::registry* registry,

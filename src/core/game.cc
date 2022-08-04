@@ -41,7 +41,7 @@ void Game::Init() {
   hud_.Init(&window_, &res_manager_);
   dino_ = entities::CreateDino(&registry_, res_manager_, window_.bounds());
   components::State dino_state {false};
-  systems::SetEntityStatus(&registry_, dino_, dino_state);
+  systems::SetEntityStatus(&registry_, dino_, &dino_state);
   systems::SpawnBackgroundElements(&registry_, res_manager_, &cloud_entities_,
                                    &floor_entities_, window_.bounds());
 }
@@ -89,7 +89,7 @@ void Game::HandleEvents() {
       break;
   }
 
-  systems::SetEntityStatus(&registry_, dino_, dino_state);
+  systems::SetEntityStatus(&registry_, dino_, &dino_state);
 }
 
 void Game::Update() {

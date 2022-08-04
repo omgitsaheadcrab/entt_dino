@@ -19,7 +19,7 @@
 namespace systems {
 
 void SetEntityStatus(entt::registry* registry, const entt::entity& entity,
-                     components::State& state);
+                     components::State* state);
 
 components::State GetEntityStatus(entt::registry* registry,
                                   const entt::entity& entity);
