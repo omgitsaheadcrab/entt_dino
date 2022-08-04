@@ -10,10 +10,12 @@
 
 #include <SDL2/SDL.h>
 
+#include <cstdint>
 #include <set>
 
 #include <entt/entity/entity.hpp>
 
+#include "comp/state.h"
 #include "core/hud.h"
 #include "core/res_manager.h"
 #include "core/window.h"
@@ -22,6 +24,7 @@
 #include "sys/despawn.h"
 #include "sys/movement.h"
 #include "sys/render.h"
+#include "sys/status.h"
 
 Game::Game(const int kWindowWidth, const int kWindowHeight)
     : window_ {"entt_dino", kWindowWidth, kWindowHeight} {
@@ -30,20 +33,23 @@ Game::Game(const int kWindowWidth, const int kWindowHeight)
 
 void Game::Init() {
   over_ = false;
-  dead_ = false;
   base_speed_ = 1;
   fps_ = 0;
   high_score_ = 0;
   score_ = 0;
   res_manager_.Init(window_.renderer());
   hud_.Init(&window_, &res_manager_);
-  entities::CreateDino(&registry_, res_manager_, window_.bounds());
+  dino_ = entities::CreateDino(&registry_, res_manager_, window_.bounds());
+  components::State dino_state {false};
+  systems::SetEntityStatus(&registry_, dino_, dino_state);
   systems::SpawnBackgroundElements(&registry_, res_manager_, &cloud_entities_,
                                    &floor_entities_, window_.bounds());
 }
 
 void Game::HandleEvents() {
   SDL_PollEvent(&window_.event());
+
+  auto state = systems::GetEntityStatus(&registry_, dino_);
 
   switch (window_.event().type) {
     case SDL_QUIT:
@@ -59,13 +65,14 @@ void Game::HandleEvents() {
           score_ += 1;
           break;
         case SDLK_d:
-          dead_ = true;
+          base_speed_ = 0;
+          state.dead = true;
           high_score_ = score_ > high_score_ ? score_ : high_score_;
           break;
         case SDLK_r:
           score_ = 0;
           base_speed_ = 1;
-          dead_ = false;
+          state.dead = false;
           break;
       }
       break;
@@ -75,16 +82,18 @@ void Game::HandleEvents() {
       if (hud_.RetryClicked(mouse_position)) {
         score_ = 0;
         base_speed_ = 1;
-        dead_ = false;
+        state.dead = false;
       }
       break;
     default:
       break;
   }
+
+  systems::SetEntityStatus(&registry_, dino_, state);
 }
 
 void Game::Update() {
-  systems::Move(&registry_, base_speed_, dead_);
+  systems::Move(&registry_, base_speed_);
   std::set<entt::entity> del = systems::Despawn(&registry_);
   for (auto& e : del) {
     floor_entities_.erase(e);
@@ -92,15 +101,17 @@ void Game::Update() {
   }
   systems::SpawnBackgroundElements(&registry_, res_manager_, &cloud_entities_,
                                    &floor_entities_, window_.bounds());
-  hud_.Update(score_, high_score_, fps_, dead_);
+  auto state = systems::GetEntityStatus(&registry_, dino_);
+  hud_.Update(score_, high_score_, fps_, state.dead);
 }
 
 void Game::Render() {
   SDL_SetRenderDrawColor(window_.renderer(), 239, 239, 239, 255);
   // SDL_SetRenderDrawColor(window_.renderer(), 16, 16, 16, 255);
   SDL_RenderClear(window_.renderer());
+  auto state = systems::GetEntityStatus(&registry_, dino_);
   systems::RenderSprites(window_.renderer(), &registry_);
-  hud_.Draw(dead_);
+  hud_.Draw(state.dead);
   SDL_RenderPresent(window_.renderer());
 }
 
@@ -108,7 +119,7 @@ void Game::Run() {
   const double kMSPerUpdate {1000.0 / kUpdatesPerSecond_};
   double previous_time = SDL_GetTicks();
   double lag = 0.0;
-  int frames = 0;
+  uint32_t frames = 0;
   double frames_elapsed = 0.0;
 
   while (!over_) {

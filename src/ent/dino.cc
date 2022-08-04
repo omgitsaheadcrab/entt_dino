@@ -18,6 +18,7 @@
 
 #include "comp/rigid_body.h"
 #include "comp/sprite.h"
+#include "comp/state.h"
 #include "comp/transform.h"
 #include "core/res_manager.h"
 #include "core/vec2d.h"
@@ -31,6 +32,9 @@ const vf2d acceleration {0.0, 0.0};
 
 // Transform
 SDL_Rect position {0, 0, 0, 0};
+
+// State
+const bool dead = false;
 
 }  // namespace
 
@@ -50,6 +54,7 @@ entt::entity CreateDino(entt::registry* registry,
   registry->emplace<components::Transform>(e, position);
   registry->emplace<components::Sprite>(
       e, res_manager.sprite_textures.find("dino")->second, clips[0]);
+  registry->emplace<components::State>(e, dead);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
   return e;
 }

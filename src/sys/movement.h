@@ -15,7 +15,7 @@
 
 namespace systems {
 
-void Move(entt::registry* registry, const uint32_t base_speed, const bool dead);
+void Move(entt::registry* registry, const uint32_t base_speed);
 
 }  // namespace systems
 
