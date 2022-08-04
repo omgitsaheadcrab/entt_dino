@@ -9,6 +9,7 @@
 #include "core/game.h"
 
 #include <SDL2/SDL.h>
+#include <spdlog/spdlog.h>
 
 #include <cstdint>
 #include <set>
@@ -43,7 +44,7 @@ void Game::Init() {
   systems::spawn::Clouds(&registry_, res_manager_, &cloud_entities_,
                          window_.bounds());
   systems::spawn::Floors(&registry_, res_manager_, &floor_entities_,
-                        window_.bounds());
+                         window_.bounds());
 }
 
 void Game::HandleEvents() {
@@ -63,6 +64,7 @@ void Game::HandleEvents() {
         case SDLK_SPACE:
           base_speed_ += 1;
           score_ += 1;
+          dino_state.jumping = true;
           break;
         case SDLK_d:
           base_speed_ = 0;
@@ -73,6 +75,13 @@ void Game::HandleEvents() {
           score_ = 0;
           base_speed_ = 1;
           dino_state.dead = false;
+          break;
+      }
+      break;
+    case SDL_KEYUP:
+      switch (window_.event().key.keysym.sym) {
+        case SDLK_SPACE:
+          dino_state.jumping = false;
           break;
       }
       break;
@@ -102,8 +111,11 @@ void Game::Update() {
   systems::spawn::Clouds(&registry_, res_manager_, &cloud_entities_,
                          window_.bounds());
   systems::spawn::Floors(&registry_, res_manager_, &floor_entities_,
-                        window_.bounds());
+                         window_.bounds());
   auto dino_state = systems::manage::GetState(&registry_, dino_);
+  if (dino_state.jumping) {
+    SPDLOG_DEBUG("I'm jumping!");
+  }
   hud_.Update(score_, high_score_, fps_, dino_state.dead);
 }
 

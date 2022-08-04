@@ -35,6 +35,7 @@ SDL_Rect position {0, 0, 0, 0};
 
 // State
 const bool dead = false;
+const bool jumping = false;
 
 }  // namespace
 
@@ -54,7 +55,7 @@ entt::entity CreateDino(entt::registry* registry,
   registry->emplace<components::Transform>(e, position);
   registry->emplace<components::Sprite>(
       e, res_manager.sprite_textures.find("dino")->second, clips[0]);
-  registry->emplace<components::State>(e, dead);
+  registry->emplace<components::State>(e, dead, jumping);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
   return e;
 }
