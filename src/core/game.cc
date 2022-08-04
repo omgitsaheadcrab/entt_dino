@@ -42,7 +42,7 @@ void Game::Init() {
   dino_ = entities::CreateDino(&registry_, res_manager_, window_.bounds());
   systems::spawn::Clouds(&registry_, res_manager_, &cloud_entities_,
                          window_.bounds());
-  systems::spawn::Floor(&registry_, res_manager_, &floor_entities_,
+  systems::spawn::Floors(&registry_, res_manager_, &floor_entities_,
                         window_.bounds());
 }
 
