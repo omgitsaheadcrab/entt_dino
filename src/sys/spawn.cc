@@ -42,10 +42,10 @@ void systems::spawn::Clouds(entt::registry* registry,
   }
 }
 
-void systems::spawn::Floor(entt::registry* registry,
-                           const ResourceManager& res_manager,
-                           std::set<entt::entity>* floor_entities,
-                           const SDL_Rect& bounds) {
+void systems::spawn::Floors(entt::registry* registry,
+                            const ResourceManager& res_manager,
+                            std::set<entt::entity>* floor_entities,
+                            const SDL_Rect& bounds) {
   const auto view = registry->view<components::Transform>();
   if (floor_entities->empty()) {
     auto floor = entities::CreateFloor(registry, res_manager, 0);

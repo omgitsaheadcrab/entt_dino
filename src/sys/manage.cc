@@ -13,15 +13,15 @@
 
 #include "comp/state.h"
 
-void systems::manage::SetEntityState(entt::registry* registry,
-                                     const entt::entity& entity,
-                                     components::State* new_state) {
+void systems::manage::SetState(entt::registry* registry,
+                               const entt::entity& entity,
+                               components::State* new_state) {
   registry->patch<components::State>(
       entity, [&](auto& state) { state.dead = new_state->dead; });
 }
 
-components::State systems::manage::GetEntityState(entt::registry* registry,
-                                                  const entt::entity& entity) {
+components::State systems::manage::GetState(entt::registry* registry,
+                                            const entt::entity& entity) {
   auto& state = registry->get<components::State>(entity);
   return state;
 }

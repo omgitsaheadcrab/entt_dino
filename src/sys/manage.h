@@ -18,11 +18,11 @@ namespace systems {
 
 namespace manage {
 
-void SetEntityState(entt::registry* registry, const entt::entity& entity,
-                    components::State* state);
+void SetState(entt::registry* registry, const entt::entity& entity,
+              components::State* state);
 
-components::State GetEntityState(entt::registry* registry,
-                                 const entt::entity& entity);
+components::State GetState(entt::registry* registry,
+                           const entt::entity& entity);
 
 }  // namespace manage
 

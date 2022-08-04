@@ -49,7 +49,7 @@ void Game::Init() {
 void Game::HandleEvents() {
   SDL_PollEvent(&window_.event());
 
-  auto dino_state = systems::manage::GetEntityState(&registry_, dino_);
+  auto dino_state = systems::manage::GetState(&registry_, dino_);
 
   switch (window_.event().type) {
     case SDL_QUIT:
@@ -89,7 +89,7 @@ void Game::HandleEvents() {
       break;
   }
 
-  systems::manage::SetEntityState(&registry_, dino_, &dino_state);
+  systems::manage::SetState(&registry_, dino_, &dino_state);
 }
 
 void Game::Update() {
@@ -101,9 +101,9 @@ void Game::Update() {
   }
   systems::spawn::Clouds(&registry_, res_manager_, &cloud_entities_,
                          window_.bounds());
-  systems::spawn::Floor(&registry_, res_manager_, &floor_entities_,
+  systems::spawn::Floors(&registry_, res_manager_, &floor_entities_,
                         window_.bounds());
-  auto dino_state = systems::manage::GetEntityState(&registry_, dino_);
+  auto dino_state = systems::manage::GetState(&registry_, dino_);
   hud_.Update(score_, high_score_, fps_, dino_state.dead);
 }
 
@@ -111,7 +111,7 @@ void Game::Render() {
   SDL_SetRenderDrawColor(window_.renderer(), 239, 239, 239, 255);
   // SDL_SetRenderDrawColor(window_.renderer(), 16, 16, 16, 255);
   SDL_RenderClear(window_.renderer());
-  auto dino_state = systems::manage::GetEntityState(&registry_, dino_);
+  auto dino_state = systems::manage::GetState(&registry_, dino_);
   systems::render::Sprites(window_.renderer(), &registry_);
   hud_.Draw(dino_state.dead);
   SDL_RenderPresent(window_.renderer());
