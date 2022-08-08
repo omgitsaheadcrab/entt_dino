@@ -23,10 +23,9 @@ namespace systems {
 namespace spawn {
 
 void Clouds(entt::registry* registry, const ResourceManager& res_manager,
-            std::set<entt::entity>* cloud_entities, const SDL_Rect& bounds);
+            const SDL_Rect& bounds);
 
-void Floors(entt::registry* registry, const ResourceManager& res_manager,
-            std::set<entt::entity>* floor_entities, const SDL_Rect& bounds);
+void Floors(entt::registry* registry, const ResourceManager& res_manager);
 
 }  // namespace spawn
 

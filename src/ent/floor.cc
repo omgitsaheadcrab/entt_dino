@@ -13,11 +13,11 @@
 
 #include <vector>
 
-#include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
 #include "comp/rigid_body.h"
 #include "comp/sprite.h"
+#include "comp/tags.h"
 #include "comp/transform.h"
 #include "core/vec2d.h"
 #include "util/random.h"
@@ -33,10 +33,8 @@ SDL_Rect position {0, 212, 0, 0};
 
 }  // namespace
 
-namespace entities {
-
-entt::entity CreateFloor(entt::registry* registry,
-                         const ResourceManager& res_manager, const int xpos) {
+void entities::CreateFloor(entt::registry* registry,
+                           const ResourceManager& res_manager, const int xpos) {
   auto clips = res_manager.GetSpriteClips("floor");
   auto clip_number = utils::UniformRandom(0, 2);
   position.x = xpos;
@@ -44,12 +42,10 @@ entt::entity CreateFloor(entt::registry* registry,
   position.w = clips[clip_number].w;
 
   auto e = registry->create();
+  registry->emplace<components::Floor>(e);
   registry->emplace<components::RigidBody>(e, velocity, acceleration);
   registry->emplace<components::Transform>(e, position);
   registry->emplace<components::Sprite>(
       e, res_manager.sprite_textures.find("floor")->second, clips[clip_number]);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
-  return e;
 }
-
-}  // namespace entities

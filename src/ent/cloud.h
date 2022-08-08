@@ -9,15 +9,14 @@
 #ifndef ENTT_DINO_SRC_ENT_CLOUD_H_
 #define ENTT_DINO_SRC_ENT_CLOUD_H_
 
-#include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
 #include "core/res_manager.h"
 
 namespace entities {
 
-entt::entity CreateCloud(entt::registry* registry,
-                         const ResourceManager& res_manager, const int xpos);
+void CreateCloud(entt::registry* registry, const ResourceManager& res_manager,
+                 const int xpos);
 
 }  // namespace entities
 

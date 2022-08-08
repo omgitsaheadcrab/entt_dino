@@ -1,0 +1,28 @@
+/**
+ * @file      spawner.cc
+ * @brief     Spawner entity
+ * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
+ * @date      2022-08-08
+ * @copyright Copyright © 2021 Tobias Backer Dirks
+ */
+
+#include "ent/spawner.h"
+
+#include <cstdint>
+
+#include "comp/spawner.h"
+#include "comp/tags.h"
+
+void entities::CreateCloudSpawner(entt::registry* registry,
+                                  const uint32_t capacity) {
+  auto e = registry->create();
+  registry->emplace<components::Cloud>(e);
+  registry->emplace<components::Spawner>(e, capacity);
+}
+
+void entities::CreateFloorSpawner(entt::registry* registry,
+                                  const uint32_t capacity) {
+  auto e = registry->create();
+  registry->emplace<components::Floor>(e);
+  registry->emplace<components::Spawner>(e, capacity);
+}

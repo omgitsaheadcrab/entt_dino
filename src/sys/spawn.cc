@@ -12,9 +12,11 @@
 
 #include <set>
 
-#include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
+#include "comp/despawn.h"
+#include "comp/spawner.h"
+#include "comp/tags.h"
 #include "comp/transform.h"
 #include "core/res_manager.h"
 #include "ent/cloud.h"
@@ -22,43 +24,73 @@
 
 void systems::spawn::Clouds(entt::registry* registry,
                             const ResourceManager& res_manager,
-                            std::set<entt::entity>* cloud_entities,
                             const SDL_Rect& bounds) {
-  const auto view = registry->view<components::Transform>();
-  if (cloud_entities->empty()) {
-    auto cloud = entities::CreateCloud(registry, res_manager, bounds.w / 2);
-    cloud_entities->emplace(cloud);
-  }
-  while (cloud_entities->size() < 2) {
-    auto last = *cloud_entities->rbegin();
-    for (auto [entity, transform] : view.each()) {
-      if (entity == last) {
-        auto new_last = entities::CreateCloud(
-            registry, res_manager,
-            transform.position.x + transform.position.w + bounds.w / 2);
-        cloud_entities->emplace(new_last);
+  const auto spawner_view =
+      registry->view<components::Spawner, components::Cloud>();
+  const auto bg_view =
+      registry->view<components::Transform, components::Cloud>();
+
+  spawner_view.each([&](auto& spawner) {
+    if (spawner.count == 0) {
+      double pos = bounds.w / 4.0;
+      entities::CreateCloud(registry, res_manager, pos);
+      ++spawner.count;
+
+      while (spawner.count < spawner.capacity) {
+        pos += bounds.w / 2.0;
+        entities::CreateCloud(registry, res_manager, pos);
+        ++spawner.count;
       }
     }
-  }
+
+    bg_view.each([&](auto entity, const auto& transform) {
+      if (transform.position.x <= -transform.position.w) {
+        registry->emplace<components::Despawn>(entity);
+        const auto pos = transform.position.x + transform.position.w +
+                         (bounds.w / 2.0 * spawner.capacity);
+
+        entities::CreateCloud(registry, res_manager, pos);
+        ++spawner.count;
+      }
+    });
+  });
 }
 
 void systems::spawn::Floors(entt::registry* registry,
-                            const ResourceManager& res_manager,
-                            std::set<entt::entity>* floor_entities,
-                            const SDL_Rect& bounds) {
-  const auto view = registry->view<components::Transform>();
-  if (floor_entities->empty()) {
-    auto floor = entities::CreateFloor(registry, res_manager, 0);
-    floor_entities->emplace(floor);
-  }
-  while (floor_entities->size() < 3) {
-    auto last = *floor_entities->rbegin();
-    for (auto [entity, transform] : view.each()) {
-      if (entity == last) {
-        auto new_last = entities::CreateFloor(
-            registry, res_manager, transform.position.x + transform.position.w);
-        floor_entities->emplace(new_last);
+                            const ResourceManager& res_manager) {
+  const auto spawner_view =
+      registry->view<components::Spawner, components::Floor>();
+  const auto bg_view =
+      registry->view<components::Transform, components::Floor>();
+
+  double current_pos = 0;
+  double width = 0;
+
+  spawner_view.each([&](auto& spawner) {
+    if (spawner.count == 0) {
+      entities::CreateFloor(registry, res_manager, 0);
+      ++spawner.count;
+      bg_view.each([&](const auto& transform) {
+        current_pos = transform.position.x + transform.position.w;
+        width = transform.position.w;
+      });
+
+      while (spawner.count < spawner.capacity) {
+        entities::CreateFloor(registry, res_manager, current_pos);
+        ++spawner.count;
+        current_pos += width;
       }
     }
-  }
+
+    bg_view.each([&](auto entity, const auto& transform) {
+      if (transform.position.x <= -transform.position.w) {
+        registry->emplace<components::Despawn>(entity);
+        const auto pos =
+            transform.position.x + (transform.position.w * spawner.capacity);
+
+        entities::CreateFloor(registry, res_manager, pos);
+        ++spawner.count;
+      }
+    });
+  });
 }

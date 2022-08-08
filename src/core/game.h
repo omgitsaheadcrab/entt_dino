@@ -38,8 +38,6 @@ class Game {
   uint32_t high_score_;
   uint32_t score_;
   entt::entity dino_;
-  std::set<entt::entity> cloud_entities_;
-  std::set<entt::entity> floor_entities_;
   entt::registry registry_;
   HUD::Manager hud_;
   ResourceManager res_manager_;
