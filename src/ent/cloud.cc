@@ -44,7 +44,7 @@ void entities::CreateCloud(entt::registry* registry,
   position.w = clips[0].w;
 
   auto e = registry->create();
-  registry->emplace<components::Cloud>(e);
+  registry->emplace<components::entity_tags::Cloud>(e);
   registry->emplace<components::RigidBody>(e, velocity, acceleration);
   registry->emplace<components::Transform>(e, position);
   registry->emplace<components::Sprite>(

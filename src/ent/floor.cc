@@ -42,7 +42,7 @@ void entities::CreateFloor(entt::registry* registry,
   position.w = clips[clip_number].w;
 
   auto e = registry->create();
-  registry->emplace<components::Floor>(e);
+  registry->emplace<components::entity_tags::Floor>(e);
   registry->emplace<components::RigidBody>(e, velocity, acceleration);
   registry->emplace<components::Transform>(e, position);
   registry->emplace<components::Sprite>(

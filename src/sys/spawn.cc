@@ -26,9 +26,9 @@ void systems::spawn::Clouds(entt::registry* registry,
                             const ResourceManager& res_manager,
                             const SDL_Rect& bounds) {
   const auto spawner_view =
-      registry->view<components::Spawner, components::Cloud>();
+      registry->view<components::Spawner, components::entity_tags::Cloud>();
   const auto bg_view =
-      registry->view<components::Transform, components::Cloud>();
+      registry->view<components::Transform, components::entity_tags::Cloud>();
 
   spawner_view.each([&](auto& spawner) {
     if (spawner.count == 0) {
@@ -59,9 +59,9 @@ void systems::spawn::Clouds(entt::registry* registry,
 void systems::spawn::Floors(entt::registry* registry,
                             const ResourceManager& res_manager) {
   const auto spawner_view =
-      registry->view<components::Spawner, components::Floor>();
+      registry->view<components::Spawner, components::entity_tags::Floor>();
   const auto bg_view =
-      registry->view<components::Transform, components::Floor>();
+      registry->view<components::Transform, components::entity_tags::Floor>();
 
   double current_pos = 0;
   double width = 0;
