@@ -11,16 +11,14 @@
 
 #include <SDL2/SDL_rect.h>
 
-#include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
 #include "core/res_manager.h"
 
 namespace entities {
 
-entt::entity CreateDino(entt::registry* registry,
-                        const ResourceManager& res_manager,
-                        const SDL_Rect& bounds);
+void CreateDino(entt::registry* registry, const ResourceManager& res_manager,
+                const SDL_Rect& bounds);
 
 }  // namespace entities
 
