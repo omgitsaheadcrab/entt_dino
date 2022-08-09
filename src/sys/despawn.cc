@@ -16,8 +16,10 @@
 
 void systems::despawn::OutOfBounds(entt::registry* registry) {
   const auto view = registry->view<components::Despawn>();
-  for (auto [entity] : view.each()) {
+#ifdef _DEBUG
+  for (const auto& [entity] : view.each()) {
     SPDLOG_DEBUG("{} was deleted", static_cast<int>(entity));
-    registry->destroy(entity);
   }
+#endif  // _DEBUG
+  registry->destroy(view.begin(), view.end());
 }
