@@ -13,9 +13,11 @@ namespace components {
 
 namespace entity_tags {
 
-struct Floor {};
-
 struct Cloud {};
+
+struct Dino {};
+
+struct Floor {};
 
 }  // namespace entity_tags
 

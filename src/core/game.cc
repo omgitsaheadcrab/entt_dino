@@ -9,21 +9,17 @@
 #include "core/game.h"
 
 #include <SDL2/SDL.h>
-#include <spdlog/spdlog.h>
 
 #include <cstdint>
-#include <set>
 
 #include <entt/entity/entity.hpp>
 
-#include "comp/state.h"
 #include "core/hud.h"
 #include "core/res_manager.h"
 #include "core/window.h"
 #include "ent/dino.h"
 #include "ent/entity_spawner.h"
 #include "sys/despawn.h"
-#include "sys/manage.h"
 #include "sys/move.h"
 #include "sys/render.h"
 #include "sys/spawn.h"
@@ -35,21 +31,20 @@ Game::Game(const int kWindowWidth, const int kWindowHeight)
 
 void Game::Init() {
   over_ = false;
+  dead_ = false;
   base_speed_ = 1;
   fps_ = 0;
   high_score_ = 0;
   score_ = 0;
   res_manager_.Init(window_.renderer());
   hud_.Init(&window_, &res_manager_);
-  dino_ = entities::CreateDino(&registry_, res_manager_, window_.bounds());
+  entities::CreateDino(&registry_, res_manager_, window_.bounds());
   entities::CreateCloudSpawner(&registry_, 2);
   entities::CreateFloorSpawner(&registry_, 3);
 }
 
 void Game::HandleEvents() {
   SDL_PollEvent(&window_.event());
-
-  auto dino_state = systems::manage::GetState(&registry_, dino_);
 
   switch (window_.event().type) {
     case SDL_QUIT:
@@ -63,24 +58,22 @@ void Game::HandleEvents() {
         case SDLK_SPACE:
           base_speed_ += 1;
           score_ += 1;
-          dino_state.jumping = true;
           break;
         case SDLK_d:
           base_speed_ = 0;
-          dino_state.dead = true;
+          dead_ = true;
           high_score_ = score_ > high_score_ ? score_ : high_score_;
           break;
         case SDLK_r:
           score_ = 0;
           base_speed_ = 1;
-          dino_state.dead = false;
+          dead_ = false;
           break;
       }
       break;
     case SDL_KEYUP:
       switch (window_.event().key.keysym.sym) {
         case SDLK_SPACE:
-          dino_state.jumping = false;
           break;
       }
       break;
@@ -90,14 +83,12 @@ void Game::HandleEvents() {
       if (hud_.RetryClicked(mouse_position)) {
         score_ = 0;
         base_speed_ = 1;
-        dino_state.dead = false;
+        dead_ = false;
       }
       break;
     default:
       break;
   }
-
-  systems::manage::SetState(&registry_, dino_, &dino_state);
 }
 
 void Game::Update() {
@@ -105,21 +96,15 @@ void Game::Update() {
   systems::spawn::Floors(&registry_, res_manager_);
   systems::spawn::Clouds(&registry_, res_manager_, window_.bounds());
   systems::despawn::OutOfBounds(&registry_);
-
-  auto dino_state = systems::manage::GetState(&registry_, dino_);
-  if (dino_state.jumping) {
-    SPDLOG_DEBUG("I'm jumping!");
-  }
-  hud_.Update(score_, high_score_, fps_, dino_state.dead);
+  hud_.Update(score_, high_score_, fps_, dead_);
 }
 
 void Game::Render() {
   SDL_SetRenderDrawColor(window_.renderer(), 239, 239, 239, 255);
   // SDL_SetRenderDrawColor(window_.renderer(), 16, 16, 16, 255);
   SDL_RenderClear(window_.renderer());
-  auto dino_state = systems::manage::GetState(&registry_, dino_);
   systems::render::Sprites(window_.renderer(), &registry_);
-  hud_.Draw(dino_state.dead);
+  hud_.Draw(dead_);
   SDL_RenderPresent(window_.renderer());
 }
 
