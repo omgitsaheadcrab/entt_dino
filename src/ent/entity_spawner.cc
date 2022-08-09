@@ -1,12 +1,12 @@
 /**
- * @file      spawner.cc
- * @brief     Spawner entity
+ * @file      entity_spawner.cc
+ * @brief     Entity spawner entity.
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
  * @date      2022-08-08
  * @copyright Copyright © 2021 Tobias Backer Dirks
  */
 
-#include "ent/spawner.h"
+#include "ent/entity_spawner.h"
 
 #include <cstdint>
 

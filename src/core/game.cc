@@ -21,7 +21,7 @@
 #include "core/res_manager.h"
 #include "core/window.h"
 #include "ent/dino.h"
-#include "ent/spawner.h"
+#include "ent/entity_spawner.h"
 #include "sys/despawn.h"
 #include "sys/manage.h"
 #include "sys/move.h"
