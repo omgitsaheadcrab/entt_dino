@@ -1,6 +1,6 @@
 /**
  * @file      tags.h
- * @brief     Tag components.
+ * @brief     Tag components
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
  * @date      2022-08-08
  * @copyright Copyright © 2022 Tobias Backer Dirks

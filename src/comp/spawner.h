@@ -1,6 +1,6 @@
 /**
  * @file      spawner.h
- * @brief     Spawner component.
+ * @brief     Spawner component
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
  * @date      2022-08-08
  * @copyright Copyright © 2022 Tobias Backer Dirks
