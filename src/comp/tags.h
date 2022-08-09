@@ -17,7 +17,7 @@ struct Floor {};
 
 struct Cloud {};
 
-}  // namespace entitiy_tags
+}  // namespace entity_tags
 
 }  // namespace components
 
