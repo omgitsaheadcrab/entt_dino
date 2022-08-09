@@ -19,6 +19,12 @@ struct Cloud {};
 
 }  // namespace entity_tags
 
+namespace entity_states {
+
+struct Despawn {};
+
+}  // namespace entity_states
+
 }  // namespace components
 
 #endif  // ENTT_DINO_SRC_COMP_TAGS_H_

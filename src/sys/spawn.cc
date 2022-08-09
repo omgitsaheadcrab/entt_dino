@@ -14,7 +14,6 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/despawn.h"
 #include "comp/spawner.h"
 #include "comp/tags.h"
 #include "comp/transform.h"
@@ -45,7 +44,7 @@ void systems::spawn::Clouds(entt::registry* registry,
 
     bg_view.each([&](auto entity, const auto& transform) {
       if (transform.position.x <= -transform.position.w) {
-        registry->emplace<components::Despawn>(entity);
+        registry->emplace<components::entity_states::Despawn>(entity);
         const auto pos = transform.position.x + transform.position.w +
                          (bounds.w / 2.0 * spawner.capacity);
 
@@ -84,7 +83,7 @@ void systems::spawn::Floors(entt::registry* registry,
 
     bg_view.each([&](auto entity, const auto& transform) {
       if (transform.position.x <= -transform.position.w) {
-        registry->emplace<components::Despawn>(entity);
+        registry->emplace<components::entity_states::Despawn>(entity);
         const auto pos =
             transform.position.x + (transform.position.w * spawner.capacity);
 
