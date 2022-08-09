@@ -1,6 +1,6 @@
 /**
  * @file      game.h
- * @brief     Game logic and event loop.
+ * @brief     Game logic and event loop
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
  * @date      2021-06-02
  * @copyright Copyright © 2021 Tobias Backer Dirks
@@ -38,8 +38,6 @@ class Game {
   uint32_t high_score_;
   uint32_t score_;
   entt::entity dino_;
-  std::set<entt::entity> cloud_entities_;
-  std::set<entt::entity> floor_entities_;
   entt::registry registry_;
   HUD::Manager hud_;
   ResourceManager res_manager_;

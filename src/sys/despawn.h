@@ -18,7 +18,7 @@ namespace systems {
 
 namespace despawn {
 
-std::set<entt::entity> OutOfBounds(entt::registry* registry);
+void OutOfBounds(entt::registry* registry);
 
 }  // namespace despawn
 

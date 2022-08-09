@@ -1,6 +1,6 @@
 /**
  * @file      game.cc
- * @brief     Game logic and event loop.
+ * @brief     Game logic and event loop
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
  * @date      2021-06-02
  * @copyright Copyright © 2021 Tobias Backer Dirks
@@ -21,6 +21,7 @@
 #include "core/res_manager.h"
 #include "core/window.h"
 #include "ent/dino.h"
+#include "ent/entity_spawner.h"
 #include "sys/despawn.h"
 #include "sys/manage.h"
 #include "sys/move.h"
@@ -41,10 +42,8 @@ void Game::Init() {
   res_manager_.Init(window_.renderer());
   hud_.Init(&window_, &res_manager_);
   dino_ = entities::CreateDino(&registry_, res_manager_, window_.bounds());
-  systems::spawn::Clouds(&registry_, res_manager_, &cloud_entities_,
-                         window_.bounds());
-  systems::spawn::Floors(&registry_, res_manager_, &floor_entities_,
-                         window_.bounds());
+  entities::CreateCloudSpawner(&registry_, 2);
+  entities::CreateFloorSpawner(&registry_, 3);
 }
 
 void Game::HandleEvents() {
@@ -103,15 +102,10 @@ void Game::HandleEvents() {
 
 void Game::Update() {
   systems::move::RigidBodies(&registry_, base_speed_);
-  std::set<entt::entity> del = systems::despawn::OutOfBounds(&registry_);
-  for (auto& e : del) {
-    floor_entities_.erase(e);
-    cloud_entities_.erase(e);
-  }
-  systems::spawn::Clouds(&registry_, res_manager_, &cloud_entities_,
-                         window_.bounds());
-  systems::spawn::Floors(&registry_, res_manager_, &floor_entities_,
-                         window_.bounds());
+  systems::spawn::Floors(&registry_, res_manager_);
+  systems::spawn::Clouds(&registry_, res_manager_, window_.bounds());
+  systems::despawn::OutOfBounds(&registry_);
+
   auto dino_state = systems::manage::GetState(&registry_, dino_);
   if (dino_state.jumping) {
     SPDLOG_DEBUG("I'm jumping!");

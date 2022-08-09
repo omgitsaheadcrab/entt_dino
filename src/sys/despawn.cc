@@ -10,23 +10,16 @@
 
 #include <spdlog/spdlog.h>
 
-#include <set>
-#include <string>
-
-#include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
-#include "comp/transform.h"
+#include "comp/tags.h"
 
-std::set<entt::entity> systems::despawn::OutOfBounds(entt::registry* registry) {
-  std::set<entt::entity> deleted;
-  const auto view = registry->view<components::Transform>();
-  for (auto [entity, transform] : view.each()) {
-    if (transform.position.x <= -transform.position.w) {
-      SPDLOG_DEBUG("{} was deleted", static_cast<int>(entity));
-      deleted.emplace(entity);
-      registry->destroy(entity);
-    }
+void systems::despawn::OutOfBounds(entt::registry* registry) {
+  const auto view = registry->view<components::entity_states::Despawn>();
+#ifdef _DEBUG
+  for (const auto& [entity] : view.each()) {
+    SPDLOG_DEBUG("{} was deleted", static_cast<int>(entity));
   }
-  return deleted;
+#endif  // _DEBUG
+  registry->destroy(view.begin(), view.end());
 }

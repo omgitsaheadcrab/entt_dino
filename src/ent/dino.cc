@@ -39,11 +39,9 @@ const bool jumping = false;
 
 }  // namespace
 
-namespace entities {
-
-entt::entity CreateDino(entt::registry* registry,
-                        const ResourceManager& res_manager,
-                        const SDL_Rect& bounds) {
+entt::entity entities::CreateDino(entt::registry* registry,
+                                  const ResourceManager& res_manager,
+                                  const SDL_Rect& bounds) {
   auto clips = res_manager.GetSpriteClips("dino");
   position.x = bounds.w * 0.05;
   position.y = bounds.h * 0.77;
@@ -59,5 +57,3 @@ entt::entity CreateDino(entt::registry* registry,
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
   return e;
 }
-
-}  // namespace entities
