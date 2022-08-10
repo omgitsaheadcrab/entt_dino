@@ -13,12 +13,13 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/sprite.h"
-#include "comp/transform.h"
+#include "comp/graphics/sprite.h"
+#include "comp/graphics/transform.h"
 
 void systems::render::Sprites(SDL_Renderer* renderer,
                               entt::registry* registry) {
-  const auto view = registry->view<components::Sprite, components::Transform>();
+  const auto view = registry->view<components::graphics::Sprite,
+                                   components::graphics::Transform>();
   view.each([&](const auto& sprite, const auto& transform) {
     SDL_SetTextureColorMod(sprite.sheet, 89, 86, 82);
     // SDL_SetTextureColorMod(sprite.sheet, 166, 169, 173);

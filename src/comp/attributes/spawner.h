@@ -6,18 +6,22 @@
  * @copyright Copyright © 2022 Tobias Backer Dirks
  */
 
-#ifndef ENTT_DINO_SRC_COMP_SPAWNER_H_
-#define ENTT_DINO_SRC_COMP_SPAWNER_H_
+#ifndef ENTT_DINO_SRC_COMP_ATTRIBUTES_SPAWNER_H_
+#define ENTT_DINO_SRC_COMP_ATTRIBUTES_SPAWNER_H_
 
 #include <cstdint>
 
 namespace components {
+
+namespace attributes {
 
 struct Spawner {
   uint32_t capacity;
   uint32_t count = 0;
 };
 
+}  // namespace attributes
+
 }  // namespace components
 
-#endif  // ENTT_DINO_SRC_COMP_SPAWNER_H_
+#endif  // ENTT_DINO_SRC_COMP_ATTRIBUTES_SPAWNER_H_

@@ -23,6 +23,7 @@
 #include "sys/move.h"
 #include "sys/render.h"
 #include "sys/spawn.h"
+#include "sys/sync.h"
 
 Game::Game(const int kWindowWidth, const int kWindowHeight)
     : window_ {"entt_dino", kWindowWidth, kWindowHeight} {
@@ -96,6 +97,7 @@ void Game::Update() {
   systems::spawn::Floors(&registry_, res_manager_);
   systems::spawn::Clouds(&registry_, res_manager_, window_.bounds());
   systems::despawn::OutOfBounds(&registry_);
+  systems::sync::Transforms(&registry_);
   hud_.Update(score_, high_score_, fps_, dead_);
 }
 

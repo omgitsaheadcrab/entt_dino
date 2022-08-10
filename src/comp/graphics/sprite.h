@@ -6,19 +6,23 @@
  * @copyright Copyright © 2021 Tobias Backer Dirks
  */
 
-#ifndef ENTT_DINO_SRC_COMP_SPRITE_H_
-#define ENTT_DINO_SRC_COMP_SPRITE_H_
+#ifndef ENTT_DINO_SRC_COMP_GRAPHICS_SPRITE_H_
+#define ENTT_DINO_SRC_COMP_GRAPHICS_SPRITE_H_
 
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
 namespace components {
 
+namespace graphics {
+
 struct Sprite {
   SDL_Texture* sheet;
   SDL_Rect clip;
 };
 
+}  // namespace graphics
+
 }  // namespace components
 
-#endif  // ENTT_DINO_SRC_COMP_SPRITE_H_
+#endif  // ENTT_DINO_SRC_COMP_GRAPHICS_SPRITE_H_
