@@ -35,7 +35,7 @@ SDL_Rect position {0, 0, 0, 0};
 
 void entities::CreateDino(entt::registry* registry,
                           const ResourceManager& res_manager) {
-  const auto& window = registry->ctx().at<components::graphics::Window>();
+  const auto& window = registry->ctx().get<components::graphics::Window>();
   auto clips = res_manager.GetSpriteClips("dino");
   position.x = window.bounds.w * 0.05;
   position.y = window.bounds.h * 0.77;

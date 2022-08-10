@@ -26,7 +26,7 @@ void systems::spawn::Clouds(entt::registry* registry,
   const auto bg_view =
       registry
           ->view<components::physics::Transform, components::entities::Cloud>();
-  const auto& window = registry->ctx().at<components::graphics::Window>();
+  const auto& window = registry->ctx().get<components::graphics::Window>();
 
   spawner_view.each([&](auto& spawner) {
     if (spawner.count == 0) {
