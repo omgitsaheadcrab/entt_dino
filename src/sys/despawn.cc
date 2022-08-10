@@ -12,7 +12,7 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/tags.h"
+#include "comp/entity_states/despawn.h"
 
 void systems::despawn::OutOfBounds(entt::registry* registry) {
   const auto view = registry->view<components::entity_states::Despawn>();

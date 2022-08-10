@@ -10,19 +10,20 @@
 
 #include <cstdint>
 
-#include "comp/spawner.h"
-#include "comp/tags.h"
+#include "comp/attributes/spawner.h"
+#include "comp/entities/cloud.h"
+#include "comp/entities/floor.h"
 
 void entities::CreateCloudSpawner(entt::registry* registry,
                                   const uint32_t capacity) {
   auto e = registry->create();
-  registry->emplace<components::entity_tags::Cloud>(e);
-  registry->emplace<components::Spawner>(e, capacity);
+  registry->emplace<components::entities::Cloud>(e);
+  registry->emplace<components::attributes::Spawner>(e, capacity);
 }
 
 void entities::CreateFloorSpawner(entt::registry* registry,
                                   const uint32_t capacity) {
   auto e = registry->create();
-  registry->emplace<components::entity_tags::Floor>(e);
-  registry->emplace<components::Spawner>(e, capacity);
+  registry->emplace<components::entities::Floor>(e);
+  registry->emplace<components::attributes::Spawner>(e, capacity);
 }

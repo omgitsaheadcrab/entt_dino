@@ -13,10 +13,11 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/rigid_body.h"
-#include "comp/sprite.h"
-#include "comp/tags.h"
-#include "comp/transform.h"
+#include "comp/entities/dino.h"
+#include "comp/graphics/sprite.h"
+#include "comp/graphics/transform.h"
+#include "comp/physics/rigid_body.h"
+#include "comp/physics/transform.h"
 #include "core/res_manager.h"
 #include "core/vec2d.h"
 
@@ -41,10 +42,11 @@ void entities::CreateDino(entt::registry* registry,
   position.w = clips[0].w;
 
   auto e = registry->create();
-  registry->emplace<components::entity_tags::Dino>(e);
-  registry->emplace<components::RigidBody>(e, velocity, acceleration);
-  registry->emplace<components::Transform>(e, position);
-  registry->emplace<components::Sprite>(
+  registry->emplace<components::entities::Dino>(e);
+  registry->emplace<components::physics::RigidBody>(e, velocity, acceleration);
+  registry->emplace<components::graphics::Transform>(e, position);
+  registry->emplace<components::physics::Transform>(e, position);
+  registry->emplace<components::graphics::Sprite>(
       e, res_manager.sprite_textures.find("dino")->second, clips[0]);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }

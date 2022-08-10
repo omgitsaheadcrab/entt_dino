@@ -14,9 +14,11 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/spawner.h"
-#include "comp/tags.h"
-#include "comp/transform.h"
+#include "comp/attributes/spawner.h"
+#include "comp/entities/cloud.h"
+#include "comp/entities/floor.h"
+#include "comp/entity_states/despawn.h"
+#include "comp/physics/transform.h"
 #include "core/res_manager.h"
 #include "ent/cloud.h"
 #include "ent/floor.h"
@@ -24,10 +26,11 @@
 void systems::spawn::Clouds(entt::registry* registry,
                             const ResourceManager& res_manager,
                             const SDL_Rect& bounds) {
-  const auto spawner_view =
-      registry->view<components::Spawner, components::entity_tags::Cloud>();
+  const auto spawner_view = registry->view<components::attributes::Spawner,
+                                           components::entities::Cloud>();
   const auto bg_view =
-      registry->view<components::Transform, components::entity_tags::Cloud>();
+      registry
+          ->view<components::physics::Transform, components::entities::Cloud>();
 
   spawner_view.each([&](auto& spawner) {
     if (spawner.count == 0) {
@@ -57,10 +60,11 @@ void systems::spawn::Clouds(entt::registry* registry,
 
 void systems::spawn::Floors(entt::registry* registry,
                             const ResourceManager& res_manager) {
-  const auto spawner_view =
-      registry->view<components::Spawner, components::entity_tags::Floor>();
+  const auto spawner_view = registry->view<components::attributes::Spawner,
+                                           components::entities::Floor>();
   const auto bg_view =
-      registry->view<components::Transform, components::entity_tags::Floor>();
+      registry
+          ->view<components::physics::Transform, components::entities::Floor>();
 
   double current_pos = 0;
   double width = 0;
