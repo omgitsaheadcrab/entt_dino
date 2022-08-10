@@ -14,11 +14,14 @@
 
 #include <entt/entity/entity.hpp>
 
+#include "SDL_events.h"
+#include "SDL_video.h"
 #include "core/hud.h"
 #include "core/res_manager.h"
 #include "core/window.h"
 #include "ent/dino.h"
 #include "ent/entity_spawner.h"
+#include "ent/state/window.h"
 #include "sys/despawn.h"
 #include "sys/move.h"
 #include "sys/render.h"
@@ -39,7 +42,8 @@ void Game::Init() {
   score_ = 0;
   res_manager_.Init(window_.renderer());
   hud_.Init(&window_, &res_manager_);
-  entities::CreateDino(&registry_, res_manager_, window_.bounds());
+  entities::CreateWindowState(&registry_, window_.window());
+  entities::CreateDino(&registry_, res_manager_);
   entities::CreateCloudSpawner(&registry_, 2);
   entities::CreateFloorSpawner(&registry_, 3);
 }
@@ -50,6 +54,9 @@ void Game::HandleEvents() {
   switch (window_.event().type) {
     case SDL_QUIT:
       over_ = true;
+      break;
+    case SDL_WINDOWEVENT:
+      // systems::ui::UpdateWindow(window_);
       break;
     case SDL_KEYDOWN:
       switch (window_.event().key.keysym.sym) {
@@ -95,7 +102,7 @@ void Game::HandleEvents() {
 void Game::Update() {
   systems::move::RigidBodies(&registry_, base_speed_);
   systems::spawn::Floors(&registry_, res_manager_);
-  systems::spawn::Clouds(&registry_, res_manager_, window_.bounds());
+  systems::spawn::Clouds(&registry_, res_manager_);
   systems::despawn::OutOfBounds(&registry_);
   systems::sync::Transforms(&registry_);
   hud_.Update(score_, high_score_, fps_, dead_);

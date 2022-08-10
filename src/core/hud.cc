@@ -71,19 +71,19 @@ HUD::Text HUD::Manager::CreateText(const std::string& str,
                                    const double pos_w_scale,
                                    const double pos_h_scale,
                                    const SDL_Color& color) const {
-  return HUD::Text {
-      SDL_Rect {static_cast<int>(window_->bounds().w * pos_w_scale),
-                static_cast<int>(window_->bounds().h * pos_h_scale), 0, 0},
-      color, str};
+  // TODO(omgitsaheadcrab): use WindowInfo entity for bounds
+  return HUD::Text {SDL_Rect {static_cast<int>(800 * pos_w_scale),
+                              244 * static_cast<int>(244 * pos_h_scale), 0, 0},
+                    color, str};
 }
 
 HUD::Icon HUD::Manager::CreateIcon(const std::string& name,
                                    const double pos_w_scale,
                                    const double pos_h_scale,
                                    const SDL_Color& color) const {
-  auto pos =
-      SDL_Rect {static_cast<int>(window_->bounds().w * pos_w_scale),
-                static_cast<int>(window_->bounds().h * pos_h_scale), 0, 0};
+  // TODO(omgitsaheadcrab): use WindowInfo entity for bounds
+  auto pos = SDL_Rect {static_cast<int>(800 * pos_w_scale),
+                       244 * static_cast<int>(244 * pos_h_scale), 0, 0};
   auto clips = res_manager_->GetSpriteClips(name);
   pos.h = clips[0].h;
   pos.w = clips[0].w;
