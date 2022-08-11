@@ -40,7 +40,6 @@ class Manager {
                        const double pos_h_scale, const SDL_Color& color) const;
   HUD::Icon CreateIcon(const std::string& name, const double pos_w_scale,
                        const double pos_h_scale, const SDL_Color& color) const;
-  std::string ZeroPad(const uint32_t num) const;
 
   HUD::Icon retry_;
   HUD::Text fps_;

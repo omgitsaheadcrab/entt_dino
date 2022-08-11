@@ -16,11 +16,11 @@
 #include "comp/entities/dino.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
-#include "comp/graphics/window_info.h"
 #include "comp/physics/rigid_body.h"
 #include "comp/physics/transform.h"
 #include "core/res_manager.h"
 #include "core/vec2d.h"
+#include "ctx/general.h"
 
 namespace {
 
@@ -35,7 +35,7 @@ SDL_Rect position {0, 0, 0, 0};
 
 void entities::CreateDino(entt::registry* registry,
                           const ResourceManager& res_manager) {
-  const auto& window = registry->ctx().get<components::graphics::WindowInfo>();
+  const auto& window = contexts::GetWindowInfo(registry);
   auto clips = res_manager.GetSpriteClips("dino");
   position.x = window.bounds.w * 0.05;
   position.y = window.bounds.h * 0.77;

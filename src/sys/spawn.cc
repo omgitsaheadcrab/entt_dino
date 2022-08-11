@@ -13,9 +13,9 @@
 #include "comp/entities/cloud.h"
 #include "comp/entities/floor.h"
 #include "comp/entity_states/despawn.h"
-#include "comp/graphics/window_info.h"
 #include "comp/physics/transform.h"
 #include "core/res_manager.h"
+#include "ctx/general.h"
 #include "ent/cloud.h"
 #include "ent/floor.h"
 
@@ -26,7 +26,7 @@ void systems::spawn::Clouds(entt::registry* registry,
   const auto bg_view =
       registry
           ->view<components::physics::Transform, components::entities::Cloud>();
-  const auto& window = registry->ctx().get<components::graphics::WindowInfo>();
+  const auto& window = contexts::GetWindowInfo(registry);
 
   spawner_view.each([&](auto& spawner) {
     if (spawner.count == 0) {

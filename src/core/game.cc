@@ -19,7 +19,8 @@
 #include "core/hud.h"
 #include "core/res_manager.h"
 #include "core/window.h"
-#include "ctx/contexts.h"
+#include "ctx/game.h"
+#include "ctx/general.h"
 #include "ent/dino.h"
 #include "ent/entity_spawner.h"
 #include "sys/despawn.h"
@@ -34,13 +35,19 @@ Game::Game(const int kWindowWidth, const int kWindowHeight)
 }
 
 void Game::Init() {
-  over_ = false;
   dead_ = false;
+  res_manager_.Init(window_.renderer());
+
+  contexts::SetFPS(&registry_, 0);
+  contexts::game::SetOver(&registry_, false);
+  contexts::game::SetSpeed(&registry_, 1);
+  contexts::game::SetHighScore(&registry_, 0);
+  contexts::game::SetScore(&registry_, 0);
+  over_ = false;
   base_speed_ = 1;
   fps_ = 0;
   high_score_ = 0;
   score_ = 0;
-  res_manager_.Init(window_.renderer());
   hud_.Init(&window_, &res_manager_);
   contexts::SetWindowInfo(&registry_, window_.window());
   entities::CreateDino(&registry_, res_manager_);
@@ -51,8 +58,11 @@ void Game::Init() {
 void Game::HandleEvents() {
   SDL_PollEvent(&window_.event());
 
+  uint32_t base_speed, score, high_score;
+
   switch (window_.event().type) {
     case SDL_QUIT:
+      contexts::game::SetOver(&registry_, true);
       over_ = true;
       break;
     case SDL_WINDOWEVENT:
@@ -61,18 +71,28 @@ void Game::HandleEvents() {
     case SDL_KEYDOWN:
       switch (window_.event().key.keysym.sym) {
         case SDLK_ESCAPE:  // Press ESC to quit
+          contexts::game::SetOver(&registry_, true);
           over_ = true;
           break;
         case SDLK_SPACE:
+          base_speed = contexts::game::GetSpeed(&registry_).base;
+          contexts::game::SetSpeed(&registry_, base_speed + 1);
           base_speed_ += 1;
+          score = contexts::game::GetScore(&registry_).value;
+          contexts::game::SetScore(&registry_, score + 1);
           score_ += 1;
           break;
         case SDLK_d:
+          contexts::game::SetSpeed(&registry_, 0);
           base_speed_ = 0;
           dead_ = true;
-          high_score_ = score_ > high_score_ ? score_ : high_score_;
+          high_score = score_ > high_score_ ? score_ : high_score_;
+          contexts::game::SetHighScore(&registry_, high_score);
+          high_score_ = high_score;
           break;
         case SDLK_r:
+          contexts::game::SetScore(&registry_, 0);
+          contexts::game::SetSpeed(&registry_, 1);
           score_ = 0;
           base_speed_ = 1;
           dead_ = false;
@@ -147,6 +167,8 @@ void Game::Run() {
     // Frame rate counter (updates every 250ms)
     if (frames_elapsed > 250.0) {
       fps_ = static_cast<double>(frames) / (frames_elapsed / 1000.0);
+      double fps = fps;
+      contexts::SetFPS(&registry_, fps);
       frames = 0;
       frames_elapsed = 0.0;
     }

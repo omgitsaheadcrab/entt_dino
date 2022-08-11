@@ -1,6 +1,6 @@
 /**
  * @file      window_info.h
- * @brief     Window information
+ * @brief     Window information component
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
  * @date      2022-08-10
  * @copyright Copyright © 2022 Tobias Backer Dirks

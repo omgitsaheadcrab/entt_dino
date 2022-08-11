@@ -18,6 +18,7 @@
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
 #include "core/window.h"
+#include "util/str.h"
 
 constexpr SDL_Color dino_grey = {89, 86, 82};
 
@@ -34,11 +35,11 @@ void HUD::Manager::Init(Window* window, ResourceManager* res_manager) {
 
 void HUD::Manager::Update(const uint32_t score, const uint32_t high_score,
                           const uint32_t fps, const bool dead) {
-  fps_.str = ZeroPad(fps);
-  current_score_.str = ZeroPad(score);
+  fps_.str = utils::ToStringZeroPad(fps, 5);
+  current_score_.str = utils::ToStringZeroPad(score, 5);
 
   if (dead) {
-    high_score_.str = "HI  " + ZeroPad(high_score);
+    high_score_.str = "HI  " + utils::ToStringZeroPad(high_score, 5);
   }
 }
 
@@ -89,11 +90,4 @@ HUD::Icon HUD::Manager::CreateIcon(const std::string& name,
   pos.w = clips[0].w;
   return HUD::Icon {pos, color,
                     res_manager_->sprite_textures.find(name)->second, clips[0]};
-}
-
-std::string HUD::Manager::ZeroPad(const uint32_t num) const {
-  auto s = std::to_string(num);
-  unsigned int number_of_zeros = 5 - s.length();
-  s.insert(0, number_of_zeros, '0');
-  return s;
 }
