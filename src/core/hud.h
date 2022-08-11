@@ -16,6 +16,8 @@
 #include <cstdint>
 #include <string>
 
+#include <entt/entity/registry.hpp>
+
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
 #include "core/window.h"
@@ -27,8 +29,7 @@ class Manager {
   ~Manager() = default;
 
   void Init(Window* window, ResourceManager* res_manager);
-  void Update(const uint32_t score, const uint32_t high_score,
-              const uint32_t fps, const bool dead);
+  void Update(entt::registry* registry, const bool dead);
   void Draw(const bool dead);
   bool RetryClicked(const SDL_Point& mouse_pos) const;
 

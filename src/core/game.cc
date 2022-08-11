@@ -45,9 +45,6 @@ void Game::Init() {
   contexts::game::SetScore(&registry_, 0);
   over_ = false;
   base_speed_ = 1;
-  fps_ = 0;
-  high_score_ = 0;
-  score_ = 0;
   hud_.Init(&window_, &res_manager_);
   contexts::SetWindowInfo(&registry_, window_.window());
   entities::CreateDino(&registry_, res_manager_);
@@ -80,20 +77,19 @@ void Game::HandleEvents() {
           base_speed_ += 1;
           score = contexts::game::GetScore(&registry_).value;
           contexts::game::SetScore(&registry_, score + 1);
-          score_ += 1;
           break;
         case SDLK_d:
           contexts::game::SetSpeed(&registry_, 0);
           base_speed_ = 0;
           dead_ = true;
-          high_score = score_ > high_score_ ? score_ : high_score_;
+          score = contexts::game::GetScore(&registry_).value;
+          high_score = contexts::game::GetHighScore(&registry_).value;
+          high_score = score > high_score ? score : high_score;
           contexts::game::SetHighScore(&registry_, high_score);
-          high_score_ = high_score;
           break;
         case SDLK_r:
           contexts::game::SetScore(&registry_, 0);
           contexts::game::SetSpeed(&registry_, 1);
-          score_ = 0;
           base_speed_ = 1;
           dead_ = false;
           break;
@@ -109,7 +105,8 @@ void Game::HandleEvents() {
       SDL_Point mouse_position;
       SDL_GetMouseState(&mouse_position.x, &mouse_position.y);
       if (hud_.RetryClicked(mouse_position)) {
-        score_ = 0;
+        contexts::game::SetScore(&registry_, 0);
+        contexts::game::SetSpeed(&registry_, 1);
         base_speed_ = 1;
         dead_ = false;
       }
@@ -125,7 +122,7 @@ void Game::Update() {
   systems::spawn::Clouds(&registry_, res_manager_);
   systems::despawn::OutOfBounds(&registry_);
   systems::sync::Transforms(&registry_);
-  hud_.Update(score_, high_score_, fps_, dead_);
+  hud_.Update(&registry_, dead_);
 }
 
 void Game::Render() {
@@ -141,6 +138,7 @@ void Game::Run() {
   const double kMSPerUpdate {1000.0 / kUpdatesPerSecond_};
   double previous_time = SDL_GetTicks();
   double lag = 0.0;
+  uint32_t fps;
   uint32_t frames = 0;
   double frames_elapsed = 0.0;
 
@@ -166,8 +164,7 @@ void Game::Run() {
 
     // Frame rate counter (updates every 250ms)
     if (frames_elapsed > 250.0) {
-      fps_ = static_cast<double>(frames) / (frames_elapsed / 1000.0);
-      double fps = fps;
+      fps = static_cast<double>(frames) / (frames_elapsed / 1000.0);
       contexts::SetFPS(&registry_, fps);
       frames = 0;
       frames_elapsed = 0.0;

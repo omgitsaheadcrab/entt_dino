@@ -18,6 +18,8 @@
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
 #include "core/window.h"
+#include "ctx/game.h"
+#include "ctx/general.h"
 #include "util/str.h"
 
 constexpr SDL_Color dino_grey = {89, 86, 82};
@@ -33,8 +35,10 @@ void HUD::Manager::Init(Window* window, ResourceManager* res_manager) {
   retry_ = CreateIcon("retry", 0.48, 0.52, dino_grey);
 }
 
-void HUD::Manager::Update(const uint32_t score, const uint32_t high_score,
-                          const uint32_t fps, const bool dead) {
+void HUD::Manager::Update(entt::registry* registry, const bool dead) {
+  auto score = contexts::game::GetScore(registry).value;
+  auto high_score = contexts::game::GetHighScore(registry).value;
+  auto fps = contexts::GetFPS(registry).value;
   fps_.str = utils::ToStringZeroPad(fps, 5);
   current_score_.str = utils::ToStringZeroPad(score, 5);
 
