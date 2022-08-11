@@ -6,8 +6,8 @@
  * @copyright Copyright © 2022 Tobias Backer Dirks
  */
 
-#ifndef ENTT_DINO_SRC_CTX_CONTEXTS_H_
-#define ENTT_DINO_SRC_CTX_CONTEXTS_H_
+#ifndef ENTT_DINO_SRC_CTX_GENERAL_H_
+#define ENTT_DINO_SRC_CTX_GENERAL_H_
 
 #include <SDL2/SDL_video.h>
 
@@ -30,4 +30,4 @@ void SetFPS(entt::registry* registry, const uint32_t fps);
 
 }  // namespace contexts
 
-#endif  // ENTT_DINO_SRC_CTX_CONTEXTS_H_
+#endif  // ENTT_DINO_SRC_CTX_GENERAL_H_

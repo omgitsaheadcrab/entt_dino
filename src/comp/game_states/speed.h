@@ -15,8 +15,7 @@ namespace components {
 
 namespace game_states {
 
-struct Speed
-{
+struct Speed {
   uint32_t base;
 };
 

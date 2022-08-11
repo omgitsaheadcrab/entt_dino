@@ -15,14 +15,12 @@ namespace components {
 
 namespace game_states {
 
-struct Highscore
-{
+struct Highscore {
   uint32_t value;
 };
 
 }  // namespace game_states
 
 }  // namespace components
-
 
 #endif  // ENTT_DINO_SRC_COMP_GAME_STATES_HIGHSCORE_H_
