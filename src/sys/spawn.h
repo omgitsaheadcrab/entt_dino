@@ -9,10 +9,6 @@
 #ifndef ENTT_DINO_SRC_SYS_SPAWN_H_
 #define ENTT_DINO_SRC_SYS_SPAWN_H_
 
-#include <SDL2/SDL_rect.h>
-
-#include <set>
-
 #include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
@@ -22,8 +18,7 @@ namespace systems {
 
 namespace spawn {
 
-void Clouds(entt::registry* registry, const ResourceManager& res_manager,
-            const SDL_Rect& bounds);
+void Clouds(entt::registry* registry, const ResourceManager& res_manager);
 
 void Floors(entt::registry* registry, const ResourceManager& res_manager);
 
