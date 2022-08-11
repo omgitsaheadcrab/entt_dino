@@ -19,9 +19,9 @@
 #include "core/hud.h"
 #include "core/res_manager.h"
 #include "core/window.h"
+#include "ctx/contexts.h"
 #include "ent/dino.h"
 #include "ent/entity_spawner.h"
-#include "ent/state/window.h"
 #include "sys/despawn.h"
 #include "sys/move.h"
 #include "sys/render.h"
@@ -42,7 +42,7 @@ void Game::Init() {
   score_ = 0;
   res_manager_.Init(window_.renderer());
   hud_.Init(&window_, &res_manager_);
-  entities::CreateWindowState(&registry_, window_.window());
+  contexts::SetWindowInfo(&registry_, window_.window());
   entities::CreateDino(&registry_, res_manager_);
   entities::CreateCloudSpawner(&registry_, 2);
   entities::CreateFloorSpawner(&registry_, 3);
@@ -56,7 +56,7 @@ void Game::HandleEvents() {
       over_ = true;
       break;
     case SDL_WINDOWEVENT:
-      // systems::ui::UpdateWindow(window_);
+      contexts::SetWindowInfo(&registry_, window_.window());
       break;
     case SDL_KEYDOWN:
       switch (window_.event().key.keysym.sym) {
