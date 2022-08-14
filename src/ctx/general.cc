@@ -11,11 +11,8 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_video.h>
 
-#include <cstdint>
-
 #include <entt/entity/registry.hpp>
 
-#include "comp/graphics/fps.h"
 #include "comp/graphics/window_info.h"
 
 void contexts::SetWindowInfo(entt::registry* registry, SDL_Window* window) {
