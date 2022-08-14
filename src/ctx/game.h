@@ -17,26 +17,25 @@
 #include "comp/game_states/over.h"
 #include "comp/game_states/score.h"
 #include "comp/game_states/speed.h"
+#include "ctx/context.h"
 
 namespace contexts {
 
 namespace game {
 
-components::game_states::Speed GetSpeed(entt::registry* registry);
+constexpr auto GetScore = &contexts::get<components::game_states::Score>;
+constexpr auto GetHighscore =
+    &contexts::get<components::game_states::Highscore>;
+constexpr auto GetSpeed = &contexts::get<components::game_states::Speed>;
+constexpr bool GetOver = &contexts::get_bool<components::game_states::Over>;
 
-void SetSpeed(entt::registry* registry, const uint32_t speed);
-
-components::game_states::Score GetScore(entt::registry* registry);
-
-void SetScore(entt::registry* registry, const uint32_t score);
-
-components::game_states::Highscore GetHighScore(entt::registry* registry);
-
-void SetHighScore(entt::registry* registry, const uint32_t score);
-
-bool GetOver(entt::registry* registry);
-
-void SetOver(entt::registry* registry, const bool over);
+constexpr auto SetScore =
+    &contexts::set<components::game_states::Score, const uint32_t>;
+constexpr auto SetHighscore =
+    &contexts::set<components::game_states::Highscore, const uint32_t>;
+constexpr auto SetSpeed =
+    &contexts::set<components::game_states::Speed, const uint32_t>;
+constexpr auto SetOver = &contexts::set_bool<components::game_states::Over>;
 
 }  // namespace game
 

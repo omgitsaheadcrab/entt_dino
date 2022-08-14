@@ -17,16 +17,16 @@
 
 #include "comp/graphics/fps.h"
 #include "comp/graphics/window_info.h"
+#include "ctx/context.h"
 
 namespace contexts {
 
-components::graphics::WindowInfo GetWindowInfo(const entt::registry* registry);
+constexpr auto GetFPS = &contexts::get<components::graphics::FPS>;
+constexpr auto GetWindowInfo = &contexts::get<components::graphics::WindowInfo>;
 
+constexpr auto SetFPS =
+    &contexts::set<components::graphics::FPS, const uint32_t>;
 void SetWindowInfo(entt::registry* registry, SDL_Window* window);
-
-components::graphics::FPS GetFPS(const entt::registry* registry);
-
-void SetFPS(entt::registry* registry, const uint32_t fps);
 
 }  // namespace contexts
 

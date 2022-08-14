@@ -41,7 +41,7 @@ void Game::Init() {
   contexts::SetFPS(&registry_, 0);
   contexts::game::SetOver(&registry_, false);
   contexts::game::SetSpeed(&registry_, 1);
-  contexts::game::SetHighScore(&registry_, 0);
+  contexts::game::SetHighscore(&registry_, 0);
   contexts::game::SetScore(&registry_, 0);
   over_ = false;
   base_speed_ = 1;
@@ -83,9 +83,9 @@ void Game::HandleEvents() {
           base_speed_ = 0;
           dead_ = true;
           score = contexts::game::GetScore(&registry_).value;
-          high_score = contexts::game::GetHighScore(&registry_).value;
+          high_score = contexts::game::GetHighscore(&registry_).value;
           high_score = score > high_score ? score : high_score;
-          contexts::game::SetHighScore(&registry_, high_score);
+          contexts::game::SetHighscore(&registry_, high_score);
           break;
         case SDLK_r:
           contexts::game::SetScore(&registry_, 0);

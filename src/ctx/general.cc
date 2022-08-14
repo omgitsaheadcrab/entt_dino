@@ -18,22 +18,9 @@
 #include "comp/graphics/fps.h"
 #include "comp/graphics/window_info.h"
 
-components::graphics::WindowInfo contexts::GetWindowInfo(
-    const entt::registry* registry) {
-  return registry->ctx().get<components::graphics::WindowInfo>();
-}
-
 void contexts::SetWindowInfo(entt::registry* registry, SDL_Window* window) {
   int w, h;
   SDL_GetWindowSize(window, &w, &h);
   registry->ctx().insert_or_assign(
       components::graphics::WindowInfo {SDL_Rect {0, 0, w, h}});
-}
-
-components::graphics::FPS contexts::GetFPS(const entt::registry* registry) {
-  return registry->ctx().get<components::graphics::FPS>();
-}
-
-void contexts::SetFPS(entt::registry* registry, const uint32_t fps) {
-  registry->ctx().insert_or_assign(components::graphics::FPS {fps});
 }
