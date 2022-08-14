@@ -21,11 +21,11 @@
 
 namespace contexts {
 
-constexpr auto GetFPS = &contexts::get<components::graphics::FPS>;
-constexpr auto GetWindowInfo = &contexts::get<components::graphics::WindowInfo>;
+constexpr auto GetFPS = &contexts::Get<components::graphics::FPS>;
+constexpr auto GetWindowInfo = &contexts::Get<components::graphics::WindowInfo>;
 
 constexpr auto SetFPS =
-    &contexts::set<components::graphics::FPS, const uint32_t>;
+    &contexts::Set<components::graphics::FPS, const uint32_t>;
 void SetWindowInfo(entt::registry* registry, SDL_Window* window);
 
 }  // namespace contexts

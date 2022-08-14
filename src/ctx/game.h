@@ -23,19 +23,19 @@ namespace contexts {
 
 namespace game {
 
-constexpr auto GetScore = &contexts::get<components::game_states::Score>;
+constexpr auto GetScore = &contexts::Get<components::game_states::Score>;
 constexpr auto GetHighscore =
-    &contexts::get<components::game_states::Highscore>;
-constexpr auto GetSpeed = &contexts::get<components::game_states::Speed>;
-constexpr bool GetOver = &contexts::get_bool<components::game_states::Over>;
+    &contexts::Get<components::game_states::Highscore>;
+constexpr auto GetSpeed = &contexts::Get<components::game_states::Speed>;
+constexpr bool GetOver = &contexts::GetBool<components::game_states::Over>;
 
 constexpr auto SetScore =
-    &contexts::set<components::game_states::Score, const uint32_t>;
+    &contexts::Set<components::game_states::Score, const uint32_t>;
 constexpr auto SetHighscore =
-    &contexts::set<components::game_states::Highscore, const uint32_t>;
+    &contexts::Set<components::game_states::Highscore, const uint32_t>;
 constexpr auto SetSpeed =
-    &contexts::set<components::game_states::Speed, const uint32_t>;
-constexpr auto SetOver = &contexts::set_bool<components::game_states::Over>;
+    &contexts::Set<components::game_states::Speed, const uint32_t>;
+constexpr auto SetOver = &contexts::SetBool<components::game_states::Over>;
 
 }  // namespace game
 

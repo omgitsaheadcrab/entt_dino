@@ -16,22 +16,22 @@
 namespace contexts {
 
 template <typename T>
-T get(entt::registry* registry) {
+T Get(entt::registry* registry) {
   return registry->ctx().get<T>();
 }
 
 template <typename T>
-bool get_bool(entt::registry* registry) {
+bool GetBool(entt::registry* registry) {
   return registry->ctx().contains<T>();
 }
 
 template <typename T, typename U>
-void set(entt::registry* registry, U u) {
+void Set(entt::registry* registry, U u) {
   registry->ctx().insert_or_assign(T {u});
 }
 
 template <typename T>
-void set_bool(entt::registry* registry, const bool over) {
+void SetBool(entt::registry* registry, const bool over) {
   if (over) {
     registry->ctx().insert_or_assign(T {});
   } else {
