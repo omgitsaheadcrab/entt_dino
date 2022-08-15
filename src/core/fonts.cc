@@ -17,6 +17,7 @@
 #include <cstdint>
 #include <string>
 
+#include "core/colors.h"
 #include "core/graphics.h"
 
 fonts::Font* fonts::LoadFontCache(const std::string& kName,
@@ -26,7 +27,6 @@ fonts::Font* fonts::LoadFontCache(const std::string& kName,
   // Constants
   constexpr int kMaxGlyphs = 128;
   constexpr int kFontTextureSize = 512;
-  constexpr SDL_Color kWhite = {255, 255, 255};
 
   auto ttf_font = TTF_OpenFont(kPath.c_str(), kSize);
   auto surface = SDL_CreateRGBSurface(0, kFontTextureSize, kFontTextureSize, 32,
@@ -44,7 +44,7 @@ fonts::Font* fonts::LoadFontCache(const std::string& kName,
   for (auto i = ' '; i <= 'z'; i++) {
     character[0] = i;  // Set ASCII value
     character[1] = 0;  // Null terminate
-    text = TTF_RenderUTF8_Blended(ttf_font, character, kWhite);
+    text = TTF_RenderUTF8_Blended(ttf_font, character, colors::kWhite);
     TTF_SizeText(ttf_font, character, &dest.w, &dest.h);
 
     if (dest.x + dest.w >= kFontTextureSize) {

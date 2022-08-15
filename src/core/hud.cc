@@ -15,6 +15,7 @@
 #include <cstdint>
 #include <string>
 
+#include "core/colors.h"
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
 #include "core/window.h"
@@ -22,17 +23,16 @@
 #include "ctx/graphics.h"
 #include "util/str.h"
 
-constexpr SDL_Color kDinoGrey = {89, 86, 82};
-
 void HUD::Manager::Init(Window* window, ResourceManager* res_manager) {
   window_ = window;
   res_manager_ = res_manager;
   renderer_ = window->renderer();
-  fps_ = CreateText("00000", 0.02, 0.03, kDinoGrey);
-  current_score_ = CreateText("00000", 0.92, 0.03, kDinoGrey);
-  high_score_ = CreateText("", 0.78, 0.03, kDinoGrey);
-  game_over_ = CreateText("G  A  M  E     O  V  E  R", 0.35, 0.40, kDinoGrey);
-  retry_ = CreateIcon("retry", 0.48, 0.52, kDinoGrey);
+  fps_ = CreateText("00000", 0.02, 0.03, colors::kDinoGrey);
+  current_score_ = CreateText("00000", 0.92, 0.03, colors::kDinoGrey);
+  high_score_ = CreateText("", 0.78, 0.03, colors::kDinoGrey);
+  game_over_ =
+      CreateText("G  A  M  E     O  V  E  R", 0.35, 0.40, colors::kDinoGrey);
+  retry_ = CreateIcon("retry", 0.48, 0.52, colors::kDinoGrey);
 }
 
 void HUD::Manager::Update(entt::registry* registry, const bool kDead) {
@@ -69,7 +69,8 @@ void HUD::Manager::DrawText(const HUD::Text& kText, const std::string& kFont,
 }
 
 void HUD::Manager::DrawIcon(const HUD::Icon& kIcon) {
-  SDL_SetTextureColorMod(kIcon.texture, kDinoGrey.r, kDinoGrey.g, kDinoGrey.b);
+  SDL_SetTextureColorMod(kIcon.texture, colors::kDinoGrey.r,
+                         colors::kDinoGrey.g, colors::kDinoGrey.b);
   SDL_RenderCopy(renderer_, kIcon.texture, &kIcon.clip, &kIcon.position);
 }
 
