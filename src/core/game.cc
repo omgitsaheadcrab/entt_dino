@@ -19,7 +19,8 @@
 #include "core/hud.h"
 #include "core/res_manager.h"
 #include "core/window.h"
-#include "ctx/contexts.h"
+#include "ctx/game.h"
+#include "ctx/graphics.h"
 #include "ent/dino.h"
 #include "ent/entity_spawner.h"
 #include "sys/despawn.h"
@@ -34,15 +35,17 @@ Game::Game(const int kWindowWidth, const int kWindowHeight)
 }
 
 void Game::Init() {
-  over_ = false;
   dead_ = false;
-  base_speed_ = 1;
-  fps_ = 0;
-  high_score_ = 0;
-  score_ = 0;
   res_manager_.Init(window_.renderer());
+
+  contexts::graphics::SetFPS(&registry_, 0);
+  contexts::game::SetOver(&registry_, false);
+  contexts::game::SetSpeed(&registry_, 1);
+  contexts::game::SetHighscore(&registry_, 0);
+  contexts::game::SetScore(&registry_, 0);
+  over_ = false;
   hud_.Init(&window_, &res_manager_);
-  contexts::SetWindowInfo(&registry_, window_.window());
+  contexts::graphics::SetBounds(&registry_, window_.window());
   entities::CreateDino(&registry_, res_manager_);
   entities::CreateCloudSpawner(&registry_, 2);
   entities::CreateFloorSpawner(&registry_, 3);
@@ -51,30 +54,37 @@ void Game::Init() {
 void Game::HandleEvents() {
   SDL_PollEvent(&window_.event());
 
+  uint32_t score, high_score;
+
   switch (window_.event().type) {
     case SDL_QUIT:
+      contexts::game::SetOver(&registry_, true);
       over_ = true;
       break;
     case SDL_WINDOWEVENT:
-      contexts::SetWindowInfo(&registry_, window_.window());
+      contexts::graphics::SetBounds(&registry_, window_.window());
       break;
     case SDL_KEYDOWN:
       switch (window_.event().key.keysym.sym) {
         case SDLK_ESCAPE:  // Press ESC to quit
+          contexts::game::SetOver(&registry_, true);
           over_ = true;
           break;
         case SDLK_SPACE:
-          base_speed_ += 1;
-          score_ += 1;
+          contexts::game::IncrementSpeed(&registry_, 1);
+          contexts::game::IncrementScore(&registry_, 1);
           break;
         case SDLK_d:
-          base_speed_ = 0;
+          contexts::game::SetSpeed(&registry_, 0);
           dead_ = true;
-          high_score_ = score_ > high_score_ ? score_ : high_score_;
+          score = contexts::game::GetScore(&registry_).value;
+          high_score = contexts::game::GetHighscore(&registry_).value;
+          high_score = score > high_score ? score : high_score;
+          contexts::game::SetHighscore(&registry_, high_score);
           break;
         case SDLK_r:
-          score_ = 0;
-          base_speed_ = 1;
+          contexts::game::SetScore(&registry_, 0);
+          contexts::game::SetSpeed(&registry_, 1);
           dead_ = false;
           break;
       }
@@ -89,8 +99,8 @@ void Game::HandleEvents() {
       SDL_Point mouse_position;
       SDL_GetMouseState(&mouse_position.x, &mouse_position.y);
       if (hud_.RetryClicked(mouse_position)) {
-        score_ = 0;
-        base_speed_ = 1;
+        contexts::game::SetScore(&registry_, 0);
+        contexts::game::SetSpeed(&registry_, 1);
         dead_ = false;
       }
       break;
@@ -100,12 +110,12 @@ void Game::HandleEvents() {
 }
 
 void Game::Update() {
-  systems::move::RigidBodies(&registry_, base_speed_);
+  systems::move::RigidBodies(&registry_);
   systems::spawn::Floors(&registry_, res_manager_);
   systems::spawn::Clouds(&registry_, res_manager_);
   systems::despawn::OutOfBounds(&registry_);
   systems::sync::Transforms(&registry_);
-  hud_.Update(score_, high_score_, fps_, dead_);
+  hud_.Update(&registry_, dead_);
 }
 
 void Game::Render() {
@@ -121,6 +131,7 @@ void Game::Run() {
   const double kMSPerUpdate {1000.0 / kUpdatesPerSecond_};
   double previous_time = SDL_GetTicks();
   double lag = 0.0;
+  uint32_t fps;
   uint32_t frames = 0;
   double frames_elapsed = 0.0;
 
@@ -146,7 +157,8 @@ void Game::Run() {
 
     // Frame rate counter (updates every 250ms)
     if (frames_elapsed > 250.0) {
-      fps_ = static_cast<double>(frames) / (frames_elapsed / 1000.0);
+      fps = static_cast<double>(frames) / (frames_elapsed / 1000.0);
+      contexts::graphics::SetFPS(&registry_, fps);
       frames = 0;
       frames_elapsed = 0.0;
     }

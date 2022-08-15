@@ -13,9 +13,9 @@
 #include "comp/entities/cloud.h"
 #include "comp/entities/floor.h"
 #include "comp/entity_states/despawn.h"
-#include "comp/graphics/window_info.h"
 #include "comp/physics/transform.h"
 #include "core/res_manager.h"
+#include "ctx/graphics.h"
 #include "ent/cloud.h"
 #include "ent/floor.h"
 
@@ -26,16 +26,16 @@ void systems::spawn::Clouds(entt::registry* registry,
   const auto bg_view =
       registry
           ->view<components::physics::Transform, components::entities::Cloud>();
-  const auto& window = registry->ctx().get<components::graphics::WindowInfo>();
+  const auto& bounds = contexts::graphics::GetBounds(registry);
 
   spawner_view.each([&](auto& spawner) {
     if (spawner.count == 0) {
-      double pos = window.bounds.w / 4.0;
+      double pos = bounds.position.w / 4.0;
       entities::CreateCloud(registry, res_manager, pos);
       ++spawner.count;
 
       while (spawner.count < spawner.capacity) {
-        pos += window.bounds.w / 2.0;
+        pos += bounds.position.w / 2.0;
         entities::CreateCloud(registry, res_manager, pos);
         ++spawner.count;
       }
@@ -45,7 +45,7 @@ void systems::spawn::Clouds(entt::registry* registry,
       if (transform.position.x <= -transform.position.w) {
         registry->emplace<components::entity_states::Despawn>(entity);
         const auto pos = transform.position.x + transform.position.w +
-                         (window.bounds.w / 2.0 * spawner.capacity);
+                         (bounds.position.w / 2.0 * spawner.capacity);
 
         entities::CreateCloud(registry, res_manager, pos);
         ++spawner.count;

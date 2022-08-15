@@ -32,10 +32,6 @@ class Game {
  private:
   bool over_;
   bool dead_;
-  uint32_t base_speed_;
-  uint32_t fps_;
-  uint32_t high_score_;
-  uint32_t score_;
   entt::registry registry_;
   HUD::Manager hud_;
   ResourceManager res_manager_;
