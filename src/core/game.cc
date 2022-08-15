@@ -20,7 +20,7 @@
 #include "core/res_manager.h"
 #include "core/window.h"
 #include "ctx/game.h"
-#include "ctx/general.h"
+#include "ctx/graphics.h"
 #include "ent/dino.h"
 #include "ent/entity_spawner.h"
 #include "sys/despawn.h"
@@ -38,7 +38,7 @@ void Game::Init() {
   dead_ = false;
   res_manager_.Init(window_.renderer());
 
-  contexts::SetFPS(&registry_, 0);
+  contexts::graphics::SetFPS(&registry_, 0);
   contexts::game::SetOver(&registry_, false);
   contexts::game::SetSpeed(&registry_, 1);
   contexts::game::SetHighscore(&registry_, 0);
@@ -46,7 +46,7 @@ void Game::Init() {
   over_ = false;
   base_speed_ = 1;
   hud_.Init(&window_, &res_manager_);
-  contexts::SetWindowInfo(&registry_, window_.window());
+  contexts::graphics::SetBounds(&registry_, window_.window());
   entities::CreateDino(&registry_, res_manager_);
   entities::CreateCloudSpawner(&registry_, 2);
   entities::CreateFloorSpawner(&registry_, 3);
@@ -63,7 +63,7 @@ void Game::HandleEvents() {
       over_ = true;
       break;
     case SDL_WINDOWEVENT:
-      contexts::SetWindowInfo(&registry_, window_.window());
+      contexts::graphics::SetBounds(&registry_, window_.window());
       break;
     case SDL_KEYDOWN:
       switch (window_.event().key.keysym.sym) {
@@ -165,7 +165,7 @@ void Game::Run() {
     // Frame rate counter (updates every 250ms)
     if (frames_elapsed > 250.0) {
       fps = static_cast<double>(frames) / (frames_elapsed / 1000.0);
-      contexts::SetFPS(&registry_, fps);
+      contexts::graphics::SetFPS(&registry_, fps);
       frames = 0;
       frames_elapsed = 0.0;
     }

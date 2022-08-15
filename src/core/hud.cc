@@ -19,7 +19,7 @@
 #include "core/res_manager.h"
 #include "core/window.h"
 #include "ctx/game.h"
-#include "ctx/general.h"
+#include "ctx/graphics.h"
 #include "util/str.h"
 
 constexpr SDL_Color dino_grey = {89, 86, 82};
@@ -38,7 +38,7 @@ void HUD::Manager::Init(Window* window, ResourceManager* res_manager) {
 void HUD::Manager::Update(entt::registry* registry, const bool dead) {
   auto score = contexts::game::GetScore(registry).value;
   auto high_score = contexts::game::GetHighscore(registry).value;
-  auto fps = contexts::GetFPS(registry).value;
+  auto fps = contexts::graphics::GetFPS(registry).value;
   fps_.str = utils::ToStringZeroPad(fps, 5);
   current_score_.str = utils::ToStringZeroPad(score, 5);
 

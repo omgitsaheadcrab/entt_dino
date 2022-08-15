@@ -20,7 +20,7 @@
 #include "comp/physics/transform.h"
 #include "core/res_manager.h"
 #include "core/vec2d.h"
-#include "ctx/general.h"
+#include "ctx/graphics.h"
 
 namespace {
 
@@ -35,10 +35,10 @@ SDL_Rect position {0, 0, 0, 0};
 
 void entities::CreateDino(entt::registry* registry,
                           const ResourceManager& res_manager) {
-  const auto& window = contexts::GetWindowInfo(registry);
+  const auto& bounds = contexts::graphics::GetBounds(registry);
   auto clips = res_manager.GetSpriteClips("dino");
-  position.x = window.bounds.w * 0.05;
-  position.y = window.bounds.h * 0.77;
+  position.x = bounds.position.w * 0.05;
+  position.y = bounds.position.h * 0.77;
   position.h = clips[0].h;
   position.w = clips[0].w;
 
