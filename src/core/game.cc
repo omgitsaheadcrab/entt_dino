@@ -19,7 +19,7 @@
 #include "core/hud.h"
 #include "core/res_manager.h"
 #include "core/window.h"
-#include "ctx/game.h"
+#include "ctx/game_states.h"
 #include "ctx/graphics.h"
 #include "ent/dino.h"
 #include "ent/entity_spawner.h"
@@ -39,10 +39,10 @@ void Game::Init() {
   res_manager_.Init(window_.renderer());
 
   contexts::graphics::SetFPS(&registry_, 0);
-  contexts::game::SetOver(&registry_, false);
-  contexts::game::SetSpeed(&registry_, 1);
-  contexts::game::SetHighscore(&registry_, 0);
-  contexts::game::SetScore(&registry_, 0);
+  contexts::game_states::SetOver(&registry_, false);
+  contexts::game_states::SetSpeed(&registry_, 1);
+  contexts::game_states::SetHighscore(&registry_, 0);
+  contexts::game_states::SetScore(&registry_, 0);
   over_ = false;
   hud_.Init(&window_, &res_manager_);
   contexts::graphics::SetBounds(&registry_, window_.window());
@@ -58,7 +58,7 @@ void Game::HandleEvents() {
 
   switch (window_.event().type) {
     case SDL_QUIT:
-      contexts::game::SetOver(&registry_, true);
+      contexts::game_states::SetOver(&registry_, true);
       over_ = true;
       break;
     case SDL_WINDOWEVENT:
@@ -67,24 +67,24 @@ void Game::HandleEvents() {
     case SDL_KEYDOWN:
       switch (window_.event().key.keysym.sym) {
         case SDLK_ESCAPE:  // Press ESC to quit
-          contexts::game::SetOver(&registry_, true);
+          contexts::game_states::SetOver(&registry_, true);
           over_ = true;
           break;
         case SDLK_SPACE:
-          contexts::game::IncrementSpeed(&registry_, 1);
-          contexts::game::IncrementScore(&registry_, 1);
+          contexts::game_states::IncrementSpeed(&registry_, 1);
+          contexts::game_states::IncrementScore(&registry_, 1);
           break;
         case SDLK_d:
-          contexts::game::SetSpeed(&registry_, 0);
+          contexts::game_states::SetSpeed(&registry_, 0);
           dead_ = true;
-          score = contexts::game::GetScore(&registry_).value;
-          high_score = contexts::game::GetHighscore(&registry_).value;
+          score = contexts::game_states::GetScore(&registry_).value;
+          high_score = contexts::game_states::GetHighscore(&registry_).value;
           high_score = score > high_score ? score : high_score;
-          contexts::game::SetHighscore(&registry_, high_score);
+          contexts::game_states::SetHighscore(&registry_, high_score);
           break;
         case SDLK_r:
-          contexts::game::SetScore(&registry_, 0);
-          contexts::game::SetSpeed(&registry_, 1);
+          contexts::game_states::SetScore(&registry_, 0);
+          contexts::game_states::SetSpeed(&registry_, 1);
           dead_ = false;
           break;
       }
@@ -99,8 +99,8 @@ void Game::HandleEvents() {
       SDL_Point mouse_position;
       SDL_GetMouseState(&mouse_position.x, &mouse_position.y);
       if (hud_.RetryClicked(mouse_position)) {
-        contexts::game::SetScore(&registry_, 0);
-        contexts::game::SetSpeed(&registry_, 1);
+        contexts::game_states::SetScore(&registry_, 0);
+        contexts::game_states::SetSpeed(&registry_, 1);
         dead_ = false;
       }
       break;

@@ -1,13 +1,13 @@
 /**
- * @file      game.h
- * @brief     Game contexts
+ * @file      game_states.h
+ * @brief     Game state contexts
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
  * @date      2022-08-11
  * @copyright Copyright © 2022 Tobias Backer Dirks
  */
 
-#ifndef ENTT_DINO_SRC_CTX_GAME_H_
-#define ENTT_DINO_SRC_CTX_GAME_H_
+#ifndef ENTT_DINO_SRC_CTX_GAME_STATES_H_
+#define ENTT_DINO_SRC_CTX_GAME_STATES_H_
 
 #include <cstdint>
 
@@ -21,7 +21,7 @@
 
 namespace contexts {
 
-namespace game {
+namespace game_states {
 
 constexpr auto GetScore = &contexts::Get<components::game_states::Score>;
 constexpr auto SetScore =
@@ -43,8 +43,8 @@ constexpr auto IncrementSpeed =
 constexpr bool GetOver = &contexts::GetBool<components::game_states::Over>;
 constexpr auto SetOver = &contexts::SetBool<components::game_states::Over>;
 
-}  // namespace game
+}  // namespace game_states
 
 }  // namespace contexts
 
-#endif  // ENTT_DINO_SRC_CTX_GAME_H_
+#endif  // ENTT_DINO_SRC_CTX_GAME_STATES_H_

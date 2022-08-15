@@ -18,7 +18,7 @@
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
 #include "core/window.h"
-#include "ctx/game.h"
+#include "ctx/game_states.h"
 #include "ctx/graphics.h"
 #include "util/str.h"
 
@@ -36,8 +36,8 @@ void HUD::Manager::Init(Window* window, ResourceManager* res_manager) {
 }
 
 void HUD::Manager::Update(entt::registry* registry, const bool dead) {
-  auto score = contexts::game::GetScore(registry).value;
-  auto high_score = contexts::game::GetHighscore(registry).value;
+  auto score = contexts::game_states::GetScore(registry).value;
+  auto high_score = contexts::game_states::GetHighscore(registry).value;
   auto fps = contexts::graphics::GetFPS(registry).value;
   fps_.str = utils::ToStringZeroPad(fps, 5);
   current_score_.str = utils::ToStringZeroPad(score, 5);
