@@ -25,8 +25,8 @@ struct Font {
   std::vector<SDL_Rect> glyphs;
 };
 
-Font* LoadFontCache(const std::string& name, const uint32_t size,
-                    const std::string& path, SDL_Renderer* renderer);
+Font* LoadFontCache(const std::string& kName, const uint32_t kSize,
+                    const std::string& kPath, SDL_Renderer* renderer);
 
 }  // namespace fonts
 

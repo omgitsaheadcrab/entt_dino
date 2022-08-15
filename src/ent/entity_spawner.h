@@ -15,9 +15,9 @@
 
 namespace entities {
 
-void CreateCloudSpawner(entt::registry* registry, const uint32_t capacity);
+void CreateCloudSpawner(entt::registry* registry, const uint32_t kCapacity);
 
-void CreateFloorSpawner(entt::registry* registry, const uint32_t capacity);
+void CreateFloorSpawner(entt::registry* registry, const uint32_t kCapacity);
 
 }  // namespace entities
 

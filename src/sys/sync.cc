@@ -14,12 +14,12 @@
 #include "comp/physics/transform.h"
 
 void systems::sync::Transforms(entt::registry* registry) {
-  const auto view = registry->view<components::graphics::Transform,
-                                   components::physics::Transform>();
-  view.each([&](auto& gfx, const auto& physx) {
-    gfx.position.x = physx.position.x;
-    gfx.position.y = physx.position.y;
-    gfx.position.w = physx.position.w;
-    gfx.position.h = physx.position.h;
+  const auto kView = registry->view<components::graphics::Transform,
+                                    components::physics::Transform>();
+  kView.each([&](auto& gfx, const auto& kPhysx) {
+    gfx.position.x = kPhysx.position.x;
+    gfx.position.y = kPhysx.position.y;
+    gfx.position.w = kPhysx.position.w;
+    gfx.position.h = kPhysx.position.h;
   });
 }

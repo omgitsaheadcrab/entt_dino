@@ -43,7 +43,6 @@ void Game::Init() {
   contexts::game_states::SetSpeed(&registry_, 1);
   contexts::game_states::SetHighscore(&registry_, 0);
   contexts::game_states::SetScore(&registry_, 0);
-  over_ = false;
   hud_.Init(&window_, &res_manager_);
   contexts::graphics::SetBounds(&registry_, window_.window());
   entities::CreateDino(&registry_, res_manager_);
@@ -59,7 +58,6 @@ void Game::HandleEvents() {
   switch (window_.event().type) {
     case SDL_QUIT:
       contexts::game_states::SetOver(&registry_, true);
-      over_ = true;
       break;
     case SDL_WINDOWEVENT:
       contexts::graphics::SetBounds(&registry_, window_.window());
@@ -68,7 +66,6 @@ void Game::HandleEvents() {
       switch (window_.event().key.keysym.sym) {
         case SDLK_ESCAPE:  // Press ESC to quit
           contexts::game_states::SetOver(&registry_, true);
-          over_ = true;
           break;
         case SDLK_SPACE:
           contexts::game_states::IncrementSpeed(&registry_, 1);
@@ -133,14 +130,14 @@ void Game::Run() {
   double lag = 0.0;
   uint32_t fps;
   uint32_t frames = 0;
-  double frames_elapsed = 0.0;
+  double frame_time_elapsed = 0.0;
 
-  while (!over_) {
-    double current_time = SDL_GetTicks();
-    double elapsed = current_time - previous_time;
-    previous_time = current_time;
-    lag += elapsed;
-    frames_elapsed += elapsed;
+  while (!contexts::game_states::GetOver(&registry_)) {
+    const double kCurrentTime = SDL_GetTicks();
+    const double kElapsed = kCurrentTime - previous_time;
+    previous_time = kCurrentTime;
+    lag += kElapsed;
+    frame_time_elapsed += kElapsed;
 
     // HandleEvents as often as possible
     HandleEvents();
@@ -156,11 +153,11 @@ void Game::Run() {
     frames++;
 
     // Frame rate counter (updates every 250ms)
-    if (frames_elapsed > 250.0) {
-      fps = static_cast<double>(frames) / (frames_elapsed / 1000.0);
+    if (frame_time_elapsed > 250.0) {
+      fps = frames / (frame_time_elapsed / 1000);
       contexts::graphics::SetFPS(&registry_, fps);
       frames = 0;
-      frames_elapsed = 0.0;
+      frame_time_elapsed = 0.0;
     }
   }
 }

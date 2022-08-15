@@ -15,7 +15,7 @@
 
 namespace entities {
 
-void CreateDino(entt::registry* registry, const ResourceManager& res_manager);
+void CreateDino(entt::registry* registry, const ResourceManager& kResManager);
 
 }  // namespace entities
 

@@ -15,10 +15,10 @@
 #include "ctx/game_states.h"
 
 void systems::move::RigidBodies(entt::registry* registry) {
-  const auto view = registry->view<components::physics::Transform,
-                                   components::physics::RigidBody>();
-  const auto base_speed = contexts::game_states::GetSpeed(registry);
-  view.each([&](auto& transform, const auto& rigid_body) {
-    transform.position.x += rigid_body.velocity.x * base_speed.value;
+  const auto kView = registry->view<components::physics::Transform,
+                                    components::physics::RigidBody>();
+  const auto kBaseSpeed = contexts::game_states::GetSpeed(registry);
+  kView.each([&](auto& transform, const auto& kRigidBody) {
+    transform.position.x += kRigidBody.velocity.x * kBaseSpeed.value;
   });
 }

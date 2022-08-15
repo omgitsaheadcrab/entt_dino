@@ -20,34 +20,34 @@
 #include "ent/floor.h"
 
 void systems::spawn::Clouds(entt::registry* registry,
-                            const ResourceManager& res_manager) {
-  const auto spawner_view = registry->view<components::attributes::Spawner,
+                            const ResourceManager& kResManager) {
+  const auto kSpawnerView = registry->view<components::attributes::Spawner,
                                            components::entities::Cloud>();
-  const auto bg_view =
+  const auto kCloudView =
       registry
           ->view<components::physics::Transform, components::entities::Cloud>();
-  const auto& bounds = contexts::graphics::GetBounds(registry);
+  const auto& kBounds = contexts::graphics::GetBounds(registry);
 
-  spawner_view.each([&](auto& spawner) {
+  kSpawnerView.each([&](auto& spawner) {
     if (spawner.count == 0) {
-      double pos = bounds.position.w / 4.0;
-      entities::CreateCloud(registry, res_manager, pos);
+      double pos = kBounds.position.w / 4.0;
+      entities::CreateCloud(registry, kResManager, pos);
       ++spawner.count;
 
       while (spawner.count < spawner.capacity) {
-        pos += bounds.position.w / 2.0;
-        entities::CreateCloud(registry, res_manager, pos);
+        pos += kBounds.position.w / 2.0;
+        entities::CreateCloud(registry, kResManager, pos);
         ++spawner.count;
       }
     }
 
-    bg_view.each([&](auto entity, const auto& transform) {
-      if (transform.position.x <= -transform.position.w) {
+    kCloudView.each([&](auto entity, const auto& kTransform) {
+      if (kTransform.position.x <= -kTransform.position.w) {
         registry->emplace<components::entity_states::Despawn>(entity);
-        const auto pos = transform.position.x + transform.position.w +
-                         (bounds.position.w / 2.0 * spawner.capacity);
+        const auto kPos = kTransform.position.x + kTransform.position.w +
+                          (kBounds.position.w / 2.0 * spawner.capacity);
 
-        entities::CreateCloud(registry, res_manager, pos);
+        entities::CreateCloud(registry, kResManager, kPos);
         ++spawner.count;
       }
     });
@@ -55,39 +55,39 @@ void systems::spawn::Clouds(entt::registry* registry,
 }
 
 void systems::spawn::Floors(entt::registry* registry,
-                            const ResourceManager& res_manager) {
-  const auto spawner_view = registry->view<components::attributes::Spawner,
+                            const ResourceManager& kResManager) {
+  const auto kSpawnerView = registry->view<components::attributes::Spawner,
                                            components::entities::Floor>();
-  const auto bg_view =
+  const auto kFloorView =
       registry
           ->view<components::physics::Transform, components::entities::Floor>();
 
   double current_pos = 0;
   double width = 0;
 
-  spawner_view.each([&](auto& spawner) {
+  kSpawnerView.each([&](auto& spawner) {
     if (spawner.count == 0) {
-      entities::CreateFloor(registry, res_manager, 0);
+      entities::CreateFloor(registry, kResManager, 0);
       ++spawner.count;
-      bg_view.each([&](const auto& transform) {
-        current_pos = transform.position.x + transform.position.w;
-        width = transform.position.w;
+      kFloorView.each([&](const auto& kTransform) {
+        current_pos = kTransform.position.x + kTransform.position.w;
+        width = kTransform.position.w;
       });
 
       while (spawner.count < spawner.capacity) {
-        entities::CreateFloor(registry, res_manager, current_pos);
+        entities::CreateFloor(registry, kResManager, current_pos);
         ++spawner.count;
         current_pos += width;
       }
     }
 
-    bg_view.each([&](auto entity, const auto& transform) {
-      if (transform.position.x <= -transform.position.w) {
+    kFloorView.each([&](auto entity, const auto& kTransform) {
+      if (kTransform.position.x <= -kTransform.position.w) {
         registry->emplace<components::entity_states::Despawn>(entity);
-        const auto pos =
-            transform.position.x + (transform.position.w * spawner.capacity);
+        const auto kPos =
+            kTransform.position.x + (kTransform.position.w * spawner.capacity);
 
-        entities::CreateFloor(registry, res_manager, pos);
+        entities::CreateFloor(registry, kResManager, kPos);
         ++spawner.count;
       }
     });

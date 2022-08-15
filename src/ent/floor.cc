@@ -24,8 +24,8 @@
 namespace {
 
 // Rigid Body
-const vf2d velocity {-2.0, 0.0};
-const vf2d acceleration {0.0, 0.0};
+const vf2d kVelocity {-2.0, 0.0};
+const vf2d kAcceleration {0.0, 0.0};
 
 // Transform
 SDL_Rect position {0, 212, 0, 0};
@@ -33,19 +33,21 @@ SDL_Rect position {0, 212, 0, 0};
 }  // namespace
 
 void entities::CreateFloor(entt::registry* registry,
-                           const ResourceManager& res_manager, const int xpos) {
-  auto clips = res_manager.GetSpriteClips("floor");
-  auto clip_number = utils::UniformRandom(0, 2);
-  position.x = xpos;
-  position.h = clips[clip_number].h;
-  position.w = clips[clip_number].w;
+                           const ResourceManager& kResManager,
+                           const int kXPos) {
+  const auto kClips = kResManager.GetSpriteClips("floor");
+  const auto kClipNumber = utils::UniformRandom(0, 2);
+  position.x = kXPos;
+  position.h = kClips[kClipNumber].h;
+  position.w = kClips[kClipNumber].w;
 
   auto e = registry->create();
   registry->emplace<components::entities::Floor>(e);
-  registry->emplace<components::physics::RigidBody>(e, velocity, acceleration);
+  registry->emplace<components::physics::RigidBody>(e, kVelocity,
+                                                    kAcceleration);
   registry->emplace<components::graphics::Transform>(e, position);
   registry->emplace<components::physics::Transform>(e, position);
   registry->emplace<components::graphics::Sprite>(
-      e, res_manager.sprite_textures.find("floor")->second, clips[clip_number]);
+      e, kResManager.GetSpriteTexture("floor"), kClips[kClipNumber]);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }

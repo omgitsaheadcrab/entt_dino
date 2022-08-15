@@ -25,8 +25,8 @@
 namespace {
 
 // Rigid Body
-const vf2d velocity {0.0, 0.0};
-const vf2d acceleration {0.0, 0.0};
+const vf2d kVelocity {0.0, 0.0};
+const vf2d kAcceleration {0.0, 0.0};
 
 // Transform
 SDL_Rect position {0, 0, 0, 0};
@@ -34,20 +34,21 @@ SDL_Rect position {0, 0, 0, 0};
 }  // namespace
 
 void entities::CreateDino(entt::registry* registry,
-                          const ResourceManager& res_manager) {
-  const auto& bounds = contexts::graphics::GetBounds(registry);
-  auto clips = res_manager.GetSpriteClips("dino");
-  position.x = bounds.position.w * 0.05;
-  position.y = bounds.position.h * 0.77;
-  position.h = clips[0].h;
-  position.w = clips[0].w;
+                          const ResourceManager& kResManager) {
+  const auto& kBounds = contexts::graphics::GetBounds(registry);
+  const auto kClips = kResManager.GetSpriteClips("dino");
+  position.x = kBounds.position.w * 0.05;
+  position.y = kBounds.position.h * 0.77;
+  position.h = kClips[0].h;
+  position.w = kClips[0].w;
 
   auto e = registry->create();
   registry->emplace<components::entities::Dino>(e);
-  registry->emplace<components::physics::RigidBody>(e, velocity, acceleration);
+  registry->emplace<components::physics::RigidBody>(e, kVelocity,
+                                                    kAcceleration);
   registry->emplace<components::graphics::Transform>(e, position);
   registry->emplace<components::physics::Transform>(e, position);
   registry->emplace<components::graphics::Sprite>(
-      e, res_manager.sprite_textures.find("dino")->second, clips[0]);
+      e, kResManager.GetSpriteTexture("dino"), kClips[0]);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }

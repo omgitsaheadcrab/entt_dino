@@ -25,29 +25,31 @@
 namespace {
 
 // Rigid Body
-const vf2d velocity {-1.0, 0.0};
-const vf2d acceleration {0.0, 0.0};
+const vf2d kVelocity {-1.0, 0.0};
+const vf2d kAcceleration {0.0, 0.0};
 
 // Transform
-constexpr int initial_y_pos = 30;
+constexpr int kYPos = 30;
 SDL_Rect position {0, 0, 0, 0};
 
 }  // namespace
 
 void entities::CreateCloud(entt::registry* registry,
-                           const ResourceManager& res_manager, const int xpos) {
-  auto clips = res_manager.GetSpriteClips("cloud");
-  position.x = xpos;
-  position.y = initial_y_pos * utils::UniformRandom(1, 3);
-  position.h = clips[0].h;
-  position.w = clips[0].w;
+                           const ResourceManager& kResManager,
+                           const int kXPos) {
+  auto kClips = kResManager.GetSpriteClips("cloud");
+  position.x = kXPos;
+  position.y = kYPos * utils::UniformRandom(1, 3);
+  position.h = kClips[0].h;
+  position.w = kClips[0].w;
 
   auto e = registry->create();
   registry->emplace<components::entities::Cloud>(e);
-  registry->emplace<components::physics::RigidBody>(e, velocity, acceleration);
+  registry->emplace<components::physics::RigidBody>(e, kVelocity,
+                                                    kAcceleration);
   registry->emplace<components::physics::Transform>(e, position);
   registry->emplace<components::graphics::Transform>(e, position);
   registry->emplace<components::graphics::Sprite>(
-      e, res_manager.sprite_textures.find("cloud")->second, clips[0]);
+      e, kResManager.GetSpriteTexture("cloud"), kClips[0]);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }

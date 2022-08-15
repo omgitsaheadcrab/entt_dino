@@ -43,9 +43,9 @@ void SetBool(entt::registry* registry, const bool over) {
 
 template <typename T>
 void Increment(entt::registry* registry, const uint32_t delta = 1) {
-  auto contains = registry->ctx().contains<T>();
+  auto kContains = registry->ctx().contains<T>();
   uint32_t prev = 0;
-  if (contains) {
+  if (kContains) {
     prev = registry->ctx().get<T>().value;
   }
   registry->ctx().insert_or_assign(T {prev + delta});

@@ -29,22 +29,22 @@ class ResourceManager {
   ~ResourceManager();
 
   void Init(SDL_Renderer* renderer);
-  std::vector<SDL_Rect> GetSpriteClips(const std::string& sprite) const;
-  void DrawText(const std::string& text, uint32_t x, const uint32_t y,
-                const SDL_Color& color, const std::string& font_name,
-                const u_int32_t font_size);
-
-  std::unordered_map<std::string, std::vector<fonts::Font*>> fonts;
-  std::unordered_map<std::string, SDL_Texture*> sprite_textures;
+  std::vector<SDL_Rect> GetSpriteClips(const std::string& kSprite) const;
+  SDL_Texture* GetSpriteTexture(const std::string kSpriteName) const;
+  void DrawText(const std::string& kText, uint32_t x, const uint32_t kY,
+                const SDL_Color& kColor, const std::string& kFontName,
+                const u_int32_t kFontSize);
 
  private:
   void ParseSprites();
   void LoadSprites();
   void ParseFonts();
-  void LoadFont(const std::string& name, const uint32_t size);
+  void LoadFont(const std::string& kName, const uint32_t kSize);
 
   SDL_Renderer* renderer_;
   nlohmann::json resources_;
+  std::unordered_map<std::string, std::vector<fonts::Font*>> fonts_;
+  std::unordered_map<std::string, SDL_Texture*> sprite_textures_;
 };
 
 #endif  // ENTT_DINO_SRC_CORE_RES_MANAGER_H_

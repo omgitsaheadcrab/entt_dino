@@ -15,8 +15,8 @@
 
 namespace entities {
 
-void CreateCloud(entt::registry* registry, const ResourceManager& res_manager,
-                 const int xpos);
+void CreateCloud(entt::registry* registry, const ResourceManager& kResManager,
+                 const int kXPos);
 
 }  // namespace entities
 

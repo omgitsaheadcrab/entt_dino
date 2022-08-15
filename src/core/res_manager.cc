@@ -29,8 +29,8 @@
 #include "util/res.h"
 
 ResourceManager::~ResourceManager() {
-  for (const auto& font : fonts) {
-    for (const auto& size : font.second) {
+  for (const auto& kFont : fonts_) {
+    for (auto& size : kFont.second) {
       delete size;
     }
   }
@@ -45,96 +45,101 @@ void ResourceManager::Init(SDL_Renderer* renderer) {
 
 void ResourceManager::ParseSprites() {
   std::string sprite_dir = utils::GetResPath() + "sprites";
-  for (const auto& entry : std::filesystem::directory_iterator(sprite_dir)) {
-    if (entry.path().extension() == ".json") {
+  for (const auto& kEntry : std::filesystem::directory_iterator(sprite_dir)) {
+    if (kEntry.path().extension() == ".json") {
       nlohmann::json sprite;
-      std::ifstream json_file(entry.path());
+      std::ifstream json_file(kEntry.path());
       json_file >> sprite;
 
-      resources_["sprites"][entry.path().stem()]["frames"] = sprite["frames"];
-      auto filepath = entry.path().parent_path().string() + "/" +
-                      sprite["meta"]["image"].get<std::string>();
-      resources_["sprites"][entry.path().stem()]["filepath"] = filepath;
+      resources_["sprites"][kEntry.path().stem()]["frames"] = sprite["frames"];
+      const auto kFilepath = kEntry.path().parent_path().string() + "/" +
+                             sprite["meta"]["image"].get<std::string>();
+      resources_["sprites"][kEntry.path().stem()]["filepath"] = kFilepath;
     }
   }
 }
 
 void ResourceManager::LoadSprites() {
-  for (auto& [key, sprite] : resources_["sprites"].items()) {
-    SPDLOG_DEBUG("Loading sprite: {}", key);
-    sprite_textures[key] = graphics::LoadTexture(
-        IMG_Load(sprite["filepath"].get<std::string>().c_str()), renderer_);
+  for (const auto& [kKey, kSprite] : resources_["sprites"].items()) {
+    SPDLOG_DEBUG("Loading sprite: {}", kKey);
+    sprite_textures_[kKey] = graphics::LoadTexture(
+        IMG_Load(kSprite["filepath"].get<std::string>().c_str()), renderer_);
   }
 }
 
 std::vector<SDL_Rect> ResourceManager::GetSpriteClips(
-    const std::string& sprite) const {
+    const std::string& kSprite) const {
   std::vector<SDL_Rect> sprites;
 
-  for (auto& frame : resources_["sprites"][sprite]["frames"]) {
-    SDL_Rect clip {frame["frame"]["x"], frame["frame"]["y"],
-                   frame["frame"]["w"], frame["frame"]["h"]};
-    sprites.push_back(clip);
+  for (const auto& kFrame : resources_["sprites"][kSprite]["frames"]) {
+    const SDL_Rect kClip {kFrame["frame"]["x"], kFrame["frame"]["y"],
+                          kFrame["frame"]["w"], kFrame["frame"]["h"]};
+    sprites.push_back(kClip);
   }
 
   return sprites;
 }
 
+SDL_Texture* ResourceManager::GetSpriteTexture(
+    const std::string kSpriteName) const {
+  return sprite_textures_.find(kSpriteName)->second;
+}
+
 void ResourceManager::ParseFonts() {
-  std::string font_dir = utils::GetResPath() + "fonts";
-  for (const auto& entry : std::filesystem::directory_iterator(font_dir)) {
-    if (entry.path().extension() == ".ttf") {
-      auto filepath = entry.path().parent_path().string();
-      resources_["fonts"][entry.path().stem()]["filepath"] = filepath;
-      resources_["fonts"][entry.path().stem()]["extension"] = ".ttf";
-      std::vector<fonts::Font*> sizes;
-      fonts[entry.path().stem().string()] = sizes;
+  const std::string kFontDir = utils::GetResPath() + "fonts";
+  for (const auto& kEntry : std::filesystem::directory_iterator(kFontDir)) {
+    if (kEntry.path().extension() == ".ttf") {
+      const auto kFilepath = kEntry.path().parent_path().string();
+      resources_["fonts"][kEntry.path().stem()]["filepath"] = kFilepath;
+      resources_["fonts"][kEntry.path().stem()]["extension"] = ".ttf";
+      const std::vector<fonts::Font*> kSizes;
+      fonts_[kEntry.path().stem().string()] = kSizes;
     }
   }
 }
 
-void ResourceManager::LoadFont(const std::string& name, const uint32_t size) {
-  fonts[name].resize(size + 1);
-  SPDLOG_DEBUG("Loading font: {}:{}pt", name, size);
+void ResourceManager::LoadFont(const std::string& kName, const uint32_t kSize) {
+  fonts_[kName].resize(kSize + 1);
+  SPDLOG_DEBUG("Loading font: {}:{}pt", kName, kSize);
 
   // TODO(omgitsaheadcrab): move to helper
-  const std::string font_path =
-      resources_["fonts"][name]["filepath"].get<std::string>() + "/" + name +
-      resources_["fonts"][name]["extension"].get<std::string>();
+  const std::string kFontPath =
+      resources_["fonts"][kName]["filepath"].get<std::string>() + "/" + kName +
+      resources_["fonts"][kName]["extension"].get<std::string>();
 
-  auto font = fonts::LoadFontCache(name, size, font_path, renderer_);
-  fonts[name][size] = font;
+  const auto kFont = fonts::LoadFontCache(kName, kSize, kFontPath, renderer_);
+  fonts_[kName][kSize] = kFont;
 }
 
-void ResourceManager::DrawText(const std::string& text, uint32_t x,
-                               const uint32_t y, const SDL_Color& color,
-                               const std::string& font_name,
-                               const uint32_t font_size) {
+void ResourceManager::DrawText(const std::string& kText, uint32_t x,
+                               const uint32_t kY, const SDL_Color& kColor,
+                               const std::string& kFontName,
+                               const uint32_t kFontSize) {
   int i, character;
   SDL_Rect *glyph, dest;
 
-  if (fonts[font_name].size() <= font_size || !fonts[font_name][font_size]) {
-    LoadFont(font_name, font_size);
+  if (fonts_[kFontName].size() <= kFontSize || !fonts_[kFontName][kFontSize]) {
+    LoadFont(kFontName, kFontSize);
   }
 
-  auto font = fonts[font_name][font_size];
-  SDL_SetTextureColorMod(font->texture, color.r, color.g, color.b);
+  const auto kFont = fonts_[kFontName][kFontSize];
+  SDL_SetTextureColorMod(kFont->texture, kColor.r, kColor.g, kColor.b);
 
   i = 0;
-  character = text[i++];
+  character = kText[i++];
 
   while (character) {
-    glyph = &font->glyphs[character];
+    glyph = &kFont->glyphs[character];
 
     dest.x = x;
-    dest.y = y;
+    dest.y = kY;
     dest.w = glyph->w;
     dest.h = glyph->h;
 
-    SDL_RenderCopy(renderer_, font->texture, glyph, &dest);
+    SDL_RenderCopy(renderer_, kFont->texture, glyph, &dest);
 
     x += glyph->w;
-    character = text[i++];
+    character = kText[i++];
   }
 }
 

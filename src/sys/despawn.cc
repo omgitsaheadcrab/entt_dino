@@ -15,7 +15,7 @@
 #include "comp/entity_states/despawn.h"
 
 void systems::despawn::OutOfBounds(entt::registry* registry) {
-  const auto view = registry->view<components::entity_states::Despawn>();
+  auto view = registry->view<components::entity_states::Despawn>();
 #ifdef _DEBUG
   for (const auto& [entity] : view.each()) {
     SPDLOG_DEBUG("{} was deleted", static_cast<int>(entity));

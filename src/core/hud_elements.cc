@@ -10,6 +10,6 @@
 
 #include <SDL2/SDL_rect.h>
 
-bool HUD::Icon::Clicked(const SDL_Point& mouse_pos) const {
-  return (SDL_PointInRect(&mouse_pos, &(this)->position));
+bool HUD::Icon::Clicked(const SDL_Point& kMousePos) const {
+  return (SDL_PointInRect(&kMousePos, &(this)->position));
 }

@@ -29,18 +29,18 @@ class Manager {
   ~Manager() = default;
 
   void Init(Window* window, ResourceManager* res_manager);
-  void Update(entt::registry* registry, const bool dead);
-  void Draw(const bool dead);
-  bool RetryClicked(const SDL_Point& mouse_pos) const;
+  void Update(entt::registry* registry, const bool kDead);
+  void Draw(const bool kDead);
+  bool RetryClicked(const SDL_Point& kMousePos) const;
 
  private:
-  void DrawText(const HUD::Text& t, const std::string& font,
-                const uint32_t size);
-  void DrawIcon(const HUD::Icon& i);
-  HUD::Text CreateText(const std::string& str, const double pos_w_scale,
-                       const double pos_h_scale, const SDL_Color& color) const;
-  HUD::Icon CreateIcon(const std::string& name, const double pos_w_scale,
-                       const double pos_h_scale, const SDL_Color& color) const;
+  void DrawText(const HUD::Text& kText, const std::string& kFont,
+                const uint32_t kSize);
+  void DrawIcon(const HUD::Icon& kIcon);
+  HUD::Text CreateText(const std::string& kStr, const double kPosWScale,
+                       const double kPosHScale, const SDL_Color& kColor) const;
+  HUD::Icon CreateIcon(const std::string& kName, const double kPosWScale,
+                       const double kPosHScale, const SDL_Color& kColor) const;
 
   HUD::Icon retry_;
   HUD::Text fps_;

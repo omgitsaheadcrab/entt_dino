@@ -19,19 +19,20 @@
 
 #include "core/graphics.h"
 
-fonts::Font* fonts::LoadFontCache(const std::string& name, const uint32_t size,
-                                  const std::string& path,
+fonts::Font* fonts::LoadFontCache(const std::string& kName,
+                                  const uint32_t kSize,
+                                  const std::string& kPath,
                                   SDL_Renderer* renderer) {
   // Constants
-  constexpr int MAX_GLYPHS = 128;
-  constexpr int FONT_TEXTURE_SIZE = 512;
-  constexpr SDL_Color white = {255, 255, 255};
+  constexpr int kMaxGlyphs = 128;
+  constexpr int kFontTextureSize = 512;
+  constexpr SDL_Color kWhite = {255, 255, 255};
 
-  auto ttf_font = TTF_OpenFont(path.c_str(), size);
-  auto surface = SDL_CreateRGBSurface(0, FONT_TEXTURE_SIZE, FONT_TEXTURE_SIZE,
-                                      32, 0, 0, 0, 0xff);
+  auto ttf_font = TTF_OpenFont(kPath.c_str(), kSize);
+  auto surface = SDL_CreateRGBSurface(0, kFontTextureSize, kFontTextureSize, 32,
+                                      0, 0, 0, 0xff);
   SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGBA(surface->format, 0, 0, 0, 0));
-  std::vector<SDL_Rect> glyphs(MAX_GLYPHS, SDL_Rect());
+  std::vector<SDL_Rect> glyphs(kMaxGlyphs, SDL_Rect());
   SDL_Surface* text;
   SDL_Rect dest;
   SDL_Rect* glyph;
@@ -43,17 +44,17 @@ fonts::Font* fonts::LoadFontCache(const std::string& name, const uint32_t size,
   for (auto i = ' '; i <= 'z'; i++) {
     character[0] = i;  // Set ASCII value
     character[1] = 0;  // Null terminate
-    text = TTF_RenderUTF8_Blended(ttf_font, character, white);
+    text = TTF_RenderUTF8_Blended(ttf_font, character, kWhite);
     TTF_SizeText(ttf_font, character, &dest.w, &dest.h);
 
-    if (dest.x + dest.w >= FONT_TEXTURE_SIZE) {
+    if (dest.x + dest.w >= kFontTextureSize) {
       dest.x = 0;
       dest.y += dest.h + 1;
 
-      if (dest.y + dest.h >= FONT_TEXTURE_SIZE) {
+      if (dest.y + dest.h >= kFontTextureSize) {
         SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_CRITICAL,
                        "Out of glyph space in %dx%d font atlas texture map.",
-                       FONT_TEXTURE_SIZE, FONT_TEXTURE_SIZE);
+                       kFontTextureSize, kFontTextureSize);
         exit(1);
       }
     }
@@ -72,6 +73,6 @@ fonts::Font* fonts::LoadFontCache(const std::string& name, const uint32_t size,
   TTF_CloseFont(ttf_font);
 
   auto texture = graphics::LoadTexture(surface, renderer);
-  auto font = new Font {name, size, texture, glyphs};
+  auto font = new Font {kName, kSize, texture, glyphs};
   return font;
 }

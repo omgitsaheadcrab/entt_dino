@@ -40,7 +40,7 @@ constexpr auto SetSpeed =
 constexpr auto IncrementSpeed =
     &contexts::Increment<components::game_states::Speed>;
 
-constexpr bool GetOver = &contexts::GetBool<components::game_states::Over>;
+constexpr auto GetOver = &contexts::GetBool<components::game_states::Over>;
 constexpr auto SetOver = &contexts::SetBool<components::game_states::Over>;
 
 }  // namespace game_states

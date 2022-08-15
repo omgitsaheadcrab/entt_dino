@@ -22,76 +22,77 @@
 #include "ctx/graphics.h"
 #include "util/str.h"
 
-constexpr SDL_Color dino_grey = {89, 86, 82};
+constexpr SDL_Color kDinoGrey = {89, 86, 82};
 
 void HUD::Manager::Init(Window* window, ResourceManager* res_manager) {
   window_ = window;
   res_manager_ = res_manager;
   renderer_ = window->renderer();
-  fps_ = CreateText("00000", 0.02, 0.03, dino_grey);
-  current_score_ = CreateText("00000", 0.92, 0.03, dino_grey);
-  high_score_ = CreateText("", 0.78, 0.03, dino_grey);
-  game_over_ = CreateText("G  A  M  E     O  V  E  R", 0.35, 0.40, dino_grey);
-  retry_ = CreateIcon("retry", 0.48, 0.52, dino_grey);
+  fps_ = CreateText("00000", 0.02, 0.03, kDinoGrey);
+  current_score_ = CreateText("00000", 0.92, 0.03, kDinoGrey);
+  high_score_ = CreateText("", 0.78, 0.03, kDinoGrey);
+  game_over_ = CreateText("G  A  M  E     O  V  E  R", 0.35, 0.40, kDinoGrey);
+  retry_ = CreateIcon("retry", 0.48, 0.52, kDinoGrey);
 }
 
-void HUD::Manager::Update(entt::registry* registry, const bool dead) {
-  auto score = contexts::game_states::GetScore(registry).value;
-  auto high_score = contexts::game_states::GetHighscore(registry).value;
-  auto fps = contexts::graphics::GetFPS(registry).value;
-  fps_.str = utils::ToStringZeroPad(fps, 5);
-  current_score_.str = utils::ToStringZeroPad(score, 5);
+void HUD::Manager::Update(entt::registry* registry, const bool kDead) {
+  const auto kScore = contexts::game_states::GetScore(registry).value;
+  const auto kHighScore = contexts::game_states::GetHighscore(registry).value;
+  const auto kFps = contexts::graphics::GetFPS(registry).value;
 
-  if (dead) {
-    high_score_.str = "HI  " + utils::ToStringZeroPad(high_score, 5);
+  fps_.str = utils::ToStringZeroPad(kFps, 5);
+  current_score_.str = utils::ToStringZeroPad(kScore, 5);
+
+  if (kDead) {
+    high_score_.str = "HI  " + utils::ToStringZeroPad(kHighScore, 5);
   }
 }
 
-void HUD::Manager::Draw(const bool dead) {
+void HUD::Manager::Draw(const bool kDead) {
   DrawText(fps_, "8-bit-hud", 8);
   DrawText(current_score_, "8-bit-hud", 8);
   DrawText(high_score_, "8-bit-hud", 8);
-  if (dead) {
+  if (kDead) {
     DrawText(game_over_, "8-bit-hud", 12);
     DrawIcon(retry_);
   }
 }
 
-bool HUD::Manager::RetryClicked(const SDL_Point& mouse_pos) const {
-  return retry_.Clicked(mouse_pos);
+bool HUD::Manager::RetryClicked(const SDL_Point& kMousePos) const {
+  return retry_.Clicked(kMousePos);
 }
 
-void HUD::Manager::DrawText(const HUD::Text& t, const std::string& font,
-                            const uint32_t size) {
-  res_manager_->DrawText(t.str.c_str(), t.position.x, t.position.y, t.color,
-                         font, size);
+void HUD::Manager::DrawText(const HUD::Text& kText, const std::string& kFont,
+                            const uint32_t kSize) {
+  res_manager_->DrawText(kText.str.c_str(), kText.position.x, kText.position.y,
+                         kText.color, kFont, kSize);
 }
 
-void HUD::Manager::DrawIcon(const HUD::Icon& i) {
-  SDL_SetTextureColorMod(i.texture, dino_grey.r, dino_grey.g, dino_grey.b);
-  SDL_RenderCopy(renderer_, i.texture, &i.clip, &i.position);
+void HUD::Manager::DrawIcon(const HUD::Icon& kIcon) {
+  SDL_SetTextureColorMod(kIcon.texture, kDinoGrey.r, kDinoGrey.g, kDinoGrey.b);
+  SDL_RenderCopy(renderer_, kIcon.texture, &kIcon.clip, &kIcon.position);
 }
 
-HUD::Text HUD::Manager::CreateText(const std::string& str,
-                                   const double pos_w_scale,
-                                   const double pos_h_scale,
-                                   const SDL_Color& color) const {
+HUD::Text HUD::Manager::CreateText(const std::string& kStr,
+                                   const double kPosWScale,
+                                   const double kPosHScale,
+                                   const SDL_Color& kColor) const {
   // TODO(omgitsaheadcrab): use WindowInfo entity for bounds
-  return HUD::Text {SDL_Rect {static_cast<int>(800 * pos_w_scale),
-                              static_cast<int>(244 * pos_h_scale), 0, 0},
-                    color, str};
+  return HUD::Text {SDL_Rect {static_cast<int>(800 * kPosWScale),
+                              static_cast<int>(244 * kPosHScale), 0, 0},
+                    kColor, kStr};
 }
 
-HUD::Icon HUD::Manager::CreateIcon(const std::string& name,
-                                   const double pos_w_scale,
-                                   const double pos_h_scale,
-                                   const SDL_Color& color) const {
+HUD::Icon HUD::Manager::CreateIcon(const std::string& kName,
+                                   const double kPosWScale,
+                                   const double kPosHScale,
+                                   const SDL_Color& kColor) const {
   // TODO(omgitsaheadcrab): use WindowInfo entity for bounds
-  auto pos = SDL_Rect {static_cast<int>(800 * pos_w_scale),
-                       static_cast<int>(244 * pos_h_scale), 0, 0};
-  auto clips = res_manager_->GetSpriteClips(name);
-  pos.h = clips[0].h;
-  pos.w = clips[0].w;
-  return HUD::Icon {pos, color,
-                    res_manager_->sprite_textures.find(name)->second, clips[0]};
+  const auto kClips = res_manager_->GetSpriteClips(kName);
+  auto pos = SDL_Rect {static_cast<int>(800 * kPosWScale),
+                       static_cast<int>(244 * kPosHScale), 0, 0};
+  pos.h = kClips[0].h;
+  pos.w = kClips[0].w;
+  return HUD::Icon {pos, kColor, res_manager_->GetSpriteTexture(kName),
+                    kClips[0]};
 }

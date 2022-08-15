@@ -17,17 +17,17 @@
 #include "comp/entities/floor.h"
 
 void entities::CreateCloudSpawner(entt::registry* registry,
-                                  const uint32_t capacity) {
+                                  const uint32_t kCapacity) {
   auto e = registry->create();
   registry->emplace<components::entities::Cloud>(e);
-  registry->emplace<components::attributes::Spawner>(e, capacity);
+  registry->emplace<components::attributes::Spawner>(e, kCapacity);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }
 
 void entities::CreateFloorSpawner(entt::registry* registry,
-                                  const uint32_t capacity) {
+                                  const uint32_t kCapacity) {
   auto e = registry->create();
   registry->emplace<components::entities::Floor>(e);
-  registry->emplace<components::attributes::Spawner>(e, capacity);
+  registry->emplace<components::attributes::Spawner>(e, kCapacity);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }

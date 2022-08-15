@@ -16,8 +16,8 @@
 
 namespace entities {
 
-void CreateFloor(entt::registry* registry, const ResourceManager& res_manager,
-                 const int xpos);
+void CreateFloor(entt::registry* registry, const ResourceManager& kResManager,
+                 const int kXPos);
 
 }  // namespace entities
 
