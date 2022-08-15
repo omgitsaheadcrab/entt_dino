@@ -42,13 +42,13 @@ void SetBool(entt::registry* registry, const bool over) {
 }
 
 template <typename T>
-void Increment(entt::registry* registry) {
+void Increment(entt::registry* registry, const uint32_t delta = 1) {
   auto contains = registry->ctx().contains<T>();
   uint32_t prev = 0;
   if (contains) {
     prev = registry->ctx().get<T>().value;
   }
-  registry->ctx().insert_or_assign(T {prev + 1});
+  registry->ctx().insert_or_assign(T {prev + delta});
 }
 
 }  // namespace contexts

@@ -71,8 +71,8 @@ void Game::HandleEvents() {
           over_ = true;
           break;
         case SDLK_SPACE:
-          contexts::game::IncrementSpeed(&registry_);
-          contexts::game::IncrementScore(&registry_);
+          contexts::game::IncrementSpeed(&registry_, 1);
+          contexts::game::IncrementScore(&registry_, 1);
           break;
         case SDLK_d:
           contexts::game::SetSpeed(&registry_, 0);
