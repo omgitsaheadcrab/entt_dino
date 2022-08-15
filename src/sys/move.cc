@@ -8,18 +8,17 @@
 
 #include "sys/move.h"
 
-#include <cstdint>
-
 #include <entt/entity/registry.hpp>
 
 #include "comp/physics/rigid_body.h"
 #include "comp/physics/transform.h"
+#include "ctx/game.h"
 
-void systems::move::RigidBodies(entt::registry* registry,
-                                const uint32_t base_speed) {
+void systems::move::RigidBodies(entt::registry* registry) {
   const auto view = registry->view<components::physics::Transform,
                                    components::physics::RigidBody>();
+  const auto base_speed = contexts::game::GetSpeed(registry);
   view.each([&](auto& transform, const auto& rigid_body) {
-    transform.position.x += rigid_body.velocity.x * base_speed;
+    transform.position.x += rigid_body.velocity.x * base_speed.value;
   });
 }

@@ -9,6 +9,8 @@
 #ifndef ENTT_DINO_SRC_CTX_CONTEXT_H_
 #define ENTT_DINO_SRC_CTX_CONTEXT_H_
 
+#include <cstdint>
+
 #include <entt/entity/registry.hpp>
 
 #include "comp/game_states/score.h"
@@ -37,6 +39,16 @@ void SetBool(entt::registry* registry, const bool over) {
   } else {
     registry->ctx().erase<T>();
   }
+}
+
+template <typename T>
+void Increment(entt::registry* registry) {
+  auto contains = registry->ctx().contains<T>();
+  uint32_t prev = 0;
+  if (contains) {
+    prev = registry->ctx().get<T>().value;
+  }
+  registry->ctx().insert_or_assign(T {prev + 1});
 }
 
 }  // namespace contexts

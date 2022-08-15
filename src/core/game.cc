@@ -44,7 +44,6 @@ void Game::Init() {
   contexts::game::SetHighscore(&registry_, 0);
   contexts::game::SetScore(&registry_, 0);
   over_ = false;
-  base_speed_ = 1;
   hud_.Init(&window_, &res_manager_);
   contexts::graphics::SetBounds(&registry_, window_.window());
   entities::CreateDino(&registry_, res_manager_);
@@ -55,7 +54,7 @@ void Game::Init() {
 void Game::HandleEvents() {
   SDL_PollEvent(&window_.event());
 
-  uint32_t base_speed, score, high_score;
+  uint32_t score, high_score;
 
   switch (window_.event().type) {
     case SDL_QUIT:
@@ -72,15 +71,11 @@ void Game::HandleEvents() {
           over_ = true;
           break;
         case SDLK_SPACE:
-          base_speed = contexts::game::GetSpeed(&registry_).base;
-          contexts::game::SetSpeed(&registry_, base_speed + 1);
-          base_speed_ += 1;
-          score = contexts::game::GetScore(&registry_).value;
-          contexts::game::SetScore(&registry_, score + 1);
+          contexts::game::IncrementSpeed(&registry_);
+          contexts::game::IncrementScore(&registry_);
           break;
         case SDLK_d:
           contexts::game::SetSpeed(&registry_, 0);
-          base_speed_ = 0;
           dead_ = true;
           score = contexts::game::GetScore(&registry_).value;
           high_score = contexts::game::GetHighscore(&registry_).value;
@@ -90,7 +85,6 @@ void Game::HandleEvents() {
         case SDLK_r:
           contexts::game::SetScore(&registry_, 0);
           contexts::game::SetSpeed(&registry_, 1);
-          base_speed_ = 1;
           dead_ = false;
           break;
       }
@@ -107,7 +101,6 @@ void Game::HandleEvents() {
       if (hud_.RetryClicked(mouse_position)) {
         contexts::game::SetScore(&registry_, 0);
         contexts::game::SetSpeed(&registry_, 1);
-        base_speed_ = 1;
         dead_ = false;
       }
       break;
@@ -117,7 +110,7 @@ void Game::HandleEvents() {
 }
 
 void Game::Update() {
-  systems::move::RigidBodies(&registry_, base_speed_);
+  systems::move::RigidBodies(&registry_);
   systems::spawn::Floors(&registry_, res_manager_);
   systems::spawn::Clouds(&registry_, res_manager_);
   systems::despawn::OutOfBounds(&registry_);
