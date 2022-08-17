@@ -15,7 +15,11 @@
 
 #include <string>
 
-namespace HUD {
+#include <entt/entity/registry.hpp>
+
+#include "core/res_manager.h"
+
+namespace ui {
 
 struct Element {
   SDL_Rect position;
@@ -33,6 +37,13 @@ struct Icon : Element {
   bool Clicked(const SDL_Point& kMousePos) const;
 };
 
-}  // namespace HUD
+Text CreateText(const std::string& kStr, const double kPosWScale,
+                const double kPosHScale, const SDL_Color& kColor,
+                entt::registry* registry);
+Icon CreateIcon(const std::string& kName, const double kPosWScale,
+                const double kPosHScale, const SDL_Color& kColor,
+                ResourceManager* res_manager, entt::registry* registry);
+
+}  // namespace ui
 
 #endif  // ENTT_DINO_SRC_CORE_HUD_ELEMENTS_H_

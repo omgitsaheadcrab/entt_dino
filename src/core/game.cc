@@ -43,8 +43,8 @@ void Game::Init() {
   contexts::game_states::SetSpeed(&registry_, 1);
   contexts::game_states::SetHighscore(&registry_, 0);
   contexts::game_states::SetScore(&registry_, 0);
-  hud_.Init(&window_, &res_manager_);
   contexts::graphics::SetBounds(&registry_, window_.window());
+  hud_.Init(&registry_, &window_, &res_manager_);
   entities::CreateDino(&registry_, res_manager_);
   entities::CreateCloudSpawner(&registry_, 2);
   entities::CreateFloorSpawner(&registry_, 3);

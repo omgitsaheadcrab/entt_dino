@@ -15,6 +15,8 @@
 #include <cstdint>
 #include <string>
 
+#include <entt/entity/registry.hpp>
+
 #include "core/colors.h"
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
@@ -23,19 +25,22 @@
 #include "ctx/graphics.h"
 #include "util/str.h"
 
-void HUD::Manager::Init(Window* window, ResourceManager* res_manager) {
+void ui::HUD::Init(entt::registry* registry, Window* window,
+                   ResourceManager* res_manager) {
   window_ = window;
   res_manager_ = res_manager;
   renderer_ = window->renderer();
-  fps_ = CreateText("00000", 0.02, 0.03, colors::kDinoGrey);
-  current_score_ = CreateText("00000", 0.92, 0.03, colors::kDinoGrey);
-  high_score_ = CreateText("", 0.78, 0.03, colors::kDinoGrey);
-  game_over_ =
-      CreateText("G  A  M  E     O  V  E  R", 0.35, 0.40, colors::kDinoGrey);
-  retry_ = CreateIcon("retry", 0.48, 0.52, colors::kDinoGrey);
+  fps_ = ui::CreateText("00000", 0.02, 0.03, colors::kDinoGrey, registry);
+  current_score_ =
+      ui::CreateText("00000", 0.92, 0.03, colors::kDinoGrey, registry);
+  high_score_ = ui::CreateText("", 0.78, 0.03, colors::kDinoGrey, registry);
+  game_over_ = ui::CreateText("G  A  M  E     O  V  E  R", 0.35, 0.40,
+                              colors::kDinoGrey, registry);
+  retry_ = ui::CreateIcon("retry", 0.48, 0.52, colors::kDinoGrey, res_manager,
+                          registry);
 }
 
-void HUD::Manager::Update(entt::registry* registry, const bool kDead) {
+void ui::HUD::Update(entt::registry* registry, const bool kDead) {
   const auto kScore = contexts::game_states::GetScore(registry).value;
   const auto kHighScore = contexts::game_states::GetHighscore(registry).value;
   const auto kFps = contexts::graphics::GetFPS(registry).value;
@@ -48,7 +53,7 @@ void HUD::Manager::Update(entt::registry* registry, const bool kDead) {
   }
 }
 
-void HUD::Manager::Draw(const bool kDead) {
+void ui::HUD::Draw(const bool kDead) {
   DrawText(fps_, "8-bit-hud", 8);
   DrawText(current_score_, "8-bit-hud", 8);
   DrawText(high_score_, "8-bit-hud", 8);
@@ -58,42 +63,18 @@ void HUD::Manager::Draw(const bool kDead) {
   }
 }
 
-bool HUD::Manager::RetryClicked(const SDL_Point& kMousePos) const {
+bool ui::HUD::RetryClicked(const SDL_Point& kMousePos) const {
   return retry_.Clicked(kMousePos);
 }
 
-void HUD::Manager::DrawText(const HUD::Text& kText, const std::string& kFont,
-                            const uint32_t kSize) {
+void ui::HUD::DrawText(const ui::Text& kText, const std::string& kFont,
+                       const uint32_t kSize) {
   res_manager_->DrawText(kText.str.c_str(), kText.position.x, kText.position.y,
                          kText.color, kFont, kSize);
 }
 
-void HUD::Manager::DrawIcon(const HUD::Icon& kIcon) {
+void ui::HUD::DrawIcon(const ui::Icon& kIcon) {
   SDL_SetTextureColorMod(kIcon.texture, colors::kDinoGrey.r,
                          colors::kDinoGrey.g, colors::kDinoGrey.b);
   SDL_RenderCopy(renderer_, kIcon.texture, &kIcon.clip, &kIcon.position);
-}
-
-HUD::Text HUD::Manager::CreateText(const std::string& kStr,
-                                   const double kPosWScale,
-                                   const double kPosHScale,
-                                   const SDL_Color& kColor) const {
-  // TODO(omgitsaheadcrab): use WindowInfo entity for bounds
-  return HUD::Text {SDL_Rect {static_cast<int>(800 * kPosWScale),
-                              static_cast<int>(244 * kPosHScale), 0, 0},
-                    kColor, kStr};
-}
-
-HUD::Icon HUD::Manager::CreateIcon(const std::string& kName,
-                                   const double kPosWScale,
-                                   const double kPosHScale,
-                                   const SDL_Color& kColor) const {
-  // TODO(omgitsaheadcrab): use WindowInfo entity for bounds
-  const auto kClips = res_manager_->GetSpriteClips(kName);
-  auto pos = SDL_Rect {static_cast<int>(800 * kPosWScale),
-                       static_cast<int>(244 * kPosHScale), 0, 0};
-  pos.h = kClips[0].h;
-  pos.w = kClips[0].w;
-  return HUD::Icon {pos, kColor, res_manager_->GetSpriteTexture(kName),
-                    kClips[0]};
 }
