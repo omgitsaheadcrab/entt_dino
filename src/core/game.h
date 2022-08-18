@@ -32,7 +32,7 @@ class Game {
  private:
   bool dead_;
   entt::registry registry_;
-  HUD::Manager hud_;
+  ui::HUD hud_;
   ResourceManager res_manager_;
   Window window_;
   const double kUpdatesPerSecond_ = 60.0;

@@ -16,6 +16,7 @@
 #include <spdlog/spdlog.h>
 
 #include <cstdint>
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <string>
@@ -81,7 +82,7 @@ std::vector<SDL_Rect> ResourceManager::GetSpriteClips(
 }
 
 SDL_Texture* ResourceManager::GetSpriteTexture(
-    const std::string kSpriteName) const {
+    const std::string& kSpriteName) const {
   return sprite_textures_.find(kSpriteName)->second;
 }
 
@@ -111,11 +112,13 @@ void ResourceManager::LoadFont(const std::string& kName, const uint32_t kSize) {
   fonts_[kName][kSize] = kFont;
 }
 
-void ResourceManager::DrawText(const std::string& kText, uint32_t x,
-                               const uint32_t kY, const SDL_Color& kColor,
+void ResourceManager::DrawText(const std::string& kText,
+                               const SDL_Rect& kPosition,
+                               const SDL_Color& kColor,
                                const std::string& kFontName,
                                const uint32_t kFontSize) {
   int i, character;
+  int x = kPosition.x;
   SDL_Rect *glyph, dest;
 
   if (fonts_[kFontName].size() <= kFontSize || !fonts_[kFontName][kFontSize]) {
@@ -132,7 +135,7 @@ void ResourceManager::DrawText(const std::string& kText, uint32_t x,
     glyph = &kFont->glyphs[character];
 
     dest.x = x;
-    dest.y = kY;
+    dest.y = kPosition.y;
     dest.w = glyph->w;
     dest.h = glyph->h;
 

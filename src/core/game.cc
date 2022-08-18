@@ -8,14 +8,14 @@
 
 #include "core/game.h"
 
-#include <SDL2/SDL.h>
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_pixels.h>
+#include <SDL2/SDL_render.h>
 
 #include <cstdint>
 
 #include <entt/entity/entity.hpp>
 
-#include "SDL_events.h"
-#include "SDL_video.h"
 #include "core/hud.h"
 #include "core/res_manager.h"
 #include "core/window.h"
@@ -30,21 +30,21 @@
 #include "sys/sync.h"
 
 Game::Game(const int kWindowWidth, const int kWindowHeight)
-    : window_ {"entt_dino", kWindowWidth, kWindowHeight} {
-  Init();
-}
+    : window_ {"entt_dino", kWindowWidth, kWindowHeight} {}
 
 void Game::Init() {
   dead_ = false;
-  res_manager_.Init(window_.renderer());
 
   contexts::graphics::SetFPS(&registry_, 0);
   contexts::game_states::SetOver(&registry_, false);
   contexts::game_states::SetSpeed(&registry_, 1);
   contexts::game_states::SetHighscore(&registry_, 0);
   contexts::game_states::SetScore(&registry_, 0);
-  hud_.Init(&window_, &res_manager_);
   contexts::graphics::SetBounds(&registry_, window_.window());
+
+  res_manager_.Init(window_.renderer());
+  hud_.Init(&registry_, window_.renderer(), &res_manager_);
+
   entities::CreateDino(&registry_, res_manager_);
   entities::CreateCloudSpawner(&registry_, 2);
   entities::CreateFloorSpawner(&registry_, 3);

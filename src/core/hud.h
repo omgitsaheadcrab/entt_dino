@@ -20,38 +20,32 @@
 
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
-#include "core/window.h"
 
-namespace HUD {
+namespace ui {
 
-class Manager {
+class HUD {
  public:
-  ~Manager() = default;
+  ~HUD() = default;
 
-  void Init(Window* window, ResourceManager* res_manager);
+  void Init(entt::registry* registry, SDL_Renderer* renderer,
+            ResourceManager* res_manager);
   void Update(entt::registry* registry, const bool kDead);
   void Draw(const bool kDead);
   bool RetryClicked(const SDL_Point& kMousePos) const;
 
  private:
-  void DrawText(const HUD::Text& kText, const std::string& kFont,
-                const uint32_t kSize);
-  void DrawIcon(const HUD::Icon& kIcon);
-  HUD::Text CreateText(const std::string& kStr, const double kPosWScale,
-                       const double kPosHScale, const SDL_Color& kColor) const;
-  HUD::Icon CreateIcon(const std::string& kName, const double kPosWScale,
-                       const double kPosHScale, const SDL_Color& kColor) const;
+  void DrawText(const ui::Text& kText) const;
+  void DrawIcon(const ui::Icon& kIcon) const;
 
-  HUD::Icon retry_;
-  HUD::Text fps_;
-  HUD::Text game_over_;
-  HUD::Text current_score_;
-  HUD::Text high_score_;
-  Window* window_;
-  ResourceManager* res_manager_;
+  ui::Icon retry_;
+  ui::Text fps_;
+  ui::Text game_over_;
+  ui::Text current_score_;
+  ui::Text high_score_;
   SDL_Renderer* renderer_;
+  ResourceManager* res_manager_;
 };
 
-}  // namespace HUD
+}  // namespace ui
 
 #endif  // ENTT_DINO_SRC_CORE_HUD_H_
