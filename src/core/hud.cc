@@ -30,11 +30,14 @@ void ui::HUD::Init(entt::registry* registry, Window* window,
   window_ = window;
   res_manager_ = res_manager;
   renderer_ = window->renderer();
-  fps_ = ui::CreateText("00000", 0.02, 0.03, colors::kDinoGrey, registry);
+  const auto font = "8-bit-hud";
+  fps_ =
+      ui::CreateText("00000", 0.02, 0.03, font, 8, colors::kDinoGrey, registry);
   current_score_ =
-      ui::CreateText("00000", 0.92, 0.03, colors::kDinoGrey, registry);
-  high_score_ = ui::CreateText("", 0.78, 0.03, colors::kDinoGrey, registry);
-  game_over_ = ui::CreateText("G  A  M  E     O  V  E  R", 0.35, 0.40,
+      ui::CreateText("00000", 0.92, 0.03, font, 8, colors::kDinoGrey, registry);
+  high_score_ =
+      ui::CreateText("", 0.78, 0.03, font, 8, colors::kDinoGrey, registry);
+  game_over_ = ui::CreateText("G  A  M  E     O  V  E  R", 0.35, 0.40, font, 12,
                               colors::kDinoGrey, registry);
   retry_ = ui::CreateIcon("retry", 0.48, 0.52, colors::kDinoGrey, res_manager,
                           registry);
@@ -54,11 +57,11 @@ void ui::HUD::Update(entt::registry* registry, const bool kDead) {
 }
 
 void ui::HUD::Draw(const bool kDead) {
-  DrawText(fps_, "8-bit-hud", 8);
-  DrawText(current_score_, "8-bit-hud", 8);
-  DrawText(high_score_, "8-bit-hud", 8);
+  DrawText(fps_);
+  DrawText(current_score_);
+  DrawText(high_score_);
   if (kDead) {
-    DrawText(game_over_, "8-bit-hud", 12);
+    DrawText(game_over_);
     DrawIcon(retry_);
   }
 }
@@ -67,10 +70,9 @@ bool ui::HUD::RetryClicked(const SDL_Point& kMousePos) const {
   return retry_.Clicked(kMousePos);
 }
 
-void ui::HUD::DrawText(const ui::Text& kText, const std::string& kFont,
-                       const uint32_t kSize) {
+void ui::HUD::DrawText(const ui::Text& kText) {
   res_manager_->DrawText(kText.str.c_str(), kText.position.x, kText.position.y,
-                         kText.color, kFont, kSize);
+                         kText.color, kText.font, kText.size);
 }
 
 void ui::HUD::DrawIcon(const ui::Icon& kIcon) {

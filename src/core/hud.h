@@ -35,8 +35,7 @@ class HUD {
   bool RetryClicked(const SDL_Point& kMousePos) const;
 
  private:
-  void DrawText(const ui::Text& kText, const std::string& kFont,
-                const uint32_t kSize);
+  void DrawText(const ui::Text& kText);
   void DrawIcon(const ui::Icon& kIcon);
 
   ui::Icon retry_;

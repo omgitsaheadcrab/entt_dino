@@ -13,6 +13,7 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
+#include <cstdint>
 #include <string>
 
 #include <entt/entity/registry.hpp>
@@ -28,6 +29,8 @@ struct Element {
 
 struct Text : Element {
   std::string str;
+  std::string font;
+  uint32_t size;
 };
 
 struct Icon : Element {
@@ -38,7 +41,8 @@ struct Icon : Element {
 };
 
 Text CreateText(const std::string& kStr, const double kPosWScale,
-                const double kPosHScale, const SDL_Color& kColor,
+                const double kPosHScale, const std::string& kFont,
+                const uint32_t kSize, const SDL_Color& kColor,
                 entt::registry* registry);
 Icon CreateIcon(const std::string& kName, const double kPosWScale,
                 const double kPosHScale, const SDL_Color& kColor,
