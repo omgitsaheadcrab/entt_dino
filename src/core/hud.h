@@ -20,7 +20,6 @@
 
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
-#include "core/window.h"
 
 namespace ui {
 
@@ -28,24 +27,23 @@ class HUD {
  public:
   ~HUD() = default;
 
-  void Init(entt::registry* registry, Window* window,
+  void Init(entt::registry* registry, SDL_Renderer* renderer,
             ResourceManager* res_manager);
   void Update(entt::registry* registry, const bool kDead);
   void Draw(const bool kDead);
   bool RetryClicked(const SDL_Point& kMousePos) const;
 
  private:
-  void DrawText(const ui::Text& kText);
-  void DrawIcon(const ui::Icon& kIcon);
+  void DrawText(const ui::Text& kText) const;
+  void DrawIcon(const ui::Icon& kIcon) const;
 
   ui::Icon retry_;
   ui::Text fps_;
   ui::Text game_over_;
   ui::Text current_score_;
   ui::Text high_score_;
-  Window* window_;
-  ResourceManager* res_manager_;
   SDL_Renderer* renderer_;
+  ResourceManager* res_manager_;
 };
 
 }  // namespace ui

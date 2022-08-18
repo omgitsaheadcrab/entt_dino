@@ -20,16 +20,14 @@
 #include "core/colors.h"
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
-#include "core/window.h"
 #include "ctx/game_states.h"
 #include "ctx/graphics.h"
 #include "util/str.h"
 
-void ui::HUD::Init(entt::registry* registry, Window* window,
+void ui::HUD::Init(entt::registry* registry, SDL_Renderer* renderer,
                    ResourceManager* res_manager) {
-  window_ = window;
   res_manager_ = res_manager;
-  renderer_ = window->renderer();
+  renderer_ = renderer;
   const auto font = "8-bit-hud";
   fps_ =
       ui::CreateText("00000", 0.02, 0.03, font, 8, colors::kDinoGrey, registry);
@@ -39,7 +37,7 @@ void ui::HUD::Init(entt::registry* registry, Window* window,
       ui::CreateText("", 0.78, 0.03, font, 8, colors::kDinoGrey, registry);
   game_over_ = ui::CreateText("G  A  M  E     O  V  E  R", 0.35, 0.40, font, 12,
                               colors::kDinoGrey, registry);
-  retry_ = ui::CreateIcon("retry", 0.48, 0.52, colors::kDinoGrey, res_manager,
+  retry_ = ui::CreateIcon("retry", 0.48, 0.52, colors::kDinoGrey, res_manager_,
                           registry);
 }
 
@@ -70,12 +68,12 @@ bool ui::HUD::RetryClicked(const SDL_Point& kMousePos) const {
   return retry_.Clicked(kMousePos);
 }
 
-void ui::HUD::DrawText(const ui::Text& kText) {
-  res_manager_->DrawText(kText.str.c_str(), kText.position.x, kText.position.y,
-                         kText.color, kText.font, kText.size);
+void ui::HUD::DrawText(const ui::Text& kText) const {
+  res_manager_->DrawText(kText.str.c_str(), kText.position, kText.color,
+                         kText.font, kText.size);
 }
 
-void ui::HUD::DrawIcon(const ui::Icon& kIcon) {
+void ui::HUD::DrawIcon(const ui::Icon& kIcon) const {
   SDL_SetTextureColorMod(kIcon.texture, colors::kDinoGrey.r,
                          colors::kDinoGrey.g, colors::kDinoGrey.b);
   SDL_RenderCopy(renderer_, kIcon.texture, &kIcon.clip, &kIcon.position);
