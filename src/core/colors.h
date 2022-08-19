@@ -13,7 +13,10 @@
 
 namespace colors {
 
-constexpr SDL_Color kDinoGrey = {89, 86, 82};
+constexpr SDL_Color kBackgroundDark = {16, 16, 16};
+constexpr SDL_Color kBackgroundLight = {239, 239, 239};
+constexpr SDL_Color kDinoDark = {89, 86, 82};
+constexpr SDL_Color kDinoLight = {166, 169, 173};
 constexpr SDL_Color kWhite = {255, 255, 255};
 
 }  // namespace colors

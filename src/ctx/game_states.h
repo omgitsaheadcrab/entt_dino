@@ -13,6 +13,7 @@
 
 #include <entt/entity/registry.hpp>
 
+#include "comp/game_states/dark.h"
 #include "comp/game_states/highscore.h"
 #include "comp/game_states/over.h"
 #include "comp/game_states/score.h"
@@ -39,6 +40,11 @@ constexpr auto SetSpeed =
     &contexts::Set<components::game_states::Speed, const uint32_t>;
 constexpr auto IncrementSpeed =
     &contexts::Increment<components::game_states::Speed>;
+
+constexpr auto GetDark = &contexts::GetBool<components::game_states::Dark>;
+constexpr auto SetDark = &contexts::SetBool<components::game_states::Dark>;
+constexpr auto ToggleDark =
+    &contexts::ToggleBool<components::game_states::Dark>;
 
 constexpr auto GetOver = &contexts::GetBool<components::game_states::Over>;
 constexpr auto SetOver = &contexts::SetBool<components::game_states::Over>;

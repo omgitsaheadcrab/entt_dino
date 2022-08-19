@@ -32,24 +32,35 @@ void ui::HUD::Init(entt::registry* registry, SDL_Renderer* renderer,
   renderer_ = renderer;
   const auto font = "8-bit-hud";
   fps_ =
-      ui::CreateText("00000", 0.02, 0.03, font, 8, colors::kDinoGrey, registry);
+      ui::CreateText("00000", 0.02, 0.03, font, 8, colors::kDinoDark, registry);
   current_score_ =
-      ui::CreateText("00000", 0.92, 0.03, font, 8, colors::kDinoGrey, registry);
+      ui::CreateText("00000", 0.92, 0.03, font, 8, colors::kDinoDark, registry);
   high_score_ =
-      ui::CreateText("", 0.78, 0.03, font, 8, colors::kDinoGrey, registry);
+      ui::CreateText("", 0.78, 0.03, font, 8, colors::kDinoDark, registry);
   game_over_ = ui::CreateText("G  A  M  E     O  V  E  R", 0.35, 0.40, font, 12,
-                              colors::kDinoGrey, registry);
-  retry_ = ui::CreateIcon("retry", 0.48, 0.52, colors::kDinoGrey, res_manager_,
+                              colors::kDinoDark, registry);
+  retry_ = ui::CreateIcon("retry", 0.48, 0.52, colors::kDinoDark, res_manager_,
                           registry);
 }
 
 void ui::HUD::Update(entt::registry* registry) {
+  const auto kDark = contexts::game_states::GetDark(registry);
   const auto kScore = contexts::game_states::GetScore(registry).value;
   const auto kHighScore = contexts::game_states::GetHighscore(registry).value;
   const auto kFps = contexts::graphics::GetFPS(registry).value;
 
   fps_.str = utils::ToStringZeroPad(kFps, 5);
   current_score_.str = utils::ToStringZeroPad(kScore, 5);
+
+  auto color = colors::kDinoDark;
+  if (kDark) {
+    color = colors::kDinoLight;
+  }
+  fps_.color = color;
+  current_score_.color = color;
+  high_score_.color = color;
+  game_over_.color = color;
+  retry_.color = color;
 
   const auto kDinoDead =
       registry
@@ -83,7 +94,7 @@ void ui::HUD::DrawText(const ui::Text& kText) const {
 }
 
 void ui::HUD::DrawIcon(const ui::Icon& kIcon) const {
-  SDL_SetTextureColorMod(kIcon.texture, colors::kDinoGrey.r,
-                         colors::kDinoGrey.g, colors::kDinoGrey.b);
+  SDL_SetTextureColorMod(kIcon.texture, kIcon.color.r, kIcon.color.g,
+                         kIcon.color.b);
   SDL_RenderCopy(renderer_, kIcon.texture, &kIcon.clip, &kIcon.position);
 }
