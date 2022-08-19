@@ -10,6 +10,7 @@
 #define ENTT_DINO_SRC_CORE_WINDOW_H_
 
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
 
@@ -21,6 +22,9 @@ class Window {
   Window(const std::string& kName, const int kWindowWidth,
          const int kWindowHeight);
   ~Window();
+
+  void Clear(const SDL_Color& color);
+  void Present() const;
 
   SDL_Event& event();
   SDL_Renderer* renderer() const;

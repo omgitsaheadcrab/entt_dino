@@ -120,12 +120,11 @@ void Game::Render() {
   if (contexts::game_states::GetDark(&registry_)) {
     color = colors::kBackgroundDark;
   }
-  SDL_SetRenderDrawColor(window_.renderer(), color.r, color.g, color.b,
-                         color.a);
-  SDL_RenderClear(window_.renderer());
+  window_.Clear(color);
+
   systems::render::Sprites(window_.renderer(), &registry_);
   hud_.Draw(&registry_);
-  SDL_RenderPresent(window_.renderer());
+  window_.Present();
 }
 
 void Game::Run() {

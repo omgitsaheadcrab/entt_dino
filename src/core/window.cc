@@ -9,6 +9,7 @@
 #include "core/window.h"
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_video.h>
@@ -33,6 +34,12 @@ Window::~Window() {
   TTF_Quit();
   SDL_Quit();
 }
+
+void Window::Clear(const SDL_Color& color) {
+  SDL_SetRenderDrawColor(renderer_, color.r, color.g, color.b, color.a);
+  SDL_RenderClear(renderer_);
+}
+void Window::Present() const { SDL_RenderPresent(renderer_); }
 
 SDL_Event& Window::event() { return event_; }
 
