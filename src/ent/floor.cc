@@ -32,9 +32,9 @@ SDL_Rect position {0, 212, 0, 0};
 
 }  // namespace
 
-void entities::CreateFloor(entt::registry* registry,
-                           const ResourceManager& kResManager,
-                           const int kXPos) {
+void entities::background::CreateFloor(entt::registry* registry,
+                                       const ResourceManager& kResManager,
+                                       const int kXPos) {
   const auto kClips = kResManager.GetSpriteClips("floor");
   const auto kClipNumber = utils::UniformRandom(0, 2);
   position.x = kXPos;

@@ -15,8 +15,12 @@
 
 namespace entities {
 
+namespace background {
+
 void CreateCloud(entt::registry* registry, const ResourceManager& kResManager,
                  const int kXPos);
+
+}  // namespace background
 
 }  // namespace entities
 

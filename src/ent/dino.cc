@@ -14,6 +14,7 @@
 #include <entt/entity/registry.hpp>
 
 #include "comp/entities/dino.h"
+#include "comp/entity_states/dead.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
 #include "comp/physics/rigid_body.h"
@@ -33,8 +34,8 @@ SDL_Rect position {0, 0, 0, 0};
 
 }  // namespace
 
-void entities::CreateDino(entt::registry* registry,
-                          const ResourceManager& kResManager) {
+void entities::dino::Create(entt::registry* registry,
+                            const ResourceManager& kResManager) {
   const auto& kBounds = contexts::graphics::GetBounds(registry);
   const auto kClips = kResManager.GetSpriteClips("dino");
   position.x = kBounds.position.w * 0.05;
@@ -51,4 +52,15 @@ void entities::CreateDino(entt::registry* registry,
   registry->emplace<components::graphics::Sprite>(
       e, kResManager.GetSpriteTexture("dino"), kClips[0]);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
+}
+
+void entities::dino::SetDead(entt::registry* registry, const bool dead) {
+  const auto& kView = registry->view<components::entities::Dino>();
+  kView.each([&](auto entity) {
+    if (dead) {
+      registry->emplace_or_replace<components::entity_states::Dead>(entity);
+    } else {
+      registry->remove<components::entity_states::Dead>(entity);
+    }
+  });
 }

@@ -17,6 +17,8 @@
 
 #include <entt/entity/registry.hpp>
 
+#include "comp/entities/dino.h"
+#include "comp/entity_states/dead.h"
 #include "core/colors.h"
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
@@ -41,7 +43,7 @@ void ui::HUD::Init(entt::registry* registry, SDL_Renderer* renderer,
                           registry);
 }
 
-void ui::HUD::Update(entt::registry* registry, const bool kDead) {
+void ui::HUD::Update(entt::registry* registry) {
   const auto kScore = contexts::game_states::GetScore(registry).value;
   const auto kHighScore = contexts::game_states::GetHighscore(registry).value;
   const auto kFps = contexts::graphics::GetFPS(registry).value;
@@ -49,16 +51,23 @@ void ui::HUD::Update(entt::registry* registry, const bool kDead) {
   fps_.str = utils::ToStringZeroPad(kFps, 5);
   current_score_.str = utils::ToStringZeroPad(kScore, 5);
 
-  if (kDead) {
+  const auto kDinoDead =
+      registry
+          ->view<components::entities::Dino, components::entity_states::Dead>();
+  if (kDinoDead.size_hint()) {
     high_score_.str = "HI  " + utils::ToStringZeroPad(kHighScore, 5);
   }
 }
 
-void ui::HUD::Draw(const bool kDead) {
+void ui::HUD::Draw(entt::registry* registry) {
   DrawText(fps_);
   DrawText(current_score_);
   DrawText(high_score_);
-  if (kDead) {
+
+  const auto kDinoDead =
+      registry
+          ->view<components::entities::Dino, components::entity_states::Dead>();
+  if (kDinoDead.size_hint()) {
     DrawText(game_over_);
     DrawIcon(retry_);
   }
