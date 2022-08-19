@@ -34,7 +34,7 @@ class Game {
   ui::HUD hud_;
   ResourceManager res_manager_;
   Window window_;
-  const double kUpdatesPerSecond_ = 60.0;
+  static constexpr double kUpdatesPerSecond_ = 60.0;
 };
 
 #endif  // ENTT_DINO_SRC_CORE_GAME_H_

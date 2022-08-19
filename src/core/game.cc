@@ -122,7 +122,7 @@ void Game::Render() {
 }
 
 void Game::Run() {
-  const double kMSPerUpdate {1000.0 / kUpdatesPerSecond_};
+  static constexpr double kMSPerUpdate {1000.0 / kUpdatesPerSecond_};
   double previous_time = SDL_GetTicks();
   double lag = 0.0;
   uint32_t fps;
