@@ -55,8 +55,8 @@ void entities::dino::Create(entt::registry* registry,
 }
 
 void entities::dino::SetDead(entt::registry* registry, const bool dead) {
-  auto view = registry->view<components::entities::Dino>();
-  view.each([&](auto entity) {
+  const auto& kView = registry->view<components::entities::Dino>();
+  kView.each([&](auto entity) {
     if (dead) {
       registry->emplace_or_replace<components::entity_states::Dead>(entity);
     } else {
