@@ -30,7 +30,6 @@ class Game {
   void Run();
 
  private:
-  bool dead_;
   entt::registry registry_;
   ui::HUD hud_;
   ResourceManager res_manager_;

@@ -10,6 +10,8 @@
 
 #include <entt/entity/registry.hpp>
 
+#include "comp/entities/dino.h"
+#include "comp/entity_states/dead.h"
 #include "comp/physics/rigid_body.h"
 #include "comp/physics/transform.h"
 #include "ctx/game_states.h"
@@ -17,6 +19,13 @@
 void systems::move::RigidBodies(entt::registry* registry) {
   const auto kView = registry->view<components::physics::Transform,
                                     components::physics::RigidBody>();
+  const auto kDinoDead =
+      registry
+          ->view<components::entities::Dino, components::entity_states::Dead>();
+  // Check if dino is dead, if he is do nothing
+  if (kDinoDead.size_hint()) {
+    return;
+  }
   const auto kBaseSpeed = contexts::game_states::GetSpeed(registry);
   kView.each([&](auto& transform, const auto& kRigidBody) {
     transform.position.x += kRigidBody.velocity.x * kBaseSpeed.value;

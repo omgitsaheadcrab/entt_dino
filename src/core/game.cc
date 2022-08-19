@@ -33,8 +33,6 @@ Game::Game(const int kWindowWidth, const int kWindowHeight)
     : window_ {"entt_dino", kWindowWidth, kWindowHeight} {}
 
 void Game::Init() {
-  dead_ = false;
-
   contexts::graphics::SetFPS(&registry_, 0);
   contexts::game_states::SetOver(&registry_, false);
   contexts::game_states::SetSpeed(&registry_, 1);
@@ -45,7 +43,7 @@ void Game::Init() {
   res_manager_.Init(window_.renderer());
   hud_.Init(&registry_, window_.renderer(), &res_manager_);
 
-  entities::CreateDino(&registry_, res_manager_);
+  entities::dino::Create(&registry_, res_manager_);
   entities::CreateCloudSpawner(&registry_, 2);
   entities::CreateFloorSpawner(&registry_, 3);
 }
@@ -72,17 +70,16 @@ void Game::HandleEvents() {
           contexts::game_states::IncrementScore(&registry_, 1);
           break;
         case SDLK_d:
-          contexts::game_states::SetSpeed(&registry_, 0);
-          dead_ = true;
+          entities::dino::SetDead(&registry_, true);
           score = contexts::game_states::GetScore(&registry_).value;
           high_score = contexts::game_states::GetHighscore(&registry_).value;
           high_score = score > high_score ? score : high_score;
           contexts::game_states::SetHighscore(&registry_, high_score);
           break;
         case SDLK_r:
+          entities::dino::SetDead(&registry_, false);
           contexts::game_states::SetScore(&registry_, 0);
           contexts::game_states::SetSpeed(&registry_, 1);
-          dead_ = false;
           break;
       }
       break;
@@ -96,9 +93,9 @@ void Game::HandleEvents() {
       SDL_Point mouse_position;
       SDL_GetMouseState(&mouse_position.x, &mouse_position.y);
       if (hud_.RetryClicked(mouse_position)) {
+        entities::dino::SetDead(&registry_, false);
         contexts::game_states::SetScore(&registry_, 0);
         contexts::game_states::SetSpeed(&registry_, 1);
-        dead_ = false;
       }
       break;
     default:
@@ -112,7 +109,7 @@ void Game::Update() {
   systems::spawn::Clouds(&registry_, res_manager_);
   systems::despawn::OutOfBounds(&registry_);
   systems::sync::Transforms(&registry_);
-  hud_.Update(&registry_, dead_);
+  hud_.Update(&registry_);
 }
 
 void Game::Render() {
@@ -120,7 +117,7 @@ void Game::Render() {
   // SDL_SetRenderDrawColor(window_.renderer(), 16, 16, 16, 255);
   SDL_RenderClear(window_.renderer());
   systems::render::Sprites(window_.renderer(), &registry_);
-  hud_.Draw(dead_);
+  hud_.Draw(&registry_);
   SDL_RenderPresent(window_.renderer());
 }
 

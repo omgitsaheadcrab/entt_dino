@@ -31,12 +31,12 @@ void systems::spawn::Clouds(entt::registry* registry,
   kSpawnerView.each([&](auto& spawner) {
     if (spawner.count == 0) {
       double pos = kBounds.position.w / 4.0;
-      entities::CreateCloud(registry, kResManager, pos);
+      entities::background::CreateCloud(registry, kResManager, pos);
       ++spawner.count;
 
       while (spawner.count < spawner.capacity) {
         pos += kBounds.position.w / 2.0;
-        entities::CreateCloud(registry, kResManager, pos);
+        entities::background::CreateCloud(registry, kResManager, pos);
         ++spawner.count;
       }
     }
@@ -47,7 +47,7 @@ void systems::spawn::Clouds(entt::registry* registry,
         const auto kPos = kTransform.position.x + kTransform.position.w +
                           (kBounds.position.w / 2.0 * spawner.capacity);
 
-        entities::CreateCloud(registry, kResManager, kPos);
+        entities::background::CreateCloud(registry, kResManager, kPos);
         ++spawner.count;
       }
     });
@@ -67,7 +67,7 @@ void systems::spawn::Floors(entt::registry* registry,
 
   kSpawnerView.each([&](auto& spawner) {
     if (spawner.count == 0) {
-      entities::CreateFloor(registry, kResManager, 0);
+      entities::background::CreateFloor(registry, kResManager, 0);
       ++spawner.count;
       kFloorView.each([&](const auto& kTransform) {
         current_pos = kTransform.position.x + kTransform.position.w;
@@ -75,7 +75,7 @@ void systems::spawn::Floors(entt::registry* registry,
       });
 
       while (spawner.count < spawner.capacity) {
-        entities::CreateFloor(registry, kResManager, current_pos);
+        entities::background::CreateFloor(registry, kResManager, current_pos);
         ++spawner.count;
         current_pos += width;
       }
@@ -87,7 +87,7 @@ void systems::spawn::Floors(entt::registry* registry,
         const auto kPos =
             kTransform.position.x + (kTransform.position.w * spawner.capacity);
 
-        entities::CreateFloor(registry, kResManager, kPos);
+        entities::background::CreateFloor(registry, kResManager, kPos);
         ++spawner.count;
       }
     });

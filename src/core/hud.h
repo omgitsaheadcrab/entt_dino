@@ -29,8 +29,8 @@ class HUD {
 
   void Init(entt::registry* registry, SDL_Renderer* renderer,
             ResourceManager* res_manager);
-  void Update(entt::registry* registry, const bool kDead);
-  void Draw(const bool kDead);
+  void Update(entt::registry* registry);
+  void Draw(entt::registry* registry);
   bool RetryClicked(const SDL_Point& kMousePos) const;
 
  private:
