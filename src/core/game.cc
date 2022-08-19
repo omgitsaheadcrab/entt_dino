@@ -16,6 +16,7 @@
 
 #include <entt/entity/entity.hpp>
 
+#include "core/colors.h"
 #include "core/hud.h"
 #include "core/res_manager.h"
 #include "core/window.h"
@@ -34,7 +35,6 @@ Game::Game(const int kWindowWidth, const int kWindowHeight)
 
 void Game::Init() {
   contexts::graphics::SetFPS(&registry_, 0);
-  contexts::game_states::SetOver(&registry_, false);
   contexts::game_states::SetSpeed(&registry_, 1);
   contexts::game_states::SetHighscore(&registry_, 0);
   contexts::game_states::SetScore(&registry_, 0);
@@ -81,6 +81,9 @@ void Game::HandleEvents() {
           contexts::game_states::SetScore(&registry_, 0);
           contexts::game_states::SetSpeed(&registry_, 1);
           break;
+        case SDLK_n:
+          contexts::game_states::ToggleDark(&registry_);
+          break;
       }
       break;
     case SDL_KEYUP:
@@ -113,8 +116,12 @@ void Game::Update() {
 }
 
 void Game::Render() {
-  SDL_SetRenderDrawColor(window_.renderer(), 239, 239, 239, 255);
-  // SDL_SetRenderDrawColor(window_.renderer(), 16, 16, 16, 255);
+  auto color = colors::kBackgroundLight;
+  if (contexts::game_states::GetDark(&registry_)) {
+    color = colors::kBackgroundDark;
+  }
+  SDL_SetRenderDrawColor(window_.renderer(), color.r, color.g, color.b,
+                         color.a);
   SDL_RenderClear(window_.renderer());
   systems::render::Sprites(window_.renderer(), &registry_);
   hud_.Draw(&registry_);
@@ -122,7 +129,7 @@ void Game::Render() {
 }
 
 void Game::Run() {
-  static constexpr double kMSPerUpdate {1000.0 / kUpdatesPerSecond_};
+  constexpr double kMSPerUpdate {1000.0 / kUpdatesPerSecond_};
   double previous_time = SDL_GetTicks();
   double lag = 0.0;
   uint32_t fps;
