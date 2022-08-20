@@ -18,7 +18,8 @@ namespace entities {
 namespace dino {
 
 void Create(entt::registry* registry, const ResourceManager& kResManager);
-void SetDead(entt::registry* registry, const bool dead);
+void SetDead(entt::registry* registry, const ResourceManager& kResManager,
+             const bool dead);
 
 }  // namespace dino
 

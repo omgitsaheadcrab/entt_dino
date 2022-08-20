@@ -38,10 +38,11 @@ void entities::dino::Create(entt::registry* registry,
                             const ResourceManager& kResManager) {
   const auto& kBounds = contexts::graphics::GetBounds(registry);
   const auto kClips = kResManager.GetSpriteClips("dino");
+  const auto kClip = 2;
   position.x = kBounds.position.w * 0.05;
   position.y = kBounds.position.h * 0.77;
-  position.h = kClips[0].h;
-  position.w = kClips[0].w;
+  position.h = kClips[kClip].h;
+  position.w = kClips[kClip].w;
 
   auto e = registry->create();
   registry->emplace<components::entities::Dino>(e);
@@ -50,17 +51,26 @@ void entities::dino::Create(entt::registry* registry,
   registry->emplace<components::graphics::Transform>(e, position);
   registry->emplace<components::physics::Transform>(e, position);
   registry->emplace<components::graphics::Sprite>(
-      e, kResManager.GetSpriteTexture("dino"), kClips[0]);
+      e, kResManager.GetSpriteTexture("dino"), kClips[kClip]);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }
 
-void entities::dino::SetDead(entt::registry* registry, const bool dead) {
-  const auto& kView = registry->view<components::entities::Dino>();
-  kView.each([&](auto entity) {
+void entities::dino::SetDead(entt::registry* registry,
+                             const ResourceManager& kResManager,
+                             const bool dead) {
+  const auto& kClips = kResManager.GetSpriteClips("dino");
+  const auto& kView =
+      registry
+          ->view<components::entities::Dino, components::graphics::Sprite>();
+  kView.each([&](const auto& entity, auto sprite) {
     if (dead) {
       registry->emplace_or_replace<components::entity_states::Dead>(entity);
+      registry->patch<components::graphics::Sprite>(
+          entity, [&](auto& sprite) { sprite.clip = kClips[0]; });
     } else {
       registry->remove<components::entity_states::Dead>(entity);
+      registry->patch<components::graphics::Sprite>(
+          entity, [&](auto& sprite) { sprite.clip = kClips[1]; });
     }
   });
 }

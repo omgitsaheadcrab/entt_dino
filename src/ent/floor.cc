@@ -36,10 +36,10 @@ void entities::background::CreateFloor(entt::registry* registry,
                                        const ResourceManager& kResManager,
                                        const int kXPos) {
   const auto kClips = kResManager.GetSpriteClips("floor");
-  const auto kClipNumber = utils::UniformRandom(0, 2);
+  const auto kClip = utils::UniformRandom(0, 2);
   position.x = kXPos;
-  position.h = kClips[kClipNumber].h;
-  position.w = kClips[kClipNumber].w;
+  position.h = kClips[kClip].h;
+  position.w = kClips[kClip].w;
 
   auto e = registry->create();
   registry->emplace<components::entities::Floor>(e);
@@ -48,6 +48,6 @@ void entities::background::CreateFloor(entt::registry* registry,
   registry->emplace<components::graphics::Transform>(e, position);
   registry->emplace<components::physics::Transform>(e, position);
   registry->emplace<components::graphics::Sprite>(
-      e, kResManager.GetSpriteTexture("floor"), kClips[kClipNumber]);
+      e, kResManager.GetSpriteTexture("floor"), kClips[kClip]);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }

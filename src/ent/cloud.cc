@@ -37,11 +37,12 @@ SDL_Rect position {0, 0, 0, 0};
 void entities::background::CreateCloud(entt::registry* registry,
                                        const ResourceManager& kResManager,
                                        const int kXPos) {
-  auto kClips = kResManager.GetSpriteClips("cloud");
+  const auto kClips = kResManager.GetSpriteClips("cloud");
+  const auto kClip = 0;
   position.x = kXPos;
   position.y = kYPos * utils::UniformRandom(1, 3);
-  position.h = kClips[0].h;
-  position.w = kClips[0].w;
+  position.h = kClips[kClip].h;
+  position.w = kClips[kClip].w;
 
   auto e = registry->create();
   registry->emplace<components::entities::Cloud>(e);
@@ -50,6 +51,6 @@ void entities::background::CreateCloud(entt::registry* registry,
   registry->emplace<components::physics::Transform>(e, position);
   registry->emplace<components::graphics::Transform>(e, position);
   registry->emplace<components::graphics::Sprite>(
-      e, kResManager.GetSpriteTexture("cloud"), kClips[0]);
+      e, kResManager.GetSpriteTexture("cloud"), kClips[kClip]);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }

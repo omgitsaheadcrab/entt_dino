@@ -70,14 +70,14 @@ void Game::HandleEvents() {
           contexts::game_states::IncrementScore(&registry_, 1);
           break;
         case SDLK_d:
-          entities::dino::SetDead(&registry_, true);
+          entities::dino::SetDead(&registry_, res_manager_, true);
           score = contexts::game_states::GetScore(&registry_).value;
           high_score = contexts::game_states::GetHighscore(&registry_).value;
           high_score = score > high_score ? score : high_score;
           contexts::game_states::SetHighscore(&registry_, high_score);
           break;
         case SDLK_r:
-          entities::dino::SetDead(&registry_, false);
+          entities::dino::SetDead(&registry_, res_manager_, false);
           contexts::game_states::SetScore(&registry_, 0);
           contexts::game_states::SetSpeed(&registry_, 1);
           break;
@@ -96,7 +96,7 @@ void Game::HandleEvents() {
       SDL_Point mouse_position;
       SDL_GetMouseState(&mouse_position.x, &mouse_position.y);
       if (hud_.RetryClicked(mouse_position)) {
-        entities::dino::SetDead(&registry_, false);
+        entities::dino::SetDead(&registry_, res_manager_, false);
         contexts::game_states::SetScore(&registry_, 0);
         contexts::game_states::SetSpeed(&registry_, 1);
       }
