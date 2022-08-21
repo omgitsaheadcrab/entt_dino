@@ -25,7 +25,7 @@ class Game {
 
   void Init();
   void HandleEvents();
-  void Update();
+  void Update(const double dt);
   void Render();
   void Run();
 

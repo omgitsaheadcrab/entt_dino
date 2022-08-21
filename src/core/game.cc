@@ -11,6 +11,7 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_timer.h>
 
 #include <cstdint>
 
@@ -106,7 +107,7 @@ void Game::HandleEvents() {
   }
 }
 
-void Game::Update() {
+void Game::Update(const double dt) {
   systems::move::RigidBodies(&registry_);
   systems::spawn::Floors(&registry_, res_manager_);
   systems::spawn::Clouds(&registry_, res_manager_);
@@ -130,37 +131,36 @@ void Game::Render() {
 void Game::Run() {
   constexpr double kMSPerUpdate {1000.0 / kUpdatesPerSecond_};
   double previous_time = SDL_GetTicks();
-  double lag = 0.0;
-  uint32_t fps;
-  uint32_t frames = 0;
-  double frame_time_elapsed = 0.0;
+  double accumulator = 0.0;
+  uint32_t frame_count = 0;
+  double fps_interval = 0.0;
 
   while (!contexts::game_states::GetOver(&registry_)) {
-    const double kCurrentTime = SDL_GetTicks();
-    const double kElapsed = kCurrentTime - previous_time;
+    const double kCurrentTime = SDL_GetTicks64();  // Casting to double
+    const double kFrameTime = kCurrentTime - previous_time;
     previous_time = kCurrentTime;
-    lag += kElapsed;
-    frame_time_elapsed += kElapsed;
+    accumulator += kFrameTime;
+    fps_interval += kFrameTime;
 
     // HandleEvents as often as possible
     HandleEvents();
 
     // Update only once per kMSPerUpdate
-    while (lag >= kMSPerUpdate) {
-      Update();
-      lag -= kMSPerUpdate;
+    while (accumulator >= kMSPerUpdate) {
+      Update(kMSPerUpdate);
+      accumulator -= kMSPerUpdate;
     }
 
     // Render as often as possible
     Render();
-    frames++;
+    frame_count++;
 
     // Frame rate counter (updates every 250ms)
-    if (frame_time_elapsed > 250.0) {
-      fps = frames / (frame_time_elapsed / 1000);
+    if (fps_interval > 250.0) {
+      const uint32_t fps = frame_count / (fps_interval / 1000);
       contexts::graphics::SetFPS(&registry_, fps);
-      frames = 0;
-      frame_time_elapsed = 0.0;
+      frame_count = 0;
+      fps_interval = 0.0;
     }
   }
 }
