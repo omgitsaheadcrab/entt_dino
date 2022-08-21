@@ -28,7 +28,7 @@ constexpr auto GetScore = &contexts::Get<components::game_states::Score>;
 constexpr auto SetScore =
     &contexts::Set<components::game_states::Score, const uint32_t>;
 constexpr auto IncrementScore =
-    &contexts::Increment<components::game_states::Score>;
+    &contexts::Increment<components::game_states::Score, uint32_t>;
 
 constexpr auto GetHighscore =
     &contexts::Get<components::game_states::Highscore>;
@@ -37,9 +37,9 @@ constexpr auto SetHighscore =
 
 constexpr auto GetSpeed = &contexts::Get<components::game_states::Speed>;
 constexpr auto SetSpeed =
-    &contexts::Set<components::game_states::Speed, const uint32_t>;
+    &contexts::Set<components::game_states::Speed, const double>;
 constexpr auto IncrementSpeed =
-    &contexts::Increment<components::game_states::Speed>;
+    &contexts::Increment<components::game_states::Speed, double>;
 
 constexpr auto GetDark = &contexts::GetBool<components::game_states::Dark>;
 constexpr auto SetDark = &contexts::SetBool<components::game_states::Dark>;

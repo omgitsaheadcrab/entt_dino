@@ -28,7 +28,7 @@ bool GetBool(entt::registry* registry) {
 }
 
 template <typename T, typename U>
-void Set(entt::registry* registry, U u) {
+void Set(entt::registry* registry, const U u) {
   registry->ctx().insert_or_assign(T {u});
 }
 
@@ -50,14 +50,14 @@ void ToggleBool(entt::registry* registry) {
   }
 }
 
-template <typename T>
-void Increment(entt::registry* registry, const uint32_t delta = 1) {
+template <typename T, typename U>
+void Increment(entt::registry* registry, const U u) {
   auto kContains = registry->ctx().contains<T>();
-  uint32_t prev = 0;
+  U prev = 0;
   if (kContains) {
     prev = registry->ctx().get<T>().value;
   }
-  registry->ctx().insert_or_assign(T {prev + delta});
+  registry->ctx().insert_or_assign(T {prev + u});
 }
 
 }  // namespace contexts
