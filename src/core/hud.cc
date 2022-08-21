@@ -36,7 +36,7 @@ void ui::HUD::Init(entt::registry* registry, SDL_Renderer* renderer,
   current_score_ =
       ui::CreateText("00000", 0.92, 0.03, font, 8, colors::kDinoDark, registry);
   high_score_ =
-      ui::CreateText("", 0.78, 0.03, font, 8, colors::kDinoDark, registry);
+      ui::CreateText("", 0.78, 0.03, font, 8, colors::kHighscoreDark, registry);
   game_over_ = ui::CreateText("G  A  M  E     O  V  E  R", 0.35, 0.40, font, 12,
                               colors::kDinoDark, registry);
   retry_ = ui::CreateIcon("retry", 0.48, 0.52, colors::kDinoDark, res_manager_,
@@ -53,12 +53,14 @@ void ui::HUD::Update(entt::registry* registry) {
   current_score_.str = utils::ToStringZeroPad(kScore, 5);
 
   auto color = colors::kDinoDark;
+  auto color_hi = colors::kHighscoreDark;
   if (kDark) {
     color = colors::kDinoLight;
+    color_hi = colors::kHighscoreLight;
   }
   fps_.color = color;
   current_score_.color = color;
-  high_score_.color = color;
+  high_score_.color = color_hi;
   game_over_.color = color;
   retry_.color = color;
 
