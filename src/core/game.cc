@@ -36,7 +36,7 @@ Game::Game(const int kWindowWidth, const int kWindowHeight)
 
 void Game::Init() {
   contexts::graphics::SetFPS(&registry_, 0);
-  contexts::game_states::SetSpeed(&registry_, 1.0);
+  contexts::game_states::SetSpeed(&registry_, 0.15);
   contexts::game_states::SetScore(&registry_, 0);
   contexts::game_states::SetHighscore(&registry_, 0);
   contexts::graphics::SetBounds(&registry_, window_.window());
@@ -67,7 +67,7 @@ void Game::HandleEvents() {
           contexts::game_states::SetOver(&registry_, true);
           break;
         case SDLK_SPACE:
-          contexts::game_states::IncrementSpeed(&registry_, 1.0);
+          contexts::game_states::IncrementSpeed(&registry_, 0.01);
           contexts::game_states::IncrementScore(&registry_, 1);
           break;
         case SDLK_d:
@@ -79,7 +79,7 @@ void Game::HandleEvents() {
           break;
         case SDLK_r:
           entities::dino::SetDead(&registry_, res_manager_, false);
-          contexts::game_states::SetSpeed(&registry_, 1.0);
+          contexts::game_states::SetSpeed(&registry_, 0.15);
           contexts::game_states::SetScore(&registry_, 0);
           break;
         case SDLK_n:
@@ -99,7 +99,7 @@ void Game::HandleEvents() {
       if (hud_.RetryClicked(mouse_position)) {
         entities::dino::SetDead(&registry_, res_manager_, false);
         contexts::game_states::SetScore(&registry_, 0);
-        contexts::game_states::SetSpeed(&registry_, 1.0);
+        contexts::game_states::SetSpeed(&registry_, 0.15);
       }
       break;
     default:
@@ -108,7 +108,7 @@ void Game::HandleEvents() {
 }
 
 void Game::Update(const double dt) {
-  systems::move::RigidBodies(&registry_);
+  systems::move::RigidBodies(&registry_, dt);
   systems::spawn::Floors(&registry_, res_manager_);
   systems::spawn::Clouds(&registry_, res_manager_);
   systems::despawn::OutOfBounds(&registry_);

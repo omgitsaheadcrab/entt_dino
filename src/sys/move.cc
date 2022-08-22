@@ -8,6 +8,8 @@
 
 #include "sys/move.h"
 
+#include <cmath>
+
 #include <entt/entity/registry.hpp>
 
 #include "comp/entities/dino.h"
@@ -15,8 +17,9 @@
 #include "comp/physics/rigid_body.h"
 #include "comp/physics/transform.h"
 #include "ctx/game_states.h"
+#include "entt/core/type_traits.hpp"
 
-void systems::move::RigidBodies(entt::registry* registry) {
+void systems::move::RigidBodies(entt::registry* registry, const double dt) {
   const auto kView = registry->view<components::physics::Transform,
                                     components::physics::RigidBody>();
   const auto kDinoDead =
@@ -28,6 +31,8 @@ void systems::move::RigidBodies(entt::registry* registry) {
   }
   const auto kBaseSpeed = contexts::game_states::GetSpeed(registry);
   kView.each([&](auto& transform, const auto& kRigidBody) {
-    transform.position.x += kRigidBody.velocity.x * kBaseSpeed.value;
+    // Need to round up to ensure sub pixel moves progress
+    transform.position.x +=
+        std::ceil(kRigidBody.velocity.x * dt * kBaseSpeed.value);
   });
 }

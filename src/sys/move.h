@@ -15,7 +15,7 @@ namespace systems {
 
 namespace move {
 
-void RigidBodies(entt::registry* registry);
+void RigidBodies(entt::registry* registry, const double dt);
 
 }  // namespace move
 
