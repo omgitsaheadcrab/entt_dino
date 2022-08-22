@@ -130,13 +130,13 @@ void Game::Render() {
 
 void Game::Run() {
   constexpr double kMSPerUpdate {1000.0 / kUpdatesPerSecond_};
-  double previous_time = SDL_GetTicks();
+  double previous_time = SDL_GetTicks();  // Casting to double
   double accumulator = 0.0;
   uint32_t frame_count = 0;
   double fps_interval = 0.0;
 
   while (!contexts::game_states::GetOver(&registry_)) {
-    const double kCurrentTime = SDL_GetTicks64();  // Casting to double
+    const double kCurrentTime = SDL_GetTicks();  // Casting to double
     const double kFrameTime = kCurrentTime - previous_time;
     previous_time = kCurrentTime;
     accumulator += kFrameTime;
