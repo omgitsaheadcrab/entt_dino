@@ -28,6 +28,7 @@
 #include "sys/despawn.h"
 #include "sys/move.h"
 #include "sys/render.h"
+#include "sys/score.h"
 #include "sys/spawn.h"
 #include "sys/sync.h"
 
@@ -67,8 +68,7 @@ void Game::HandleEvents() {
           contexts::game_states::SetOver(&registry_, true);
           break;
         case SDLK_SPACE:
-          contexts::game_states::IncrementSpeed(&registry_, 0.01);
-          contexts::game_states::IncrementScore(&registry_, 1);
+          // Jump goes here
           break;
         case SDLK_d:
           entities::dino::SetDead(&registry_, res_manager_, true);
@@ -109,6 +109,7 @@ void Game::HandleEvents() {
 
 void Game::Update(const double dt) {
   systems::move::RigidBodies(&registry_, dt);
+  systems::score::Update(&registry_);
   systems::spawn::Floors(&registry_, res_manager_);
   systems::spawn::Clouds(&registry_, res_manager_);
   systems::despawn::OutOfBounds(&registry_);
