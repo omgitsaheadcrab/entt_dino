@@ -14,6 +14,7 @@
 #include <entt/entity/registry.hpp>
 
 #include "comp/game_states/dark.h"
+#include "comp/game_states/distance_run.h"
 #include "comp/game_states/highscore.h"
 #include "comp/game_states/over.h"
 #include "comp/game_states/score.h"
@@ -29,6 +30,12 @@ constexpr auto SetScore =
     &contexts::Set<components::game_states::Score, const uint32_t>;
 constexpr auto IncrementScore =
     &contexts::Increment<components::game_states::Score, uint32_t>;
+
+constexpr auto GetDistance = &contexts::Get<components::game_states::Distance>;
+constexpr auto SetDistance =
+    &contexts::Set<components::game_states::Distance, const uint32_t>;
+constexpr auto IncrementDistance =
+    &contexts::Increment<components::game_states::Distance, uint32_t>;
 
 constexpr auto GetHighscore =
     &contexts::Get<components::game_states::Highscore>;

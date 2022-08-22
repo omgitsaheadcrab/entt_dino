@@ -25,6 +25,7 @@ void systems::move::RigidBodies(entt::registry* registry, const double dt) {
   const auto kDinoDead =
       registry
           ->view<components::entities::Dino, components::entity_states::Dead>();
+
   // Check if dino is dead, if he is do nothing
   if (kDinoDead.size_hint()) {
     return;
@@ -35,4 +36,8 @@ void systems::move::RigidBodies(entt::registry* registry, const double dt) {
     transform.position.x +=
         std::ceil(kRigidBody.velocity.x * dt * kBaseSpeed.value);
   });
+
+  // Update game distance traveled
+  contexts::game_states::IncrementDistance(registry,
+                                           std::ceil(dt * kBaseSpeed.value));
 }
