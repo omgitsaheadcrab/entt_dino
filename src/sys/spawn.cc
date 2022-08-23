@@ -24,8 +24,8 @@ void systems::spawn::Clouds(entt::registry* registry,
       registry
           ->view<components::physics::Transform, components::entities::Cloud>();
   const auto& kBounds = contexts::graphics::GetBounds(registry);
+  constexpr auto kMaxCount = 2;
 
-  constexpr auto max_count = 2;
   auto count = kCloudView.size_hint();
 
   if (count == 0) {
@@ -33,7 +33,7 @@ void systems::spawn::Clouds(entt::registry* registry,
     entities::background::CreateCloud(registry, kResManager, pos);
     ++count;
 
-    while (count < max_count) {
+    while (count < kMaxCount) {
       pos += kBounds.position.w / 2.0;
       entities::background::CreateCloud(registry, kResManager, pos);
       ++count;
@@ -44,7 +44,7 @@ void systems::spawn::Clouds(entt::registry* registry,
     if (kTransform.position.x <= -kTransform.position.w) {
       registry->emplace<components::entity_states::Despawn>(entity);
       const auto kPos = kTransform.position.x + kTransform.position.w +
-                        (kBounds.position.w / 2.0 * max_count);
+                        (kBounds.position.w / 2.0 * kMaxCount);
 
       entities::background::CreateCloud(registry, kResManager, kPos);
       ++count;
@@ -57,10 +57,10 @@ void systems::spawn::Floors(entt::registry* registry,
   const auto kFloorView =
       registry
           ->view<components::physics::Transform, components::entities::Floor>();
+  constexpr auto kMaxCount = 3;
 
   auto current_pos = 0;
   auto width = 0;
-  constexpr auto max_count = 3;
   auto count = kFloorView.size_hint();
 
   if (count == 0) {
@@ -71,7 +71,7 @@ void systems::spawn::Floors(entt::registry* registry,
       width = kTransform.position.w;
     });
 
-    while (count < max_count) {
+    while (count < kMaxCount) {
       entities::background::CreateFloor(registry, kResManager, current_pos);
       ++count;
       current_pos += width;
@@ -82,7 +82,7 @@ void systems::spawn::Floors(entt::registry* registry,
     if (kTransform.position.x <= -kTransform.position.w) {
       registry->emplace<components::entity_states::Despawn>(entity);
       const auto kPos =
-          kTransform.position.x + (kTransform.position.w * max_count);
+          kTransform.position.x + (kTransform.position.w * kMaxCount);
 
       entities::background::CreateFloor(registry, kResManager, kPos);
     }
