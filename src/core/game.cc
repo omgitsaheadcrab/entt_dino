@@ -24,7 +24,6 @@
 #include "ctx/game_states.h"
 #include "ctx/graphics.h"
 #include "ent/dino.h"
-#include "ent/entity_spawner.h"
 #include "sys/despawn.h"
 #include "sys/move.h"
 #include "sys/render.h"
@@ -46,8 +45,8 @@ void Game::Init() {
   hud_.Init(&registry_, window_.renderer(), &res_manager_);
 
   entities::dino::Create(&registry_, res_manager_);
-  entities::CreateCloudSpawner(&registry_, 2);
-  entities::CreateFloorSpawner(&registry_, 3);
+  systems::spawn::Floors(&registry_, res_manager_);
+  systems::spawn::Clouds(&registry_, res_manager_);
 }
 
 void Game::HandleEvents() {
