@@ -19,7 +19,7 @@
 #include "ent/floor.h"
 
 void systems::spawn::Clouds(entt::registry* registry,
-                            const ResourceManager& kResManager) {
+                            const omg::ResourceManager& kResManager) {
   const auto kCloudView =
       registry
           ->view<components::physics::Transform, components::entities::Cloud>();
@@ -53,7 +53,7 @@ void systems::spawn::Clouds(entt::registry* registry,
 }
 
 void systems::spawn::Floors(entt::registry* registry,
-                            const ResourceManager& kResManager) {
+                            const omg::ResourceManager& kResManager) {
   const auto kFloorView =
       registry
           ->view<components::physics::Transform, components::entities::Floor>();

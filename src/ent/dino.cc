@@ -35,7 +35,7 @@ SDL_Rect position {0, 0, 0, 0};
 }  // namespace
 
 void entities::dino::Create(entt::registry* registry,
-                            const ResourceManager& kResManager) {
+                            const omg::ResourceManager& kResManager) {
   const auto& kBounds = contexts::graphics::GetBounds(registry);
   const auto kClips = kResManager.GetSpriteClips("dino");
   const auto kClip = 2;
@@ -56,7 +56,7 @@ void entities::dino::Create(entt::registry* registry,
 }
 
 void entities::dino::SetDead(entt::registry* registry,
-                             const ResourceManager& kResManager,
+                             const omg::ResourceManager& kResManager,
                              const bool dead) {
   const auto& kClips = kResManager.GetSpriteClips("dino");
   const auto& kView =

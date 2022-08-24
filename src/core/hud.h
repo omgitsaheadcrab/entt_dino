@@ -21,31 +21,31 @@
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
 
-namespace ui {
+namespace omg {
 
 class HUD {
  public:
   ~HUD() = default;
 
   void Init(entt::registry* registry, SDL_Renderer* renderer,
-            ResourceManager* res_manager);
+            omg::ResourceManager* res_manager);
   void Update(entt::registry* registry);
   void Draw(entt::registry* registry);
   bool RetryClicked(const SDL_Point& kMousePos) const;
 
  private:
-  void DrawText(const ui::Text& kText) const;
-  void DrawIcon(const ui::Icon& kIcon) const;
+  void DrawText(const omg::ui::Text& kText) const;
+  void DrawIcon(const omg::ui::Icon& kIcon) const;
 
-  ui::Icon retry_;
-  ui::Text fps_;
-  ui::Text game_over_;
-  ui::Text current_score_;
-  ui::Text high_score_;
+  omg::ui::Icon retry_;
+  omg::ui::Text fps_;
+  omg::ui::Text game_over_;
+  omg::ui::Text current_score_;
+  omg::ui::Text high_score_;
   SDL_Renderer* renderer_;
-  ResourceManager* res_manager_;
+  omg::ResourceManager* res_manager_;
 };
 
-}  // namespace ui
+}  // namespace omg
 
 #endif  // ENTT_DINO_SRC_CORE_HUD_H_

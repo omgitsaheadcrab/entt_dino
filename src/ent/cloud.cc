@@ -35,7 +35,7 @@ SDL_Rect position {0, 0, 0, 0};
 }  // namespace
 
 void entities::background::CreateCloud(entt::registry* registry,
-                                       const ResourceManager& kResManager,
+                                       const omg::ResourceManager& kResManager,
                                        const int kXPos) {
   const auto kClips = kResManager.GetSpriteClips("cloud");
   const auto kClip = 0;

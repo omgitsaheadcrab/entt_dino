@@ -16,8 +16,8 @@
 
 #include <string>
 
-Window::Window(const std::string& kName, const int kWindowWidth,
-               const int kWindowHeight)
+omg::Window::Window(const std::string& kName, const int kWindowWidth,
+                    const int kWindowHeight)
     : window_ {SDL_CreateWindow(kName.c_str(), SDL_WINDOWPOS_CENTERED,
                                 SDL_WINDOWPOS_CENTERED, kWindowWidth,
                                 kWindowHeight, SDL_WINDOW_RESIZABLE)},
@@ -28,21 +28,21 @@ Window::Window(const std::string& kName, const int kWindowWidth,
   SDL_RenderSetLogicalSize(renderer_, kWindowWidth, kWindowHeight);
 }
 
-Window::~Window() {
+omg::Window::~Window() {
   SDL_DestroyRenderer(renderer_);
   SDL_DestroyWindow(window_);
   TTF_Quit();
   SDL_Quit();
 }
 
-void Window::Clear(const SDL_Color& color) {
+void omg::Window::Clear(const SDL_Color& color) {
   SDL_SetRenderDrawColor(renderer_, color.r, color.g, color.b, color.a);
   SDL_RenderClear(renderer_);
 }
-void Window::Present() const { SDL_RenderPresent(renderer_); }
+void omg::Window::Present() const { SDL_RenderPresent(renderer_); }
 
-SDL_Event& Window::event() { return event_; }
+SDL_Event& omg::Window::event() { return event_; }
 
-SDL_Renderer* Window::renderer() const { return renderer_; }
+SDL_Renderer* omg::Window::renderer() const { return renderer_; }
 
-SDL_Window* Window::window() const { return window_; }
+SDL_Window* omg::Window::window() const { return window_; }

@@ -16,6 +16,8 @@
 
 #include <string>
 
+namespace omg {
+
 class Window {
  public:
   Window() = delete;
@@ -35,5 +37,7 @@ class Window {
   SDL_Window* window_;
   SDL_Renderer* renderer_;
 };
+
+}  // namespace omg
 
 #endif  // ENTT_DINO_SRC_CORE_WINDOW_H_

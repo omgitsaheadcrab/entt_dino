@@ -18,9 +18,9 @@ namespace systems {
 
 namespace spawn {
 
-void Clouds(entt::registry* registry, const ResourceManager& kResManager);
+void Clouds(entt::registry* registry, const omg::ResourceManager& kResManager);
 
-void Floors(entt::registry* registry, const ResourceManager& kResManager);
+void Floors(entt::registry* registry, const omg::ResourceManager& kResManager);
 
 }  // namespace spawn
 

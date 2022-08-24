@@ -31,10 +31,10 @@
 #include "sys/spawn.h"
 #include "sys/sync.h"
 
-Game::Game(const int kWindowWidth, const int kWindowHeight)
+omg::Game::Game(const int kWindowWidth, const int kWindowHeight)
     : window_ {"entt_dino", kWindowWidth, kWindowHeight} {}
 
-void Game::Init() {
+void omg::Game::Init() {
   contexts::graphics::SetFPS(&registry_, 0);
   contexts::game_states::SetSpeed(&registry_, 0.15);
   contexts::game_states::SetScore(&registry_, 0);
@@ -49,7 +49,7 @@ void Game::Init() {
   systems::spawn::Clouds(&registry_, res_manager_);
 }
 
-void Game::HandleEvents() {
+void omg::Game::HandleEvents() {
   SDL_PollEvent(&window_.event());
 
   uint32_t score, high_score;
@@ -106,7 +106,7 @@ void Game::HandleEvents() {
   }
 }
 
-void Game::Update(const double dt) {
+void omg::Game::Update(const double dt) {
   systems::move::RigidBodies(&registry_, dt);
   systems::score::Update(&registry_);
   systems::spawn::Floors(&registry_, res_manager_);
@@ -116,7 +116,7 @@ void Game::Update(const double dt) {
   hud_.Update(&registry_);
 }
 
-void Game::Render() {
+void omg::Game::Render() {
   auto color = colors::kBackgroundLight;
   if (contexts::game_states::GetDark(&registry_)) {
     color = colors::kBackgroundDark;
@@ -128,7 +128,7 @@ void Game::Render() {
   window_.Present();
 }
 
-void Game::Run() {
+void omg::Game::Run() {
   constexpr double kMSPerUpdate {1000.0 / kUpdatesPerSecond_};
   double previous_time = SDL_GetTicks();  // Casting to double
   double accumulator = 0.0;

@@ -26,24 +26,24 @@
 #include "ctx/graphics.h"
 #include "util/str.h"
 
-void ui::HUD::Init(entt::registry* registry, SDL_Renderer* renderer,
-                   ResourceManager* res_manager) {
+void omg::HUD::Init(entt::registry* registry, SDL_Renderer* renderer,
+                    omg::ResourceManager* res_manager) {
   res_manager_ = res_manager;
   renderer_ = renderer;
   const auto font = "8-bit-hud";
-  fps_ =
-      ui::CreateText("00000", 0.02, 0.03, font, 8, colors::kDinoDark, registry);
-  current_score_ =
-      ui::CreateText("00000", 0.92, 0.03, font, 8, colors::kDinoDark, registry);
-  high_score_ =
-      ui::CreateText("", 0.78, 0.03, font, 8, colors::kHighscoreDark, registry);
-  game_over_ = ui::CreateText("G  A  M  E     O  V  E  R", 0.35, 0.40, font, 12,
-                              colors::kDinoDark, registry);
-  retry_ = ui::CreateIcon("retry", 0.48, 0.52, colors::kDinoDark, res_manager_,
-                          registry);
+  fps_ = omg::ui::CreateText("00000", 0.02, 0.03, font, 8, colors::kDinoDark,
+                             registry);
+  current_score_ = omg::ui::CreateText("00000", 0.92, 0.03, font, 8,
+                                       colors::kDinoDark, registry);
+  high_score_ = omg::ui::CreateText("", 0.78, 0.03, font, 8,
+                                    colors::kHighscoreDark, registry);
+  game_over_ = omg::ui::CreateText("G  A  M  E     O  V  E  R", 0.35, 0.40,
+                                   font, 12, colors::kDinoDark, registry);
+  retry_ = omg::ui::CreateIcon("retry", 0.48, 0.52, colors::kDinoDark,
+                               res_manager_, registry);
 }
 
-void ui::HUD::Update(entt::registry* registry) {
+void omg::HUD::Update(entt::registry* registry) {
   const auto kDark = contexts::game_states::GetDark(registry);
   const auto kScore = contexts::game_states::GetScore(registry).value;
   const auto kHighScore = contexts::game_states::GetHighscore(registry).value;
@@ -72,7 +72,7 @@ void ui::HUD::Update(entt::registry* registry) {
   }
 }
 
-void ui::HUD::Draw(entt::registry* registry) {
+void omg::HUD::Draw(entt::registry* registry) {
   DrawText(fps_);
   DrawText(current_score_);
   DrawText(high_score_);
@@ -86,16 +86,16 @@ void ui::HUD::Draw(entt::registry* registry) {
   }
 }
 
-bool ui::HUD::RetryClicked(const SDL_Point& kMousePos) const {
+bool omg::HUD::RetryClicked(const SDL_Point& kMousePos) const {
   return retry_.Clicked(kMousePos);
 }
 
-void ui::HUD::DrawText(const ui::Text& kText) const {
+void omg::HUD::DrawText(const omg::ui::Text& kText) const {
   res_manager_->DrawText(kText.str.c_str(), kText.position, kText.color,
                          kText.font, kText.size);
 }
 
-void ui::HUD::DrawIcon(const ui::Icon& kIcon) const {
+void omg::HUD::DrawIcon(const omg::ui::Icon& kIcon) const {
   SDL_SetTextureColorMod(kIcon.texture, kIcon.color.r, kIcon.color.g,
                          kIcon.color.b);
   SDL_RenderCopy(renderer_, kIcon.texture, &kIcon.clip, &kIcon.position);

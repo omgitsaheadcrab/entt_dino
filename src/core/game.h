@@ -17,6 +17,8 @@
 #include "core/res_manager.h"
 #include "core/window.h"
 
+namespace omg {
+
 class Game {
  public:
   Game() = delete;
@@ -31,10 +33,12 @@ class Game {
 
  private:
   entt::registry registry_;
-  ui::HUD hud_;
-  ResourceManager res_manager_;
-  Window window_;
+  omg::HUD hud_;
+  omg::ResourceManager res_manager_;
+  omg::Window window_;
   static constexpr double kUpdatesPerSecond_ = 60.0;
 };
+
+}  // namespace omg
 
 #endif  // ENTT_DINO_SRC_CORE_GAME_H_

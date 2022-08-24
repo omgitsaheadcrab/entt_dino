@@ -23,6 +23,8 @@
 
 #include "core/fonts.h"
 
+namespace omg {
+
 class ResourceManager {
  public:
   ResourceManager() = default;
@@ -46,5 +48,7 @@ class ResourceManager {
   std::unordered_map<std::string, std::vector<fonts::Font*>> fonts_;
   std::unordered_map<std::string, SDL_Texture*> sprite_textures_;
 };
+
+}  // namespace omg
 
 #endif  // ENTT_DINO_SRC_CORE_RES_MANAGER_H_
