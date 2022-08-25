@@ -31,7 +31,7 @@ class BaseScene {
   virtual void Init() = 0;
   virtual void HandleEvents() = 0;
   virtual void Update(const double dt) = 0;
-  virtual void Render() = 0;
+  virtual void Render(const double alpha) = 0;
 
  protected:
   omg::Game* game_;
