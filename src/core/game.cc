@@ -34,6 +34,14 @@
 omg::Game::Game(const int kWindowWidth, const int kWindowHeight)
     : window_ {"entt_dino", kWindowWidth, kWindowHeight} {}
 
+omg::HUD omg::Game::hud() { return hud_; }
+
+omg::ResourceManager omg::Game::res_manager() { return res_manager_; }
+
+// omg::SceneManager omg::Game::scene_manager() { return scene_manager_; }
+
+omg::Window omg::Game::window() { return window_; }
+
 void omg::Game::Init() {
   contexts::graphics::SetFPS(&registry_, 0);
   contexts::game_states::SetSpeed(&registry_, 0.15);

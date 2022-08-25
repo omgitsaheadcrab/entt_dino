@@ -25,6 +25,11 @@ class Game {
   Game(const int kWindowWidth, const int kWindowHeight);
   ~Game() = default;
 
+  omg::HUD& hud();
+  omg::ResourceManager& res_manager();
+  // omg::SceneManager& scene_manager();
+  omg::Window& window();
+
   void Init();
   void HandleEvents();
   void Update(const double dt);
