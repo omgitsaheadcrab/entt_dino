@@ -13,6 +13,7 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
 
+#include <cmath>
 #include <cstdint>
 
 #include <entt/entity/entity.hpp>
@@ -33,7 +34,8 @@
 #include "sys/sync.h"
 
 omg::Game::Game(const int kWindowWidth, const int kWindowHeight)
-    : window_ {"entt_dino", kWindowWidth, kWindowHeight},
+    : over_ {false},
+      window_ {"entt_dino", kWindowWidth, kWindowHeight},
       scene_manager_ {this} {}
 
 omg::HUD& omg::Game::hud() { return hud_; }
@@ -66,7 +68,7 @@ void omg::Game::HandleEvents() {
 
   switch (window_.event().type) {
     case SDL_QUIT:
-      contexts::game_states::SetOver(&registry_, true);
+      Quit();
       break;
     case SDL_WINDOWEVENT:
       contexts::graphics::SetBounds(&registry_, window_.window());
@@ -74,7 +76,7 @@ void omg::Game::HandleEvents() {
     case SDL_KEYDOWN:
       switch (window_.event().key.keysym.sym) {
         case SDLK_ESCAPE:  // Press ESC to quit
-          contexts::game_states::SetOver(&registry_, true);
+          Quit();
           break;
         case SDLK_SPACE:
           // Jump goes here
@@ -145,7 +147,7 @@ void omg::Game::Run() {
   uint32_t frame_count = 0;
   double fps_interval = 0.0;
 
-  while (!contexts::game_states::GetOver(&registry_)) {
+  while (!over_) {
     const double kCurrentTime = SDL_GetTicks();  // Casting to double
     const double kFrameTime = kCurrentTime - previous_time;
     previous_time = kCurrentTime;
@@ -174,3 +176,5 @@ void omg::Game::Run() {
     }
   }
 }
+
+void omg::Game::Quit() { over_ = true; }

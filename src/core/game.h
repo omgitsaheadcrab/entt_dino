@@ -35,9 +35,12 @@ class Game {
   void HandleEvents();
   void Update(const double dt);
   void Render();
+
   void Run();
+  void Quit();
 
  private:
+  bool over_;
   entt::registry registry_;
 
   omg::HUD hud_;
