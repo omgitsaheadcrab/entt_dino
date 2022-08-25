@@ -15,6 +15,7 @@
 
 #include "core/hud.h"
 #include "core/res_manager.h"
+#include "core/scene_manager.h"
 #include "core/window.h"
 
 namespace omg {
@@ -27,7 +28,7 @@ class Game {
 
   omg::HUD& hud();
   omg::ResourceManager& res_manager();
-  // omg::SceneManager& scene_manager();
+  omg::SceneManager& scene_manager();
   omg::Window& window();
 
   void Init();
@@ -38,9 +39,12 @@ class Game {
 
  private:
   entt::registry registry_;
+
   omg::HUD hud_;
   omg::ResourceManager res_manager_;
+  omg::SceneManager scene_manager_;
   omg::Window window_;
+
   static constexpr double kUpdatesPerSecond_ = 60.0;
 };
 

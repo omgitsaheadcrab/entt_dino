@@ -9,25 +9,21 @@
 #ifndef ENTT_DINO_SRC_CORE_BASE_SCENE_H_
 #define ENTT_DINO_SRC_CORE_BASE_SCENE_H_
 
+#include <SDL2/SDL_events.h>
+
 #include <string>
 
-#include "core/game.h"
-#include "core/hud.h"
-#include "core/res_manager.h"
-#include "core/window.h"
-// #include "core/scene_manager.h"
-
-#include <SDL2/SDL_events.h>
+#include "core/fwd.h"
 
 namespace omg {
 
 class BaseScene {
  public:
   BaseScene() = delete;
-  explicit BaseScene(const std::string& name);
-  virtual ~BaseScene();
+  explicit BaseScene(const std::string& scene_name);
+  ~BaseScene() = default;
 
-  const std::string& name() const;
+  std::string& name();
 
   void HandleBaseEvents(const SDL_Event& event);
   void SetGame(omg::Game* game);
@@ -39,9 +35,10 @@ class BaseScene {
 
  protected:
   omg::Game* game_;
-  // SceneManager* scene_manager_;
+
   omg::HUD* hud_;
   omg::ResourceManager* res_manager_;
+  omg::SceneManager* scene_manager_;
   omg::Window* window_;
 
  private:

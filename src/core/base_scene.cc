@@ -16,9 +16,9 @@
 #include "ctx/game_states.h"
 #include "ctx/graphics.h"
 
-omg::BaseScene::BaseScene(const std::string& name) : name_ {name} {}
+omg::BaseScene::BaseScene(const std::string& scene_name) { name_ = scene_name; }
 
-const std::string& omg::BaseScene::name() const { return name_; }
+std::string& omg::BaseScene::name() { return name_; }
 
 void omg::BaseScene::HandleBaseEvents(const SDL_Event& event) {
   switch (event.type) {
@@ -43,7 +43,8 @@ void omg::BaseScene::HandleBaseEvents(const SDL_Event& event) {
 void omg::BaseScene::SetGame(omg::Game* game) {
   game_ = game;
 
-  window_ = &game->window();
-  scene_manager_ = &game->scene_manager();
+  hud_ = &game->hud();
   res_manager_ = &game->res_manager();
+  scene_manager_ = &game->scene_manager();
+  window_ = &game->window();
 }
