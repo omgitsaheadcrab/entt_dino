@@ -18,13 +18,13 @@ void omg::EntityManager::Init(omg::Game* game) { game_ = game; }
 
 void omg::EntityManager::AddUpdateSystem(
     std::unique_ptr<omg::BaseSystem> system) {
-  system->Init(game_, registry_, dispatcher_);
+  system->Init(game_, &registry_, &dispatcher_);
   update_systems_.push_back(std::move(system));
 }
 
 void omg::EntityManager::AddRenderSystem(
     std::unique_ptr<omg::BaseSystem> system) {
-  system->Init(game_, registry_, dispatcher_);
+  system->Init(game_, &registry_, &dispatcher_);
   render_systems_.push_back(std::move(system));
 }
 
