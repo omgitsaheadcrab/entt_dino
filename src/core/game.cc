@@ -47,7 +47,18 @@ omg::SceneManager& omg::Game::scene_manager() { return scene_manager_; }
 omg::Window& omg::Game::window() { return window_; }
 
 void omg::Game::Init() {
+  contexts::graphics::SetFPS(&registry_, 0);
+  contexts::game_states::SetSpeed(&registry_, 0.15);
+  contexts::game_states::SetScore(&registry_, 0);
+  contexts::game_states::SetHighscore(&registry_, 0);
+  contexts::graphics::SetBounds(&registry_, window_.window());
 
+  res_manager_.Init(window_.renderer());
+  hud_.Init(&registry_, window_.renderer(), &res_manager_);
+
+  entities::dino::Create(&registry_, res_manager_);
+  systems::spawn::Floors(&registry_, res_manager_);
+  systems::spawn::Clouds(&registry_, res_manager_);
 }
 
 void omg::Game::HandleEvents() {
