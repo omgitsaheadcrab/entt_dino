@@ -27,10 +27,12 @@ class SceneManager {
   omg::BaseScene* current_scene() const;
 
   void AddScene(std::unique_ptr<omg::BaseScene> scene);
-  void SetCurrentScene(const std::string& name);
+  bool SetCurrentScene(const std::string& name);
 
  private:
   omg::Game* game_;
+
+  void InitScene(std::unique_ptr<omg::BaseScene> scene);
 
   std::vector<std::unique_ptr<omg::BaseScene>> scenes_;
   omg::BaseScene* current_scene_ = nullptr;
