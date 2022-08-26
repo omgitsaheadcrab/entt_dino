@@ -84,6 +84,7 @@ void scenes::Running::HandleEvents() {
                                   false);
           contexts::game_states::SetSpeed(entity_manager_.registry(), 0.15);
           contexts::game_states::SetScore(entity_manager_.registry(), 0);
+          contexts::game_states::SetDistance(entity_manager_.registry(), 0);
           break;
         case SDLK_n:
           contexts::game_states::ToggleDark(entity_manager_.registry());
