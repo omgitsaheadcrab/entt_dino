@@ -9,20 +9,24 @@
 #ifndef ENTT_DINO_SRC_SYS_SPAWN_H_
 #define ENTT_DINO_SRC_SYS_SPAWN_H_
 
-#include <entt/entity/entity.hpp>
-#include <entt/entity/registry.hpp>
-
-#include "core/res_manager.h"
+#include "core/base_system.h"
 
 namespace systems {
 
-namespace spawn {
+class Spawn : public omg::BaseSystem {
+ public:
+  Spawn() = default;
+  ~Spawn() = default;
 
-void Clouds(entt::registry* registry, const omg::ResourceManager& kResManager);
+  void Update(const double dt) override;
 
-void Floors(entt::registry* registry, const omg::ResourceManager& kResManager);
+ protected:
+  void OnInit() override;
 
-}  // namespace spawn
+ private:
+  void Clouds();
+  void Floors();
+};
 
 }  // namespace systems
 

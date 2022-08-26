@@ -27,7 +27,7 @@ class BaseSystem {
   virtual void Update(const double dt) = 0;
 
  protected:
-  virtual void OnInit() = 0;
+  inline virtual void OnInit() {}
 
   omg::Game* game_;
   entt::registry* registry_;

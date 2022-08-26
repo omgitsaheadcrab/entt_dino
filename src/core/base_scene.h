@@ -25,7 +25,7 @@ class BaseScene {
 
   std::string& name();
 
-  void HandleBaseEvents(const SDL_Event& event);
+  void HandleBaseEvents(const SDL_Event* event);
   void SetGame(omg::Game* game);
 
   virtual void Init() = 0;

@@ -31,11 +31,6 @@ class Game {
   omg::SceneManager& scene_manager();
   omg::Window& window();
 
-  void Init();
-  void HandleEvents();
-  void Update(const double dt);
-  void Render();
-
   void Run();
   void Quit();
 

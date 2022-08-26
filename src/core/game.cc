@@ -13,25 +13,15 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
 
-#include <cmath>
 #include <cstdint>
+#include <memory>
 
-#include <entt/entity/entity.hpp>
-
-#include "core/colors.h"
 #include "core/hud.h"
 #include "core/res_manager.h"
 #include "core/scene_manager.h"
 #include "core/window.h"
-#include "ctx/game_states.h"
 #include "ctx/graphics.h"
-#include "ent/dino.h"
-#include "sys/despawn.h"
-#include "sys/move.h"
-#include "sys/render.h"
-#include "sys/score.h"
-#include "sys/spawn.h"
-#include "sys/sync.h"
+#include "scenes/running.h"
 
 omg::Game::Game(const int kWindowWidth, const int kWindowHeight)
     : over_ {false},
@@ -46,106 +36,14 @@ omg::SceneManager& omg::Game::scene_manager() { return scene_manager_; }
 
 omg::Window& omg::Game::window() { return window_; }
 
-void omg::Game::Init() {
-  contexts::graphics::SetFPS(&registry_, 0);
-  contexts::game_states::SetSpeed(&registry_, 0.15);
-  contexts::game_states::SetScore(&registry_, 0);
-  contexts::game_states::SetHighscore(&registry_, 0);
-  contexts::graphics::SetBounds(&registry_, window_.window());
-
-  res_manager_.Init(window_.renderer());
-  hud_.Init(&registry_, window_.renderer(), &res_manager_);
-
-  entities::dino::Create(&registry_, res_manager_);
-  systems::spawn::Floors(&registry_, res_manager_);
-  systems::spawn::Clouds(&registry_, res_manager_);
-}
-
-void omg::Game::HandleEvents() {
-  SDL_PollEvent(&window_.event());
-
-  uint32_t score, high_score;
-
-  switch (window_.event().type) {
-    case SDL_QUIT:
-      Quit();
-      break;
-    case SDL_WINDOWEVENT:
-      contexts::graphics::SetBounds(&registry_, window_.window());
-      break;
-    case SDL_KEYDOWN:
-      switch (window_.event().key.keysym.sym) {
-        case SDLK_ESCAPE:  // Press ESC to quit
-          Quit();
-          break;
-        case SDLK_SPACE:
-          // Jump goes here
-          break;
-        case SDLK_d:
-          entities::dino::SetDead(&registry_, res_manager_, true);
-          score = contexts::game_states::GetScore(&registry_).value;
-          high_score = contexts::game_states::GetHighscore(&registry_).value;
-          high_score = score > high_score ? score : high_score;
-          contexts::game_states::SetHighscore(&registry_, high_score);
-          break;
-        case SDLK_r:
-          entities::dino::SetDead(&registry_, res_manager_, false);
-          contexts::game_states::SetSpeed(&registry_, 0.15);
-          contexts::game_states::SetScore(&registry_, 0);
-          break;
-        case SDLK_n:
-          contexts::game_states::ToggleDark(&registry_);
-          break;
-      }
-      break;
-    case SDL_KEYUP:
-      switch (window_.event().key.keysym.sym) {
-        case SDLK_SPACE:
-          break;
-      }
-      break;
-    case SDL_MOUSEBUTTONDOWN:
-      SDL_Point mouse_position;
-      SDL_GetMouseState(&mouse_position.x, &mouse_position.y);
-      if (hud_.RetryClicked(mouse_position)) {
-        entities::dino::SetDead(&registry_, res_manager_, false);
-        contexts::game_states::SetScore(&registry_, 0);
-        contexts::game_states::SetSpeed(&registry_, 0.15);
-      }
-      break;
-    default:
-      break;
-  }
-}
-
-void omg::Game::Update(const double dt) {
-  systems::move::RigidBodies(&registry_, dt);
-  systems::score::Update(&registry_);
-  systems::spawn::Floors(&registry_, res_manager_);
-  systems::spawn::Clouds(&registry_, res_manager_);
-  systems::despawn::OutOfBounds(&registry_);
-  systems::sync::Transforms(&registry_);
-  hud_.Update(&registry_);
-}
-
-void omg::Game::Render() {
-  auto color = colors::kBackgroundLight;
-  if (contexts::game_states::GetDark(&registry_)) {
-    color = colors::kBackgroundDark;
-  }
-  window_.Clear(color);
-
-  systems::render::Sprites(window_.renderer(), &registry_);
-  hud_.Draw(&registry_);
-  window_.Present();
-}
-
 void omg::Game::Run() {
   constexpr double kMSPerUpdate {1000.0 / kUpdatesPerSecond_};
   double previous_time = SDL_GetTicks();  // Casting to double
   double accumulator = 0.0;
   uint32_t frame_count = 0;
   double fps_interval = 0.0;
+
+  scene_manager_.AddScene(std::make_unique<scenes::Running>());
 
   while (!over_) {
     const double kCurrentTime = SDL_GetTicks();  // Casting to double
@@ -154,17 +52,19 @@ void omg::Game::Run() {
     accumulator += kFrameTime;
     fps_interval += kFrameTime;
 
+    auto scene = scene_manager_.current_scene();
+
     // HandleEvents as often as possible
-    HandleEvents();
+    scene->HandleEvents();
 
     // Update only once per kMSPerUpdate
     while (accumulator >= kMSPerUpdate) {
-      Update(kMSPerUpdate);
+      scene->Update(kMSPerUpdate);
       accumulator -= kMSPerUpdate;
     }
 
     // Render as often as possible
-    Render();
+    scene->Render(0.0);
     frame_count++;
 
     // Frame rate counter (updates every 250ms)

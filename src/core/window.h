@@ -28,12 +28,12 @@ class Window {
   void Clear(const SDL_Color& color);
   void Present() const;
 
-  SDL_Event& event();
+  SDL_Event* event();
   SDL_Renderer* renderer() const;
   SDL_Window* window() const;
 
  private:
-  SDL_Event event_ {0};
+  SDL_Event* event_ {0};
   SDL_Window* window_;
   SDL_Renderer* renderer_;
 };

@@ -20,18 +20,18 @@ omg::BaseScene::BaseScene(const std::string& scene_name) { name_ = scene_name; }
 
 std::string& omg::BaseScene::name() { return name_; }
 
-void omg::BaseScene::HandleBaseEvents(const SDL_Event& event) {
-  switch (event.type) {
+void omg::BaseScene::HandleBaseEvents(const SDL_Event* event) {
+  switch (event->type) {
     case SDL_QUIT:
-      // Quit game
+      game_->Quit();
       break;
     case SDL_WINDOWEVENT:
       // Set bounds
       break;
     case SDL_KEYDOWN:
-      switch (event.key.keysym.sym) {
+      switch (event->key.keysym.sym) {
         case SDLK_ESCAPE:
-          // Quit game
+          game_->Quit();
           break;
       }
       break;

@@ -9,15 +9,17 @@
 #ifndef ENTT_DINO_SRC_SYS_SCORE_H_
 #define ENTT_DINO_SRC_SYS_SCORE_H_
 
-#include <entt/entity/registry.hpp>
+#include "core/base_system.h"
 
 namespace systems {
 
-namespace score {
+class Score : public omg::BaseSystem {
+ public:
+  Score() = default;
+  ~Score() = default;
 
-void Update(entt::registry* registry);
-
-}  // namespace score
+  void Update(const double dt) override;
+};
 
 }  // namespace systems
 

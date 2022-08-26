@@ -39,3 +39,7 @@ void omg::EntityManager::OnRender(const double alpha) {
     system->Update(alpha);
   }
 }
+
+entt::dispatcher* omg::EntityManager::dispatcher() { return &dispatcher_; }
+
+entt::registry* omg::EntityManager::registry() { return &registry_; }
