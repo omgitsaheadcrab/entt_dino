@@ -36,7 +36,6 @@ class Game {
 
  private:
   bool over_;
-  entt::registry registry_;
 
   omg::HUD hud_;
   omg::ResourceManager res_manager_;

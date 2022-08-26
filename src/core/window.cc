@@ -41,7 +41,7 @@ void omg::Window::Clear(const SDL_Color& color) {
 }
 void omg::Window::Present() const { SDL_RenderPresent(renderer_); }
 
-SDL_Event* omg::Window::event() { return event_; }
+SDL_Event& omg::Window::event() { return event_; }
 
 SDL_Renderer* omg::Window::renderer() const { return renderer_; }
 

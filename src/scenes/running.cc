@@ -13,6 +13,7 @@
 #include "SDL_events.h"
 #include "core/base_scene.h"
 #include "core/colors.h"
+#include "core/entity_manager.h"
 #include "core/game.h"
 #include "core/window.h"
 #include "ctx/game_states.h"
@@ -41,9 +42,9 @@ void scenes::Running::Init() {
   hud_->Init(entity_manager_.registry(), game_->window().renderer(),
              res_manager_);
 
+  entity_manager_.AddUpdateSystem(std::make_unique<systems::Spawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Move>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Score>());
-  entity_manager_.AddUpdateSystem(std::make_unique<systems::Spawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Despawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Sync>());
 
@@ -52,17 +53,17 @@ void scenes::Running::Init() {
 }
 
 void scenes::Running::HandleEvents() {
-  const auto event = game_->window().event();
+  auto event = game_->window().event();
 
-  SDL_PollEvent(event);
+  SDL_PollEvent(&event);
 
-  HandleBaseEvents(event);
+  HandleBaseEvents(&event);
 
   uint32_t score, high_score;
 
-  switch (event->type) {
+  switch (event.type) {
     case SDL_KEYDOWN:
-      switch (event->key.keysym.sym) {
+      switch (event.key.keysym.sym) {
         case SDLK_SPACE:
           // Jump goes here
           break;
@@ -90,7 +91,7 @@ void scenes::Running::HandleEvents() {
       }
       break;
     case SDL_KEYUP:
-      switch (event->key.keysym.sym) {
+      switch (event.key.keysym.sym) {
         case SDLK_SPACE:
           break;
       }

@@ -12,6 +12,8 @@
 #include "core/base_system.h"
 #include "core/window.h"
 
+#include <cstdint>
+
 namespace systems {
 
 class Render : public omg::BaseSystem {
@@ -24,6 +26,9 @@ class Render : public omg::BaseSystem {
 
  private:
   omg::Window* window_;
+  uint32_t frame_count_ = 0;
+  double fps_interval_ = 0.0;
+
 };
 
 }  // namespace systems
