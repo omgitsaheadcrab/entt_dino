@@ -36,14 +36,13 @@ omg::ui::Icon omg::ui::CreateIcon(const std::string& kName,
                                   const double kPosWScale,
                                   const double kPosHScale,
                                   const SDL_Color& kColor,
-                                  omg::ResourceManager* res_manager,
+                                  const omg::ResourceManager& res_manager,
                                   entt::registry* registry) {
   const auto& kBounds = contexts::graphics::GetBounds(registry);
-  const auto kClips = res_manager->GetSpriteClips(kName);
+  const auto kClips = res_manager.GetSpriteClips(kName);
   auto pos = SDL_Rect {static_cast<int>(kBounds.position.w * kPosWScale),
                        static_cast<int>(kBounds.position.h * kPosHScale), 0, 0};
   pos.h = kClips[0].h;
   pos.w = kClips[0].w;
-  return ui::Icon {pos, kColor, res_manager->GetSpriteTexture(kName),
-                   kClips[0]};
+  return ui::Icon {pos, kColor, res_manager.GetSpriteTexture(kName), kClips[0]};
 }

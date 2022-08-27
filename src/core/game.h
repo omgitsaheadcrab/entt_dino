@@ -27,6 +27,7 @@ class Game {
   ~Game() = default;
 
   omg::HUD& hud();
+  uint32_t fps();
   omg::ResourceManager& res_manager();
   omg::SceneManager& scene_manager();
   omg::Window& window();
@@ -36,6 +37,7 @@ class Game {
 
  private:
   bool over_;
+  uint32_t fps_;
 
   omg::HUD hud_;
   omg::ResourceManager res_manager_;

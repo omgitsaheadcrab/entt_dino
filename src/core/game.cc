@@ -12,6 +12,7 @@
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
+#include <sys/types.h>
 
 #include <memory>
 
@@ -19,7 +20,6 @@
 #include "core/res_manager.h"
 #include "core/scene_manager.h"
 #include "core/window.h"
-#include "ctx/graphics.h"
 #include "scenes/running.h"
 
 omg::Game::Game(const int kWindowWidth, const int kWindowHeight)
@@ -28,6 +28,8 @@ omg::Game::Game(const int kWindowWidth, const int kWindowHeight)
       scene_manager_ {this} {}
 
 omg::HUD& omg::Game::hud() { return hud_; }
+
+uint32_t omg::Game::fps() { return fps_; }
 
 omg::ResourceManager& omg::Game::res_manager() { return res_manager_; }
 
@@ -39,6 +41,8 @@ void omg::Game::Run() {
   constexpr double kMSPerUpdate {1000.0 / kUpdatesPerSecond_};
   double previous_time = SDL_GetTicks();  // Casting to double
   double accumulator = 0.0;
+  uint32_t frame_count_ = 0;
+  double fps_interval_ = 0.0;
 
   scene_manager_.AddScene(std::make_unique<scenes::Running>());
   scene_manager_.SetCurrentScene("running");
@@ -62,6 +66,16 @@ void omg::Game::Run() {
 
     // Render as often as possible
     scene->Render(kFrameTime);
+
+    fps_interval_ += kFrameTime;
+    frame_count_++;
+
+    // Frame rate counter (updates every 250ms)
+    if (fps_interval_ > 250.0) {
+      fps_ = frame_count_ / (fps_interval_ / 1000);
+      frame_count_ = 0;
+      fps_interval_ = 0.0;
+    }
   }
 }
 

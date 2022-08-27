@@ -31,7 +31,6 @@ scenes::Running::Running() : omg::BaseScene("running") {}
 void scenes::Running::Init() {
   entity_manager_.Init(game_);
 
-  contexts::graphics::SetFPS(entity_manager_.registry(), 0);
   contexts::game_states::SetSpeed(entity_manager_.registry(), 0.15);
   contexts::game_states::SetScore(entity_manager_.registry(), 0);
   contexts::game_states::SetHighscore(entity_manager_.registry(), 0);
@@ -39,8 +38,7 @@ void scenes::Running::Init() {
                                 game_->window().window());
 
   res_manager_->Init(game_->window().renderer());
-  hud_->Init(entity_manager_.registry(), game_->window().renderer(),
-             res_manager_);
+  hud_->Init(entity_manager_.registry(), game_);
 
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Spawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Move>());

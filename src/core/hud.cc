@@ -9,27 +9,23 @@
 #include "core/hud.h"
 
 #include <SDL2/SDL_pixels.h>
-#include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
 #include <cstdint>
-#include <string>
 
 #include <entt/entity/registry.hpp>
 
 #include "comp/entities/dino.h"
 #include "comp/entity_states/dead.h"
 #include "core/colors.h"
+#include "core/game.h"
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
 #include "ctx/game_states.h"
-#include "ctx/graphics.h"
 #include "util/str.h"
 
-void omg::HUD::Init(entt::registry* registry, SDL_Renderer* renderer,
-                    omg::ResourceManager* res_manager) {
-  res_manager_ = res_manager;
-  renderer_ = renderer;
+void omg::HUD::Init(entt::registry* registry, omg::Game* game) {
+  game_ = game;
   const auto font = "8-bit-hud";
   fps_ = omg::ui::CreateText("00000", 0.02, 0.03, font, 8, colors::kDinoDark,
                              registry);
@@ -40,16 +36,15 @@ void omg::HUD::Init(entt::registry* registry, SDL_Renderer* renderer,
   game_over_ = omg::ui::CreateText("G  A  M  E     O  V  E  R", 0.35, 0.40,
                                    font, 12, colors::kDinoDark, registry);
   retry_ = omg::ui::CreateIcon("retry", 0.48, 0.52, colors::kDinoDark,
-                               res_manager_, registry);
+                               game_->res_manager(), registry);
 }
 
 void omg::HUD::Update(entt::registry* registry) {
   const auto kDark = contexts::game_states::GetDark(registry);
   const auto kScore = contexts::game_states::GetScore(registry).value;
   const auto kHighScore = contexts::game_states::GetHighscore(registry).value;
-  const auto kFps = contexts::graphics::GetFPS(registry).value;
 
-  fps_.str = utils::ToStringZeroPad(kFps, 5);
+  fps_.str = utils::ToStringZeroPad(game_->fps(), 5);
   current_score_.str = utils::ToStringZeroPad(kScore, 5);
 
   auto color = colors::kDinoDark;
@@ -91,12 +86,13 @@ bool omg::HUD::RetryClicked(const SDL_Point& kMousePos) const {
 }
 
 void omg::HUD::DrawText(const omg::ui::Text& kText) const {
-  res_manager_->DrawText(kText.str.c_str(), kText.position, kText.color,
-                         kText.font, kText.size);
+  game_->res_manager().DrawText(kText.str.c_str(), kText.position, kText.color,
+                                kText.font, kText.size);
 }
 
 void omg::HUD::DrawIcon(const omg::ui::Icon& kIcon) const {
   SDL_SetTextureColorMod(kIcon.texture, kIcon.color.r, kIcon.color.g,
                          kIcon.color.b);
-  SDL_RenderCopy(renderer_, kIcon.texture, &kIcon.clip, &kIcon.position);
+  SDL_RenderCopy(game_->window().renderer(), kIcon.texture, &kIcon.clip,
+                 &kIcon.position);
 }

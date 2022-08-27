@@ -14,7 +14,6 @@
 
 #include "core/game.h"
 #include "ctx/game_states.h"
-#include "ctx/graphics.h"
 
 omg::BaseScene::BaseScene(const std::string& scene_name) { name_ = scene_name; }
 
