@@ -9,7 +9,10 @@
 #ifndef ENTT_DINO_SRC_SYS_SCORE_H_
 #define ENTT_DINO_SRC_SYS_SCORE_H_
 
+#include <cstdint>
+
 #include "core/base_system.h"
+#include "events/dino/dead.h"
 
 namespace systems {
 
@@ -19,6 +22,18 @@ class Score : public omg::BaseSystem {
   ~Score() = default;
 
   void Update(const double dt) override;
+
+  void UpdateHighscore(const events::dino::Dead&);
+
+ protected:
+  void OnInit() override;
+
+ private:
+  static constexpr double kSpeedBoost_ = 0.02;
+  static constexpr uint32_t kSpeedBoostMultiple_ = 100;
+  static constexpr uint32_t kDistanceScale_ =
+      20;  // Magic number to scale distance to make
+           // score initially rise by ~10/sec
 };
 
 }  // namespace systems

@@ -12,7 +12,6 @@
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
-#include <sys/types.h>
 
 #include <memory>
 

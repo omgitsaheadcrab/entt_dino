@@ -15,6 +15,7 @@
 
 #include "core/fwd.h"
 #include "core/hud_elements.h"
+#include "entt/entity/fwd.hpp"
 
 namespace omg {
 
@@ -24,8 +25,8 @@ class HUD {
   ~HUD() = default;
 
   void Init(entt::registry* registry, omg::Game* game);
-  void Update(entt::registry* registry);
-  void Draw(entt::registry* registry);
+  void Update();
+  void Draw();
   bool RetryClicked(const SDL_Point& kMousePos) const;
 
  private:
@@ -39,6 +40,7 @@ class HUD {
   omg::ui::Text high_score_;
 
   omg::Game* game_;
+  entt::registry* registry_;
 };
 
 }  // namespace omg

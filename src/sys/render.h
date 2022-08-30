@@ -9,10 +9,10 @@
 #ifndef ENTT_DINO_SRC_SYS_RENDER_H_
 #define ENTT_DINO_SRC_SYS_RENDER_H_
 
+#include <cstdint>
+
 #include "core/base_system.h"
 #include "core/window.h"
-
-#include <cstdint>
 
 namespace systems {
 
@@ -23,6 +23,9 @@ class Render : public omg::BaseSystem {
   ~Render() = default;
 
   void Update(const double alpha) override;
+
+ protected:
+  void OnInit() override;
 
  private:
   omg::Window* window_;

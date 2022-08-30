@@ -13,10 +13,16 @@
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
 #include "core/colors.h"
+#include "core/game.h"
 #include "core/window.h"
 #include "ctx/game_states.h"
+#include "ctx/graphics.h"
 
 systems::Render::Render(omg::Window* window) : window_ {window} {}
+
+void systems::Render::OnInit() {
+  contexts::graphics::SetBounds(registry_, window_->window());
+}
 
 void systems::Render::Update(const double alpha) {
   auto color = colors::kDinoDark;

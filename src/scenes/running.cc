@@ -19,6 +19,7 @@
 #include "ctx/game_states.h"
 #include "ctx/graphics.h"
 #include "ent/dino.h"
+#include "events/dino/dead.h"
 #include "sys/despawn.h"
 #include "sys/move.h"
 #include "sys/render.h"
@@ -30,15 +31,10 @@ scenes::Running::Running() : omg::BaseScene("running") {}
 
 void scenes::Running::Init() {
   entity_manager_.Init(game_);
-
-  contexts::game_states::SetSpeed(entity_manager_.registry(), 0.15);
-  contexts::game_states::SetScore(entity_manager_.registry(), 0);
-  contexts::game_states::SetHighscore(entity_manager_.registry(), 0);
-  contexts::graphics::SetBounds(entity_manager_.registry(),
-                                game_->window().window());
-
   res_manager_->Init(game_->window().renderer());
-  hud_->Init(entity_manager_.registry(), game_);
+
+  entity_manager_.AddRenderSystem(
+      std::make_unique<systems::Render>(&game_->window()));
 
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Spawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Move>());
@@ -46,18 +42,14 @@ void scenes::Running::Init() {
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Despawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Sync>());
 
-  entity_manager_.AddRenderSystem(
-      std::make_unique<systems::Render>(&game_->window()));
+  hud_->Init(entity_manager_.registry(), game_);
 }
 
 void scenes::Running::HandleEvents() {
   auto event = game_->window().event();
-
   SDL_PollEvent(&event);
 
   HandleBaseEvents(&event);
-
-  uint32_t score, high_score;
 
   switch (event.type) {
     case SDL_KEYDOWN:
@@ -68,14 +60,7 @@ void scenes::Running::HandleEvents() {
         case SDLK_d:
           entities::dino::SetDead(entity_manager_.registry(), *res_manager_,
                                   true);
-          score =
-              contexts::game_states::GetScore(entity_manager_.registry()).value;
-          high_score =
-              contexts::game_states::GetHighscore(entity_manager_.registry())
-                  .value;
-          high_score = score > high_score ? score : high_score;
-          contexts::game_states::SetHighscore(entity_manager_.registry(),
-                                              high_score);
+          entity_manager_.dispatcher()->trigger<events::dino::Dead>();
           break;
         case SDLK_r:
           entities::dino::SetDead(entity_manager_.registry(), *res_manager_,
@@ -112,7 +97,7 @@ void scenes::Running::HandleEvents() {
 
 void scenes::Running::Update(const double dt) {
   entity_manager_.OnUpdate(dt);
-  hud_->Update(entity_manager_.registry());
+  hud_->Update();
 }
 
 void scenes::Running::Render(const double alpha) {
@@ -120,10 +105,9 @@ void scenes::Running::Render(const double alpha) {
   if (contexts::game_states::GetDark(entity_manager_.registry())) {
     color = colors::kBackgroundDark;
   }
+
   game_->window().Clear(color);
-
   entity_manager_.OnRender(alpha);
-
-  hud_->Draw(entity_manager_.registry());
+  hud_->Draw();
   game_->window().Present();
 }

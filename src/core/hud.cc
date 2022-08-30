@@ -26,6 +26,8 @@
 
 void omg::HUD::Init(entt::registry* registry, omg::Game* game) {
   game_ = game;
+  registry_ = registry;
+
   const auto font = "8-bit-hud";
   fps_ = omg::ui::CreateText("00000", 0.02, 0.03, font, 8, colors::kDinoDark,
                              registry);
@@ -39,10 +41,10 @@ void omg::HUD::Init(entt::registry* registry, omg::Game* game) {
                                game_->res_manager(), registry);
 }
 
-void omg::HUD::Update(entt::registry* registry) {
-  const auto kDark = contexts::game_states::GetDark(registry);
-  const auto kScore = contexts::game_states::GetScore(registry).value;
-  const auto kHighScore = contexts::game_states::GetHighscore(registry).value;
+void omg::HUD::Update() {
+  const auto kDark = contexts::game_states::GetDark(registry_);
+  const auto kScore = contexts::game_states::GetScore(registry_).value;
+  const auto kHighScore = contexts::game_states::GetHighscore(registry_).value;
 
   fps_.str = utils::ToStringZeroPad(game_->fps(), 5);
   current_score_.str = utils::ToStringZeroPad(kScore, 5);
@@ -60,20 +62,20 @@ void omg::HUD::Update(entt::registry* registry) {
   retry_.color = color;
 
   const auto kDinoDead =
-      registry
+      registry_
           ->view<components::entities::Dino, components::entity_states::Dead>();
   if (kDinoDead.size_hint()) {
     high_score_.str = "HI  " + utils::ToStringZeroPad(kHighScore, 5);
   }
 }
 
-void omg::HUD::Draw(entt::registry* registry) {
+void omg::HUD::Draw() {
   DrawText(fps_);
   DrawText(current_score_);
   DrawText(high_score_);
 
   const auto kDinoDead =
-      registry
+      registry_
           ->view<components::entities::Dino, components::entity_states::Dead>();
   if (kDinoDead.size_hint()) {
     DrawText(game_over_);
