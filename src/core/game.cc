@@ -19,7 +19,7 @@
 #include "core/res_manager.h"
 #include "core/scene_manager.h"
 #include "core/window.h"
-#include "scenes/running.h"
+#include "scenes/dinosaur.h"
 
 omg::Game::Game(const int kWindowWidth, const int kWindowHeight)
     : over_ {false},
@@ -43,7 +43,7 @@ void omg::Game::Run() {
   uint32_t frame_count_ = 0;
   double fps_interval_ = 0.0;
 
-  scene_manager_.AddScene(std::make_unique<scenes::Running>());
+  scene_manager_.AddScene(std::make_unique<scenes::Dinosaur>());
   scene_manager_.SetCurrentScene("running");
 
   while (!over_) {

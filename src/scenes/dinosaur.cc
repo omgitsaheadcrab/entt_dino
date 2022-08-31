@@ -1,12 +1,12 @@
 /**
- * @file      running.cc
- * @brief     Running scene
+ * @file      dinosaur.cc
+ * @brief     Dinosaur scene
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
  * @date      2022-08-25
  * @copyright Copyright © 2022 Tobias Backer Dirks
  */
 
-#include "scenes/running.h"
+#include "scenes/dinosaur.h"
 
 #include <memory>
 
@@ -18,18 +18,19 @@
 #include "core/window.h"
 #include "ctx/game_states.h"
 #include "ctx/graphics.h"
-#include "ent/dino.h"
 #include "events/dino/dead.h"
 #include "sys/despawn.h"
 #include "sys/move.h"
 #include "sys/render.h"
 #include "sys/score.h"
 #include "sys/spawn.h"
+#include "sys/states/dead.h"
+#include "sys/states/running.h"
 #include "sys/sync.h"
 
-scenes::Running::Running() : omg::BaseScene("running") {}
+scenes::Dinosaur::Dinosaur() : omg::BaseScene("dinosaur") {}
 
-void scenes::Running::Init() {
+void scenes::Dinosaur::Init() {
   entity_manager_.Init(game_);
   res_manager_->Init(game_->window().renderer());
 
@@ -42,10 +43,13 @@ void scenes::Running::Init() {
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Despawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Sync>());
 
+  entity_manager_.AddUpdateSystem(std::make_unique<systems::states::Dead>());
+  entity_manager_.AddUpdateSystem(std::make_unique<systems::states::Running>());
+
   hud_->Init(entity_manager_.registry(), game_);
 }
 
-void scenes::Running::HandleEvents() {
+void scenes::Dinosaur::HandleEvents() {
   auto event = game_->window().event();
   SDL_PollEvent(&event);
 
@@ -58,13 +62,10 @@ void scenes::Running::HandleEvents() {
           // Jump goes here
           break;
         case SDLK_d:
-          entities::dino::SetDead(entity_manager_.registry(), *res_manager_,
-                                  true);
           entity_manager_.dispatcher()->trigger<events::dino::Dead>();
           break;
         case SDLK_r:
-          entities::dino::SetDead(entity_manager_.registry(), *res_manager_,
-                                  false);
+          entity_manager_.dispatcher()->trigger<events::dino::Running>();
           contexts::game_states::SetSpeed(entity_manager_.registry(), 0.15);
           contexts::game_states::SetScore(entity_manager_.registry(), 0);
           contexts::game_states::SetDistance(entity_manager_.registry(), 0);
@@ -84,8 +85,7 @@ void scenes::Running::HandleEvents() {
       SDL_Point mouse_position;
       SDL_GetMouseState(&mouse_position.x, &mouse_position.y);
       if (hud_->RetryClicked(mouse_position)) {
-        entities::dino::SetDead(entity_manager_.registry(), *res_manager_,
-                                false);
+        entity_manager_.dispatcher()->trigger<events::dino::Running>();
         contexts::game_states::SetScore(entity_manager_.registry(), 0);
         contexts::game_states::SetSpeed(entity_manager_.registry(), 0.15);
       }
@@ -95,12 +95,12 @@ void scenes::Running::HandleEvents() {
   }
 }
 
-void scenes::Running::Update(const double dt) {
+void scenes::Dinosaur::Update(const double dt) {
   entity_manager_.OnUpdate(dt);
   hud_->Update();
 }
 
-void scenes::Running::Render(const double alpha) {
+void scenes::Dinosaur::Render(const double alpha) {
   auto color = colors::kBackgroundLight;
   if (contexts::game_states::GetDark(entity_manager_.registry())) {
     color = colors::kBackgroundDark;
