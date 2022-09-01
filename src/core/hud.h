@@ -15,7 +15,6 @@
 
 #include "core/fwd.h"
 #include "core/hud_elements.h"
-#include "entt/entity/fwd.hpp"
 
 namespace omg {
 

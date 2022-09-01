@@ -8,17 +8,18 @@
 
 #include "scenes/dinosaur.h"
 
+#include <SDL2/SDL_events.h>
+
 #include <memory>
 
-#include "SDL_events.h"
 #include "core/base_scene.h"
 #include "core/colors.h"
 #include "core/entity_manager.h"
 #include "core/game.h"
 #include "core/window.h"
 #include "ctx/game_states.h"
-#include "ctx/graphics.h"
 #include "events/dino/dead.h"
+#include "events/dino/running.h"
 #include "sys/despawn.h"
 #include "sys/move.h"
 #include "sys/render.h"
