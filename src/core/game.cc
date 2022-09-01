@@ -44,7 +44,7 @@ void omg::Game::Run() {
   double fps_interval_ = 0.0;
 
   scene_manager_.AddScene(std::make_unique<scenes::Dinosaur>());
-  scene_manager_.SetCurrentScene("running");
+  scene_manager_.SetCurrentScene("dinosaur");
 
   while (!over_) {
     const double kCurrentTime = SDL_GetTicks();  // Casting to double
