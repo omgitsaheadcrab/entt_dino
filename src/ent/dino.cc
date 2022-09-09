@@ -14,6 +14,7 @@
 #include <entt/entity/registry.hpp>
 
 #include "comp/entities/dino.h"
+#include "comp/entity_states/action.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
 #include "comp/physics/rigid_body.h"
@@ -45,6 +46,7 @@ void entities::dino::Create(entt::registry* registry,
 
   auto e = registry->create();
   registry->emplace<components::entities::Dino>(e);
+  registry->emplace<components::entity_states::Action>(e, Actions::running);
   registry->emplace<components::physics::RigidBody>(e, kVelocity,
                                                     kAcceleration);
   registry->emplace<components::graphics::Transform>(e, position);

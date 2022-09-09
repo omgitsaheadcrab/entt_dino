@@ -25,8 +25,7 @@
 #include "sys/render.h"
 #include "sys/score.h"
 #include "sys/spawn.h"
-#include "sys/states/dead.h"
-#include "sys/states/running.h"
+#include "sys/state.h"
 #include "sys/sync.h"
 
 scenes::Dinosaur::Dinosaur() : omg::BaseScene("dinosaur") {}
@@ -44,8 +43,7 @@ void scenes::Dinosaur::Init() {
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Despawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Sync>());
 
-  entity_manager_.AddUpdateSystem(std::make_unique<systems::states::Dead>());
-  entity_manager_.AddUpdateSystem(std::make_unique<systems::states::Running>());
+  entity_manager_.AddUpdateSystem(std::make_unique<systems::State>());
 
   hud_->Init(entity_manager_.registry(), game_);
 }
