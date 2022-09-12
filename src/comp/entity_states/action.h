@@ -11,7 +11,7 @@
 
 #include <cstdint>
 
-enum Actions { running, dead };
+enum Actions { dead, running };
 
 namespace components {
 

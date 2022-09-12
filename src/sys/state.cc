@@ -8,8 +8,6 @@
 
 #include "sys/state.h"
 
-#include <cstdint>
-
 #include "comp/entities/dino.h"
 #include "comp/entity_states/action.h"
 #include "comp/graphics/sprite.h"
@@ -25,14 +23,14 @@ void systems::State::OnInit() {
 }
 
 void systems::State::OnDead(const events::dino::Dead&) {
-  SetAction(Actions::dead, 0);
+  SetAction(Actions::dead);
 }
 
 void systems::State::OnRunning(const events::dino::Running&) {
-  SetAction(Actions::running, 2);
+  SetAction(Actions::running);
 }
 
-void systems::State::SetAction(const Actions kAction, const uint32_t kClip) {
+void systems::State::SetAction(const Actions kAction) {
   const auto& kClips = game_->res_manager().GetSpriteClips("dino");
   const auto& kView =
       registry_
@@ -43,6 +41,6 @@ void systems::State::SetAction(const Actions kAction, const uint32_t kClip) {
     registry_->patch<components::entity_states::Action>(
         entity, [&](auto& action) { action.current = kAction; });
     registry_->patch<components::graphics::Sprite>(
-        entity, [&](auto& sprite) { sprite.clip = kClips[kClip]; });
+        entity, [&](auto& sprite) { sprite.clip = kClips[kAction]; });
   });
 }

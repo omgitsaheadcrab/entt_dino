@@ -38,7 +38,7 @@ void entities::dino::Create(entt::registry* registry,
                             const omg::ResourceManager& kResManager) {
   const auto& kBounds = contexts::graphics::GetBounds(registry);
   const auto kClips = kResManager.GetSpriteClips("dino");
-  const auto kClip = 2;
+  const auto kClip = Actions::running;
   position.x = kBounds.position.w * 0.05;
   position.y = kBounds.position.h * 0.77;
   position.h = kClips[kClip].h;
