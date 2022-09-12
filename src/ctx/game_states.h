@@ -16,7 +16,6 @@
 #include "comp/game_states/dark.h"
 #include "comp/game_states/distance_run.h"
 #include "comp/game_states/highscore.h"
-#include "comp/game_states/over.h"
 #include "comp/game_states/score.h"
 #include "comp/game_states/speed.h"
 #include "ctx/context.h"
@@ -52,9 +51,6 @@ constexpr auto GetDark = &contexts::GetBool<components::game_states::Dark>;
 constexpr auto SetDark = &contexts::SetBool<components::game_states::Dark>;
 constexpr auto ToggleDark =
     &contexts::ToggleBool<components::game_states::Dark>;
-
-constexpr auto GetOver = &contexts::GetBool<components::game_states::Over>;
-constexpr auto SetOver = &contexts::SetBool<components::game_states::Over>;
 
 }  // namespace game_states
 

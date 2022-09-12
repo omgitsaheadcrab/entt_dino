@@ -9,17 +9,17 @@
 #ifndef ENTT_DINO_SRC_SYS_DESPAWN_H_
 #define ENTT_DINO_SRC_SYS_DESPAWN_H_
 
-#include <set>
-
-#include <entt/entity/registry.hpp>
+#include "core/base_system.h"
 
 namespace systems {
 
-namespace despawn {
+class Despawn : public omg::BaseSystem {
+ public:
+  Despawn() = default;
+  ~Despawn() = default;
 
-void OutOfBounds(entt::registry* registry);
-
-}  // namespace despawn
+  void Update(const double  dt) override;
+};
 
 }  // namespace systems
 

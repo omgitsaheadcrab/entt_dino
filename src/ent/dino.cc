@@ -14,7 +14,7 @@
 #include <entt/entity/registry.hpp>
 
 #include "comp/entities/dino.h"
-#include "comp/entity_states/dead.h"
+#include "comp/entity_states/action.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
 #include "comp/physics/rigid_body.h"
@@ -35,10 +35,10 @@ SDL_Rect position {0, 0, 0, 0};
 }  // namespace
 
 void entities::dino::Create(entt::registry* registry,
-                            const ResourceManager& kResManager) {
+                            const omg::ResourceManager& kResManager) {
   const auto& kBounds = contexts::graphics::GetBounds(registry);
   const auto kClips = kResManager.GetSpriteClips("dino");
-  const auto kClip = 2;
+  const auto kClip = Actions::running;
   position.x = kBounds.position.w * 0.05;
   position.y = kBounds.position.h * 0.77;
   position.h = kClips[kClip].h;
@@ -46,6 +46,7 @@ void entities::dino::Create(entt::registry* registry,
 
   auto e = registry->create();
   registry->emplace<components::entities::Dino>(e);
+  registry->emplace<components::entity_states::Action>(e, Actions::running);
   registry->emplace<components::physics::RigidBody>(e, kVelocity,
                                                     kAcceleration);
   registry->emplace<components::graphics::Transform>(e, position);
@@ -55,22 +56,15 @@ void entities::dino::Create(entt::registry* registry,
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }
 
-void entities::dino::SetDead(entt::registry* registry,
-                             const ResourceManager& kResManager,
-                             const bool dead) {
-  const auto& kClips = kResManager.GetSpriteClips("dino");
-  const auto& kView =
-      registry
-          ->view<components::entities::Dino, components::graphics::Sprite>();
-  kView.each([&](const auto& entity, auto sprite) {
-    if (dead) {
-      registry->emplace_or_replace<components::entity_states::Dead>(entity);
-      registry->patch<components::graphics::Sprite>(
-          entity, [&](auto& sprite) { sprite.clip = kClips[0]; });
-    } else {
-      registry->remove<components::entity_states::Dead>(entity);
-      registry->patch<components::graphics::Sprite>(
-          entity, [&](auto& sprite) { sprite.clip = kClips[1]; });
+bool entities::dino::IsCurrentAction(entt::registry* registry,
+                                     const Actions kAction) {
+  const auto kView = registry->view<components::entities::Dino,
+                                    components::entity_states::Action>();
+  bool is_current = false;
+  kView.each([&](const auto& action) {
+    if (action.current == Actions::dead) {
+      is_current = true;
     }
   });
+  return is_current;
 }

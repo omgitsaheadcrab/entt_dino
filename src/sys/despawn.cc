@@ -10,16 +10,14 @@
 
 #include <spdlog/spdlog.h>
 
-#include <entt/entity/registry.hpp>
-
 #include "comp/entity_states/despawn.h"
 
-void systems::despawn::OutOfBounds(entt::registry* registry) {
-  auto view = registry->view<components::entity_states::Despawn>();
+void systems::Despawn::Update(const double dt) {
+  auto view = registry_->view<components::entity_states::Despawn>();
 #ifdef _DEBUG
   for (const auto& [entity] : view.each()) {
     SPDLOG_DEBUG("{} was deleted", static_cast<int>(entity));
   }
 #endif  // _DEBUG
-  registry->destroy(view.begin(), view.end());
+  registry_->destroy(view.begin(), view.end());
 }

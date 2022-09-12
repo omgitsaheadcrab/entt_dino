@@ -9,17 +9,27 @@
 #ifndef ENTT_DINO_SRC_SYS_RENDER_H_
 #define ENTT_DINO_SRC_SYS_RENDER_H_
 
-#include <SDL2/SDL_render.h>
+#include <cstdint>
 
-#include <entt/entity/registry.hpp>
+#include "core/base_system.h"
+#include "core/window.h"
 
 namespace systems {
 
-namespace render {
+class Render : public omg::BaseSystem {
+ public:
+  Render() = delete;
+  explicit Render(omg::Window* window);
+  ~Render() = default;
 
-void Sprites(SDL_Renderer* renderer, entt::registry* registry);
+  void Update(const double alpha) override;
 
-}  // namespace render
+ protected:
+  void OnInit() override;
+
+ private:
+  omg::Window* window_;
+};
 
 }  // namespace systems
 

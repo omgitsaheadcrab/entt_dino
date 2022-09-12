@@ -8,14 +8,12 @@
 
 #include "sys/sync.h"
 
-#include <entt/entity/registry.hpp>
-
 #include "comp/graphics/transform.h"
 #include "comp/physics/transform.h"
 
-void systems::sync::Transforms(entt::registry* registry) {
-  const auto kView = registry->view<components::graphics::Transform,
-                                    components::physics::Transform>();
+void systems::Sync::Update(const double dt) {
+  const auto kView = registry_->view<components::graphics::Transform,
+                                     components::physics::Transform>();
   kView.each([&](auto& gfx, const auto& kPhysx) {
     gfx.position.x = kPhysx.position.x;
     gfx.position.y = kPhysx.position.y;

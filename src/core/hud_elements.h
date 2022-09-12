@@ -20,6 +20,8 @@
 
 #include "core/res_manager.h"
 
+namespace omg {
+
 namespace ui {
 
 struct Element {
@@ -46,8 +48,11 @@ Text CreateText(const std::string& kStr, const double kPosWScale,
                 entt::registry* registry);
 Icon CreateIcon(const std::string& kName, const double kPosWScale,
                 const double kPosHScale, const SDL_Color& kColor,
-                ResourceManager* res_manager, entt::registry* registry);
+                const omg::ResourceManager& res_manager,
+                entt::registry* registry);
 
 }  // namespace ui
+
+}  // namespace omg
 
 #endif  // ENTT_DINO_SRC_CORE_HUD_ELEMENTS_H_

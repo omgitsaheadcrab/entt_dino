@@ -15,7 +15,10 @@
 
 #include "core/hud.h"
 #include "core/res_manager.h"
+#include "core/scene_manager.h"
 #include "core/window.h"
+
+namespace omg {
 
 class Game {
  public:
@@ -23,18 +26,27 @@ class Game {
   Game(const int kWindowWidth, const int kWindowHeight);
   ~Game() = default;
 
-  void Init();
-  void HandleEvents();
-  void Update(const double dt);
-  void Render();
+  omg::HUD& hud();
+  uint32_t fps();
+  omg::ResourceManager& res_manager();
+  omg::SceneManager& scene_manager();
+  omg::Window& window();
+
   void Run();
+  void Quit();
 
  private:
-  entt::registry registry_;
-  ui::HUD hud_;
-  ResourceManager res_manager_;
-  Window window_;
+  bool over_;
+  uint32_t fps_;
+
+  omg::HUD hud_;
+  omg::ResourceManager res_manager_;
+  omg::SceneManager scene_manager_;
+  omg::Window window_;
+
   static constexpr double kUpdatesPerSecond_ = 60.0;
 };
+
+}  // namespace omg
 
 #endif  // ENTT_DINO_SRC_CORE_GAME_H_

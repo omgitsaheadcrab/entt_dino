@@ -18,8 +18,8 @@ namespace entities {
 
 namespace background {
 
-void CreateFloor(entt::registry* registry, const ResourceManager& kResManager,
-                 const int kXPos);
+void CreateFloor(entt::registry* registry,
+                 const omg::ResourceManager& kResManager, const int kXPos);
 
 }  // namespace background
 

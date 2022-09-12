@@ -9,15 +9,17 @@
 #ifndef ENTT_DINO_SRC_SYS_SYNC_H_
 #define ENTT_DINO_SRC_SYS_SYNC_H_
 
-#include <entt/entity/registry.hpp>
+#include "core/base_system.h"
 
 namespace systems {
 
-namespace sync {
+class Sync : public omg::BaseSystem {
+ public:
+  Sync() = default;
+  ~Sync() = default;
 
-void Transforms(entt::registry* registry);
-
-}  // namespace sync
+  void Update(const double dt) override;
+};
 
 }  // namespace systems
 

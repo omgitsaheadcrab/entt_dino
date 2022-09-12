@@ -29,7 +29,7 @@
 #include "core/graphics.h"
 #include "util/res.h"
 
-ResourceManager::~ResourceManager() {
+omg::ResourceManager::~ResourceManager() {
   for (const auto& kFont : fonts_) {
     for (auto& size : kFont.second) {
       delete size;
@@ -37,14 +37,14 @@ ResourceManager::~ResourceManager() {
   }
 }
 
-void ResourceManager::Init(SDL_Renderer* renderer) {
+void omg::ResourceManager::Init(SDL_Renderer* renderer) {
   renderer_ = renderer;
   ParseSprites();
   LoadSprites();
   ParseFonts();
 }
 
-void ResourceManager::ParseSprites() {
+void omg::ResourceManager::ParseSprites() {
   std::string sprite_dir = utils::GetResPath() + "sprites";
   for (const auto& kEntry : std::filesystem::directory_iterator(sprite_dir)) {
     if (kEntry.path().extension() == ".json") {
@@ -60,7 +60,7 @@ void ResourceManager::ParseSprites() {
   }
 }
 
-void ResourceManager::LoadSprites() {
+void omg::ResourceManager::LoadSprites() {
   for (const auto& [kKey, kSprite] : resources_["sprites"].items()) {
     SPDLOG_DEBUG("Loading sprite: {}", kKey);
     sprite_textures_[kKey] = graphics::LoadTexture(
@@ -68,7 +68,7 @@ void ResourceManager::LoadSprites() {
   }
 }
 
-std::vector<SDL_Rect> ResourceManager::GetSpriteClips(
+std::vector<SDL_Rect> omg::ResourceManager::GetSpriteClips(
     const std::string& kSprite) const {
   std::vector<SDL_Rect> sprites;
 
@@ -81,12 +81,12 @@ std::vector<SDL_Rect> ResourceManager::GetSpriteClips(
   return sprites;
 }
 
-SDL_Texture* ResourceManager::GetSpriteTexture(
+SDL_Texture* omg::ResourceManager::GetSpriteTexture(
     const std::string& kSpriteName) const {
   return sprite_textures_.find(kSpriteName)->second;
 }
 
-void ResourceManager::ParseFonts() {
+void omg::ResourceManager::ParseFonts() {
   const std::string kFontDir = utils::GetResPath() + "fonts";
   for (const auto& kEntry : std::filesystem::directory_iterator(kFontDir)) {
     if (kEntry.path().extension() == ".ttf") {
@@ -99,7 +99,8 @@ void ResourceManager::ParseFonts() {
   }
 }
 
-void ResourceManager::LoadFont(const std::string& kName, const uint32_t kSize) {
+void omg::ResourceManager::LoadFont(const std::string& kName,
+                                    const uint32_t kSize) {
   fonts_[kName].resize(kSize + 1);
   SPDLOG_DEBUG("Loading font: {}:{}pt", kName, kSize);
 
@@ -112,11 +113,11 @@ void ResourceManager::LoadFont(const std::string& kName, const uint32_t kSize) {
   fonts_[kName][kSize] = kFont;
 }
 
-void ResourceManager::DrawText(const std::string& kText,
-                               const SDL_Rect& kPosition,
-                               const SDL_Color& kColor,
-                               const std::string& kFontName,
-                               const uint32_t kFontSize) {
+void omg::ResourceManager::DrawText(const std::string& kText,
+                                    const SDL_Rect& kPosition,
+                                    const SDL_Color& kColor,
+                                    const std::string& kFontName,
+                                    const uint32_t kFontSize) {
   int i, character;
   int x = kPosition.x;
   SDL_Rect *glyph, dest;

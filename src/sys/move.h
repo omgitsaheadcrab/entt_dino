@@ -9,15 +9,17 @@
 #ifndef ENTT_DINO_SRC_SYS_MOVE_H_
 #define ENTT_DINO_SRC_SYS_MOVE_H_
 
-#include <entt/entity/registry.hpp>
+#include "core/base_system.h"
 
 namespace systems {
 
-namespace move {
+class Move : public omg::BaseSystem {
+ public:
+  Move() = default;
+  ~Move() = default;
 
-void RigidBodies(entt::registry* registry, const double dt);
-
-}  // namespace move
+  void Update(const double dt) override;
+};
 
 }  // namespace systems
 
