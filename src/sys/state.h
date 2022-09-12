@@ -11,6 +11,7 @@
 
 #include <cstdint>
 
+#include "comp/entity_states/action.h"
 #include "core/base_system.h"
 #include "events/dino/dead.h"
 #include "events/dino/running.h"
@@ -27,6 +28,9 @@ class State : public omg::BaseSystem {
 
  protected:
   void OnInit() override;
+
+ private:
+  void SetAction(const Actions action, const uint32_t kClip);
 };
 
 }  // namespace systems

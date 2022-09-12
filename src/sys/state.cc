@@ -25,21 +25,14 @@ void systems::State::OnInit() {
 }
 
 void systems::State::OnDead(const events::dino::Dead&) {
-  const auto& kClips = game_->res_manager().GetSpriteClips("dino");
-  const auto& kView =
-      registry_
-          ->view<components::entities::Dino, components::graphics::Sprite>();
-
-  kView.each([&](auto entity, auto sprite) {
-    // Set dead state and change sprite
-    registry_->patch<components::entity_states::Action>(
-        entity, [&](auto& action) { action.current = Actions::dead; });
-    registry_->patch<components::graphics::Sprite>(
-        entity, [&](auto& sprite) { sprite.clip = kClips[0]; });
-  });
+  SetAction(Actions::dead, 0);
 }
 
 void systems::State::OnRunning(const events::dino::Running&) {
+  SetAction(Actions::running, 2);
+}
+
+void systems::State::SetAction(const Actions kAction, const uint32_t kClip) {
   const auto& kClips = game_->res_manager().GetSpriteClips("dino");
   const auto& kView =
       registry_
@@ -48,8 +41,8 @@ void systems::State::OnRunning(const events::dino::Running&) {
   kView.each([&](auto entity, auto sprite) {
     // Set running state and set sprite
     registry_->patch<components::entity_states::Action>(
-        entity, [&](auto& action) { action.current = Actions::running; });
+        entity, [&](auto& action) { action.current = kAction; });
     registry_->patch<components::graphics::Sprite>(
-        entity, [&](auto& sprite) { sprite.clip = kClips[2]; });
+        entity, [&](auto& sprite) { sprite.clip = kClips[kClip]; });
   });
 }
