@@ -15,6 +15,7 @@
 #include "comp/physics/rigid_body.h"
 #include "comp/physics/transform.h"
 #include "ctx/game_states.h"
+#include "ent/dino.h"
 
 void systems::Move::Update(const double dt) {
   const auto kView = registry_->view<components::physics::Transform,
@@ -23,14 +24,7 @@ void systems::Move::Update(const double dt) {
                                          components::entity_states::Action>();
 
   // Check if dino is dead, if he is do nothing
-  bool exit = false;
-  kDinoDead.each([&](const auto& action) {
-    if (action.current == Actions::dead) {
-      exit = true;
-    }
-  });
-
-  if (exit) {
+  if (entities::dino::IsCurrentAction(registry_, Actions::dead)) {
     return;
   }
 

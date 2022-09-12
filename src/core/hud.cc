@@ -22,6 +22,7 @@
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
 #include "ctx/game_states.h"
+#include "ent/dino.h"
 #include "util/str.h"
 
 void omg::HUD::Init(entt::registry* registry, omg::Game* game) {
@@ -61,13 +62,9 @@ void omg::HUD::Update() {
   game_over_.color = color;
   retry_.color = color;
 
-  const auto kDinoDead = registry_->view<components::entities::Dino,
-                                         components::entity_states::Action>();
-  kDinoDead.each([&](const auto& action) {
-    if (action.current == Actions::dead) {
-      high_score_.str = "HI  " + utils::ToStringZeroPad(kHighScore, 5);
-    }
-  });
+  if (entities::dino::IsCurrentAction(registry_, Actions::dead)) {
+    high_score_.str = "HI  " + utils::ToStringZeroPad(kHighScore, 5);
+  }
 }
 
 void omg::HUD::Draw() {
@@ -75,14 +72,10 @@ void omg::HUD::Draw() {
   DrawText(current_score_);
   DrawText(high_score_);
 
-  const auto kDinoDead = registry_->view<components::entities::Dino,
-                                         components::entity_states::Action>();
-  kDinoDead.each([&](const auto& action) {
-    if (action.current == Actions::dead) {
-      DrawText(game_over_);
-      DrawIcon(retry_);
-    }
-  });
+  if (entities::dino::IsCurrentAction(registry_, Actions::dead)) {
+    DrawText(game_over_);
+    DrawIcon(retry_);
+  }
 }
 
 bool omg::HUD::RetryClicked(const SDL_Point& kMousePos) const {

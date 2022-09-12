@@ -55,3 +55,16 @@ void entities::dino::Create(entt::registry* registry,
       e, kResManager.GetSpriteTexture("dino"), kClips[kClip]);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }
+
+bool entities::dino::IsCurrentAction(entt::registry* registry,
+                                     const Actions kAction) {
+  const auto kView = registry->view<components::entities::Dino,
+                                    components::entity_states::Action>();
+  bool is_current = false;
+  kView.each([&](const auto& action) {
+    if (action.current == Actions::dead) {
+      is_current = true;
+    }
+  });
+  return is_current;
+}
