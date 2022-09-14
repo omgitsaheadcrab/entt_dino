@@ -6,17 +6,17 @@
  * @copyright Copyright © 2022 Tobias Backer Dirks
  */
 
-#ifndef ENTT_DINO_SRC_COMP_ENTITIES_FLOOR_H_
-#define ENTT_DINO_SRC_COMP_ENTITIES_FLOOR_H_
+#ifndef ENTT_DINO_SRC_COMP_IDENTIFIERS_FLOOR_H_
+#define ENTT_DINO_SRC_COMP_IDENTIFIERS_FLOOR_H_
 
 namespace components {
 
-namespace entities {
+namespace identifiers {
 
 struct Floor {};
 
-}  // namespace entities
+}  // namespace identifiers
 
 }  // namespace components
 
-#endif  // ENTT_DINO_SRC_COMP_ENTITIES_FLOOR_H_
+#endif  // ENTT_DINO_SRC_COMP_IDENTIFIERS_FLOOR_H_

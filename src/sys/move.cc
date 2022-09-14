@@ -10,7 +10,7 @@
 
 #include <cmath>
 
-#include "comp/entities/dino.h"
+#include "comp/identifiers/dino.h"
 #include "comp/entity_states/action.h"
 #include "comp/physics/rigid_body.h"
 #include "comp/physics/transform.h"
@@ -20,7 +20,7 @@
 void systems::Move::Update(const double dt) {
   const auto kView = registry_->view<components::physics::Transform,
                                      components::physics::RigidBody>();
-  const auto kDinoDead = registry_->view<components::entities::Dino,
+  const auto kDinoDead = registry_->view<components::identifiers::Dino,
                                          components::entity_states::Action>();
 
   // Check if dino is dead, if he is do nothing

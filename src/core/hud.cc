@@ -15,7 +15,7 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/entities/dino.h"
+#include "comp/identifiers/dino.h"
 #include "comp/entity_states/action.h"
 #include "core/colors.h"
 #include "core/game.h"

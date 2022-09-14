@@ -13,7 +13,7 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/entities/cloud.h"
+#include "comp/identifiers/cloud.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
 #include "comp/physics/rigid_body.h"
@@ -45,7 +45,7 @@ void entities::background::CreateCloud(entt::registry* registry,
   position.w = kClips[kClip].w;
 
   auto e = registry->create();
-  registry->emplace<components::entities::Cloud>(e);
+  registry->emplace<components::identifiers::Cloud>(e);
   registry->emplace<components::physics::RigidBody>(e, kVelocity,
                                                     kAcceleration);
   registry->emplace<components::physics::Transform>(e, position);

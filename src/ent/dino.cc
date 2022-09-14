@@ -13,7 +13,7 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/entities/dino.h"
+#include "comp/identifiers/dino.h"
 #include "comp/entity_states/action.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
@@ -38,14 +38,14 @@ void entities::dino::Create(entt::registry* registry,
                             const omg::ResourceManager& kResManager) {
   const auto& kBounds = contexts::graphics::GetBounds(registry);
   const auto kClips = kResManager.GetSpriteClips("dino");
-  const auto kClip = Actions::running;
+  const auto kClip = 1;
   position.x = kBounds.position.w * 0.05;
   position.y = kBounds.position.h * 0.77;
   position.h = kClips[kClip].h;
   position.w = kClips[kClip].w;
 
   auto e = registry->create();
-  registry->emplace<components::entities::Dino>(e);
+  registry->emplace<components::identifiers::Dino>(e);
   registry->emplace<components::entity_states::Action>(e, Actions::running);
   registry->emplace<components::physics::RigidBody>(e, kVelocity,
                                                     kAcceleration);
@@ -58,7 +58,7 @@ void entities::dino::Create(entt::registry* registry,
 
 bool entities::dino::IsCurrentAction(entt::registry* registry,
                                      const Actions kAction) {
-  const auto kView = registry->view<components::entities::Dino,
+  const auto kView = registry->view<components::identifiers::Dino,
                                     components::entity_states::Action>();
   bool is_current = false;
   kView.each([&](const auto& action) {

@@ -6,17 +6,17 @@
  * @copyright Copyright © 2022 Tobias Backer Dirks
  */
 
-#ifndef ENTT_DINO_SRC_COMP_ENTITIES_DINO_H_
-#define ENTT_DINO_SRC_COMP_ENTITIES_DINO_H_
+#ifndef ENTT_DINO_SRC_COMP_IDENTIFIERS_DINO_H_
+#define ENTT_DINO_SRC_COMP_IDENTIFIERS_DINO_H_
 
 namespace components {
 
-namespace entities {
+namespace identifiers {
 
 struct Dino {};
 
-}  // namespace entities
+}  // namespace identifiers
 
 }  // namespace components
 
-#endif  // ENTT_DINO_SRC_COMP_ENTITIES_DINO_H_
+#endif  // ENTT_DINO_SRC_COMP_IDENTIFIERS_DINO_H_

@@ -13,7 +13,7 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/entities/floor.h"
+#include "comp/identifiers/floor.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
 #include "comp/physics/rigid_body.h"
@@ -42,7 +42,8 @@ void entities::background::CreateFloor(entt::registry* registry,
   position.w = kClips[kClip].w;
 
   auto e = registry->create();
-  registry->emplace<components::entities::Floor>(e);
+
+  registry->emplace<components::identifiers::Floor>(e);
   registry->emplace<components::physics::RigidBody>(e, kVelocity,
                                                     kAcceleration);
   registry->emplace<components::graphics::Transform>(e, position);

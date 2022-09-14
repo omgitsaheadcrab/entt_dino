@@ -7,8 +7,8 @@
  */
 #include "sys/spawn.h"
 
-#include "comp/entities/cloud.h"
-#include "comp/entities/floor.h"
+#include "comp/identifiers/cloud.h"
+#include "comp/identifiers/floor.h"
 #include "comp/entity_states/despawn.h"
 #include "comp/physics/transform.h"
 #include "core/game.h"
@@ -31,7 +31,7 @@ void systems::Spawn::Update(const double dt) {
 void systems::Spawn::Clouds() {
   const auto kCloudView =
       registry_
-          ->view<components::physics::Transform, components::entities::Cloud>();
+          ->view<components::physics::Transform, components::identifiers::Cloud>();
   const auto& kBounds = contexts::graphics::GetBounds(registry_);
   constexpr auto kMaxCount = 2;
 
@@ -64,7 +64,7 @@ void systems::Spawn::Clouds() {
 void systems::Spawn::Floors() {
   const auto kFloorView =
       registry_
-          ->view<components::physics::Transform, components::entities::Floor>();
+          ->view<components::physics::Transform, components::identifiers::Floor>();
   constexpr auto kMaxCount = 3;
 
   auto current_pos = 0;
