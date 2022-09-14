@@ -9,6 +9,9 @@
 #ifndef ENTT_DINO_SRC_SYS_STATE_H_
 #define ENTT_DINO_SRC_SYS_STATE_H_
 
+#include <memory>
+#include <vector>
+
 #include "comp/entity/states.h"
 #include "core/base_state.h"
 #include "core/base_system.h"

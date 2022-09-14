@@ -8,6 +8,9 @@
 
 #include "sys/state.h"
 
+#include <memory>
+#include <utility>
+
 #include "comp/entity/states.h"
 #include "comp/graphics/sprite.h"
 #include "comp/identifiers/dino.h"
@@ -16,8 +19,6 @@
 #include "events/dino/running.h"
 #include "states/dead.h"
 #include "states/running.h"
-
-#include <iostream>
 
 void systems::State::OnInit() {
   dispatcher_->sink<events::dino::Dead>().connect<&systems::State::OnDead>(
