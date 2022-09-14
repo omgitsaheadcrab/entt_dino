@@ -14,33 +14,47 @@
 #include "core/game.h"
 #include "events/dino/dead.h"
 #include "events/dino/running.h"
+#include "states/dead.h"
+#include "states/running.h"
+
+#include <iostream>
 
 void systems::State::OnInit() {
   dispatcher_->sink<events::dino::Dead>().connect<&systems::State::OnDead>(
       this);
   dispatcher_->sink<events::dino::Running>()
       .connect<&systems::State::OnRunning>(this);
+
+  AddState(std::make_unique<states::Running>(), States::running);
+  AddState(std::make_unique<states::Dead>(), States::dead);
+
+  SetCurrentState(States::running);
 }
 
+void systems::State::Update(const double dt) { current_state_->Update(dt); }
+
 void systems::State::OnDead(const events::dino::Dead&) {
-  SetState(States::dead);
+  SetCurrentState(States::dead);
 }
 
 void systems::State::OnRunning(const events::dino::Running&) {
-  SetState(States::running);
+  SetCurrentState(States::running);
 }
 
-void systems::State::SetState(const States kState) {
-  const auto& kClips = game_->res_manager().GetSpriteClips("dino");
-  const auto& kView =
-      registry_
-          ->view<components::identifiers::Dino, components::graphics::Sprite>();
+void systems::State::AddState(std::unique_ptr<omg::BaseState> state,
+                              const States kStateType) {
+  state->Init(game_, registry_, dispatcher_, kStateType);
 
-  kView.each([&](auto entity, auto sprite) {
-    // Set running state and set sprite
-    registry_->patch<components::entity::State>(
-        entity, [&](auto& state) { state.current = kState; });
-    registry_->patch<components::graphics::Sprite>(
-        entity, [&](auto& sprite) { sprite.clip = kClips[kState]; });
-  });
+  states_.push_back(std::move(state));
+}
+
+bool systems::State::SetCurrentState(const States kState) {
+  for (auto& state : states_) {
+    if (state->type() == kState) {
+      current_state_ = state.get();
+      current_state_->Set();
+      return true;
+    }
+  }
+  return false;
 }

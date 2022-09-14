@@ -10,6 +10,7 @@
 #define ENTT_DINO_SRC_SYS_STATE_H_
 
 #include "comp/entity/states.h"
+#include "core/base_state.h"
 #include "core/base_system.h"
 #include "events/dino/dead.h"
 #include "events/dino/running.h"
@@ -21,6 +22,8 @@ class State : public omg::BaseSystem {
   State() = default;
   ~State() = default;
 
+  void Update(const double dt) override;
+
   void OnDead(const events::dino::Dead&);
   void OnRunning(const events::dino::Running&);
 
@@ -28,7 +31,11 @@ class State : public omg::BaseSystem {
   void OnInit() override;
 
  private:
-  void SetState(const States action);
+  void AddState(std::unique_ptr<omg::BaseState> state, const States kState);
+  bool SetCurrentState(const States kState);
+
+  std::vector<std::unique_ptr<omg::BaseState>> states_;
+  omg::BaseState* current_state_ = nullptr;
 };
 
 }  // namespace systems
