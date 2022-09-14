@@ -9,8 +9,6 @@
 #ifndef ENTT_DINO_SRC_CORE_BASE_STATE_H_
 #define ENTT_DINO_SRC_CORE_BASE_STATE_H_
 
-#include <cstdint>
-
 #include <entt/entity/registry.hpp>
 #include <entt/signal/dispatcher.hpp>
 

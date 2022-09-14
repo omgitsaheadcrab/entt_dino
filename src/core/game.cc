@@ -23,6 +23,7 @@
 
 omg::Game::Game(const int kWindowWidth, const int kWindowHeight)
     : over_ {false},
+      fps_ {0},
       window_ {"entt_dino", kWindowWidth, kWindowHeight},
       scene_manager_ {this} {}
 
