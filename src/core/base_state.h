@@ -9,6 +9,8 @@
 #ifndef ENTT_DINO_SRC_CORE_BASE_STATE_H_
 #define ENTT_DINO_SRC_CORE_BASE_STATE_H_
 
+#include <cstdint>
+
 #include <entt/entity/registry.hpp>
 #include <entt/signal/dispatcher.hpp>
 
@@ -31,6 +33,7 @@ class BaseState {
   inline virtual void Update(const double dt) {}
 
  protected:
+  uint32_t elapsed_ = 0;
   States type_;
   omg::Game* game_;
   entt::registry* registry_;
