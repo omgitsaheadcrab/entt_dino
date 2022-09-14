@@ -6,17 +6,17 @@
  * @copyright Copyright © 2022 Tobias Backer Dirks
  */
 
-#ifndef ENTT_DINO_SRC_COMP_GAME_STATES_DARK_H_
-#define ENTT_DINO_SRC_COMP_GAME_STATES_DARK_H_
+#ifndef ENTT_DINO_SRC_COMP_GAME_DARK_H_
+#define ENTT_DINO_SRC_COMP_GAME_DARK_H_
 
 namespace components {
 
-namespace game_states {
+namespace game {
 
 struct Dark {};
 
-}  // namespace game_states
+}  // namespace game
 
 }  // namespace components
 
-#endif  // ENTT_DINO_SRC_COMP_GAME_STATES_DARK_H_
+#endif  // ENTT_DINO_SRC_COMP_GAME_DARK_H_

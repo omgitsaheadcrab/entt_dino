@@ -26,7 +26,7 @@ void systems::Render::OnInit() {
 
 void systems::Render::Update(const double alpha) {
   auto color = colors::kDinoDark;
-  if (contexts::game_states::GetDark(registry_)) {
+  if (contexts::game::GetDark(registry_)) {
     color = colors::kDinoLight;
   }
 

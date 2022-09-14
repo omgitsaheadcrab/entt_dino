@@ -9,7 +9,7 @@
 #ifndef ENTT_DINO_SRC_SYS_STATE_H_
 #define ENTT_DINO_SRC_SYS_STATE_H_
 
-#include "comp/entity_states/action.h"
+#include "comp/entity/states.h"
 #include "core/base_system.h"
 #include "events/dino/dead.h"
 #include "events/dino/running.h"
@@ -28,7 +28,7 @@ class State : public omg::BaseSystem {
   void OnInit() override;
 
  private:
-  void SetAction(const Actions action);
+  void SetState(const States action);
 };
 
 }  // namespace systems

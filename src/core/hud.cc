@@ -15,8 +15,8 @@
 
 #include <entt/entity/registry.hpp>
 
+#include "comp/entity/states.h"
 #include "comp/identifiers/dino.h"
-#include "comp/entity_states/action.h"
 #include "core/colors.h"
 #include "core/game.h"
 #include "core/hud_elements.h"
@@ -43,9 +43,9 @@ void omg::HUD::Init(entt::registry* registry, omg::Game* game) {
 }
 
 void omg::HUD::Update() {
-  const auto kDark = contexts::game_states::GetDark(registry_);
-  const auto kScore = contexts::game_states::GetScore(registry_).value;
-  const auto kHighScore = contexts::game_states::GetHighscore(registry_).value;
+  const auto kDark = contexts::game::GetDark(registry_);
+  const auto kScore = contexts::game::GetScore(registry_).value;
+  const auto kHighScore = contexts::game::GetHighscore(registry_).value;
 
   fps_.str = utils::ToStringZeroPad(game_->fps(), 5);
   current_score_.str = utils::ToStringZeroPad(kScore, 5);
@@ -62,7 +62,7 @@ void omg::HUD::Update() {
   game_over_.color = color;
   retry_.color = color;
 
-  if (entities::dino::IsCurrentAction(registry_, Actions::dead)) {
+  if (entities::dino::IsCurrentState(registry_, States::dead)) {
     high_score_.str = "HI  " + utils::ToStringZeroPad(kHighScore, 5);
   }
 }
@@ -72,7 +72,7 @@ void omg::HUD::Draw() {
   DrawText(current_score_);
   DrawText(high_score_);
 
-  if (entities::dino::IsCurrentAction(registry_, Actions::dead)) {
+  if (entities::dino::IsCurrentState(registry_, States::dead)) {
     DrawText(game_over_);
     DrawIcon(retry_);
   }

@@ -8,9 +8,9 @@
 
 #include "sys/state.h"
 
-#include "comp/entities/dino.h"
-#include "comp/entity_states/action.h"
+#include "comp/entity/states.h"
 #include "comp/graphics/sprite.h"
+#include "comp/identifiers/dino.h"
 #include "core/game.h"
 #include "events/dino/dead.h"
 #include "events/dino/running.h"
@@ -23,24 +23,24 @@ void systems::State::OnInit() {
 }
 
 void systems::State::OnDead(const events::dino::Dead&) {
-  SetAction(Actions::dead);
+  SetState(States::dead);
 }
 
 void systems::State::OnRunning(const events::dino::Running&) {
-  SetAction(Actions::running);
+  SetState(States::running);
 }
 
-void systems::State::SetAction(const Actions kAction) {
+void systems::State::SetState(const States kState) {
   const auto& kClips = game_->res_manager().GetSpriteClips("dino");
   const auto& kView =
       registry_
-          ->view<components::entities::Dino, components::graphics::Sprite>();
+          ->view<components::identifiers::Dino, components::graphics::Sprite>();
 
   kView.each([&](auto entity, auto sprite) {
     // Set running state and set sprite
-    registry_->patch<components::entity_states::Action>(
-        entity, [&](auto& action) { action.current = kAction; });
+    registry_->patch<components::entity::State>(
+        entity, [&](auto& state) { state.current = kState; });
     registry_->patch<components::graphics::Sprite>(
-        entity, [&](auto& sprite) { sprite.clip = kClips[kAction]; });
+        entity, [&](auto& sprite) { sprite.clip = kClips[kState]; });
   });
 }

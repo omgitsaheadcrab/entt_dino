@@ -6,21 +6,21 @@
  * @copyright Copyright © 2022 Tobias Backer Dirks
  */
 
-#ifndef ENTT_DINO_SRC_COMP_GAME_STATES_DISTANCE_RUN_H_
-#define ENTT_DINO_SRC_COMP_GAME_STATES_DISTANCE_RUN_H_
+#ifndef ENTT_DINO_SRC_COMP_GAME_DISTANCE_RUN_H_
+#define ENTT_DINO_SRC_COMP_GAME_DISTANCE_RUN_H_
 
 #include <cstdint>
 
 namespace components {
 
-namespace game_states {
+namespace game {
 
 struct Distance {
   uint32_t value;
 };
 
-}  // namespace game_states
+}  // namespace game
 
 }  // namespace components
 
-#endif  // ENTT_DINO_SRC_COMP_GAME_STATES_DISTANCE_RUN_H_
+#endif  // ENTT_DINO_SRC_COMP_GAME_DISTANCE_RUN_H_

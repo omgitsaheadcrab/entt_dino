@@ -13,9 +13,9 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/identifiers/floor.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
+#include "comp/identifiers/floor.h"
 #include "comp/physics/rigid_body.h"
 #include "comp/physics/transform.h"
 #include "core/vec2d.h"

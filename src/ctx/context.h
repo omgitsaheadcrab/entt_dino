@@ -13,7 +13,7 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/game_states/score.h"
+#include "comp/game/score.h"
 
 namespace contexts {
 

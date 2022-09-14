@@ -65,12 +65,12 @@ void scenes::Dinosaur::HandleEvents() {
           break;
         case SDLK_r:
           entity_manager_.dispatcher()->trigger<events::dino::Running>();
-          contexts::game_states::SetSpeed(entity_manager_.registry(), 0.15);
-          contexts::game_states::SetScore(entity_manager_.registry(), 0);
-          contexts::game_states::SetDistance(entity_manager_.registry(), 0);
+          contexts::game::SetSpeed(entity_manager_.registry(), 0.15);
+          contexts::game::SetScore(entity_manager_.registry(), 0);
+          contexts::game::SetDistance(entity_manager_.registry(), 0);
           break;
         case SDLK_n:
-          contexts::game_states::ToggleDark(entity_manager_.registry());
+          contexts::game::ToggleDark(entity_manager_.registry());
           break;
       }
       break;
@@ -85,8 +85,8 @@ void scenes::Dinosaur::HandleEvents() {
       SDL_GetMouseState(&mouse_position.x, &mouse_position.y);
       if (hud_->RetryClicked(mouse_position)) {
         entity_manager_.dispatcher()->trigger<events::dino::Running>();
-        contexts::game_states::SetScore(entity_manager_.registry(), 0);
-        contexts::game_states::SetSpeed(entity_manager_.registry(), 0.15);
+        contexts::game::SetScore(entity_manager_.registry(), 0);
+        contexts::game::SetSpeed(entity_manager_.registry(), 0.15);
       }
       break;
     default:
@@ -101,7 +101,7 @@ void scenes::Dinosaur::Update(const double dt) {
 
 void scenes::Dinosaur::Render(const double alpha) {
   auto color = colors::kBackgroundLight;
-  if (contexts::game_states::GetDark(entity_manager_.registry())) {
+  if (contexts::game::GetDark(entity_manager_.registry())) {
     color = colors::kBackgroundDark;
   }
 

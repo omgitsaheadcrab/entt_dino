@@ -13,10 +13,10 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/identifiers/dino.h"
-#include "comp/entity_states/action.h"
+#include "comp/entity/states.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
+#include "comp/identifiers/dino.h"
 #include "comp/physics/rigid_body.h"
 #include "comp/physics/transform.h"
 #include "core/res_manager.h"
@@ -46,7 +46,7 @@ void entities::dino::Create(entt::registry* registry,
 
   auto e = registry->create();
   registry->emplace<components::identifiers::Dino>(e);
-  registry->emplace<components::entity_states::Action>(e, Actions::running);
+  registry->emplace<components::entity::State>(e, States::running);
   registry->emplace<components::physics::RigidBody>(e, kVelocity,
                                                     kAcceleration);
   registry->emplace<components::graphics::Transform>(e, position);
@@ -56,13 +56,14 @@ void entities::dino::Create(entt::registry* registry,
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }
 
-bool entities::dino::IsCurrentAction(entt::registry* registry,
-                                     const Actions kAction) {
-  const auto kView = registry->view<components::identifiers::Dino,
-                                    components::entity_states::Action>();
+bool entities::dino::IsCurrentState(entt::registry* registry,
+                                    const States kState) {
+  const auto kView =
+      registry
+          ->view<components::identifiers::Dino, components::entity::State>();
   bool is_current = false;
-  kView.each([&](const auto& action) {
-    if (action.current == Actions::dead) {
+  kView.each([&](const auto& state) {
+    if (state.current == States::dead) {
       is_current = true;
     }
   });

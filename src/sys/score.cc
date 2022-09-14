@@ -15,29 +15,27 @@ void systems::Score::OnInit() {
   dispatcher_->sink<events::dino::Dead>()
       .connect<&systems::Score::UpdateHighscore>(this);
 
-  contexts::game_states::SetSpeed(registry_, 0.15);
-  contexts::game_states::SetScore(registry_, 0);
-  contexts::game_states::SetHighscore(registry_, 0);
+  contexts::game::SetSpeed(registry_, 0.15);
+  contexts::game::SetScore(registry_, 0);
+  contexts::game::SetHighscore(registry_, 0);
 }
 
 void systems::Score::Update(const double dt) {
-  const auto kScore = contexts::game_states::GetScore(registry_).value;
-  if (contexts::game_states::GetDistance(registry_).value / kDistanceScale_ >
-      kScore) {
-    contexts::game_states::IncrementScore(registry_, 1);
+  const auto kScore = contexts::game::GetScore(registry_).value;
+  if (contexts::game::GetDistance(registry_).value / kDistanceScale_ > kScore) {
+    contexts::game::IncrementScore(registry_, 1);
 
     // Integer division to detect threshold cross
     if (kScore / kSpeedBoostMultiple_ <
-        contexts::game_states::GetScore(registry_).value /
-            kSpeedBoostMultiple_) {
-      contexts::game_states::IncrementSpeed(registry_, kSpeedBoost_);
+        contexts::game::GetScore(registry_).value / kSpeedBoostMultiple_) {
+      contexts::game::IncrementSpeed(registry_, kSpeedBoost_);
     }
   }
 }
 
 void systems::Score::UpdateHighscore(const events::dino::Dead&) {
-  const auto kScore = contexts::game_states::GetScore(registry_).value;
-  auto high_score = contexts::game_states::GetHighscore(registry_).value;
+  const auto kScore = contexts::game::GetScore(registry_).value;
+  auto high_score = contexts::game::GetHighscore(registry_).value;
   high_score = kScore > high_score ? kScore : high_score;
-  contexts::game_states::SetHighscore(registry_, high_score);
+  contexts::game::SetHighscore(registry_, high_score);
 }

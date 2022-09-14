@@ -10,10 +10,10 @@
 
 #include <spdlog/spdlog.h>
 
-#include "comp/entity_states/despawn.h"
+#include "comp/entity/despawn.h"
 
 void systems::Despawn::Update(const double dt) {
-  auto view = registry_->view<components::entity_states::Despawn>();
+  auto view = registry_->view<components::entity::Despawn>();
 #ifdef _DEBUG
   for (const auto& [entity] : view.each()) {
     SPDLOG_DEBUG("{} was deleted", static_cast<int>(entity));

@@ -7,9 +7,9 @@
  */
 #include "sys/spawn.h"
 
+#include "comp/entity/despawn.h"
 #include "comp/identifiers/cloud.h"
 #include "comp/identifiers/floor.h"
-#include "comp/entity_states/despawn.h"
 #include "comp/physics/transform.h"
 #include "core/game.h"
 #include "ctx/graphics.h"
@@ -29,9 +29,8 @@ void systems::Spawn::Update(const double dt) {
 }
 
 void systems::Spawn::Clouds() {
-  const auto kCloudView =
-      registry_
-          ->view<components::physics::Transform, components::identifiers::Cloud>();
+  const auto kCloudView = registry_->view<components::physics::Transform,
+                                          components::identifiers::Cloud>();
   const auto& kBounds = contexts::graphics::GetBounds(registry_);
   constexpr auto kMaxCount = 2;
 
@@ -51,7 +50,7 @@ void systems::Spawn::Clouds() {
 
   kCloudView.each([&](auto entity, const auto& kTransform) {
     if (kTransform.position.x <= -kTransform.position.w) {
-      registry_->emplace<components::entity_states::Despawn>(entity);
+      registry_->emplace<components::entity::Despawn>(entity);
       const auto kPos = kTransform.position.x + kTransform.position.w +
                         (kBounds.position.w / 2.0 * kMaxCount);
 
@@ -62,9 +61,8 @@ void systems::Spawn::Clouds() {
 }
 
 void systems::Spawn::Floors() {
-  const auto kFloorView =
-      registry_
-          ->view<components::physics::Transform, components::identifiers::Floor>();
+  const auto kFloorView = registry_->view<components::physics::Transform,
+                                          components::identifiers::Floor>();
   constexpr auto kMaxCount = 3;
 
   auto current_pos = 0;
@@ -89,7 +87,7 @@ void systems::Spawn::Floors() {
 
   kFloorView.each([&](auto entity, const auto& kTransform) {
     if (kTransform.position.x <= -kTransform.position.w) {
-      registry_->emplace<components::entity_states::Despawn>(entity);
+      registry_->emplace<components::entity::Despawn>(entity);
       const auto kPos =
           kTransform.position.x + (kTransform.position.w * kMaxCount);
 
