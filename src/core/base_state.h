@@ -33,7 +33,8 @@ class BaseState {
   inline virtual void Update(const double dt) {}
 
  protected:
-  uint32_t elapsed_ = 0;
+  inline virtual void OnInit() {}
+
   States type_;
   omg::Game* game_;
   entt::registry* registry_;

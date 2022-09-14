@@ -22,4 +22,6 @@ void omg::BaseState::Init(omg::Game* game, entt::registry* registry,
   type_ = state;
   registry_ = registry;
   dispatcher_ = dispatcher;
+
+  OnInit();
 }
