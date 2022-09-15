@@ -22,7 +22,7 @@ class BaseState {
   BaseState() = default;
   virtual ~BaseState() = default;
 
-  States type();
+  States& type();
 
   void Init(omg::Game* game, entt::registry* registry,
             entt::dispatcher* dispatcher, const States state);
