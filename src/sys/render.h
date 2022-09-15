@@ -20,7 +20,7 @@ class Render : public omg::BaseSystem {
  public:
   Render() = delete;
   explicit Render(omg::Window* window);
-  ~Render() = default;
+  virtual ~Render() = default;
 
   void Update(const double alpha) override;
 

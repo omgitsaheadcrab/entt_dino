@@ -13,7 +13,7 @@
 
 #include "core/game.h"
 
-States omg::BaseState::type() { return type_; }
+States& omg::BaseState::type() { return type_; }
 
 void omg::BaseState::Init(omg::Game* game, entt::registry* registry,
                           entt::dispatcher* dispatcher, const States state) {
@@ -22,4 +22,6 @@ void omg::BaseState::Init(omg::Game* game, entt::registry* registry,
   type_ = state;
   registry_ = registry;
   dispatcher_ = dispatcher;
+
+  OnInit();
 }

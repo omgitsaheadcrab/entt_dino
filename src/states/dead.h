@@ -15,7 +15,8 @@ namespace states {
 
 class Dead : public omg::BaseState {
  public:
-  ~Dead() = default;
+  Dead() = default;
+  virtual ~Dead() = default;
 
   void Set() override;
 };

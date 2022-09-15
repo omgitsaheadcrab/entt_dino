@@ -16,7 +16,7 @@ namespace systems {
 class Move : public omg::BaseSystem {
  public:
   Move() = default;
-  ~Move() = default;
+  virtual ~Move() = default;
 
   void Update(const double dt) override;
 };

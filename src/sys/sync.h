@@ -16,7 +16,7 @@ namespace systems {
 class Sync : public omg::BaseSystem {
  public:
   Sync() = default;
-  ~Sync() = default;
+  virtual ~Sync() = default;
 
   void Update(const double dt) override;
 };

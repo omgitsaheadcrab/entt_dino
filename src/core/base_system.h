@@ -19,7 +19,7 @@ namespace omg {
 class BaseSystem {
  public:
   BaseSystem() = default;
-  ~BaseSystem() = default;
+  virtual ~BaseSystem() = default;
 
   void Init(omg::Game* game, entt::registry* registry,
             entt::dispatcher* dispatcher);

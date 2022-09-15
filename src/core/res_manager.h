@@ -31,7 +31,8 @@ class ResourceManager {
   ~ResourceManager();
 
   void Init(SDL_Renderer* renderer);
-  std::vector<SDL_Rect> GetSpriteClips(const std::string& kSprite) const;
+  std::vector<SDL_Rect> GetSpriteClips(const std::string& kSprite,
+                                       const std::string& kTag) const;
   SDL_Texture* GetSpriteTexture(const std::string& kSpriteName) const;
   void DrawText(const std::string& kText, const SDL_Rect& kPositon,
                 const SDL_Color& kColor, const std::string& kFontName,

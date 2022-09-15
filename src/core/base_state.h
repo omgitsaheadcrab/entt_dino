@@ -20,9 +20,9 @@ namespace omg {
 class BaseState {
  public:
   BaseState() = default;
-  ~BaseState() = default;
+  virtual ~BaseState() = default;
 
-  States type();
+  States& type();
 
   void Init(omg::Game* game, entt::registry* registry,
             entt::dispatcher* dispatcher, const States state);
@@ -31,6 +31,8 @@ class BaseState {
   inline virtual void Update(const double dt) {}
 
  protected:
+  inline virtual void OnInit() {}
+
   States type_;
   omg::Game* game_;
   entt::registry* registry_;

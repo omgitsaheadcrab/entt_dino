@@ -51,8 +51,16 @@ void omg::ResourceManager::ParseSprites() {
       nlohmann::json sprite;
       std::ifstream json_file(kEntry.path());
       json_file >> sprite;
-
       resources_["sprites"][kEntry.path().stem()]["frames"] = sprite["frames"];
+
+      nlohmann::json tags;
+      for (auto tag : sprite["meta"]["frameTags"]) {
+        const auto tag_name = tag["name"];
+        tag.erase("name");
+        tags[tag_name] = tag;
+      }
+      resources_["sprites"][kEntry.path().stem()]["frame_tags"] = tags;
+
       const auto kFilepath = kEntry.path().parent_path().string() + "/" +
                              sprite["meta"]["image"].get<std::string>();
       resources_["sprites"][kEntry.path().stem()]["filepath"] = kFilepath;
@@ -69,15 +77,20 @@ void omg::ResourceManager::LoadSprites() {
 }
 
 std::vector<SDL_Rect> omg::ResourceManager::GetSpriteClips(
-    const std::string& kSprite) const {
+    const std::string& kSprite, const std::string& kTag) const {
+  const auto from = resources_["sprites"][kSprite]["frame_tags"][kTag]["from"];
+  const auto to = resources_["sprites"][kSprite]["frame_tags"][kTag]["to"];
+
   std::vector<SDL_Rect> sprites;
-
+  uint32_t iter = 0;
   for (const auto& kFrame : resources_["sprites"][kSprite]["frames"]) {
-    const SDL_Rect kClip {kFrame["frame"]["x"], kFrame["frame"]["y"],
-                          kFrame["frame"]["w"], kFrame["frame"]["h"]};
-    sprites.push_back(kClip);
+    if (iter >= from && iter <= to) {
+      const SDL_Rect kClip {kFrame["frame"]["x"], kFrame["frame"]["y"],
+                            kFrame["frame"]["w"], kFrame["frame"]["h"]};
+      sprites.push_back(kClip);
+    }
+    ++iter;
   }
-
   return sprites;
 }
 
