@@ -36,7 +36,7 @@ void entities::background::CreateFloor(entt::registry* registry,
                                        const omg::ResourceManager& kResManager,
                                        const int kXPos) {
   const auto& kClips = kResManager.GetSpriteClips("floor", "floor");
-  const auto kClip = utils::UniformRandom(0, kClips.size());
+  const auto kClip = utils::UniformRandom(0, kClips.size() - 1);
   position.x = kXPos;
   position.h = kClips[kClip].h;
   position.w = kClips[kClip].w;
