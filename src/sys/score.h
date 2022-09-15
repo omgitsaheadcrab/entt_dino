@@ -19,7 +19,7 @@ namespace systems {
 class Score : public omg::BaseSystem {
  public:
   Score() = default;
-  ~Score() = default;
+  virtual ~Score() = default;
 
   void Update(const double dt) override;
 

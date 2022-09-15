@@ -42,7 +42,6 @@ void scenes::Dinosaur::Init() {
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Score>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Despawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Sync>());
-
   entity_manager_.AddUpdateSystem(std::make_unique<systems::State>());
 
   hud_->Init(entity_manager_.registry(), game_);

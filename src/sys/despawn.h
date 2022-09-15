@@ -16,7 +16,7 @@ namespace systems {
 class Despawn : public omg::BaseSystem {
  public:
   Despawn() = default;
-  ~Despawn() = default;
+  virtual ~Despawn() = default;
 
   void Update(const double dt) override;
 };

@@ -21,7 +21,7 @@ class BaseScene {
  public:
   BaseScene() = delete;
   explicit BaseScene(const std::string& scene_name);
-  ~BaseScene() = default;
+  virtual ~BaseScene() = default;
 
   std::string& name();
 

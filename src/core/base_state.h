@@ -20,7 +20,7 @@ namespace omg {
 class BaseState {
  public:
   BaseState() = default;
-  ~BaseState() = default;
+  virtual ~BaseState() = default;
 
   States type();
 

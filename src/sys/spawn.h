@@ -16,7 +16,7 @@ namespace systems {
 class Spawn : public omg::BaseSystem {
  public:
   Spawn() = default;
-  ~Spawn() = default;
+  virtual ~Spawn() = default;
 
   void Update(const double dt) override;
 

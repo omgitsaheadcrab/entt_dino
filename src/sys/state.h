@@ -23,7 +23,7 @@ namespace systems {
 class State : public omg::BaseSystem {
  public:
   State() = default;
-  ~State() = default;
+  virtual ~State() = default;
 
   void Update(const double dt) override;
 

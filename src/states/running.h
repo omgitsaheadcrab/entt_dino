@@ -20,7 +20,8 @@ namespace states {
 
 class Running : public omg::BaseState {
  public:
-  ~Running() = default;
+  Running() = default;
+  virtual ~Running() = default;
 
   void Set() override;
   void Update(const double_t dt) override;

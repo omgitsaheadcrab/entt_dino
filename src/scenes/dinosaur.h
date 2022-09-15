@@ -17,7 +17,7 @@ namespace scenes {
 class Dinosaur : public omg::BaseScene {
  public:
   Dinosaur();
-  ~Dinosaur() = default;
+  virtual ~Dinosaur() = default;
 
   void Init() override;
   void HandleEvents() override;
