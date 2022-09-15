@@ -14,7 +14,7 @@
 #include "core/game.h"
 
 void states::Dead::Set() {
-  const auto& kClips = game_->res_manager().GetSpriteClips("dino");
+  const auto& kClips = game_->res_manager().GetSpriteClips("dino", "dead");
   const auto& kView =
       registry_
           ->view<components::identifiers::Dino, components::graphics::Sprite>();
@@ -24,6 +24,6 @@ void states::Dead::Set() {
     registry_->patch<components::entity::State>(
         entity, [&](auto& state) { state.current = type_; });
     registry_->patch<components::graphics::Sprite>(
-        entity, [&](auto& sprite) { sprite.clip = kClips[0]; });
+        entity, [&](auto& sprite) { sprite.clip = kClips.front(); });
   });
 }

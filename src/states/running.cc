@@ -9,7 +9,6 @@
 #include "states/running.h"
 
 #include <cstdint>
-#include <iostream>
 
 #include "comp/entity/states.h"
 #include "comp/graphics/sprite.h"
@@ -18,9 +17,10 @@
 #include "ctx/game_states.h"
 
 void states::Running::OnInit() {
-  const auto& kClips = game_->res_manager().GetSpriteClips("dino");
-  animation_frames_.push({kClips[2]});
-  animation_frames_.push({kClips[3]});
+  const auto& kClips = game_->res_manager().GetSpriteClips("dino", "running");
+  for (auto& clip : kClips) {
+    animation_frames_.push({clip});
+  }
 }
 
 void states::Running::Set() {
