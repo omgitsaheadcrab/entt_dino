@@ -19,6 +19,7 @@
 #include "core/window.h"
 #include "ctx/game_states.h"
 #include "events/dino/dead.h"
+#include "events/dino/jumping.h"
 #include "events/dino/running.h"
 #include "sys/despawn.h"
 #include "sys/move.h"
@@ -57,7 +58,7 @@ void scenes::Dinosaur::HandleEvents() {
     case SDL_KEYDOWN:
       switch (event.key.keysym.sym) {
         case SDLK_SPACE:
-          // Jump goes here
+          entity_manager_.dispatcher()->trigger<events::dino::Jumping>();
           break;
         case SDLK_d:
           entity_manager_.dispatcher()->trigger<events::dino::Dead>();

@@ -16,6 +16,7 @@
 #include "core/base_state.h"
 #include "core/base_system.h"
 #include "events/dino/dead.h"
+#include "events/dino/jumping.h"
 #include "events/dino/running.h"
 
 namespace systems {
@@ -29,6 +30,7 @@ class State : public omg::BaseSystem {
 
   void OnDead(const events::dino::Dead&);
   void OnRunning(const events::dino::Running&);
+  void OnJumping(const events::dino::Jumping&);
 
  protected:
   void OnInit() override;

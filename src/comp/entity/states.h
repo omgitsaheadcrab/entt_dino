@@ -11,7 +11,7 @@
 
 #include <cstdint>
 
-enum States { dead, running };
+enum States { dead, running, jumping };
 
 namespace components {
 

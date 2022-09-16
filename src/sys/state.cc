@@ -16,8 +16,10 @@
 #include "comp/identifiers/dino.h"
 #include "core/game.h"
 #include "events/dino/dead.h"
+#include "events/dino/jumping.h"
 #include "events/dino/running.h"
 #include "states/dead.h"
+#include "states/jumping.h"
 #include "states/running.h"
 
 void systems::State::OnInit() {
@@ -25,8 +27,11 @@ void systems::State::OnInit() {
       this);
   dispatcher_->sink<events::dino::Running>()
       .connect<&systems::State::OnRunning>(this);
+  dispatcher_->sink<events::dino::Jumping>()
+      .connect<&systems::State::OnJumping>(this);
 
   AddState(std::make_unique<states::Running>(), States::running);
+  AddState(std::make_unique<states::Jumping>(), States::jumping);
   AddState(std::make_unique<states::Dead>(), States::dead);
 
   SetCurrentState(States::running);
@@ -40,6 +45,10 @@ void systems::State::OnDead(const events::dino::Dead&) {
 
 void systems::State::OnRunning(const events::dino::Running&) {
   SetCurrentState(States::running);
+}
+
+void systems::State::OnJumping(const events::dino::Jumping&) {
+  SetCurrentState(States::jumping);
 }
 
 void systems::State::AddState(std::unique_ptr<omg::BaseState> state,
