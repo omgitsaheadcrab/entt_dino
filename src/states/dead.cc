@@ -16,14 +16,11 @@
 void states::Dead::Set() {
   const auto& kClips = game_->res_manager().GetSpriteClips("dino", "dead");
   const auto& kView =
-      registry_
-          ->view<components::identifiers::Dino, components::graphics::Sprite>();
+      registry_->view<components::identifiers::Dino, components::entity::State,
+                      components::graphics::Sprite>();
 
-  kView.each([&](auto entity, auto sprite) {
-    // Set running state and set sprite
-    registry_->patch<components::entity::State>(
-        entity, [&](auto& state) { state.current = type_; });
-    registry_->patch<components::graphics::Sprite>(
-        entity, [&](auto& sprite) { sprite.clip = kClips.front(); });
+  kView.each([&](auto& state, auto& sprite) {
+    state.current = type_;
+    sprite.clip = kClips.front();
   });
 }

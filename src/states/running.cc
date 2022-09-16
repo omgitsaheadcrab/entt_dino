@@ -26,13 +26,11 @@ void states::Running::OnInit() {
 void states::Running::Set() {
   animation_elapsed_ = 0;
 
-  const auto& kView = registry_->view<components::identifiers::Dino>();
+  const auto& kView =
+      registry_
+          ->view<components::identifiers::Dino, components::entity::State>();
 
-  kView.each([&](auto entity) {
-    // Set running state and set sprite
-    registry_->patch<components::entity::State>(
-        entity, [&](auto& state) { state.current = type_; });
-  });
+  kView.each([&](auto& state) { state.current = type_; });
 }
 
 void states::Running::Update(const double dt) {
@@ -49,9 +47,5 @@ void states::Running::Update(const double dt) {
       registry_
           ->view<components::identifiers::Dino, components::graphics::Sprite>();
 
-  kView.each([&](auto entity, auto sprite) {
-    // Set running state and set sprite
-    registry_->patch<components::graphics::Sprite>(
-        entity, [&](auto& sprite) { sprite.clip = animation_frames_.front(); });
-  });
+  kView.each([&](auto& sprite) { sprite.clip = animation_frames_.front(); });
 }

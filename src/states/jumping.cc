@@ -11,19 +11,18 @@
 #include "comp/entity/states.h"
 #include "comp/graphics/sprite.h"
 #include "comp/identifiers/dino.h"
+#include "comp/physics/rigid_body.h"
 #include "core/game.h"
 
 void states::Jumping::Set() {
   const auto& kClips = game_->res_manager().GetSpriteClips("dino", "jumping");
   const auto& kView =
-      registry_
-          ->view<components::identifiers::Dino, components::graphics::Sprite>();
+      registry_->view<components::identifiers::Dino, components::entity::State,
+                      components::graphics::Sprite,
+                      components::physics::RigidBody>();
 
-  kView.each([&](auto entity, auto sprite) {
-    // Set jumping state and set sprite
-    registry_->patch<components::entity::State>(
-        entity, [&](auto& state) { state.current = type_; });
-    registry_->patch<components::graphics::Sprite>(
-        entity, [&](auto& sprite) { sprite.clip = kClips.front(); });
+  kView.each([&](auto& state, auto& sprite, auto& rigid_body) {
+    state.current = type_;
+    sprite.clip = kClips.front();
   });
 }
