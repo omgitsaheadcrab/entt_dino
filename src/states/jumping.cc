@@ -1,6 +1,6 @@
 /**
  * @file      jumping.cc
- * @brief     Jumping state state
+ * @brief     Jumping state
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
  * @date      2022-09-14
  * @copyright Copyright © 2022 Tobias Backer Dirks

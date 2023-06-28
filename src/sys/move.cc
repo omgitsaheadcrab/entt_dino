@@ -34,8 +34,6 @@ void systems::Move::Update(const double dt) {
     // Need to round up to ensure sub pixel moves progress
     transform.position.x +=
         std::ceil(kRigidBody.velocity.x * dt * kBaseSpeed.value);
-    transform.position.y +=
-        std::ceil(kRigidBody.velocity.y * dt);
   });
 
   // Update game distance traveled
