@@ -58,12 +58,12 @@ void entities::dino::Create(entt::registry* registry,
 
 bool entities::dino::IsCurrentState(entt::registry* registry,
                                     const States kState) {
+  bool is_current = false;
   const auto kView =
       registry
           ->view<components::identifiers::Dino, components::entity::State>();
-  bool is_current = false;
   kView.each([&](const auto& state) {
-    if (state.current == States::dead) {
+    if (state.current == kState) {
       is_current = true;
     }
   });
