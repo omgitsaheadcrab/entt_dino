@@ -58,7 +58,15 @@ void systems::State::AddState(std::unique_ptr<omg::BaseState> state,
   states_.push_back(std::move(state));
 }
 
+bool systems::State::IsActiveState(const States kState) {
+  if (current_state_ && current_state_->type() == kState) {
+    return true;
+  }
+  return false;
+}
+
 bool systems::State::SetCurrentState(const States kState) {
+  if (IsActiveState(kState)) return false;
   for (auto& state : states_) {
     if (state->type() == kState) {
       current_state_ = state.get();

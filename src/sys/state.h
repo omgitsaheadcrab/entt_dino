@@ -37,6 +37,7 @@ class State : public omg::BaseSystem {
 
  private:
   void AddState(std::unique_ptr<omg::BaseState> state, const States kState);
+  bool IsActiveState(const States kState);
   bool SetCurrentState(const States kState);
 
   std::vector<std::unique_ptr<omg::BaseState>> states_;
