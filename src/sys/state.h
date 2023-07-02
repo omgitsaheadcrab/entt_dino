@@ -30,7 +30,7 @@ class State : public omg::BaseSystem {
 
   void OnDead(const events::dino::Dead&);
   void OnRunning(const events::dino::Running&);
-  void OnJumping(const events::dino::Jumping&);
+  void OnJumping(const events::dino::JumpStart&);
 
  protected:
   void OnInit() override;

@@ -27,7 +27,7 @@ void systems::State::OnInit() {
       this);
   dispatcher_->sink<events::dino::Running>()
       .connect<&systems::State::OnRunning>(this);
-  dispatcher_->sink<events::dino::Jumping>()
+  dispatcher_->sink<events::dino::JumpStart>()
       .connect<&systems::State::OnJumping>(this);
 
   AddState(std::make_unique<states::Running>(), States::running);
@@ -47,7 +47,7 @@ void systems::State::OnRunning(const events::dino::Running&) {
   SetCurrentState(States::running);
 }
 
-void systems::State::OnJumping(const events::dino::Jumping&) {
+void systems::State::OnJumping(const events::dino::JumpStart&) {
   SetCurrentState(States::jumping);
 }
 
