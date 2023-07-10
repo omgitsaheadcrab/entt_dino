@@ -47,7 +47,7 @@ void states::Jumping::Update(const double dt) {
 
   double jump_gravity = kGravity_;
   if (jumping_ && jump_time_ > 0) {
-    jump_gravity = kGravity_ - 1.0005 * kGravity_;
+    jump_gravity = -0.0005 * kGravity_;
   }
   kView.each([&](auto& rigid_body) {
     rigid_body.acceleration.y = jump_gravity;
