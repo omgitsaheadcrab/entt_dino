@@ -30,13 +30,14 @@ class State : public omg::BaseSystem {
 
   void OnDead(const events::dino::Dead&);
   void OnRunning(const events::dino::Running&);
-  void OnJumping(const events::dino::Jumping&);
+  void OnJumping(const events::dino::JumpStart&);
 
  protected:
   void OnInit() override;
 
  private:
   void AddState(std::unique_ptr<omg::BaseState> state, const States kState);
+  bool IsActiveState(const States kState);
   bool SetCurrentState(const States kState);
 
   std::vector<std::unique_ptr<omg::BaseState>> states_;

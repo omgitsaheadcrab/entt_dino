@@ -58,7 +58,7 @@ void scenes::Dinosaur::HandleEvents() {
     case SDL_KEYDOWN:
       switch (event.key.keysym.sym) {
         case SDLK_SPACE:
-          entity_manager_.dispatcher()->trigger<events::dino::Jumping>();
+          entity_manager_.dispatcher()->trigger<events::dino::JumpStart>();
           break;
         case SDLK_d:
           entity_manager_.dispatcher()->trigger<events::dino::Dead>();
@@ -77,6 +77,7 @@ void scenes::Dinosaur::HandleEvents() {
     case SDL_KEYUP:
       switch (event.key.keysym.sym) {
         case SDLK_SPACE:
+          entity_manager_.dispatcher()->trigger<events::dino::JumpEnd>();
           break;
       }
       break;
