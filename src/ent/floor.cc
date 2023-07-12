@@ -13,6 +13,7 @@
 
 #include <entt/entity/registry.hpp>
 
+#include "comp/physics/collider.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
 #include "comp/identifiers/floor.h"
@@ -30,6 +31,9 @@ const vf2d kAcceleration {0.0, 0.0};
 // Transform
 SDL_Rect position {0, 212, 0, 0};
 
+// Collider
+SDL_Rect box {0, 0, 0, 0};
+
 }  // namespace
 
 void entities::background::CreateFloor(entt::registry* registry,
@@ -41,6 +45,10 @@ void entities::background::CreateFloor(entt::registry* registry,
   position.h = kClips[kClip].h;
   position.w = kClips[kClip].w;
 
+  box.y = 0.25 * position.h;
+  box.h = 0.75 * position.h;
+  box.w = position.w;
+
   auto e = registry->create();
 
   registry->emplace<components::identifiers::Floor>(e);
@@ -48,6 +56,7 @@ void entities::background::CreateFloor(entt::registry* registry,
                                                     kAcceleration);
   registry->emplace<components::graphics::Transform>(e, position);
   registry->emplace<components::physics::Transform>(e, position);
+  registry->emplace<components::physics::Collider>(e, box);
   registry->emplace<components::graphics::Sprite>(
       e, kResManager.GetSpriteTexture("floor"), kClips[kClip]);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));

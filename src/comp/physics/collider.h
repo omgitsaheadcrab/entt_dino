@@ -9,14 +9,14 @@
 #ifndef ENTT_DINO_SRC_COMP_PHYSICS_COLLIDER_H_
 #define ENTT_DINO_SRC_COMP_PHYSICS_COLLIDER_H_
 
-#include "core/vec2d.h"
+#include <SDL2/SDL_rect.h>
 
 namespace components {
 
 namespace physics {
 
 struct Collider {
-  vf2d size;
+  SDL_Rect box;
 };
 
 }  // namespace physics

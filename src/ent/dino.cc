@@ -17,6 +17,7 @@
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
 #include "comp/identifiers/dino.h"
+#include "comp/physics/collider.h"
 #include "comp/physics/rigid_body.h"
 #include "comp/physics/transform.h"
 #include "core/res_manager.h"
@@ -32,6 +33,9 @@ const vf2d kAcceleration {0.0, 0.0};
 // Transform
 SDL_Rect position {0, 0, 0, 0};
 
+// Collider
+SDL_Rect box {0, 0, 0, 0};
+
 }  // namespace
 
 void entities::dino::Create(entt::registry* registry,
@@ -44,6 +48,9 @@ void entities::dino::Create(entt::registry* registry,
   position.h = kClips.front().h;
   position.w = kClips.front().w;
 
+  box.h = position.h;
+  box.w = position.w;
+
   auto e = registry->create();
   registry->emplace<components::identifiers::Dino>(e);
   registry->emplace<components::entity::State>(e, States::running);
@@ -51,6 +58,7 @@ void entities::dino::Create(entt::registry* registry,
                                                     kAcceleration);
   registry->emplace<components::graphics::Transform>(e, position);
   registry->emplace<components::physics::Transform>(e, position);
+  registry->emplace<components::physics::Collider>(e, box);
   registry->emplace<components::graphics::Sprite>(
       e, kResManager.GetSpriteTexture("dino"), kClips.front());
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
