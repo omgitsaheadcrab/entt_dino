@@ -45,8 +45,8 @@ void entities::background::CreateFloor(entt::registry* registry,
   position.h = kClips[kClip].h;
   position.w = kClips[kClip].w;
 
-  box.y = 0.25 * position.h;
-  box.h = 0.75 * position.h;
+  box.y = 0.60 * position.h;
+  box.h = 0.40 * position.h;
   box.w = position.w;
 
   auto e = registry->create();

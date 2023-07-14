@@ -13,6 +13,7 @@
 #include "comp/entity/states.h"
 #include "comp/graphics/sprite.h"
 #include "comp/identifiers/dino.h"
+#include "comp/physics/rigid_body.h"
 #include "core/game.h"
 #include "ctx/game_states.h"
 
@@ -27,10 +28,15 @@ void states::Running::Set() {
   animation_elapsed_ = 0;
 
   const auto& kView =
-      registry_
-          ->view<components::identifiers::Dino, components::entity::State>();
+      registry_->view<components::identifiers::Dino, components::entity::State,
+                      components::physics::RigidBody>();
 
-  kView.each([&](auto& state) { state.current = type_; });
+  kView.each([&](auto& state, auto& rigid_body) {
+    state.current = type_;
+    rigid_body.velocity.y = 0;
+    rigid_body.acceleration.y = 0;
+  });
+  contexts::game::SetSpeed(registry_, 0.15);
 }
 
 void states::Running::Update(const double dt) {

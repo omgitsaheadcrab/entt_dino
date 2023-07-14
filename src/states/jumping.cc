@@ -39,6 +39,7 @@ void states::Jumping::Set() {
   });
 
   jumping_ = true;
+  jump_time_ = 150;
 }
 
 void states::Jumping::Update(const double dt) {

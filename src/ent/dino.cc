@@ -44,10 +44,11 @@ void entities::dino::Create(entt::registry* registry,
   const auto& kClips = kResManager.GetSpriteClips("dino", "running");
 
   position.x = kBounds.position.w * 0.05;
-  position.y = kBounds.position.h * 0.77;
+  position.y = kBounds.position.h - 57;
   position.h = kClips.front().h;
   position.w = kClips.front().w;
 
+  box.y = 4;
   box.h = position.h;
   box.w = position.w;
 
