@@ -7,7 +7,6 @@
  */
 #include "sys/spawn.h"
 
-#include "comp/entity/despawn.h"
 #include "comp/identifiers/cloud.h"
 #include "comp/identifiers/floor.h"
 #include "comp/physics/transform.h"
@@ -16,6 +15,7 @@
 #include "ent/cloud.h"
 #include "ent/dino.h"
 #include "ent/floor.h"
+#include "events/entity/despawn.h"
 
 void systems::Spawn::OnInit() {
   entities::dino::Create(registry_, game_->res_manager());
@@ -50,12 +50,12 @@ void systems::Spawn::Clouds() {
 
   kCloudView.each([&](auto entity, const auto& kTransform) {
     if (kTransform.position.x <= -kTransform.position.w) {
-      registry_->emplace<components::entity::Despawn>(entity);
       const auto kPos = kTransform.position.x + kTransform.position.w +
                         (kBounds.position.w / 2.0 * kMaxCount);
 
       entities::background::CreateCloud(registry_, game_->res_manager(), kPos);
-      ++count;
+      dispatcher_->trigger(events::entity::Despawn {&entity});
+      count++;
     }
   });
 }
@@ -87,11 +87,12 @@ void systems::Spawn::Floors() {
 
   kFloorView.each([&](auto entity, const auto& kTransform) {
     if (kTransform.position.x <= -kTransform.position.w) {
-      registry_->emplace<components::entity::Despawn>(entity);
       const auto kPos =
           kTransform.position.x + (kTransform.position.w * kMaxCount);
 
       entities::background::CreateFloor(registry_, game_->res_manager(), kPos);
+      dispatcher_->trigger(events::entity::Despawn {&entity});
+      count++;
     }
   });
 }

@@ -10,14 +10,16 @@
 
 #include <spdlog/spdlog.h>
 
-#include "comp/entity/despawn.h"
+#include <entt/entt.hpp>
 
-void systems::Despawn::Update(const double dt) {
-  auto view = registry_->view<components::entity::Despawn>();
-#ifdef _DEBUG
-  for (const auto& [entity] : view.each()) {
-    SPDLOG_DEBUG("{} was deleted", static_cast<int>(entity));
-  }
-#endif  // _DEBUG
-  registry_->destroy(view.begin(), view.end());
+#include "events/entity/despawn.h"
+
+void systems::Despawn::OnInit() {
+  dispatcher_->sink<events::entity::Despawn>()
+      .connect<&systems::Despawn::OnDespawn>(this);
+}
+
+void systems::Despawn::OnDespawn(const events::entity::Despawn& despawn) {
+  SPDLOG_DEBUG("{} was destroyed.", static_cast<int>(*despawn.entity));
+  registry_->destroy(*despawn.entity);
 }
