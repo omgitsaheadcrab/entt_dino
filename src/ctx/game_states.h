@@ -10,6 +10,7 @@
 #define ENTT_DINO_SRC_CTX_GAME_STATES_H_
 
 #include <cstdint>
+#include <string>
 
 #include <entt/entity/registry.hpp>
 
