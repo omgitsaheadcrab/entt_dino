@@ -10,9 +10,9 @@
 #define ENTT_DINO_SRC_SYS_STATE_H_
 
 #include <memory>
+#include <string>
 #include <vector>
 
-#include "comp/entity/states.h"
 #include "core/base_state.h"
 #include "core/base_system.h"
 #include "events/dino/dead.h"
@@ -36,9 +36,9 @@ class State : public omg::BaseSystem {
   void OnInit() override;
 
  private:
-  void AddState(std::unique_ptr<omg::BaseState> state, const States kState);
-  bool IsActiveState(const States kState);
-  bool SetCurrentState(const States kState);
+  void AddState(std::unique_ptr<omg::BaseState> state);
+  bool IsActiveState(const std::string kStateName);
+  bool SetCurrentState(const std::string kStateName);
 
   std::vector<std::unique_ptr<omg::BaseState>> states_;
   omg::BaseState* current_state_ = nullptr;

@@ -8,20 +8,23 @@
 
 #include "core/base_state.h"
 
+#include <string>
+
 #include <entt/entity/registry.hpp>
 #include <entt/signal/dispatcher.hpp>
 
 #include "core/game.h"
 
-States& omg::BaseState::type() { return type_; }
+omg::BaseState::BaseState(const char* name) : name_ {name} {}
 
 void omg::BaseState::Init(omg::Game* game, entt::registry* registry,
-                          entt::dispatcher* dispatcher, const States state) {
+                          entt::dispatcher* dispatcher) {
   game_ = game;
 
-  type_ = state;
   registry_ = registry;
   dispatcher_ = dispatcher;
 
   OnInit();
 }
+
+std::string& omg::BaseState::name() { return name_; }

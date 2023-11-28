@@ -16,11 +16,14 @@
 
 #include "core/base_state.h"
 
+using omg::BaseState;
+
 namespace states {
 
-class Running : public omg::BaseState {
+class Running : public BaseState {
+  using BaseState::BaseState;
+
  public:
-  Running() = default;
   virtual ~Running() = default;
 
   void Set() override;

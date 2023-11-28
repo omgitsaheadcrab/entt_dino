@@ -11,11 +11,14 @@
 
 #include "core/base_state.h"
 
+using omg::BaseState;
+
 namespace states {
 
-class Jumping : public omg::BaseState {
+class Jumping : public BaseState {
+  using BaseState::BaseState;
+
  public:
-  Jumping() = default;
   virtual ~Jumping() = default;
 
   void Set() override;

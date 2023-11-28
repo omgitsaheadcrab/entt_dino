@@ -10,6 +10,7 @@
 #define ENTT_DINO_SRC_CTX_GAME_STATES_H_
 
 #include <cstdint>
+#include <string>
 
 #include <entt/entity/registry.hpp>
 
@@ -18,6 +19,7 @@
 #include "comp/game/highscore.h"
 #include "comp/game/score.h"
 #include "comp/game/speed.h"
+#include "comp/game/state.h"
 #include "ctx/context.h"
 
 namespace contexts {
@@ -48,6 +50,10 @@ constexpr auto IncrementSpeed =
 constexpr auto GetDark = &contexts::GetBool<components::game::Dark>;
 constexpr auto SetDark = &contexts::SetBool<components::game::Dark>;
 constexpr auto ToggleDark = &contexts::ToggleBool<components::game::Dark>;
+
+constexpr auto GetState = &contexts::Get<components::game::State>;
+constexpr auto SetState =
+    &contexts::Set<components::game::State, const std::string>;
 
 }  // namespace game
 

@@ -13,10 +13,10 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/entity/states.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
 #include "comp/identifiers/dino.h"
+#include "comp/physics/collider.h"
 #include "comp/physics/rigid_body.h"
 #include "comp/physics/transform.h"
 #include "core/res_manager.h"
@@ -32,6 +32,9 @@ const vf2d kAcceleration {0.0, 0.0};
 // Transform
 SDL_Rect position {0, 0, 0, 0};
 
+// Collider
+SDL_Rect box {0, 0, 0, 0};
+
 }  // namespace
 
 void entities::dino::Create(entt::registry* registry,
@@ -40,32 +43,23 @@ void entities::dino::Create(entt::registry* registry,
   const auto& kClips = kResManager.GetSpriteClips("dino", "running");
 
   position.x = kBounds.position.w * 0.05;
-  position.y = kBounds.position.h * 0.77;
+  position.y = kBounds.position.h - 57;
   position.h = kClips.front().h;
   position.w = kClips.front().w;
 
+  box.y = 4;
+  box.h = position.h;
+  box.w = position.w;
+
   auto e = registry->create();
   registry->emplace<components::identifiers::Dino>(e);
-  registry->emplace<components::entity::State>(e, States::running);
   registry->emplace<components::physics::RigidBody>(e, kVelocity,
                                                     kAcceleration);
   registry->emplace<components::graphics::Transform>(e, position);
   registry->emplace<components::physics::Transform>(e, position);
+  registry->emplace<components::physics::Collider>(e, box);
   registry->emplace<components::graphics::Sprite>(
       e, kResManager.GetSpriteTexture("dino"), kClips.front());
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }
 
-bool entities::dino::IsCurrentState(entt::registry* registry,
-                                    const States kState) {
-  bool is_current = false;
-  const auto kView =
-      registry
-          ->view<components::identifiers::Dino, components::entity::State>();
-  kView.each([&](const auto& state) {
-    if (state.current == kState) {
-      is_current = true;
-    }
-  });
-  return is_current;
-}

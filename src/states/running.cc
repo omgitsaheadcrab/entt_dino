@@ -10,14 +10,14 @@
 
 #include <cstdint>
 
-#include "comp/entity/states.h"
 #include "comp/graphics/sprite.h"
 #include "comp/identifiers/dino.h"
+#include "comp/physics/rigid_body.h"
 #include "core/game.h"
 #include "ctx/game_states.h"
 
 void states::Running::OnInit() {
-  const auto& kClips = game_->res_manager().GetSpriteClips("dino", "running");
+  const auto& kClips = game_->res_manager().GetSpriteClips("dino", name_);
   for (auto& clip : kClips) {
     animation_frames_.push({clip});
   }
@@ -26,11 +26,14 @@ void states::Running::OnInit() {
 void states::Running::Set() {
   animation_elapsed_ = 0;
 
-  const auto& kView =
-      registry_
-          ->view<components::identifiers::Dino, components::entity::State>();
+  const auto& kView = registry_->view<components::identifiers::Dino,
+                                      components::physics::RigidBody>();
 
-  kView.each([&](auto& state) { state.current = type_; });
+  kView.each([&](auto& rigid_body) {
+    rigid_body.velocity.y = 0;
+    rigid_body.acceleration.y = 0;
+  });
+  contexts::game::SetSpeed(registry_, 0.15);
 }
 
 void states::Running::Update(const double dt) {

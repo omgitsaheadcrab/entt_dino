@@ -21,6 +21,7 @@
 #include "events/dino/dead.h"
 #include "events/dino/jumping.h"
 #include "events/dino/running.h"
+#include "sys/collide.h"
 #include "sys/despawn.h"
 #include "sys/move.h"
 #include "sys/render.h"
@@ -38,12 +39,13 @@ void scenes::Dinosaur::Init() {
   entity_manager_.AddRenderSystem(
       std::make_unique<systems::Render>(&game_->window()));
 
+  entity_manager_.AddUpdateSystem(std::make_unique<systems::State>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Spawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Move>());
+  entity_manager_.AddUpdateSystem(std::make_unique<systems::Collide>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Score>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Despawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Sync>());
-  entity_manager_.AddUpdateSystem(std::make_unique<systems::State>());
 
   hud_->Init(entity_manager_.registry(), game_);
 }
@@ -65,7 +67,6 @@ void scenes::Dinosaur::HandleEvents() {
           break;
         case SDLK_r:
           entity_manager_.dispatcher()->trigger<events::dino::Running>();
-          contexts::game::SetSpeed(entity_manager_.registry(), 0.15);
           contexts::game::SetScore(entity_manager_.registry(), 0);
           contexts::game::SetDistance(entity_manager_.registry(), 0);
           break;

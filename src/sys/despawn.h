@@ -10,6 +10,7 @@
 #define ENTT_DINO_SRC_SYS_DESPAWN_H_
 
 #include "core/base_system.h"
+#include "events/entity/despawn.h"
 
 namespace systems {
 
@@ -18,7 +19,10 @@ class Despawn : public omg::BaseSystem {
   Despawn() = default;
   virtual ~Despawn() = default;
 
-  void Update(const double dt) override;
+  void OnDespawn(const events::entity::Despawn& despawn);
+
+ protected:
+  void OnInit() override;
 };
 
 }  // namespace systems
