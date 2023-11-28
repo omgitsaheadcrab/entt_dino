@@ -22,6 +22,9 @@
 #include "states/jumping.h"
 #include "states/running.h"
 
+#include "ctx/game_states.h"
+
+
 void systems::State::OnInit() {
   dispatcher_->sink<events::dino::Dead>().connect<&systems::State::OnDead>(
       this);
@@ -69,6 +72,7 @@ bool systems::State::SetCurrentState(const std::string kStateName) {
     if (state->name() == kStateName) {
       current_state_ = state.get();
       current_state_->Set();
+      contexts::game::SetState(registry_, kStateName);
       return true;
     }
   }
