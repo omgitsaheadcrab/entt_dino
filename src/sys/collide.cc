@@ -11,7 +11,6 @@
 #include <SDL2/SDL_rect.h>
 #include <spdlog/spdlog.h>
 
-#include "comp/entity/states.h"
 #include "comp/identifiers/dino.h"
 #include "comp/physics/collider.h"
 #include "comp/physics/transform.h"

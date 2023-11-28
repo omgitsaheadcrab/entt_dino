@@ -13,7 +13,6 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/entity/states.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
 #include "comp/identifiers/dino.h"
@@ -54,7 +53,6 @@ void entities::dino::Create(entt::registry* registry,
 
   auto e = registry->create();
   registry->emplace<components::identifiers::Dino>(e);
-  registry->emplace<components::entity::State>(e, States::running);
   registry->emplace<components::physics::RigidBody>(e, kVelocity,
                                                     kAcceleration);
   registry->emplace<components::graphics::Transform>(e, position);
@@ -65,16 +63,3 @@ void entities::dino::Create(entt::registry* registry,
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }
 
-bool entities::dino::IsCurrentState(entt::registry* registry,
-                                    const States kState) {
-  bool is_current = false;
-  const auto kView =
-      registry
-          ->view<components::identifiers::Dino, components::entity::State>();
-  kView.each([&](const auto& state) {
-    if (state.current == kState) {
-      is_current = true;
-    }
-  });
-  return is_current;
-}

@@ -11,11 +11,14 @@
 
 #include "core/base_state.h"
 
+using omg::BaseState;
+
 namespace states {
 
-class Dead : public omg::BaseState {
+class Dead : public BaseState {
+  using BaseState::BaseState;
+
  public:
-  Dead() = default;
   virtual ~Dead() = default;
 
   void Set() override;

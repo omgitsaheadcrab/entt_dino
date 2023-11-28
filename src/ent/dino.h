@@ -11,7 +11,6 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/entity/states.h"
 #include "core/res_manager.h"
 
 namespace entities {
@@ -19,7 +18,6 @@ namespace entities {
 namespace dino {
 
 void Create(entt::registry* registry, const omg::ResourceManager& kResManager);
-bool IsCurrentState(entt::registry* registry, const States kState);
 
 }  // namespace dino
 

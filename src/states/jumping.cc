@@ -8,7 +8,6 @@
 
 #include "states/jumping.h"
 
-#include "comp/entity/states.h"
 #include "comp/graphics/sprite.h"
 #include "comp/identifiers/dino.h"
 #include "comp/physics/rigid_body.h"
@@ -20,19 +19,16 @@ void states::Jumping::OnInit() {
       .connect<&states::Jumping::OnJumpEnd>(this);
 }
 
-void states::Jumping::OnJumpEnd() {
-  jumping_ = false;
-}
+void states::Jumping::OnJumpEnd() { jumping_ = false; }
 
 void states::Jumping::Set() {
-  const auto& kClips = game_->res_manager().GetSpriteClips("dino", "jumping");
+  const auto& kClips = game_->res_manager().GetSpriteClips("dino", name_);
   const auto& kView =
-      registry_->view<components::identifiers::Dino, components::entity::State,
-                      components::graphics::Sprite,
-                      components::physics::RigidBody>();
+      registry_
+          ->view<components::identifiers::Dino, components::graphics::Sprite,
+                 components::physics::RigidBody>();
 
-  kView.each([&](auto& state, auto& sprite, auto& rigid_body) {
-    state.current = type_;
+  kView.each([&](auto& sprite, auto& rigid_body) {
     sprite.clip = kClips.front();
     rigid_body.acceleration.y = kGravity_;
     rigid_body.velocity.y = kV0_;

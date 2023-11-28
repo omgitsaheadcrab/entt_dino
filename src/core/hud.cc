@@ -15,8 +15,6 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "comp/entity/states.h"
-#include "comp/identifiers/dino.h"
 #include "core/colors.h"
 #include "core/game.h"
 #include "core/hud_elements.h"
@@ -62,9 +60,9 @@ void omg::HUD::Update() {
   game_over_.color = color;
   retry_.color = color;
 
-  if (entities::dino::IsCurrentState(registry_, States::dead)) {
-    high_score_.str = "HI  " + utils::ToStringZeroPad(kHighScore, 5);
-  }
+  // if (entities::dino::IsCurrentState(registry_, States::dead)) {
+  //   high_score_.str = "HI  " + utils::ToStringZeroPad(kHighScore, 5);
+  // }
 }
 
 void omg::HUD::Draw() {
@@ -72,10 +70,10 @@ void omg::HUD::Draw() {
   DrawText(current_score_);
   DrawText(high_score_);
 
-  if (entities::dino::IsCurrentState(registry_, States::dead)) {
-    DrawText(game_over_);
-    DrawIcon(retry_);
-  }
+  // if (entities::dino::IsCurrentState(registry_, States::dead)) {
+  //   DrawText(game_over_);
+  //   DrawIcon(retry_);
+  // }
 }
 
 bool omg::HUD::RetryClicked(const SDL_Point& kMousePos) const {
