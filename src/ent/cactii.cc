@@ -48,6 +48,10 @@ void entities::enemies::CreateCactii(entt::registry* registry,
   position.h = clips[kClip].h;
   position.w = clips[kClip].w;
 
+  box.x = position.w / 8;
+  box.h = position.h;
+  box.w = 3 * position.w / 4;
+
   auto e = registry->create();
 
   registry->emplace<components::identifiers::Enemy>(e);
