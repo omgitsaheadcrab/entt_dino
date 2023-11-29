@@ -12,6 +12,7 @@
 
 #include <memory>
 
+#include "comp/identifiers/enemy.h"
 #include "core/base_scene.h"
 #include "core/colors.h"
 #include "core/entity_manager.h"
@@ -20,6 +21,7 @@
 #include "ctx/game_states.h"
 #include "events/dino/jumping.h"
 #include "events/dino/running.h"
+#include "events/game/restart.h"
 #include "sys/collide.h"
 #include "sys/despawn.h"
 #include "sys/move.h"
@@ -33,6 +35,10 @@ scenes::Dinosaur::Dinosaur() : omg::BaseScene("dinosaur") {}
 
 void scenes::Dinosaur::Init() {
   entity_manager_.Init(game_);
+  entity_manager_.dispatcher()
+      ->sink<events::game::Restart>()
+      .connect<&scenes::Dinosaur::OnRestart>(this);
+
   res_manager_->Init(game_->window().renderer());
 
   entity_manager_.AddRenderSystem(
@@ -61,11 +67,6 @@ void scenes::Dinosaur::HandleEvents() {
         case SDLK_SPACE:
           entity_manager_.dispatcher()->trigger<events::dino::JumpStart>();
           break;
-        case SDLK_r:
-          entity_manager_.dispatcher()->trigger<events::dino::Running>();
-          contexts::game::SetScore(entity_manager_.registry(), 0);
-          contexts::game::SetDistance(entity_manager_.registry(), 0);
-          break;
         case SDLK_n:
           contexts::game::ToggleDark(entity_manager_.registry());
           break;
@@ -82,9 +83,7 @@ void scenes::Dinosaur::HandleEvents() {
       SDL_Point mouse_position;
       SDL_GetMouseState(&mouse_position.x, &mouse_position.y);
       if (hud_->RetryClicked(mouse_position)) {
-        entity_manager_.dispatcher()->trigger<events::dino::Running>();
-        contexts::game::SetScore(entity_manager_.registry(), 0);
-        contexts::game::SetSpeed(entity_manager_.registry(), 0.15);
+        entity_manager_.dispatcher()->trigger<events::game::Restart>();
       }
       break;
     default:
@@ -107,4 +106,18 @@ void scenes::Dinosaur::Render(const double alpha) {
   entity_manager_.OnRender(alpha);
   hud_->Draw();
   game_->window().Present();
+}
+
+void scenes::Dinosaur::OnRestart() {
+  entity_manager_.dispatcher()->trigger<events::dino::Running>();
+  contexts::game::SetScore(entity_manager_.registry(), 0);
+  contexts::game::SetSpeed(entity_manager_.registry(), 0.15);
+
+  const auto kEnemyView =
+      entity_manager_.registry()->view<components::identifiers::Enemy>();
+  kEnemyView.each([&](auto entity) {
+    entity_manager_.dispatcher()->trigger(events::entity::Despawn {&entity});
+  });
+
+  entity_manager_.dispatcher()->trigger<events::dino::JumpStart>();
 }
