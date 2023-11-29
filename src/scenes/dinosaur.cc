@@ -18,7 +18,6 @@
 #include "core/game.h"
 #include "core/window.h"
 #include "ctx/game_states.h"
-#include "events/dino/dead.h"
 #include "events/dino/jumping.h"
 #include "events/dino/running.h"
 #include "sys/collide.h"
@@ -39,10 +38,10 @@ void scenes::Dinosaur::Init() {
   entity_manager_.AddRenderSystem(
       std::make_unique<systems::Render>(&game_->window()));
 
-  entity_manager_.AddUpdateSystem(std::make_unique<systems::State>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Spawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Move>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Collide>());
+  entity_manager_.AddUpdateSystem(std::make_unique<systems::State>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Score>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Despawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Sync>());
@@ -61,9 +60,6 @@ void scenes::Dinosaur::HandleEvents() {
       switch (event.key.keysym.sym) {
         case SDLK_SPACE:
           entity_manager_.dispatcher()->trigger<events::dino::JumpStart>();
-          break;
-        case SDLK_d:
-          entity_manager_.dispatcher()->trigger<events::dino::Dead>();
           break;
         case SDLK_r:
           entity_manager_.dispatcher()->trigger<events::dino::Running>();

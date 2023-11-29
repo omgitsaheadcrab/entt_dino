@@ -47,9 +47,10 @@ void entities::dino::Create(entt::registry* registry,
   position.h = kClips.front().h;
   position.w = kClips.front().w;
 
+  box.x = position.w / 4;
   box.y = 4;
   box.h = position.h;
-  box.w = position.w;
+  box.w = position.w / 2;
 
   auto e = registry->create();
   registry->emplace<components::identifiers::Dino>(e);

@@ -12,13 +12,23 @@
 #include <spdlog/spdlog.h>
 
 #include "comp/identifiers/dino.h"
+#include "comp/identifiers/enemy.h"
 #include "comp/physics/collider.h"
 #include "comp/physics/transform.h"
 #include "ctx/game_states.h"
 #include "ent/dino.h"
+#include "events/dino/dead.h"
 #include "events/dino/running.h"
 
 void systems::Collide::Update(const double dt) {
+  if (EnemyCollision()) {
+    dispatcher_->trigger<events::dino::Dead>();
+  } else {
+    Resolve();
+  }
+}
+
+void systems::Collide::Resolve() {
   const auto kView = registry_->view<components::physics::Transform,
                                      components::physics::Collider>();
   const auto kDinoView =
@@ -49,4 +59,35 @@ void systems::Collide::Update(const double dt) {
       }
     });
   });
+}
+
+bool systems::Collide::EnemyCollision() {
+  bool has_intersect = false;
+  const auto kEnemyView =
+      registry_
+          ->view<components::physics::Transform, components::physics::Collider,
+                 components::identifiers::Enemy>();
+  const auto kDinoView =
+      registry_
+          ->view<components::identifiers::Dino, components::physics::Transform,
+                 components::physics::Collider>();
+
+  kDinoView.each([&](const auto& kDinoEntity, auto& dino_transform,
+                     const auto& kDinoCollider) {
+    const SDL_Rect kDinoColliderPos {
+        dino_transform.position.x + kDinoCollider.box.x,
+        dino_transform.position.y + kDinoCollider.box.y, kDinoCollider.box.w,
+        kDinoCollider.box.h};
+
+    kEnemyView.each([&](const auto& kColliderEntity, const auto& kTransform,
+                        const auto& kEnemy) {
+      const SDL_Rect kEnemyPos {kTransform.position.x + kEnemy.box.x,
+                                kTransform.position.y + kEnemy.box.y,
+                                kEnemy.box.w, kEnemy.box.h};
+      SDL_Rect intersect;
+      has_intersect =
+          SDL_IntersectRect(&kDinoColliderPos, &kEnemyPos, &intersect);
+    });
+  });
+  return has_intersect;
 }

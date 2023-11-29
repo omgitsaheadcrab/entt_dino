@@ -19,6 +19,10 @@ class Collide : public omg::BaseSystem {
   virtual ~Collide() = default;
 
   void Update(const double dt) override;
+
+ private:
+  void Resolve();
+  bool EnemyCollision();
 };
 
 }  // namespace systems
