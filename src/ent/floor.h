@@ -9,7 +9,6 @@
 #ifndef ENTT_DINO_SRC_ENT_FLOOR_H_
 #define ENTT_DINO_SRC_ENT_FLOOR_H_
 
-#include <entt/entity/entity.hpp>
 #include <entt/entity/registry.hpp>
 
 #include "core/res_manager.h"
