@@ -13,6 +13,7 @@
 
 #include "comp/identifiers/dino.h"
 #include "comp/identifiers/enemy.h"
+#include "comp/identifiers/floor.h"
 #include "comp/physics/collider.h"
 #include "comp/physics/transform.h"
 #include "ctx/game_states.h"
@@ -29,8 +30,10 @@ void systems::Collide::Update(const double dt) {
 }
 
 void systems::Collide::Resolve() {
-  const auto kView = registry_->view<components::physics::Transform,
-                                     components::physics::Collider>();
+  const auto kView =
+      registry_
+          ->view<components::physics::Transform, components::physics::Collider,
+                 components::identifiers::Floor>();
   const auto kDinoView =
       registry_
           ->view<components::identifiers::Dino, components::physics::Transform,
