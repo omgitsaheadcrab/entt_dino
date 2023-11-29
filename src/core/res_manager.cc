@@ -52,7 +52,8 @@ void omg::ResourceManager::ParseSprites() {
       std::ifstream json_file(kEntry.path());
       json_file >> sprite;
       resources_["sprites"][kEntry.path().stem()]["frames"] = sprite["frames"];
-
+      resources_["sprites"][kEntry.path().stem()]["slices"] =
+          sprite["meta"]["slices"];
       nlohmann::json tags;
       for (auto tag : sprite["meta"]["frameTags"]) {
         const auto tag_name = tag["name"];
@@ -90,6 +91,18 @@ std::vector<SDL_Rect> omg::ResourceManager::GetSpriteClips(
       sprites.push_back(kClip);
     }
     ++iter;
+  }
+  return sprites;
+}
+
+std::vector<SDL_Rect> omg::ResourceManager::GetSpriteClipsFromSlices(
+    const std::string& kSprite) const {
+  std::vector<SDL_Rect> sprites;
+  for (const auto& kSlice : resources_["sprites"][kSprite]["slices"]) {
+    const SDL_Rect kClip {
+        kSlice["keys"][0]["bounds"]["x"], kSlice["keys"][0]["bounds"]["y"],
+        kSlice["keys"][0]["bounds"]["w"], kSlice["keys"][0]["bounds"]["h"]};
+    sprites.push_back(kClip);
   }
   return sprites;
 }

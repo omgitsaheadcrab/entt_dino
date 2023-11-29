@@ -8,10 +8,12 @@
 #include "sys/spawn.h"
 
 #include "comp/identifiers/cloud.h"
+#include "comp/identifiers/enemy.h"
 #include "comp/identifiers/floor.h"
 #include "comp/physics/transform.h"
 #include "core/game.h"
 #include "ctx/graphics.h"
+#include "ent/cactii.h"
 #include "ent/cloud.h"
 #include "ent/dino.h"
 #include "ent/floor.h"
@@ -26,6 +28,25 @@ void systems::Spawn::OnInit() {
 void systems::Spawn::Update(const double dt) {
   Clouds();
   Floors();
+  Cactii();
+}
+
+void systems::Spawn::Cactii() {
+  const auto kCactiiView = registry_->view<components::physics::Transform,
+                                           components::identifiers::Enemy>();
+  const auto& kBounds = contexts::graphics::GetBounds(registry_);
+  constexpr auto kMaxCount = 3;
+
+  auto count = kCactiiView.size_hint();
+  if (count < 1)
+    entities::enemies::CreateCactii(registry_, game_->res_manager());
+
+  kCactiiView.each([&](auto entity, const auto& kTransform) {
+    if (kTransform.position.x <= -kTransform.position.w) {
+      dispatcher_->trigger(events::entity::Despawn {&entity});
+      count++;
+    }
+  });
 }
 
 void systems::Spawn::Clouds() {

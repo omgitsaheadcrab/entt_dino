@@ -24,6 +24,7 @@ class Spawn : public omg::BaseSystem {
   void OnInit() override;
 
  private:
+  void Cactii();
   void Clouds();
   void Floors();
 };
