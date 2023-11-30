@@ -23,12 +23,13 @@ class Score : public omg::BaseSystem {
 
   void Update(const double dt) override;
 
-  void UpdateHighscore(const events::dino::Dead&);
-
  protected:
   void OnInit() override;
 
  private:
+  void OnRestart();
+  void UpdateHighscore(const events::dino::Dead&);
+
   static constexpr double kSpeedBoost_ = 0.02;
   static constexpr uint32_t kSpeedBoostMultiple_ = 100;
   static constexpr uint32_t kDistanceScale_ =

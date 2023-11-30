@@ -15,15 +15,14 @@
 #include "comp/graphics/sprite.h"
 #include "comp/identifiers/dino.h"
 #include "core/game.h"
+#include "ctx/game_states.h"
 #include "events/dino/dead.h"
 #include "events/dino/jumping.h"
 #include "events/dino/running.h"
+#include "events/game/restart.h"
 #include "states/dead.h"
 #include "states/jumping.h"
 #include "states/running.h"
-
-#include "ctx/game_states.h"
-
 
 void systems::State::OnInit() {
   dispatcher_->sink<events::dino::Dead>().connect<&systems::State::OnDead>(
@@ -32,6 +31,8 @@ void systems::State::OnInit() {
       .connect<&systems::State::OnRunning>(this);
   dispatcher_->sink<events::dino::JumpStart>()
       .connect<&systems::State::OnJumping>(this);
+  dispatcher_->sink<events::game::Restart>()
+      .connect<&systems::State::OnRestart>(this);
 
   AddState(std::make_unique<states::Running>("running"));
   AddState(std::make_unique<states::Jumping>("jumping"));
@@ -52,6 +53,10 @@ void systems::State::OnRunning(const events::dino::Running&) {
 
 void systems::State::OnJumping(const events::dino::JumpStart&) {
   if (!IsActiveState("jumping")) SetCurrentState("jumping");
+}
+
+void systems::State::OnRestart() {
+  if (!IsActiveState("running")) SetCurrentState("running");
 }
 
 void systems::State::AddState(std::unique_ptr<omg::BaseState> state) {

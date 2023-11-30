@@ -25,7 +25,6 @@ class Dinosaur : public omg::BaseScene {
   void Render(const double alpha) override;
 
  private:
-  void OnRestart();
   omg::EntityManager entity_manager_;
 };
 

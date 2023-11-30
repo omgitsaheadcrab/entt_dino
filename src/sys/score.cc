@@ -10,10 +10,13 @@
 
 #include "ctx/game_states.h"
 #include "events/dino/dead.h"
+#include "events/game/restart.h"
 
 void systems::Score::OnInit() {
   dispatcher_->sink<events::dino::Dead>()
       .connect<&systems::Score::UpdateHighscore>(this);
+  dispatcher_->sink<events::game::Restart>()
+      .connect<&systems::Score::OnRestart>(this);
 
   contexts::game::SetSpeed(registry_, 0.15);
   contexts::game::SetScore(registry_, 0);
@@ -38,4 +41,10 @@ void systems::Score::UpdateHighscore(const events::dino::Dead&) {
   auto high_score = contexts::game::GetHighscore(registry_).value;
   high_score = kScore > high_score ? kScore : high_score;
   contexts::game::SetHighscore(registry_, high_score);
+}
+
+void systems::Score::OnRestart() {
+  contexts::game::SetScore(registry_, 0);
+  contexts::game::SetDistance(registry_, 0);
+  contexts::game::SetSpeed(registry_, 0.15);
 }

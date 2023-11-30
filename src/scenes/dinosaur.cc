@@ -35,21 +35,17 @@ scenes::Dinosaur::Dinosaur() : omg::BaseScene("dinosaur") {}
 
 void scenes::Dinosaur::Init() {
   entity_manager_.Init(game_);
-  entity_manager_.dispatcher()
-      ->sink<events::game::Restart>()
-      .connect<&scenes::Dinosaur::OnRestart>(this);
-
   res_manager_->Init(game_->window().renderer());
 
   entity_manager_.AddRenderSystem(
       std::make_unique<systems::Render>(&game_->window()));
 
+  entity_manager_.AddUpdateSystem(std::make_unique<systems::Despawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Spawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Move>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Collide>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::State>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Score>());
-  entity_manager_.AddUpdateSystem(std::make_unique<systems::Despawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Sync>());
 
   hud_->Init(entity_manager_.registry(), game_);
@@ -106,18 +102,4 @@ void scenes::Dinosaur::Render(const double alpha) {
   entity_manager_.OnRender(alpha);
   hud_->Draw();
   game_->window().Present();
-}
-
-void scenes::Dinosaur::OnRestart() {
-  entity_manager_.dispatcher()->trigger<events::dino::Running>();
-  contexts::game::SetScore(entity_manager_.registry(), 0);
-  contexts::game::SetSpeed(entity_manager_.registry(), 0.15);
-
-  const auto kEnemyView =
-      entity_manager_.registry()->view<components::identifiers::Enemy>();
-  kEnemyView.each([&](auto entity) {
-    entity_manager_.dispatcher()->trigger(events::entity::Despawn {&entity});
-  });
-
-  entity_manager_.dispatcher()->trigger<events::dino::JumpStart>();
 }

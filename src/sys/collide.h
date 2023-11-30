@@ -21,8 +21,8 @@ class Collide : public omg::BaseSystem {
   void Update(const double dt) override;
 
  private:
-  void Resolve();
   bool EnemyCollision();
+  void Resolve();
 };
 
 }  // namespace systems

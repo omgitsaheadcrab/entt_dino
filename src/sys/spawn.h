@@ -27,6 +27,7 @@ class Spawn : public omg::BaseSystem {
   void Cactii();
   void Clouds();
   void Floors();
+  void OnRestart();
 };
 
 }  // namespace systems

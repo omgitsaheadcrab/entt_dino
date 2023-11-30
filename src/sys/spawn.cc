@@ -18,8 +18,12 @@
 #include "ent/dino.h"
 #include "ent/floor.h"
 #include "events/entity/despawn.h"
+#include "events/game/restart.h"
 
 void systems::Spawn::OnInit() {
+  dispatcher_->sink<events::game::Restart>()
+      .connect<&systems::Spawn::OnRestart>(this);
+
   entities::dino::Create(registry_, game_->res_manager());
   Clouds();
   Floors();
@@ -116,4 +120,8 @@ void systems::Spawn::Floors() {
       count++;
     }
   });
+}
+
+void systems::Spawn::OnRestart() {
+  entities::dino::Create(registry_, game_->res_manager());
 }

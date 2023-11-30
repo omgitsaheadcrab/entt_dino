@@ -19,10 +19,12 @@ class Despawn : public omg::BaseSystem {
   Despawn() = default;
   virtual ~Despawn() = default;
 
-  void OnDespawn(const events::entity::Despawn& despawn);
-
  protected:
   void OnInit() override;
+
+ private:
+  void OnDespawn(const events::entity::Despawn& despawn);
+  void OnRestart();
 };
 
 }  // namespace systems
