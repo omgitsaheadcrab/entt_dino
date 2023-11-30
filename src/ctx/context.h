@@ -49,17 +49,6 @@ void ToggleBool(entt::registry* registry) {
     registry->ctx().insert_or_assign(T {});
   }
 }
-
-template <typename T, typename U>
-void Increment(entt::registry* registry, const U u) {
-  auto kContains = registry->ctx().contains<T>();
-  U prev = 0;
-  if (kContains) {
-    prev = registry->ctx().get<T>().value;
-  }
-  registry->ctx().insert_or_assign(T {prev + u});
-}
-
 }  // namespace contexts
 
 #endif  // ENTT_DINO_SRC_CTX_CONTEXT_H_

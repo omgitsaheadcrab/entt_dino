@@ -8,8 +8,6 @@
 
 #include "sys/move.h"
 
-#include <cmath>
-
 #include "comp/physics/rigid_body.h"
 #include "comp/physics/transform.h"
 #include "ctx/game_states.h"
@@ -26,8 +24,4 @@ void systems::Move::Update(const double dt) {
     transform.position.y +=
         kRigidBody.velocity.y * dt + 0.5 * kRigidBody.acceleration.y * dt * dt;
   });
-
-  // Update game distance traveled
-  contexts::game::IncrementDistance(registry_,
-                                    std::ceil(dt * kBaseSpeed.value));
-}
+ }

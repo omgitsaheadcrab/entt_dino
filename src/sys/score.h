@@ -35,6 +35,10 @@ class Score : public omg::BaseSystem {
   static constexpr uint32_t kDistanceScale_ =
       20;  // Magic number to scale distance to make
            // score initially rise by ~10/sec
+  uint32_t distance_;
+  uint32_t highscore_;
+  uint32_t score_;
+  double speed_;
 };
 
 }  // namespace systems

@@ -8,6 +8,8 @@
 
 #include "sys/score.h"
 
+#include <cmath>
+
 #include "ctx/game_states.h"
 #include "events/dino/dead.h"
 #include "events/game/restart.h"
@@ -18,33 +20,39 @@ void systems::Score::OnInit() {
   dispatcher_->sink<events::game::Restart>()
       .connect<&systems::Score::OnRestart>(this);
 
-  contexts::game::SetSpeed(registry_, 0.15);
-  contexts::game::SetScore(registry_, 0);
   contexts::game::SetHighscore(registry_, 0);
+  contexts::game::SetScore(registry_, 0);
+  contexts::game::SetSpeed(registry_, 0.15);
+  distance_ = 0;
+  highscore_ = 0;
+  score_ = 0;
+  speed_ = 0.15;
 }
 
 void systems::Score::Update(const double dt) {
-  const auto kScore = contexts::game::GetScore(registry_).value;
-  if (contexts::game::GetDistance(registry_).value / kDistanceScale_ > kScore) {
-    contexts::game::IncrementScore(registry_, 1);
+  distance_ += std::ceil(dt * speed_);
+
+  if (distance_ / kDistanceScale_ > score_) {
+    score_ += 1;
+    contexts::game::SetScore(registry_, score_);
 
     // Integer division to detect threshold cross
-    if (kScore / kSpeedBoostMultiple_ <
-        contexts::game::GetScore(registry_).value / kSpeedBoostMultiple_) {
-      contexts::game::IncrementSpeed(registry_, kSpeedBoost_);
+    if (score_ / kSpeedBoostMultiple_ < score_ / kSpeedBoostMultiple_) {
+      speed_ += kSpeedBoost_;
+      contexts::game::SetSpeed(registry_, speed_);
     }
   }
 }
 
 void systems::Score::UpdateHighscore(const events::dino::Dead&) {
-  const auto kScore = contexts::game::GetScore(registry_).value;
-  auto high_score = contexts::game::GetHighscore(registry_).value;
-  high_score = kScore > high_score ? kScore : high_score;
-  contexts::game::SetHighscore(registry_, high_score);
+  highscore_ = score_ > highscore_ ? score_ : highscore_;
+  contexts::game::SetHighscore(registry_, highscore_);
 }
 
 void systems::Score::OnRestart() {
   contexts::game::SetScore(registry_, 0);
-  contexts::game::SetDistance(registry_, 0);
   contexts::game::SetSpeed(registry_, 0.15);
+  distance_ = 0;
+  score_ = 0;
+  speed_ = 0;
 }

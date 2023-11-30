@@ -15,7 +15,6 @@
 #include <entt/entity/registry.hpp>
 
 #include "comp/game/dark.h"
-#include "comp/game/distance_run.h"
 #include "comp/game/highscore.h"
 #include "comp/game/score.h"
 #include "comp/game/speed.h"
@@ -29,14 +28,6 @@ namespace game {
 constexpr auto GetScore = &contexts::Get<components::game::Score>;
 constexpr auto SetScore =
     &contexts::Set<components::game::Score, const uint32_t>;
-constexpr auto IncrementScore =
-    &contexts::Increment<components::game::Score, uint32_t>;
-
-constexpr auto GetDistance = &contexts::Get<components::game::Distance>;
-constexpr auto SetDistance =
-    &contexts::Set<components::game::Distance, const uint32_t>;
-constexpr auto IncrementDistance =
-    &contexts::Increment<components::game::Distance, uint32_t>;
 
 constexpr auto GetHighscore = &contexts::Get<components::game::Highscore>;
 constexpr auto SetHighscore =
@@ -44,8 +35,6 @@ constexpr auto SetHighscore =
 
 constexpr auto GetSpeed = &contexts::Get<components::game::Speed>;
 constexpr auto SetSpeed = &contexts::Set<components::game::Speed, const double>;
-constexpr auto IncrementSpeed =
-    &contexts::Increment<components::game::Speed, double>;
 
 constexpr auto GetDark = &contexts::GetBool<components::game::Dark>;
 constexpr auto SetDark = &contexts::SetBool<components::game::Dark>;
