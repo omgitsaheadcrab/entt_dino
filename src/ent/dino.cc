@@ -40,7 +40,7 @@ SDL_Rect box {0, 0, 0, 0};
 void entities::dino::Create(entt::registry* registry,
                             const omg::ResourceManager& kResManager) {
   const auto& kBounds = contexts::graphics::GetBounds(registry);
-  const auto& kClips = kResManager.GetSpriteClips("dino", "running");
+  const auto& kClips = kResManager.GetSpriteClipsFromSlices("dino", "running");
 
   position.x = kBounds.position.w * 0.05;
   position.y = kBounds.position.h - 57;
@@ -63,4 +63,3 @@ void entities::dino::Create(entt::registry* registry,
       e, kResManager.GetSpriteTexture("dino"), kClips.front());
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }
-

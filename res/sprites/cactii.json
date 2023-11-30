@@ -21,12 +21,12 @@
    { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
   ],
   "slices": [
-   { "name": "1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 0, "w": 15, "h": 32 } }] },
-   { "name": "2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 15, "y": 0, "w": 33, "h": 32 } }] },
-   { "name": "3", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 0, "w": 49, "h": 32 } }] },
-   { "name": "4", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 32, "w": 20, "h": 50 } }] },
-   { "name": "5", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 20, "y": 32, "w": 43, "h": 50 } }] },
-   { "name": "6", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 63, "y": 32, "w": 70, "h": 50 } }] }
+   { "name": "cactii_0", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 0, "w": 15, "h": 32 } }] },
+   { "name": "cactii_1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 15, "y": 0, "w": 33, "h": 32 } }] },
+   { "name": "cactii_2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 0, "w": 49, "h": 32 } }] },
+   { "name": "cactii_3", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 32, "w": 20, "h": 50 } }] },
+   { "name": "cactii_4", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 20, "y": 32, "w": 43, "h": 50 } }] },
+   { "name": "cactii_5", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 63, "y": 32, "w": 70, "h": 50 } }] }
   ]
  }
 }

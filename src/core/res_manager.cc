@@ -96,13 +96,15 @@ std::vector<SDL_Rect> omg::ResourceManager::GetSpriteClips(
 }
 
 std::vector<SDL_Rect> omg::ResourceManager::GetSpriteClipsFromSlices(
-    const std::string& kSprite) const {
+    const std::string& kSprite, const std::string& kTag) const {
   std::vector<SDL_Rect> sprites;
   for (const auto& kSlice : resources_["sprites"][kSprite]["slices"]) {
-    const SDL_Rect kClip {
-        kSlice["keys"][0]["bounds"]["x"], kSlice["keys"][0]["bounds"]["y"],
-        kSlice["keys"][0]["bounds"]["w"], kSlice["keys"][0]["bounds"]["h"]};
-    sprites.push_back(kClip);
+    if (kSlice["name"].get<std::string>().find(kTag) != std::string::npos) {
+      const SDL_Rect kClip {
+          kSlice["keys"][0]["bounds"]["x"], kSlice["keys"][0]["bounds"]["y"],
+          kSlice["keys"][0]["bounds"]["w"], kSlice["keys"][0]["bounds"]["h"]};
+      sprites.push_back(kClip);
+    }
   }
   return sprites;
 }

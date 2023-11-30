@@ -22,7 +22,8 @@ void states::Jumping::OnInit() {
 void states::Jumping::OnJumpEnd() { jumping_ = false; }
 
 void states::Jumping::Set() {
-  const auto& kClips = game_->res_manager().GetSpriteClips("dino", name_);
+  const auto& kClips =
+      game_->res_manager().GetSpriteClipsFromSlices("dino", name_);
   const auto& kView =
       registry_
           ->view<components::identifiers::Dino, components::graphics::Sprite,

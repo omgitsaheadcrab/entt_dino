@@ -1,53 +1,32 @@
 { "frames": {
-   "dead_0": {
-    "frame": { "x": 0, "y": 0, "w": 42, "h": 44 },
+   "dino": {
+    "frame": { "x": 0, "y": 0, "w": 168, "h": 72 },
     "rotated": false,
     "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 42, "h": 44 },
-    "sourceSize": { "w": 42, "h": 44 },
-    "duration": 100
-   },
-   "jumping_0": {
-    "frame": { "x": 0, "y": 44, "w": 42, "h": 44 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 42, "h": 44 },
-    "sourceSize": { "w": 42, "h": 44 },
-    "duration": 100
-   },
-   "running_0": {
-    "frame": { "x": 0, "y": 88, "w": 42, "h": 44 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 42, "h": 44 },
-    "sourceSize": { "w": 42, "h": 44 },
-    "duration": 100
-   },
-   "running_1": {
-    "frame": { "x": 0, "y": 132, "w": 42, "h": 44 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 42, "h": 44 },
-    "sourceSize": { "w": 42, "h": 44 },
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 168, "h": 72 },
+    "sourceSize": { "w": 168, "h": 72 },
     "duration": 100
    }
  },
  "meta": {
   "app": "http://www.aseprite.org/",
-  "version": "1.2.40-x64",
+  "version": "1.3.1-x64",
   "image": "dino.png",
   "format": "RGBA8888",
-  "size": { "w": 42, "h": 176 },
+  "size": { "w": 168, "h": 72 },
   "scale": "1",
   "frameTags": [
-   { "name": "dead", "from": 0, "to": 0, "direction": "forward" },
-   { "name": "jumping", "from": 1, "to": 1, "direction": "forward" },
-   { "name": "running", "from": 2, "to": 3, "direction": "forward" }
   ],
   "layers": [
    { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
   ],
   "slices": [
+   { "name": "dead_0", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 0, "w": 42, "h": 44 } }] },
+   { "name": "jumping_0", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 42, "y": 0, "w": 42, "h": 44 } }] },
+   { "name": "running_0", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 84, "y": 0, "w": 42, "h": 44 } }] },
+   { "name": "running_1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 126, "y": 0, "w": 42, "h": 44 } }] },
+   { "name": "ducking_0", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 44, "w": 59, "h": 28 } }] },
+   { "name": "ducking_1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 59, "y": 44, "w": 59, "h": 28 } }] }
   ]
  }
 }

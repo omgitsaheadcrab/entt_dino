@@ -17,7 +17,8 @@
 #include "ctx/game_states.h"
 
 void states::Running::OnInit() {
-  const auto& kClips = game_->res_manager().GetSpriteClips("dino", name_);
+  const auto& kClips =
+      game_->res_manager().GetSpriteClipsFromSlices("dino", name_);
   for (auto& clip : kClips) {
     animation_frames_.push({clip});
   }
