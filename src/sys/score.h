@@ -12,7 +12,6 @@
 #include <cstdint>
 
 #include "core/base_system.h"
-#include "events/dino/dead.h"
 
 namespace systems {
 
@@ -27,8 +26,8 @@ class Score : public omg::BaseSystem {
   void OnInit() override;
 
  private:
+  void OnDead();
   void OnRestart();
-  void UpdateHighscore(const events::dino::Dead&);
 
   static constexpr double kSpeedBoost_ = 0.02;
   static constexpr uint32_t kSpeedBoostMultiple_ = 100;

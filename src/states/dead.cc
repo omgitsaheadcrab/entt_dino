@@ -26,5 +26,4 @@ void states::Dead::Set() {
     rigid_body.velocity.y = 0;
     rigid_body.acceleration.y = 0;
   });
-  contexts::game::SetSpeed(registry_, 0);
 }
