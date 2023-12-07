@@ -1,12 +1,12 @@
 /**
- * @file      running.cc
- * @brief     Running state state
+ * @file      ducking.cc
+ * @brief     Ducking state state
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
  * @date      2022-09-14
  * @copyright Copyright © 2022 Tobias Backer Dirks
  */
 
-#include "states/running.h"
+#include "states/ducking.h"
 
 #include <cstdint>
 
@@ -20,7 +20,7 @@
 #include "ctx/game_states.h"
 #include "ctx/graphics.h"
 
-void states::Running::OnInit() {
+void states::Ducking::OnInit() {
   const auto& kClips =
       game_->res_manager().GetSpriteClipsFromSlices("dino", name_);
   for (auto& clip : kClips) {
@@ -28,7 +28,7 @@ void states::Running::OnInit() {
   }
 }
 
-void states::Running::Set() {
+void states::Ducking::Set() {
   animation_elapsed_ = 0;
   const auto& kFloorClips =
       game_->res_manager().GetSpriteClips("floor", "floor");
@@ -40,9 +40,9 @@ void states::Running::Set() {
 
   kView.each([&](auto& rigid_body, auto& sprite, auto& gtransform,
                  auto& ptransform, auto& collider) {
+    sprite.clip = animation_frames_.front();
     rigid_body.velocity.y = 0;
     rigid_body.acceleration.y = 0;
-    sprite.clip = animation_frames_.front();
     gtransform.position.w = sprite.clip.w;
     gtransform.position.h = sprite.clip.h;
     gtransform.position.y =
@@ -57,7 +57,7 @@ void states::Running::Set() {
   });
 }
 
-void states::Running::Update(const double dt) {
+void states::Ducking::Update(const double dt) {
   animation_elapsed_ += static_cast<uint32_t>(dt);
   const auto kBaseSpeed = contexts::game::GetSpeed(registry_).value;
 

@@ -41,16 +41,16 @@ void entities::dino::Create(entt::registry* registry,
                             const omg::ResourceManager& kResManager) {
   const auto& kBounds = contexts::graphics::GetBounds(registry);
   const auto& kClips = kResManager.GetSpriteClipsFromSlices("dino", "running");
+  const auto& kFloorClips = kResManager.GetSpriteClips("floor", "floor");
 
   position.x = kBounds.position.w * 0.05;
-  position.y = kBounds.position.h - 57;
   position.h = kClips.front().h;
+  position.y = kBounds.position.h - kFloorClips.front().h / 2 - position.h;
   position.w = kClips.front().w;
 
-  box.x = position.w / 4;
-  box.y = 4;
+  box.x = kClips.front().w / 8;
   box.h = position.h;
-  box.w = position.w / 2;
+  box.w = 3 * position.w / 4;
 
   auto e = registry->create();
   registry->emplace<components::identifiers::Dino>(e);

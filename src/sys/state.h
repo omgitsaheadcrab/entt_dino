@@ -15,9 +15,6 @@
 
 #include "core/base_state.h"
 #include "core/base_system.h"
-#include "events/dino/dead.h"
-#include "events/dino/jumping.h"
-#include "events/dino/running.h"
 
 namespace systems {
 
@@ -35,10 +32,11 @@ class State : public omg::BaseSystem {
   bool IsActiveState(const std::string kStateName);
   bool SetCurrentState(const std::string kStateName);
   void AddState(std::unique_ptr<omg::BaseState> state);
-  void OnDead(const events::dino::Dead&);
-  void OnJumping(const events::dino::JumpStart&);
+  void OnDead();
+  void OnJumping();
   void OnRestart();
-  void OnRunning(const events::dino::Running&);
+  void OnRunning();
+  void OnDucking();
 
   std::vector<std::unique_ptr<omg::BaseState>> states_;
   omg::BaseState* current_state_ = nullptr;

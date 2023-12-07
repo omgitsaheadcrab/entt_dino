@@ -17,6 +17,8 @@ struct JumpStart {};
 
 struct JumpEnd {};
 
+struct JumpDuck {};
+
 }  // namespace dino
 
 }  // namespace events

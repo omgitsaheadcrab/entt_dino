@@ -17,10 +17,12 @@
 #include "core/game.h"
 #include "ctx/game_states.h"
 #include "events/dino/dead.h"
+#include "events/dino/ducking.h"
 #include "events/dino/jumping.h"
 #include "events/dino/running.h"
 #include "events/game/restart.h"
 #include "states/dead.h"
+#include "states/ducking.h"
 #include "states/jumping.h"
 #include "states/running.h"
 
@@ -31,11 +33,14 @@ void systems::State::OnInit() {
       .connect<&systems::State::OnRunning>(this);
   dispatcher_->sink<events::dino::JumpStart>()
       .connect<&systems::State::OnJumping>(this);
+  dispatcher_->sink<events::dino::Ducking>()
+      .connect<&systems::State::OnDucking>(this);
   dispatcher_->sink<events::game::Restart>()
       .connect<&systems::State::OnRestart>(this);
 
   AddState(std::make_unique<states::Running>("running"));
   AddState(std::make_unique<states::Jumping>("jumping"));
+  AddState(std::make_unique<states::Ducking>("ducking"));
   AddState(std::make_unique<states::Dead>("dead"));
 
   SetCurrentState("running");
@@ -43,16 +48,23 @@ void systems::State::OnInit() {
 
 void systems::State::Update(const double dt) { current_state_->Update(dt); }
 
-void systems::State::OnDead(const events::dino::Dead&) {
+void systems::State::OnDead() {
   if (!IsActiveState("dead")) SetCurrentState("dead");
 }
 
-void systems::State::OnRunning(const events::dino::Running&) {
-  if (!IsActiveState("running")) SetCurrentState("running");
+void systems::State::OnRunning() {
+  if (!IsActiveState("running") && !IsActiveState("dead"))
+    SetCurrentState("running");
 }
 
-void systems::State::OnJumping(const events::dino::JumpStart&) {
-  if (!IsActiveState("jumping")) SetCurrentState("jumping");
+void systems::State::OnJumping() {
+  if (!IsActiveState("jumping") && !IsActiveState("dead"))
+    SetCurrentState("jumping");
+}
+
+void systems::State::OnDucking() {
+  if (!IsActiveState("ducking") && !IsActiveState("dead"))
+    SetCurrentState("ducking");
 }
 
 void systems::State::OnRestart() {

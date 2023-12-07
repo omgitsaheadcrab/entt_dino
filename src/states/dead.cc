@@ -9,6 +9,7 @@
 #include "states/dead.h"
 
 #include "comp/graphics/sprite.h"
+#include "comp/graphics/transform.h"
 #include "comp/identifiers/dino.h"
 #include "comp/physics/rigid_body.h"
 #include "core/game.h"
@@ -17,13 +18,14 @@
 void states::Dead::Set() {
   const auto& kClips =
       game_->res_manager().GetSpriteClipsFromSlices("dino", name_);
-  const auto& kView =
-      registry_
-          ->view<components::identifiers::Dino, components::graphics::Sprite,
-                 components::physics::RigidBody>();
+  const auto& kView = registry_->view<
+      components::identifiers::Dino, components::graphics::Sprite,
+      components::graphics::Transform, components::physics::RigidBody>();
 
-  kView.each([&](auto& sprite, auto& rigid_body) {
+  kView.each([&](auto& sprite, auto& transform, auto& rigid_body) {
     sprite.clip = kClips.front();
+    transform.position.w = sprite.clip.w;
+    transform.position.h = sprite.clip.h;
     rigid_body.velocity.y = 0;
     rigid_body.acceleration.y = 0;
   });

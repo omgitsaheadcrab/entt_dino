@@ -9,32 +9,48 @@
 #include "states/jumping.h"
 
 #include "comp/graphics/sprite.h"
+#include "comp/graphics/transform.h"
 #include "comp/identifiers/dino.h"
+#include "comp/physics/collider.h"
 #include "comp/physics/rigid_body.h"
+#include "comp/physics/transform.h"
 #include "core/game.h"
 #include "events/dino/jumping.h"
 
 void states::Jumping::OnInit() {
   dispatcher_->sink<events::dino::JumpEnd>()
       .connect<&states::Jumping::OnJumpEnd>(this);
+  dispatcher_->sink<events::dino::JumpDuck>()
+      .connect<&states::Jumping::OnJumpDuck>(this);
 }
 
 void states::Jumping::OnJumpEnd() { jumping_ = false; }
 
+void states::Jumping::OnJumpDuck() { jump_ducking_ = true; }
+
 void states::Jumping::Set() {
   const auto& kClips =
       game_->res_manager().GetSpriteClipsFromSlices("dino", name_);
-  const auto& kView =
-      registry_
-          ->view<components::identifiers::Dino, components::graphics::Sprite,
-                 components::physics::RigidBody>();
+  const auto& kView = registry_->view<
+      components::identifiers::Dino, components::graphics::Sprite,
+      components::physics::RigidBody, components::graphics::Transform,
+      components::physics::Transform, components::physics::Collider>();
 
-  kView.each([&](auto& sprite, auto& rigid_body) {
+  kView.each([&](auto& sprite, auto& rigid_body, auto& gtransform,
+                 auto& ptransform, auto& collider) {
     sprite.clip = kClips.front();
     rigid_body.acceleration.y = kGravity_;
     rigid_body.velocity.y = kV0_;
+    gtransform.position.w = sprite.clip.w;
+    gtransform.position.h = sprite.clip.h;
+    ptransform.position.w = sprite.clip.w;
+    ptransform.position.h = sprite.clip.h;
+    collider.box.x = sprite.clip.w / 8;
+    collider.box.h = sprite.clip.h;
+    collider.box.w = 3 * sprite.clip.w / 4;
   });
 
+  jump_ducking_ = false;
   jumping_ = true;
   jump_time_ = 150;
 }
@@ -46,6 +62,9 @@ void states::Jumping::Update(const double dt) {
   double jump_gravity = kGravity_;
   if (jumping_ && jump_time_ > 0) {
     jump_gravity = -0.0005 * kGravity_;
+  }
+  if (jump_ducking_) {
+    jump_gravity *= 5;
   }
   kView.each([&](auto& rigid_body) {
     rigid_body.acceleration.y = jump_gravity;
