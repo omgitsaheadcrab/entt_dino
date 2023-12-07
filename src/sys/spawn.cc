@@ -30,7 +30,7 @@ void systems::Spawn::OnInit() {
 }
 
 void systems::Spawn::Update(const double dt) {
-  //Cactii();
+  Cactii();
   Clouds();
   Floors();
 }
