@@ -24,4 +24,4 @@ void systems::Move::Update(const double dt) {
     transform.position.y +=
         kRigidBody.velocity.y * dt + 0.5 * kRigidBody.acceleration.y * dt * dt;
   });
- }
+}

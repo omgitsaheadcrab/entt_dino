@@ -21,6 +21,7 @@
 #include "comp/physics/transform.h"
 #include "core/vec2d.h"
 #include "util/random.h"
+#include "ctx/graphics.h"
 
 namespace {
 
@@ -29,7 +30,7 @@ const vf2d kVelocity {-2.0, 0.0};
 const vf2d kAcceleration {0.0, 0.0};
 
 // Transform
-SDL_Rect position {0, 212, 0, 0};
+SDL_Rect position {0, 0, 0, 0};
 
 // Collider
 SDL_Rect box {0, 0, 0, 0};
@@ -39,14 +40,16 @@ SDL_Rect box {0, 0, 0, 0};
 void entities::background::CreateFloor(entt::registry* registry,
                                        const omg::ResourceManager& kResManager,
                                        const int kXPos) {
+  const auto& kBounds = contexts::graphics::GetBounds(registry);
   const auto& kClips = kResManager.GetSpriteClips("floor", "floor");
   const auto kClip = utils::UniformRandom(0, kClips.size() - 1);
   position.x = kXPos;
   position.h = kClips[kClip].h;
+  position.y = kBounds.position.h - position.h;
   position.w = kClips[kClip].w;
 
-  box.y = 0.60 * position.h;
-  box.h = 0.40 * position.h;
+  box.h = position.h / 2;
+  box.y = kClips[kClip].h / 2;
   box.w = position.w;
 
   auto e = registry->create();

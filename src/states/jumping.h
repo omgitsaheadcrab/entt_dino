@@ -22,15 +22,17 @@ class Jumping : public BaseState {
   virtual ~Jumping() = default;
 
   void Set() override;
-  void OnJumpEnd();
 
  protected:
   void OnInit() override;
   void Update(const double_t dt) override;
+  void OnJumpEnd();
+  void OnJumpDuck();
 
  private:
   const double kGravity_ = 0.0015;  // 2*h_top/t_top
   const double kV0_ = -0.3;         // -2*h_top/(t_top^2)
+  bool jump_ducking_ = false;
   bool jumping_ = false;
   double jump_time_ = 150;
 };
