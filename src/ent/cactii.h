@@ -18,7 +18,7 @@ namespace entities {
 namespace enemies {
 
 void CreateCactii(entt::registry* registry,
-                  const omg::ResourceManager& kResManager);
+                  const omg::ResourceManager& kResManager, const int kXPos);
 
 }  // namespace enemies
 

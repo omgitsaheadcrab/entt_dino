@@ -25,6 +25,7 @@ void systems::Spawn::OnInit() {
       .connect<&systems::Spawn::OnRestart>(this);
 
   entities::dino::Create(registry_, game_->res_manager());
+  Cactii();
   Clouds();
   Floors();
 }
@@ -42,11 +43,21 @@ void systems::Spawn::Cactii() {
   constexpr auto kMaxCount = 3;
 
   auto count = kCactiiView.size_hint();
-  if (count < 1)
-    entities::enemies::CreateCactii(registry_, game_->res_manager());
+  if (count == 0) {
+    double pos = kBounds.position.w + kBounds.position.w / 5.0;
+    entities::enemies::CreateCactii(registry_, game_->res_manager(), pos);
+    count++;
+    while (count < kMaxCount) {
+      pos += 2 * kBounds.position.w / 5.0;
+      entities::enemies::CreateCactii(registry_, game_->res_manager(), pos);
+      ++count;
+    }
+  }
 
   kCactiiView.each([&](auto entity, const auto& kTransform) {
     if (kTransform.position.x <= -kTransform.position.w) {
+      entities::enemies::CreateCactii(registry_, game_->res_manager(),
+                                      kBounds.position.w);
       dispatcher_->trigger(events::entity::Despawn {&entity});
       count++;
     }

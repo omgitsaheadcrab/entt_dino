@@ -39,11 +39,12 @@ SDL_Rect box {0, 0, 0, 0};
 }  // namespace
 
 void entities::enemies::CreateCactii(entt::registry* registry,
-                                     const omg::ResourceManager& kResManager) {
+                                     const omg::ResourceManager& kResManager,
+                                     const int kXPos) {
   const auto& kBounds = contexts::graphics::GetBounds(registry);
   const auto& clips = kResManager.GetSpriteClipsFromSlices("cactii", "cactii");
   const auto kClip = utils::UniformRandom(0, clips.size() - 1);
-  position.x = kBounds.position.w;
+  position.x = kXPos;
   position.y = kBounds.position.h - clips[kClip].h - 16;
   position.h = clips[kClip].h;
   position.w = clips[kClip].w;
