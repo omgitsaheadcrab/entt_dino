@@ -56,9 +56,9 @@ void systems::Spawn::Cactii() {
 
   kCactiiView.each([&](auto entity, const auto& kTransform) {
     if (kTransform.position.x <= -kTransform.position.w) {
+      dispatcher_->trigger(events::entity::Despawn {&entity});
       entities::enemies::CreateCactii(registry_, game_->res_manager(),
                                       kBounds.position.w);
-      dispatcher_->trigger(events::entity::Despawn {&entity});
       count++;
     }
   });

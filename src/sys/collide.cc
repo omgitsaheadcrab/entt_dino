@@ -57,6 +57,7 @@ void systems::Collide::Resolve() {
         SPDLOG_DEBUG("Floor collision detected! {}", intersect.h);
         dino_transform.position.y -= intersect.h;
         dispatcher_->trigger<events::dino::Running>();
+        return;
       }
     });
   });
@@ -79,13 +80,15 @@ bool systems::Collide::EnemyCollision() {
         dino_transform.position.y + kDinoCollider.box.y, kDinoCollider.box.w,
         kDinoCollider.box.h};
 
-    kEnemyView.each([&](const auto& kTransform, const auto& kEnemyCollider) {
+    kEnemyView.each([&](const auto& ent, const auto& kTransform,
+                        const auto& kEnemyCollider) {
       const SDL_Rect kEnemyPos {kTransform.position.x + kEnemyCollider.box.x,
                                 kTransform.position.y + kEnemyCollider.box.y,
                                 kEnemyCollider.box.w, kEnemyCollider.box.h};
       SDL_Rect intersect;
-      has_intersect =
+      bool intersected =
           SDL_IntersectRect(&kDinoColliderPos, &kEnemyPos, &intersect);
+      if (intersected) has_intersect = true;
     });
   });
   return has_intersect;

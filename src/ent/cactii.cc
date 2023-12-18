@@ -42,12 +42,14 @@ void entities::enemies::CreateCactii(entt::registry* registry,
                                      const omg::ResourceManager& kResManager,
                                      const int kXPos) {
   const auto& kBounds = contexts::graphics::GetBounds(registry);
-  const auto& clips = kResManager.GetSpriteClipsFromSlices("cactii", "cactii");
-  const auto kClip = utils::UniformRandom(0, clips.size() - 1);
+  const auto& kClips = kResManager.GetSpriteClipsFromSlices("cactii", "cactii");
+  const auto& kFloorClips = kResManager.GetSpriteClips("floor", "floor");
+  const auto kClip = utils::UniformRandom(0, kClips.size() - 1);
+
   position.x = kXPos;
-  position.y = kBounds.position.h - clips[kClip].h - 16;
-  position.h = clips[kClip].h;
-  position.w = clips[kClip].w;
+  position.h = kClips[kClip].h;
+  position.y = kBounds.position.h - kFloorClips.front().h / 2 - position.h;
+  position.w = kClips[kClip].w;
 
   box.x = position.w / 8;
   box.h = position.h;
@@ -62,6 +64,6 @@ void entities::enemies::CreateCactii(entt::registry* registry,
   registry->emplace<components::physics::Transform>(e, position);
   registry->emplace<components::physics::Collider>(e, box);
   registry->emplace<components::graphics::Sprite>(
-      e, kResManager.GetSpriteTexture("cactii"), clips[kClip]);
+      e, kResManager.GetSpriteTexture("cactii"), kClips[kClip]);
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }
