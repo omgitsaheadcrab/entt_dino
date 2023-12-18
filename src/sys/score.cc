@@ -33,11 +33,12 @@ void systems::Score::Update(const double dt) {
   distance_ += std::ceil(dt * speed_);
 
   if (distance_ / kDistanceScale_ > score_) {
+    uint32_t kOldScore = score_;
     score_ += 1;
     contexts::game::SetScore(registry_, score_);
 
     // Integer division to detect threshold cross
-    if (score_ / kSpeedBoostMultiple_ < score_ / kSpeedBoostMultiple_) {
+    if (score_ / kSpeedBoostMultiple_ > kOldScore / kSpeedBoostMultiple_) {
       speed_ += kSpeedBoost_;
       contexts::game::SetSpeed(registry_, speed_);
     }
