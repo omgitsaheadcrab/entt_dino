@@ -10,6 +10,7 @@
 #define ENTT_DINO_SRC_CORE_RES_MANAGER_H_
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
@@ -39,16 +40,19 @@ class ResourceManager {
   void DrawText(const std::string& kText, const SDL_Rect& kPositon,
                 const SDL_Color& kColor, const std::string& kFontName,
                 const u_int32_t kFontSize);
+  Mix_Chunk* GetSound(const std::string& kSoundName) const;
 
  private:
-  void ParseSprites();
-  void LoadSprites();
   void ParseFonts();
+  void ParseSprites();
   void LoadFont(const std::string& kName, const uint32_t kSize);
+  void LoadSounds();
+  void LoadSprites();
 
   SDL_Renderer* renderer_;
   nlohmann::json resources_;
   std::unordered_map<std::string, std::vector<fonts::Font*>> fonts_;
+  std::unordered_map<std::string, Mix_Chunk*> sounds_;
   std::unordered_map<std::string, SDL_Texture*> sprite_textures_;
 };
 
