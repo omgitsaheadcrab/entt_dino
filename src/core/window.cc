@@ -9,6 +9,7 @@
 #include "core/window.h"
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_ttf.h>
@@ -24,6 +25,7 @@ omg::Window::Window(const std::string& kName, const int kWindowWidth,
       renderer_ {SDL_CreateRenderer(
           window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE)} {
   SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+  Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
   TTF_Init();
   SDL_RenderSetLogicalSize(renderer_, kWindowWidth, kWindowHeight);
 }
@@ -32,6 +34,7 @@ omg::Window::~Window() {
   SDL_DestroyRenderer(renderer_);
   SDL_DestroyWindow(window_);
   TTF_Quit();
+  Mix_Quit();
   SDL_Quit();
 }
 

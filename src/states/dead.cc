@@ -29,4 +29,5 @@ void states::Dead::Set() {
     rigid_body.velocity.y = 0;
     rigid_body.acceleration.y = 0;
   });
+  Mix_PlayChannel(-1, game_->res_manager().GetSound("dead"), 0);
 }

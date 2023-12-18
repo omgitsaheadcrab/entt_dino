@@ -8,8 +8,11 @@
 
 #include "sys/score.h"
 
+#include <SDL2/SDL_mixer.h>
+
 #include <cmath>
 
+#include "core/game.h"
 #include "ctx/game_states.h"
 #include "events/dino/dead.h"
 #include "events/game/restart.h"
@@ -33,13 +36,15 @@ void systems::Score::Update(const double dt) {
   distance_ += std::ceil(dt * speed_);
 
   if (distance_ / kDistanceScale_ > score_) {
+    uint32_t kOldScore = score_;
     score_ += 1;
     contexts::game::SetScore(registry_, score_);
 
     // Integer division to detect threshold cross
-    if (score_ / kSpeedBoostMultiple_ < score_ / kSpeedBoostMultiple_) {
+    if (score_ / kSpeedBoostMultiple_ > kOldScore / kSpeedBoostMultiple_) {
       speed_ += kSpeedBoost_;
       contexts::game::SetSpeed(registry_, speed_);
+      Mix_PlayChannel(-1, game_->res_manager().GetSound("point"), 0);
     }
   }
 }

@@ -53,6 +53,7 @@ void states::Jumping::Set() {
   jump_ducking_ = false;
   jumping_ = true;
   jump_time_ = 150;
+  Mix_PlayChannel(-1, game_->res_manager().GetSound("jump"), 0);
 }
 
 void states::Jumping::Update(const double dt) {

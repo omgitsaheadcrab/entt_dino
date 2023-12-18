@@ -9,6 +9,7 @@
 #include "core/res_manager.h"
 
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
@@ -35,6 +36,9 @@ omg::ResourceManager::~ResourceManager() {
       delete size;
     }
   }
+  for (const auto& kSound : sounds_) {
+    Mix_FreeChunk(kSound.second);
+  }
 }
 
 void omg::ResourceManager::Init(SDL_Renderer* renderer) {
@@ -42,6 +46,7 @@ void omg::ResourceManager::Init(SDL_Renderer* renderer) {
   ParseSprites();
   LoadSprites();
   ParseFonts();
+  LoadSounds();
 }
 
 void omg::ResourceManager::ParseSprites() {
@@ -173,6 +178,24 @@ void omg::ResourceManager::DrawText(const std::string& kText,
     x += glyph->w;
     character = kText[i++];
   }
+}
+
+void omg::ResourceManager::LoadSounds() {
+  const std::string kSoundDir = utils::GetResPath() + "sounds";
+  for (const auto& kEntry : std::filesystem::directory_iterator(kSoundDir)) {
+    if (kEntry.path().extension() == ".wav") {
+      resources_["sounds"][kEntry.path().stem()]["filepath"] =
+          kEntry.path().string();
+      resources_["sounds"][kEntry.path().stem()]["extension"] = ".wav";
+      sounds_[kEntry.path().stem().string()] =
+          Mix_LoadWAV(kEntry.path().string().c_str());
+      SPDLOG_DEBUG("Loading sound: {}", kEntry.path().stem().string());
+    }
+  }
+}
+
+Mix_Chunk* omg::ResourceManager::GetSound(const std::string& kSoundName) const {
+  return sounds_.find(kSoundName)->second;
 }
 
 //  LocalWords:  LoadFonts
