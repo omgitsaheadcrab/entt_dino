@@ -1,0 +1,77 @@
+/**
+ * @file      opening_credits.cc
+ * @brief     Opening credits scene
+ * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
+ * @date      2024-06-10
+ * @copyright Copyright © 2024 Tobias Backer Dirks
+ */
+
+#include "scenes/opening_credits.h"
+
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_pixels.h>
+#include <SDL2/SDL_render.h>
+#include <string>
+
+#include "core/colors.h"
+#include "core/game.h"
+#include "core/res_manager.h"
+#include "core/window.h"
+
+namespace scenes {
+
+OpeningCredits::OpeningCredits()
+    : omg::BaseScene("opening_credits"),
+      display_text_("Press any key to start"),
+      font_name_("8-bit-hud"),
+      font_size_(12),
+      font_color_(colors::kDinoDark) {}
+
+void OpeningCredits::Init() {
+  // No entities needed for this simple scene
+}
+
+void OpeningCredits::HandleEvents() {
+  SDL_Event& event = game_->window().event();
+  while (SDL_PollEvent(&event)) {
+    if (event.type == SDL_KEYDOWN || event.type == SDL_MOUSEBUTTONDOWN) {
+      game_->scene_manager().SetCurrentScene("dinosaur");
+    }
+    if (event.type == SDL_QUIT) {
+      game_->Quit();
+    }
+  }
+}
+
+void OpeningCredits::Update(const double dt) {
+  // No update logic needed for static credits
+}
+
+void OpeningCredits::Render(const double alpha) {
+  SDL_Renderer* renderer = game_->window().renderer();
+  // Use light background for opening credits
+  SDL_Color bg_color = colors::kBackgroundLight;
+  SDL_SetRenderDrawColor(renderer, bg_color.r, bg_color.g, bg_color.b, bg_color.a);
+  SDL_RenderClear(renderer);
+
+  // Center the text
+  SDL_Rect text_rect;
+  text_rect.w = 0;
+  text_rect.h = 0;
+  text_rect.x = 0;
+  text_rect.y = 0;
+
+  // Estimate text width/height (font is monospace, so this is safe)
+  int char_width = 12; // Approximate width per character at size 12
+  int char_height = 18; // Approximate height at size 12
+  text_rect.w = display_text_.size() * char_width;
+  text_rect.h = char_height;
+  text_rect.x = (800 - text_rect.w) / 2;
+  text_rect.y = (244 - text_rect.h) / 2;
+
+  game_->res_manager().DrawText(display_text_, text_rect, font_color_, font_name_, font_size_);
+
+  SDL_RenderPresent(renderer);
+}
+
+}  // namespace scenes

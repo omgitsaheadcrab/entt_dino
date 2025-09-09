@@ -20,6 +20,7 @@
 #include "core/scene_manager.h"
 #include "core/window.h"
 #include "scenes/dinosaur.h"
+#include "scenes/opening_credits.h"
 
 omg::Game::Game(const int kWindowWidth, const int kWindowHeight)
     : over_ {false},
@@ -44,8 +45,9 @@ void omg::Game::Run() {
   uint32_t frame_count_ = 0;
   double fps_interval_ = 0.0;
 
+  scene_manager_.AddScene(std::make_unique<scenes::OpeningCredits>());
   scene_manager_.AddScene(std::make_unique<scenes::Dinosaur>());
-  scene_manager_.SetCurrentScene("dinosaur");
+  scene_manager_.SetCurrentScene("opening_credits");
 
   while (!over_) {
     const double kCurrentTime = SDL_GetTicks();  // Casting to double
