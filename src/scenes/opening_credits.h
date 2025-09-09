@@ -17,12 +17,12 @@ namespace scenes {
 class OpeningCredits : public omg::BaseScene {
  public:
   OpeningCredits();
-  virtual ~OpeningCredits() = default;
+  ~OpeningCredits() override;
 
   void Init() override;
   void HandleEvents() override;
-  void Update(const double dt) override;
-  void Render(const double alpha) override;
+  void Update(double dt) override;
+  void Render(double alpha) override;
 
  private:
   omg::EntityManager entity_manager_;
