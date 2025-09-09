@@ -65,6 +65,8 @@ void OpeningCredits::Render(double alpha) {
 
   // Draw logo if loaded
   if (logo_texture_) {
+    SDL_Color fg_color = colors::kDinoDark;
+    SDL_SetTextureColorMod(logo_texture_, fg_color.r, fg_color.g, fg_color.b);
     SDL_RenderCopy(renderer, logo_texture_, nullptr, &logo_rect_);
   }
 
