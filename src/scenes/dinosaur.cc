@@ -36,7 +36,6 @@ scenes::Dinosaur::Dinosaur() : omg::BaseScene("dinosaur") {}
 
 void scenes::Dinosaur::Init() {
   entity_manager_.Init(game_);
-  res_manager_->Init(game_->window().renderer());
 
   entity_manager_.AddRenderSystem(
       std::make_unique<systems::Render>(&game_->window()));
@@ -49,7 +48,7 @@ void scenes::Dinosaur::Init() {
   entity_manager_.AddUpdateSystem(std::make_unique<systems::State>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Sync>());
 
-  hud_->Init(entity_manager_.registry(), game_);
+  hud_.Init(entity_manager_.registry(), game_);
 }
 
 void scenes::Dinosaur::HandleEvents() {
@@ -96,7 +95,7 @@ void scenes::Dinosaur::HandleEvents() {
     case SDL_MOUSEBUTTONDOWN:
       if (event.button.button == SDL_BUTTON_LEFT) {
         SDL_Point mouse_position = {event.button.x, event.button.y};
-        if (hud_->RetryClicked(mouse_position)) {
+        if (hud_.RetryClicked(mouse_position)) {
           entity_manager_.dispatcher()->trigger<events::game::Restart>();
         }
       }
@@ -108,7 +107,7 @@ void scenes::Dinosaur::HandleEvents() {
 
 void scenes::Dinosaur::Update(const double dt) {
   entity_manager_.OnUpdate(dt);
-  hud_->Update();
+  hud_.Update();
 }
 
 void scenes::Dinosaur::Render(const double alpha) {
@@ -119,6 +118,6 @@ void scenes::Dinosaur::Render(const double alpha) {
 
   game_->window().Clear(color);
   entity_manager_.OnRender(alpha);
-  hud_->Draw();
+  hud_.Draw();
   game_->window().Present();
 }

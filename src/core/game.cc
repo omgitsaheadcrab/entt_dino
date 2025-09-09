@@ -15,7 +15,6 @@
 
 #include <memory>
 
-#include "core/hud.h"
 #include "core/res_manager.h"
 #include "core/scene_manager.h"
 #include "core/window.h"
@@ -31,8 +30,6 @@ omg::Game::Game(const int kWindowWidth, const int kWindowHeight)
   // Ensure resources are loaded before any scene is initialized
   res_manager_.Init(window_.renderer());
 }
-
-omg::HUD& omg::Game::hud() { return hud_; }
 
 uint32_t omg::Game::fps() { return fps_; }
 

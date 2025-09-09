@@ -13,7 +13,6 @@
 
 #include <entt/entity/registry.hpp>
 
-#include "core/hud.h"
 #include "core/res_manager.h"
 #include "core/scene_manager.h"
 #include "core/window.h"
@@ -26,7 +25,6 @@ class Game {
   Game(const int kWindowWidth, const int kWindowHeight);
   ~Game() = default;
 
-  omg::HUD& hud();
   uint32_t fps();
   omg::ResourceManager& res_manager();
   omg::SceneManager& scene_manager();
@@ -39,7 +37,6 @@ class Game {
   bool over_;
   uint32_t fps_;
 
-  omg::HUD hud_;
   omg::ResourceManager res_manager_;
   omg::SceneManager scene_manager_;
   omg::Window window_;

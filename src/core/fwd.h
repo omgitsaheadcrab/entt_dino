@@ -12,7 +12,6 @@
 namespace omg {
 
 class Game;
-class HUD;
 class ResourceManager;
 class SceneManager;
 class Window;

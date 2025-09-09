@@ -36,7 +36,6 @@ class BaseScene {
  protected:
   omg::Game* game_;
 
-  omg::HUD* hud_;
   omg::ResourceManager* res_manager_;
   omg::SceneManager* scene_manager_;
   omg::Window* window_;
