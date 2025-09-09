@@ -20,6 +20,7 @@
 #include "core/window.h"
 #include "scenes/dinosaur.h"
 #include "scenes/opening_credits.h"
+#include "scenes/closing_credits.h"
 
 omg::Game::Game(const int kWindowWidth, const int kWindowHeight)
     : over_ {false},
@@ -47,6 +48,7 @@ void omg::Game::Run() {
 
   scene_manager_.AddScene(std::make_unique<scenes::OpeningCredits>());
   scene_manager_.AddScene(std::make_unique<scenes::Dinosaur>());
+  scene_manager_.AddScene(std::make_unique<scenes::ClosingCredits>());
   scene_manager_.SetCurrentScene("opening_credits");
 
   while (!over_) {

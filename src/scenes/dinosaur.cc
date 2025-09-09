@@ -99,6 +99,9 @@ void scenes::Dinosaur::HandleEvents() {
         }
       }
       break;
+    case SDL_QUIT:
+      game_->scene_manager().SetCurrentScene("closing_credits");
+      break;
     default:
       break;
   }

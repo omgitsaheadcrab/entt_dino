@@ -47,7 +47,7 @@ void OpeningCredits::HandleEvents() {
       game_->scene_manager().SetCurrentScene("dinosaur");
     }
     if (event.type == SDL_QUIT) {
-      game_->Quit();
+      game_->scene_manager().SetCurrentScene("closing_credits");
     }
   }
 }
