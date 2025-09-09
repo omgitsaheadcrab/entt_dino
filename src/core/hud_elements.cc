@@ -10,6 +10,8 @@
 
 #include <SDL2/SDL_rect.h>
 
+#include <string>
+
 #include <entt/entity/registry.hpp>
 
 #include "core/res_manager.h"

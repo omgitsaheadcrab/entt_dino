@@ -17,7 +17,6 @@
 #include <spdlog/spdlog.h>
 
 #include <cstdint>
-#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <string>

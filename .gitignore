@@ -5,3 +5,4 @@ build/*
 !build/.gitkeep
 /.ccls-cache/
 /.cache/
+.aider*

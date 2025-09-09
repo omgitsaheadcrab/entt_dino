@@ -9,6 +9,7 @@
 #include "core/scene_manager.h"
 
 #include <memory>
+#include <string>
 #include <utility>
 
 #include "core/base_scene.h"
