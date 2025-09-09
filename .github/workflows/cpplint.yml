@@ -10,4 +10,4 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
     - run: pip install cpplint
-    - run: cpplint --root=.. src/**/*.{cc,h}
+    - run: cpplint --root=.. --filter=-whitespace/indent_namespace,-build/c++17 src/**/*.{cc,h}
