@@ -26,7 +26,11 @@ omg::Game::Game(const int kWindowWidth, const int kWindowHeight)
     : over_ {false},
       fps_ {0},
       window_ {"entt_dino", kWindowWidth, kWindowHeight},
-      scene_manager_ {this} {}
+      scene_manager_ {this} 
+{
+  // Ensure resources are loaded before any scene is initialized
+  res_manager_.Init(window_.renderer());
+}
 
 omg::HUD& omg::Game::hud() { return hud_; }
 
