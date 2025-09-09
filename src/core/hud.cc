@@ -11,8 +11,6 @@
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_render.h>
 
-#include <cstdint>
-
 #include <entt/entity/registry.hpp>
 
 #include "core/colors.h"
@@ -20,7 +18,6 @@
 #include "core/hud_elements.h"
 #include "core/res_manager.h"
 #include "ctx/game_states.h"
-#include "ent/dino.h"
 #include "util/str.h"
 
 void omg::HUD::Init(entt::registry* registry, omg::Game* game) {

@@ -32,10 +32,10 @@ OpeningCredits::OpeningCredits()
 void OpeningCredits::Init() {
   // Load logo sprite
   logo_texture_ = game_->res_manager().GetSpriteTexture("logo");
+  const auto& kClips = game_->res_manager().GetSpriteClips("logo", "logo");
 
-  // Set logo rect (centered, size 128x128 for example)
-  logo_rect_.w = 128;
-  logo_rect_.h = 128;
+  logo_rect_.w = kClips.front().w;
+  logo_rect_.h = kClips.front().h;
   logo_rect_.x = (800 - logo_rect_.w) / 2;
   logo_rect_.y = 40;  // Place near the top
 }
