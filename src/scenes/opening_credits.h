@@ -9,8 +9,11 @@
 #ifndef ENTT_DINO_SRC_SCENES_OPENING_CREDITS_H_
 #define ENTT_DINO_SRC_SCENES_OPENING_CREDITS_H_
 
-#include "core/base_scene.h"
 #include <SDL2/SDL.h>
+
+#include <string>
+
+#include "core/base_scene.h"
 
 namespace scenes {
 
