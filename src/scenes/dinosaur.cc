@@ -12,7 +12,6 @@
 
 #include <memory>
 
-#include "comp/identifiers/enemy.h"
 #include "core/base_scene.h"
 #include "core/colors.h"
 #include "core/entity_manager.h"
@@ -36,7 +35,6 @@ scenes::Dinosaur::Dinosaur() : omg::BaseScene("dinosaur") {}
 
 void scenes::Dinosaur::Init() {
   entity_manager_.Init(game_);
-  res_manager_->Init(game_->window().renderer());
 
   entity_manager_.AddRenderSystem(
       std::make_unique<systems::Render>(&game_->window()));
@@ -49,7 +47,7 @@ void scenes::Dinosaur::Init() {
   entity_manager_.AddUpdateSystem(std::make_unique<systems::State>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Sync>());
 
-  hud_->Init(entity_manager_.registry(), game_);
+  hud_.Init(entity_manager_.registry(), game_);
 }
 
 void scenes::Dinosaur::HandleEvents() {
@@ -94,10 +92,11 @@ void scenes::Dinosaur::HandleEvents() {
       }
       break;
     case SDL_MOUSEBUTTONDOWN:
-      SDL_Point mouse_position;
-      SDL_GetMouseState(&mouse_position.x, &mouse_position.y);
-      if (hud_->RetryClicked(mouse_position)) {
-        entity_manager_.dispatcher()->trigger<events::game::Restart>();
+      if (event.button.button == SDL_BUTTON_LEFT) {
+        SDL_Point mouse_position = {event.button.x, event.button.y};
+        if (hud_.RetryClicked(mouse_position)) {
+          entity_manager_.dispatcher()->trigger<events::game::Restart>();
+        }
       }
       break;
     default:
@@ -107,7 +106,7 @@ void scenes::Dinosaur::HandleEvents() {
 
 void scenes::Dinosaur::Update(const double dt) {
   entity_manager_.OnUpdate(dt);
-  hud_->Update();
+  hud_.Update();
 }
 
 void scenes::Dinosaur::Render(const double alpha) {
@@ -118,6 +117,6 @@ void scenes::Dinosaur::Render(const double alpha) {
 
   game_->window().Clear(color);
   entity_manager_.OnRender(alpha);
-  hud_->Draw();
+  hud_.Draw();
   game_->window().Present();
 }

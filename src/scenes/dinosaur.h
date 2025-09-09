@@ -11,6 +11,7 @@
 
 #include "core/base_scene.h"
 #include "core/entity_manager.h"
+#include "core/hud.h"
 
 namespace scenes {
 
@@ -26,6 +27,7 @@ class Dinosaur : public omg::BaseScene {
 
  private:
   omg::EntityManager entity_manager_;
+  omg::HUD hud_;
 };
 
 }  // namespace scenes
