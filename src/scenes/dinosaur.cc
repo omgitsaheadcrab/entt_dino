@@ -94,10 +94,11 @@ void scenes::Dinosaur::HandleEvents() {
       }
       break;
     case SDL_MOUSEBUTTONDOWN:
-      SDL_Point mouse_position;
-      SDL_GetMouseState(&mouse_position.x, &mouse_position.y);
-      if (hud_->RetryClicked(mouse_position)) {
-        entity_manager_.dispatcher()->trigger<events::game::Restart>();
+      if (event.button.button == SDL_BUTTON_LEFT) {
+        SDL_Point mouse_position = {event.button.x, event.button.y};
+        if (hud_->RetryClicked(mouse_position)) {
+          entity_manager_.dispatcher()->trigger<events::game::Restart>();
+        }
       }
       break;
     default:
