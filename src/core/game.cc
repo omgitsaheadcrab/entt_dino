@@ -49,8 +49,8 @@ void omg::Game::Run() {
   uint32_t frame_count_ = 0;
   double fps_interval_ = 0.0;
 
-  scene_manager_.AddScene(std::make_unique<scenes::Dinosaur>());
   scene_manager_.AddScene(std::make_unique<scenes::OpeningCredits>());
+  scene_manager_.AddScene(std::make_unique<scenes::Dinosaur>());
   scene_manager_.SetCurrentScene("opening_credits");
 
   while (!over_) {
