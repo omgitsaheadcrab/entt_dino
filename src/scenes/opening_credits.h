@@ -17,7 +17,7 @@ namespace scenes {
 class OpeningCredits : public omg::BaseScene {
  public:
   OpeningCredits();
-  ~OpeningCredits() override = default;
+  virtual ~OpeningCredits() = default;
 
   void Init() override;
   void HandleEvents() override;
