@@ -31,7 +31,6 @@ OpeningCredits::OpeningCredits()
 
 void OpeningCredits::Init() {
   // Load logo sprite
-  // Replace "logo" with the actual key you used for your logo sprite
   logo_texture_ = game_->res_manager().GetSpriteTexture("logo");
 
   // Set logo rect (centered, size 128x128 for example)
