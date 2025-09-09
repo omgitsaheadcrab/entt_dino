@@ -73,12 +73,12 @@ void OpeningCredits::Render(double alpha) {
 
   // Center the text
   SDL_Rect text_rect;
-  int char_width = 12;   // Approximate width per character at size 12
-  int char_height = 18;  // Approximate height at size 12
+  int char_width = 12;
+  int char_height = 18;
   text_rect.w = display_text_.size() * char_width;
   text_rect.h = char_height;
   text_rect.x = (800 - text_rect.w) / 2;
-  text_rect.y = logo_rect_.y + logo_rect_.h + 32;  // Place below logo
+  text_rect.y = logo_rect_.y + logo_rect_.h + 48;
 
   game_->res_manager().DrawText(display_text_, text_rect, font_color_,
                                 font_name_, font_size_);
