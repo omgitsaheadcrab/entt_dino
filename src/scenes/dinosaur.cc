@@ -12,7 +12,6 @@
 
 #include <memory>
 
-#include "comp/identifiers/enemy.h"
 #include "core/base_scene.h"
 #include "core/colors.h"
 #include "core/entity_manager.h"

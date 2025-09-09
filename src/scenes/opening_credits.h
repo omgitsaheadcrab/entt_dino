@@ -10,7 +10,6 @@
 #define ENTT_DINO_SRC_SCENES_OPENING_CREDITS_H_
 
 #include "core/base_scene.h"
-#include "core/entity_manager.h"
 #include <SDL2/SDL.h>
 
 namespace scenes {
@@ -26,13 +25,10 @@ class OpeningCredits : public omg::BaseScene {
   void Render(double alpha) override;
 
  private:
-  omg::EntityManager entity_manager_;
   std::string display_text_;
   std::string font_name_;
   int font_size_;
   SDL_Color font_color_;
-
-  // Logo sprite
   SDL_Texture* logo_texture_;
   SDL_Rect logo_rect_;
 };
