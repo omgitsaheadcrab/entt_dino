@@ -11,6 +11,7 @@
 
 #include "core/base_scene.h"
 #include "core/entity_manager.h"
+#include <SDL2/SDL.h>
 
 namespace scenes {
 
@@ -30,6 +31,10 @@ class OpeningCredits : public omg::BaseScene {
   std::string font_name_;
   int font_size_;
   SDL_Color font_color_;
+
+  // Logo sprite
+  SDL_Texture* logo_texture_;
+  SDL_Rect logo_rect_;
 };
 
 }  // namespace scenes

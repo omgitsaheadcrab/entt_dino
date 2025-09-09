@@ -25,10 +25,20 @@ OpeningCredits::OpeningCredits()
       display_text_("Press any key to start"),
       font_name_("8-bit-hud"),
       font_size_(12),
-      font_color_(colors::kDinoDark) {}
+      font_color_(colors::kDinoDark),
+      logo_texture_(nullptr)
+{}
 
 void OpeningCredits::Init() {
-  // No entities needed for this simple scene
+  // Load logo sprite
+  // Replace "logo" with the actual key you used for your logo sprite
+  logo_texture_ = game_->res_manager().GetSpriteTexture("logo");
+
+  // Set logo rect (centered, size 128x128 for example)
+  logo_rect_.w = 128;
+  logo_rect_.h = 128;
+  logo_rect_.x = (800 - logo_rect_.w) / 2;
+  logo_rect_.y = 40; // Place near the top
 }
 
 void OpeningCredits::HandleEvents() {
@@ -43,31 +53,30 @@ void OpeningCredits::HandleEvents() {
   }
 }
 
-void OpeningCredits::Update(const double dt) {
+void OpeningCredits::Update(double dt) {
   // No update logic needed for static credits
 }
 
-void OpeningCredits::Render(const double alpha) {
+void OpeningCredits::Render(double alpha) {
   SDL_Renderer* renderer = game_->window().renderer();
   // Use light background for opening credits
   SDL_Color bg_color = colors::kBackgroundLight;
   SDL_SetRenderDrawColor(renderer, bg_color.r, bg_color.g, bg_color.b, bg_color.a);
   SDL_RenderClear(renderer);
 
+  // Draw logo if loaded
+  if (logo_texture_) {
+    SDL_RenderCopy(renderer, logo_texture_, nullptr, &logo_rect_);
+  }
+
   // Center the text
   SDL_Rect text_rect;
-  text_rect.w = 0;
-  text_rect.h = 0;
-  text_rect.x = 0;
-  text_rect.y = 0;
-
-  // Estimate text width/height (font is monospace, so this is safe)
   int char_width = 12; // Approximate width per character at size 12
   int char_height = 18; // Approximate height at size 12
   text_rect.w = display_text_.size() * char_width;
   text_rect.h = char_height;
   text_rect.x = (800 - text_rect.w) / 2;
-  text_rect.y = (244 - text_rect.h) / 2;
+  text_rect.y = logo_rect_.y + logo_rect_.h + 32; // Place below logo
 
   game_->res_manager().DrawText(display_text_, text_rect, font_color_, font_name_, font_size_);
 
