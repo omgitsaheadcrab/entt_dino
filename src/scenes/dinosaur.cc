@@ -84,7 +84,7 @@ void scenes::Dinosaur::HandleEvents() {
           entity_manager_.dispatcher()->trigger<events::dino::JumpStart>();
           break;
         case SDLK_DOWN:
-          if (contexts::game::GetState(entity_manager_.registry())->value ==
+          if (contexts::game::GetState(entity_manager_.registry()).value ==
               "jumping") {
             entity_manager_.dispatcher()->trigger<events::dino::JumpDuck>();
           } else {
@@ -109,7 +109,7 @@ void scenes::Dinosaur::HandleEvents() {
           entity_manager_.dispatcher()->trigger<events::dino::JumpEnd>();
           break;
         case SDLK_DOWN:
-          if (contexts::game::GetState(entity_manager_.registry())->value ==
+          if (contexts::game::GetState(entity_manager_.registry()).value ==
               "ducking") {
             entity_manager_.dispatcher()->trigger<events::dino::Running>();
           }
