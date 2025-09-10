@@ -18,9 +18,9 @@
 #include "core/res_manager.h"
 #include "core/scene_manager.h"
 #include "core/window.h"
+#include "scenes/closing_credits.h"
 #include "scenes/dinosaur.h"
 #include "scenes/opening_credits.h"
-#include "scenes/closing_credits.h"
 
 omg::Game::Game(const int kWindowWidth, const int kWindowHeight)
     : over_ {false},
