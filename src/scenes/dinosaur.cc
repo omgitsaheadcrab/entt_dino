@@ -84,7 +84,7 @@ void scenes::Dinosaur::HandleEvents() {
           entity_manager_.dispatcher()->trigger<events::dino::JumpStart>();
           break;
         case SDLK_DOWN:
-          if (contexts::game::GetState(entity_manager_.registry()).value ==
+          if (contexts::game::GetState(entity_manager_.registry())->value ==
               "jumping") {
             entity_manager_.dispatcher()->trigger<events::dino::JumpDuck>();
           } else {
@@ -109,7 +109,7 @@ void scenes::Dinosaur::HandleEvents() {
           entity_manager_.dispatcher()->trigger<events::dino::JumpEnd>();
           break;
         case SDLK_DOWN:
-          if (contexts::game::GetState(entity_manager_.registry()).value ==
+          if (contexts::game::GetState(entity_manager_.registry())->value ==
               "ducking") {
             entity_manager_.dispatcher()->trigger<events::dino::Running>();
           }
@@ -138,9 +138,9 @@ void scenes::Dinosaur::Update(const double dt) {
 
   // Get current score (replace with your actual score retrieval if needed)
   int score = 0;
-  // Try to get score from registry (assuming systems::Score sets a "score" variable in registry ctx)
-  if (entity_manager_.registry().ctx().contains<int>()) {
-    score = entity_manager_.registry().ctx().get<int>();
+  // Try to get score from registry context (pointer access)
+  if (entity_manager_.registry()->ctx().contains<int>()) {
+    score = entity_manager_.registry()->ctx().get<int>();
   }
 
   // Check for transition trigger every 200 points
