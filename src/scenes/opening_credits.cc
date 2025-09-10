@@ -43,15 +43,15 @@ void OpeningCredits::Init() {
 void OpeningCredits::HandleEvents() {
   SDL_Event& event = game_->window().event();
   while (SDL_PollEvent(&event)) {
-    if (event.type == SDL_KEYDOWN || event.type == SDL_MOUSEBUTTONDOWN) {
-      // Allow ESC key to quit to closing credits
-      if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) {
+    if (event.type == SDL_KEYDOWN) {
+      if (event.key.keysym.sym == SDLK_ESCAPE) {
         game_->scene_manager().SetCurrentScene("closing_credits");
       } else {
         game_->scene_manager().SetCurrentScene("dinosaur");
       }
-    }
-    if (event.type == SDL_QUIT) {
+    } else if (event.type == SDL_MOUSEBUTTONDOWN) {
+      game_->scene_manager().SetCurrentScene("dinosaur");
+    } else if (event.type == SDL_QUIT) {
       game_->scene_manager().SetCurrentScene("closing_credits");
     }
   }
