@@ -16,6 +16,9 @@
 
 namespace scenes {
 
+constexpr int kTransitionFrames = 40;      // Number of frames for color transition
+constexpr int kTransitionPoints = 50;      // Points interval for triggering transition
+
 class Dinosaur : public omg::BaseScene {
  public:
   Dinosaur();
@@ -36,15 +39,14 @@ class Dinosaur : public omg::BaseScene {
   SDL_Color start_color_;
   SDL_Color end_color_;
   SDL_Color current_color_;
-  int transition_frames_;
   int transition_frame_;
   int last_transition_score_;
-
-  // Track last score at which a transition was triggered, to fix restart bug
   int last_score_for_transition_;
-
-  // Track if we just restarted, to fix transition bug
   bool just_restarted_;
+
+  // Transition helpers
+  void StartBackgroundTransition(bool to_dark, int score);
+  void UpdateBackgroundTransition();
 };
 
 }  // namespace scenes

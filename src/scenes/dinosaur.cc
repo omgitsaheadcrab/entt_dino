@@ -51,11 +51,39 @@ SDL_Color lerp_color(const SDL_Color& a, const SDL_Color& b, float t) {
 
 } // namespace
 
+void scenes::Dinosaur::StartBackgroundTransition(bool to_dark, int score) {
+  transitioning_ = true;
+  to_dark_ = to_dark;
+  start_color_ = contexts::game::GetDark(entity_manager_.registry())
+      ? colors::kBackgroundDark
+      : colors::kBackgroundLight;
+  end_color_ = to_dark ? colors::kBackgroundDark : colors::kBackgroundLight;
+  transition_frame_ = 0;
+  last_score_for_transition_ = score;
+}
+
+void scenes::Dinosaur::UpdateBackgroundTransition() {
+  if (transitioning_) {
+    float t = std::clamp(static_cast<float>(transition_frame_) / kTransitionFrames, 0.0f, 1.0f);
+    current_color_ = lerp_color(start_color_, end_color_, t);
+
+    transition_frame_++;
+    if (transition_frame_ >= kTransitionFrames) {
+      transitioning_ = false;
+      current_color_ = end_color_;
+      contexts::game::SetDark(entity_manager_.registry(), to_dark_);
+    }
+  } else {
+    current_color_ = contexts::game::GetDark(entity_manager_.registry())
+        ? colors::kBackgroundDark
+        : colors::kBackgroundLight;
+  }
+}
+
 scenes::Dinosaur::Dinosaur()
     : omg::BaseScene("dinosaur"),
       transitioning_(false),
       to_dark_(false),
-      transition_frames_(60),
       transition_frame_(0),
       last_transition_score_(0),
       last_score_for_transition_(0),
@@ -162,34 +190,12 @@ void scenes::Dinosaur::Update(const double dt) {
     just_restarted_ = false;
   }
 
-  // Check for transition trigger every 50 points (for testing)
-  if (!transitioning_ && (score / 50 > last_score_for_transition_ / 50)) {
-    transitioning_ = true;
-    to_dark_ = !contexts::game::GetDark(entity_manager_.registry());
-    start_color_ = contexts::game::GetDark(entity_manager_.registry())
-        ? colors::kBackgroundDark
-        : colors::kBackgroundLight;
-    end_color_ = to_dark_ ? colors::kBackgroundDark : colors::kBackgroundLight;
-    transition_frame_ = 0;
-    last_score_for_transition_ = score;
+  // Check for transition trigger every kTransitionPoints points
+  if (!transitioning_ && (score / kTransitionPoints > last_score_for_transition_ / kTransitionPoints)) {
+    StartBackgroundTransition(!contexts::game::GetDark(entity_manager_.registry()), score);
   }
 
-  // If transitioning, update current_color_
-  if (transitioning_) {
-    float t = std::clamp(static_cast<float>(transition_frame_) / transition_frames_, 0.0f, 1.0f);
-    current_color_ = lerp_color(start_color_, end_color_, t);
-
-    transition_frame_++;
-    if (transition_frame_ >= transition_frames_) {
-      transitioning_ = false;
-      current_color_ = end_color_;
-      contexts::game::SetDark(entity_manager_.registry(), to_dark_);
-    }
-  } else {
-    current_color_ = contexts::game::GetDark(entity_manager_.registry())
-        ? colors::kBackgroundDark
-        : colors::kBackgroundLight;
-  }
+  UpdateBackgroundTransition();
 }
 
 void scenes::Dinosaur::Render(const double alpha) {
