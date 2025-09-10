@@ -76,6 +76,9 @@ void scenes::Dinosaur::HandleEvents() {
         case SDLK_r:
           entity_manager_.dispatcher()->trigger<events::game::Restart>();
           break;
+        case SDLK_ESCAPE:
+          game_->scene_manager().SetCurrentScene("closing_credits");
+          break;
       }
       break;
     case SDL_KEYUP:
