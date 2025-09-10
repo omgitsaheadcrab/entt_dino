@@ -39,6 +39,20 @@ Uint8 lerp(Uint8 a, Uint8 b, float t) {
   return static_cast<Uint8>(a + t * (b - a));
 }
 
+// Helper to interpolate between two SDL_Color values
+SDL_Color lerp_color(const SDL_Color& a, const SDL_Color& b, float t) {
+  SDL_Color result;
+  result.r = lerp(a.r, b.r, t);
+  result.g = lerp(a.g, b.g, t);
+  result.b = lerp(a.b, b.b, t);
+  result.a = lerp(a.a, b.a, t);
+  return result;
+}
+
+// Use custom colors for background to avoid pure white/black
+const SDL_Color kTrueBackgroundDark = {32, 32, 32, 255};   // nearly black, but not pure black
+const SDL_Color kTrueBackgroundLight = {220, 220, 220, 255}; // light gray, not pure white
+
 } // namespace
 
 scenes::Dinosaur::Dinosaur()
@@ -47,7 +61,9 @@ scenes::Dinosaur::Dinosaur()
       to_dark_(false),
       transition_frames_(60),
       transition_frame_(0),
-      last_transition_score_(0)
+      last_transition_score_(0),
+      last_score_for_transition_(0),
+      just_restarted_(false)
 {}
 
 void scenes::Dinosaur::Init() {
@@ -66,9 +82,12 @@ void scenes::Dinosaur::Init() {
 
   hud_.Init(entity_manager_.registry(), game_);
 
-  // Initialize color state
-  current_color_ = colors::kBackgroundLight;
-  last_transition_score_ = 0;
+  // Use "true" dark/light for background, not colors::kBackgroundDark/Light
+  bool is_dark = contexts::game::GetDark(entity_manager_.registry());
+  current_color_ = is_dark ? kTrueBackgroundDark : kTrueBackgroundLight;
+  transitioning_ = false;
+  transition_frame_ = 0;
+  just_restarted_ = true;
 }
 
 void scenes::Dinosaur::HandleEvents() {
@@ -93,6 +112,7 @@ void scenes::Dinosaur::HandleEvents() {
           break;
         case SDLK_r:
           entity_manager_.dispatcher()->trigger<events::game::Restart>();
+          just_restarted_ = true;
           break;
         case SDLK_ESCAPE:
           game_->scene_manager().SetCurrentScene("closing_credits");
@@ -117,6 +137,7 @@ void scenes::Dinosaur::HandleEvents() {
         SDL_Point mouse_position = {event.button.x, event.button.y};
         if (hud_.RetryClicked(mouse_position)) {
           entity_manager_.dispatcher()->trigger<events::game::Restart>();
+          just_restarted_ = true;
         }
       }
       break;
@@ -132,43 +153,51 @@ void scenes::Dinosaur::Update(const double dt) {
   entity_manager_.OnUpdate(dt);
   hud_.Update();
 
-  // Retrieve score using the same method as HUD (see hud.cc)
   int score = contexts::game::GetScore(entity_manager_.registry()).value;
 
+  // On restart, reset transition state and last_score_for_transition_
+  if (just_restarted_) {
+    bool is_dark = contexts::game::GetDark(entity_manager_.registry());
+    current_color_ = is_dark ? kTrueBackgroundDark : kTrueBackgroundLight;
+    transitioning_ = false;
+    transition_frame_ = 0;
+    last_transition_score_ = score;
+    last_score_for_transition_ = score;
+    just_restarted_ = false;
+  }
+
   // Check for transition trigger every 50 points (for testing)
-  if (!transitioning_ && (score / 50 > last_transition_score_ / 50)) {
+  if (!transitioning_ && (score / 50 > last_score_for_transition_ / 50)) {
     transitioning_ = true;
     to_dark_ = !contexts::game::GetDark(entity_manager_.registry());
     start_color_ = current_color_;
-    end_color_ = to_dark_ ? colors::kBackgroundDark : colors::kBackgroundLight;
+    end_color_ = to_dark_ ? kTrueBackgroundDark : kTrueBackgroundLight;
     transition_frame_ = 0;
-    last_transition_score_ = score;
+    last_score_for_transition_ = score;
   }
 
   // If transitioning, update current_color_
   if (transitioning_) {
     float t = std::clamp(static_cast<float>(transition_frame_) / transition_frames_, 0.0f, 1.0f);
-    current_color_.r = lerp(start_color_.r, end_color_.r, t);
-    current_color_.g = lerp(start_color_.g, end_color_.g, t);
-    current_color_.b = lerp(start_color_.b, end_color_.b, t);
-    current_color_.a = lerp(start_color_.a, end_color_.a, t);
+    current_color_ = lerp_color(start_color_, end_color_, t);
+
+    // Prevent whiteout/blackout: if the color is too close to white or black, clamp it
+    // (already handled by kTrueBackgroundDark/Light, but you can add extra clamping here if needed)
+
     transition_frame_++;
     if (transition_frame_ >= transition_frames_) {
       transitioning_ = false;
       current_color_ = end_color_;
-      // Actually toggle dark mode in the registry
       contexts::game::SetDark(entity_manager_.registry(), to_dark_);
     }
   } else {
-    // Not transitioning, use current mode
     current_color_ = contexts::game::GetDark(entity_manager_.registry())
-        ? colors::kBackgroundDark
-        : colors::kBackgroundLight;
+        ? kTrueBackgroundDark
+        : kTrueBackgroundLight;
   }
 }
 
 void scenes::Dinosaur::Render(const double alpha) {
-  // Use current_color_ for background
   game_->window().Clear(current_color_);
   entity_manager_.OnRender(alpha);
   hud_.Draw();

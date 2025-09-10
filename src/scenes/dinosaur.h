@@ -39,6 +39,12 @@ class Dinosaur : public omg::BaseScene {
   int transition_frames_;
   int transition_frame_;
   int last_transition_score_;
+
+  // Track last score at which a transition was triggered, to fix restart bug
+  int last_score_for_transition_;
+
+  // Track if we just restarted, to fix transition bug
+  bool just_restarted_;
 };
 
 }  // namespace scenes
