@@ -49,10 +49,6 @@ SDL_Color lerp_color(const SDL_Color& a, const SDL_Color& b, float t) {
   return result;
 }
 
-// Use custom colors for background to avoid pure white/black
-const SDL_Color kTrueBackgroundDark = {32, 32, 32, 255};   // nearly black, but not pure black
-const SDL_Color kTrueBackgroundLight = {220, 220, 220, 255}; // light gray, not pure white
-
 } // namespace
 
 scenes::Dinosaur::Dinosaur()
@@ -82,9 +78,9 @@ void scenes::Dinosaur::Init() {
 
   hud_.Init(entity_manager_.registry(), game_);
 
-  // Use "true" dark/light for background, not colors::kBackgroundDark/Light
+  // Use colors from core/colors.h for background
   bool is_dark = contexts::game::GetDark(entity_manager_.registry());
-  current_color_ = is_dark ? kTrueBackgroundDark : kTrueBackgroundLight;
+  current_color_ = is_dark ? colors::kBackgroundDark : colors::kBackgroundLight;
   transitioning_ = false;
   transition_frame_ = 0;
   just_restarted_ = true;
@@ -158,7 +154,7 @@ void scenes::Dinosaur::Update(const double dt) {
   // On restart, reset transition state and last_score_for_transition_
   if (just_restarted_) {
     bool is_dark = contexts::game::GetDark(entity_manager_.registry());
-    current_color_ = is_dark ? kTrueBackgroundDark : kTrueBackgroundLight;
+    current_color_ = is_dark ? colors::kBackgroundDark : colors::kBackgroundLight;
     transitioning_ = false;
     transition_frame_ = 0;
     last_transition_score_ = score;
@@ -170,8 +166,10 @@ void scenes::Dinosaur::Update(const double dt) {
   if (!transitioning_ && (score / 50 > last_score_for_transition_ / 50)) {
     transitioning_ = true;
     to_dark_ = !contexts::game::GetDark(entity_manager_.registry());
-    start_color_ = current_color_;
-    end_color_ = to_dark_ ? kTrueBackgroundDark : kTrueBackgroundLight;
+    start_color_ = contexts::game::GetDark(entity_manager_.registry())
+        ? colors::kBackgroundDark
+        : colors::kBackgroundLight;
+    end_color_ = to_dark_ ? colors::kBackgroundDark : colors::kBackgroundLight;
     transition_frame_ = 0;
     last_score_for_transition_ = score;
   }
@@ -181,9 +179,6 @@ void scenes::Dinosaur::Update(const double dt) {
     float t = std::clamp(static_cast<float>(transition_frame_) / transition_frames_, 0.0f, 1.0f);
     current_color_ = lerp_color(start_color_, end_color_, t);
 
-    // Prevent whiteout/blackout: if the color is too close to white or black, clamp it
-    // (already handled by kTrueBackgroundDark/Light, but you can add extra clamping here if needed)
-
     transition_frame_++;
     if (transition_frame_ >= transition_frames_) {
       transitioning_ = false;
@@ -192,8 +187,8 @@ void scenes::Dinosaur::Update(const double dt) {
     }
   } else {
     current_color_ = contexts::game::GetDark(entity_manager_.registry())
-        ? kTrueBackgroundDark
-        : kTrueBackgroundLight;
+        ? colors::kBackgroundDark
+        : colors::kBackgroundLight;
   }
 }
 
