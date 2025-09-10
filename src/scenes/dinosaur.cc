@@ -10,8 +10,8 @@
 
 #include <SDL2/SDL_events.h>
 
-#include <memory>
 #include <algorithm>
+#include <memory>
 
 #include "core/base_scene.h"
 #include "core/colors.h"
@@ -49,14 +49,14 @@ SDL_Color lerp_color(const SDL_Color& a, const SDL_Color& b, float t) {
   return result;
 }
 
-} // namespace
+}  // namespace
 
 void scenes::Dinosaur::StartBackgroundTransition(bool to_dark, int score) {
   transitioning_ = true;
   to_dark_ = to_dark;
   start_color_ = contexts::game::GetDark(entity_manager_.registry())
-      ? colors::kBackgroundDark
-      : colors::kBackgroundLight;
+                     ? colors::kBackgroundDark
+                     : colors::kBackgroundLight;
   end_color_ = to_dark ? colors::kBackgroundDark : colors::kBackgroundLight;
   transition_frame_ = 0;
   last_score_for_transition_ = score;
@@ -64,7 +64,8 @@ void scenes::Dinosaur::StartBackgroundTransition(bool to_dark, int score) {
 
 void scenes::Dinosaur::UpdateBackgroundTransition() {
   if (transitioning_) {
-    float t = std::clamp(static_cast<float>(transition_frame_) / kTransitionFrames, 0.0f, 1.0f);
+    float t = std::clamp(
+        static_cast<float>(transition_frame_) / kTransitionFrames, 0.0f, 1.0f);
     current_color_ = lerp_color(start_color_, end_color_, t);
 
     transition_frame_++;
@@ -75,8 +76,8 @@ void scenes::Dinosaur::UpdateBackgroundTransition() {
     }
   } else {
     current_color_ = contexts::game::GetDark(entity_manager_.registry())
-        ? colors::kBackgroundDark
-        : colors::kBackgroundLight;
+                         ? colors::kBackgroundDark
+                         : colors::kBackgroundLight;
   }
 }
 
@@ -87,8 +88,7 @@ scenes::Dinosaur::Dinosaur()
       transition_frame_(0),
       last_transition_score_(0),
       last_score_for_transition_(0),
-      just_restarted_(false)
-{}
+      just_restarted_(false) {}
 
 void scenes::Dinosaur::Init() {
   entity_manager_.Init(game_);
@@ -182,7 +182,8 @@ void scenes::Dinosaur::Update(const double dt) {
   // On restart, reset transition state and last_score_for_transition_
   if (just_restarted_) {
     bool is_dark = contexts::game::GetDark(entity_manager_.registry());
-    current_color_ = is_dark ? colors::kBackgroundDark : colors::kBackgroundLight;
+    current_color_ =
+        is_dark ? colors::kBackgroundDark : colors::kBackgroundLight;
     transitioning_ = false;
     transition_frame_ = 0;
     last_transition_score_ = score;
@@ -191,10 +192,11 @@ void scenes::Dinosaur::Update(const double dt) {
   }
 
   // Check for transition trigger every kTransitionPoints points
-  if (!transitioning_ && (score / kTransitionPoints > last_score_for_transition_ / kTransitionPoints)) {
-    StartBackgroundTransition(!contexts::game::GetDark(entity_manager_.registry()), score);
+  if (!transitioning_ && (score / kTransitionPoints >
+                          last_score_for_transition_ / kTransitionPoints)) {
+    StartBackgroundTransition(
+        !contexts::game::GetDark(entity_manager_.registry()), score);
   }
-
   UpdateBackgroundTransition();
 }
 

@@ -9,15 +9,17 @@
 #ifndef ENTT_DINO_SRC_SCENES_DINOSAUR_H_
 #define ENTT_DINO_SRC_SCENES_DINOSAUR_H_
 
+#include <SDL2/SDL_pixels.h>
+
 #include "core/base_scene.h"
 #include "core/entity_manager.h"
 #include "core/hud.h"
-#include <SDL2/SDL_pixels.h>
 
 namespace scenes {
 
-constexpr int kTransitionFrames = 40;      // Number of frames for color transition
-constexpr int kTransitionPoints = 50;      // Points interval for triggering transition
+constexpr int kTransitionFrames = 40;  // Number of frames for color transition
+constexpr int kTransitionPoints =
+    200;  // Points interval for triggering transition
 
 class Dinosaur : public omg::BaseScene {
  public:
