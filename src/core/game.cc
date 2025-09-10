@@ -24,7 +24,6 @@
 
 omg::Game::Game(const int kWindowWidth, const int kWindowHeight)
     : over_ {false},
-      pending_quit_ {false},
       fps_ {0},
       window_ {"entt_dino", kWindowWidth, kWindowHeight},
       scene_manager_ {this} {
@@ -48,26 +47,11 @@ void omg::Game::Run() {
   double fps_interval_ = 0.0;
 
   scene_manager_.AddScene(std::make_unique<scenes::OpeningCredits>());
-  scene_manager_.AddScene(std::make_unique<scenes::Dinosaur>());
   scene_manager_.AddScene(std::make_unique<scenes::ClosingCredits>());
+  scene_manager_.AddScene(std::make_unique<scenes::Dinosaur>());
   scene_manager_.SetCurrentScene("opening_credits");
 
   while (!over_) {
-    // Poll for SDL_QUIT at the game level
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-      if (event.type == SDL_QUIT) {
-        // If not already in closing credits, switch to it
-        if (scene_manager_.current_scene()->name() != "closing_credits") {
-          scene_manager_.SetCurrentScene("closing_credits");
-          pending_quit_ = true;
-        } else {
-          // If already in closing credits, allow Quit
-          over_ = true;
-        }
-      }
-    }
-
     const double kCurrentTime = SDL_GetTicks();  // Casting to double
     const double kFrameTime = kCurrentTime - previous_time;
     previous_time = kCurrentTime;

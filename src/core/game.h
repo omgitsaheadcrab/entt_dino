@@ -31,13 +31,8 @@ class Game {
   void Run();
   void Quit();
 
-  // Add pending_quit_ flag and accessors
-  bool pending_quit() const { return pending_quit_; }
-  void set_pending_quit(bool value) { pending_quit_ = value; }
-
  private:
   bool over_;
-  bool pending_quit_; // <-- Added this member
   uint32_t fps_;
 
   omg::ResourceManager res_manager_;
