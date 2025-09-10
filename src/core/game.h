@@ -11,8 +11,6 @@
 
 #include <cstdint>
 
-#include <entt/entity/registry.hpp>
-
 #include "core/res_manager.h"
 #include "core/scene_manager.h"
 #include "core/window.h"

@@ -18,6 +18,7 @@
 #include "core/res_manager.h"
 #include "core/scene_manager.h"
 #include "core/window.h"
+#include "scenes/closing_credits.h"
 #include "scenes/dinosaur.h"
 #include "scenes/opening_credits.h"
 
@@ -46,10 +47,12 @@ void omg::Game::Run() {
   double fps_interval_ = 0.0;
 
   scene_manager_.AddScene(std::make_unique<scenes::OpeningCredits>());
+  scene_manager_.AddScene(std::make_unique<scenes::ClosingCredits>());
   scene_manager_.AddScene(std::make_unique<scenes::Dinosaur>());
   scene_manager_.SetCurrentScene("opening_credits");
 
   while (!over_) {
+    // Update only once per kMSPerUpdate
     const double kCurrentTime = SDL_GetTicks();  // Casting to double
     const double kFrameTime = kCurrentTime - previous_time;
     previous_time = kCurrentTime;
@@ -60,7 +63,6 @@ void omg::Game::Run() {
     // HandleEvents as often as possible
     scene->HandleEvents();
 
-    // Update only once per kMSPerUpdate
     while (accumulator >= kMSPerUpdate) {
       scene->Update(kMSPerUpdate);
       accumulator -= kMSPerUpdate;
