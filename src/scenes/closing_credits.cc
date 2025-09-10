@@ -24,10 +24,11 @@ ClosingCredits::ClosingCredits()
     : omg::BaseScene("closing_credits"),
       display_text_({
         "Tobias Backer Dirks <omgitsaheadcrab@gmail.com>",
-        "License: MIT",
-        "Date: 2024-06-10",
-        "GitHub: github.com/omgitsaheadcrab/entt_dino",
-        "Press any key or close window to exit"
+        "",
+        "github.com/omgitsaheadcrab/entt_dino",
+        "MIT 2025",
+        "",
+        "Press any key to exit"
       }),
       font_name_("8-bit-hud"),
       font_size_(12),
@@ -58,7 +59,7 @@ void ClosingCredits::Render(double alpha) {
 
   int char_width = 12;
   int char_height = 18;
-  int y = 60;
+  int y = 30;
   for (const auto& line : display_text_) {
     SDL_Rect text_rect;
     text_rect.w = line.size() * char_width;
