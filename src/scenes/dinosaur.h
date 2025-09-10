@@ -12,6 +12,7 @@
 #include "core/base_scene.h"
 #include "core/entity_manager.h"
 #include "core/hud.h"
+#include <SDL2/SDL_pixels.h>
 
 namespace scenes {
 
@@ -28,6 +29,16 @@ class Dinosaur : public omg::BaseScene {
  private:
   omg::EntityManager entity_manager_;
   omg::HUD hud_;
+
+  // Animated background transition state
+  bool transitioning_;
+  bool to_dark_;
+  SDL_Color start_color_;
+  SDL_Color end_color_;
+  SDL_Color current_color_;
+  int transition_frames_;
+  int transition_frame_;
+  int last_transition_score_;
 };
 
 }  // namespace scenes
