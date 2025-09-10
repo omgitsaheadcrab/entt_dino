@@ -52,17 +52,28 @@ void omg::Game::Run() {
   scene_manager_.SetCurrentScene("opening_credits");
 
   while (!over_) {
-    const double kCurrentTime = SDL_GetTicks();  // Casting to double
-    const double kFrameTime = kCurrentTime - previous_time;
-    previous_time = kCurrentTime;
-    accumulator += kFrameTime;
-
     auto scene = scene_manager_.current_scene();
 
     // HandleEvents as often as possible
     scene->HandleEvents();
 
+    // If we are in closing_credits, check for quit request
+    if (scene->name() == "closing_credits") {
+      // Poll for SDL_QUIT or any key/mouse event to exit
+      SDL_Event event;
+      while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_QUIT || event.type == SDL_KEYDOWN || event.type == SDL_MOUSEBUTTONDOWN) {
+          over_ = true;
+        }
+      }
+    }
+
     // Update only once per kMSPerUpdate
+    const double kCurrentTime = SDL_GetTicks();  // Casting to double
+    const double kFrameTime = kCurrentTime - previous_time;
+    previous_time = kCurrentTime;
+    accumulator += kFrameTime;
+
     while (accumulator >= kMSPerUpdate) {
       scene->Update(kMSPerUpdate);
       accumulator -= kMSPerUpdate;
