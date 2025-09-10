@@ -59,7 +59,8 @@ void scenes::Dinosaur::StartBackgroundTransition(bool to_dark, int score) {
                      : colors::kBackgroundLight;
   end_color_ = to_dark ? colors::kBackgroundDark : colors::kBackgroundLight;
   transition_frame_ = 0;
-  last_score_for_transition_ = score;
+  // Set the next threshold for transition
+  last_score_for_transition_ = ((score / kTransitionPoints) + 1) * kTransitionPoints;
 }
 
 void scenes::Dinosaur::UpdateBackgroundTransition() {
@@ -112,6 +113,9 @@ void scenes::Dinosaur::Init() {
   transitioning_ = false;
   transition_frame_ = 0;
   just_restarted_ = true;
+  // Set initial threshold for transition
+  int score = contexts::game::GetScore(entity_manager_.registry()).value;
+  last_score_for_transition_ = ((score / kTransitionPoints) + 1) * kTransitionPoints;
 }
 
 void scenes::Dinosaur::HandleEvents() {
@@ -179,7 +183,7 @@ void scenes::Dinosaur::Update(const double dt) {
 
   int score = contexts::game::GetScore(entity_manager_.registry()).value;
 
-  // On restart, reset transition state and last_score_for_transition_
+  // On restart, reset transition state and next threshold
   if (just_restarted_) {
     bool is_dark = contexts::game::GetDark(entity_manager_.registry());
     current_color_ =
@@ -187,13 +191,12 @@ void scenes::Dinosaur::Update(const double dt) {
     transitioning_ = false;
     transition_frame_ = 0;
     last_transition_score_ = score;
-    last_score_for_transition_ = score;
+    last_score_for_transition_ = ((score / kTransitionPoints) + 1) * kTransitionPoints;
     just_restarted_ = false;
   }
 
-  // Check for transition trigger every kTransitionPoints points
-  if (!transitioning_ && (score / kTransitionPoints >
-                          last_score_for_transition_ / kTransitionPoints)) {
+  // Check for transition trigger using explicit threshold
+  if (!transitioning_ && score >= last_score_for_transition_) {
     StartBackgroundTransition(
         !contexts::game::GetDark(entity_manager_.registry()), score);
   }
