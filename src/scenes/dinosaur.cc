@@ -93,7 +93,17 @@ void scenes::Dinosaur::HandleEvents() {
           break;
         case SDLK_n:
           // Manual toggle (for debug/testing)
-          contexts::game::ToggleDark(entity_manager_.registry());
+          // If a transition is in progress, finish it immediately
+          if (transitioning_) {
+            transitioning_ = false;
+            current_color_ = end_color_;
+            contexts::game::SetDark(entity_manager_.registry(), to_dark_);
+          } else {
+            contexts::game::ToggleDark(entity_manager_.registry());
+            current_color_ = contexts::game::GetDark(entity_manager_.registry())
+                ? colors::kBackgroundDark
+                : colors::kBackgroundLight;
+          }
           break;
         case SDLK_r:
           entity_manager_.dispatcher()->trigger<events::game::Restart>();
@@ -143,14 +153,15 @@ void scenes::Dinosaur::Update(const double dt) {
     score = entity_manager_.registry()->ctx().get<int>();
   }
 
-  // Check for transition trigger every 200 points
-  if (!transitioning_ && (score / 200 > last_transition_score_ / 200)) {
+  // Check for transition trigger every 50 points (for testing)
+  if (!transitioning_ && (score / 50 > last_transition_score_ / 50)) {
     transitioning_ = true;
     to_dark_ = !contexts::game::GetDark(entity_manager_.registry());
     start_color_ = current_color_;
     end_color_ = to_dark_ ? colors::kBackgroundDark : colors::kBackgroundLight;
     transition_frame_ = 0;
     last_transition_score_ = score;
+    // Do NOT immediately toggle dark mode here!
   }
 
   // If transitioning, update current_color_
