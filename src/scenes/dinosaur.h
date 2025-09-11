@@ -19,7 +19,7 @@ namespace scenes {
 
 constexpr int kTransitionFrames = 40;  // Number of frames for color transition
 constexpr int kTransitionPoints =
-    200;  // Points interval for triggering transition
+    50;  // Points interval for triggering transition
 
 class Dinosaur : public omg::BaseScene {
  public:

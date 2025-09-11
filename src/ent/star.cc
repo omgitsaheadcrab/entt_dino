@@ -25,8 +25,7 @@ namespace entities {
 namespace background {
 
 void CreateStar(entt::registry* registry,
-                const omg::ResourceManager& kResManager,
-                double x, double y) {
+                const omg::ResourceManager& kResManager, double x, double y) {
   // Stars don't move, so velocity and acceleration are zero
   const vf2d kVelocity {0.0, 0.0};
   const vf2d kAcceleration {0.0, 0.0};
