@@ -184,7 +184,12 @@ void systems::Spawn::MoonAndStars() {
   // Moon: only one should exist
   auto moon_view = registry_->view<components::identifiers::Moon>();
   if (is_dark) {
-    if (moon_view.size_hint() == 0) {
+    bool moon_exists = false;
+    for (auto entity : moon_view) {
+      moon_exists = true;
+      break;
+    }
+    if (!moon_exists) {
       // Random moon position (upper right quadrant)
       std::uniform_real_distribution<double> moon_x_dist(
           kBounds.position.w * 0.6, kBounds.position.w * 0.85);
@@ -197,15 +202,20 @@ void systems::Spawn::MoonAndStars() {
     }
   } else {
     // Despawn moon if present
-    moon_view.each([&](auto entity) {
+    for (auto entity : moon_view) {
       dispatcher_->trigger(events::entity::Despawn {&entity});
-    });
+    }
   }
 
   // Stars: random number, random positions, only during night
   auto star_view = registry_->view<components::identifiers::Star>();
   if (is_dark) {
-    if (star_view.size_hint() == 0) {
+    bool stars_exist = false;
+    for (auto entity : star_view) {
+      stars_exist = true;
+      break;
+    }
+    if (!stars_exist) {
       std::uniform_int_distribution<int> star_count_dist(kMinStars, kMaxStars);
       int star_count = star_count_dist(GetRNG());
       std::uniform_real_distribution<double> star_x_dist(kStarMinX, kStarMaxX);
@@ -219,9 +229,9 @@ void systems::Spawn::MoonAndStars() {
     }
   } else {
     // Despawn stars if present
-    star_view.each([&](auto entity) {
+    for (auto entity : star_view) {
       dispatcher_->trigger(events::entity::Despawn {&entity});
-    });
+    }
   }
 }
 
