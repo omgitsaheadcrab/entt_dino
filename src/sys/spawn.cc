@@ -40,8 +40,8 @@ constexpr double kCloudMinSpacing = 300.0;
 constexpr double kCloudMaxSpacing = 600.0;
 
 // Star spawn parameters
-constexpr int kMinStars = 5;
-constexpr int kMaxStars = 12;
+constexpr int kMinStars = 1;
+constexpr int kMaxStars = 3;
 constexpr double kStarMinY = 20.0;
 constexpr double kStarMaxY = 80.0;
 constexpr double kStarMinX = 50.0;

@@ -27,7 +27,7 @@ namespace background {
 void CreateStar(entt::registry* registry,
                 const omg::ResourceManager& kResManager, double x, double y) {
   // Stars move very slowly to the left (parallax effect)
-  const vf2d kVelocity {-0.15, 0.0}; // much slower than clouds
+  const vf2d kVelocity {-0.15, 0.0};  // much slower than clouds
   const vf2d kAcceleration {0.0, 0.0};
 
   const auto& kClips = kResManager.GetSpriteClipsFromSlices("star", "star");
