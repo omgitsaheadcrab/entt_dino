@@ -13,13 +13,18 @@
 #include "comp/identifiers/cloud.h"
 #include "comp/identifiers/enemy.h"
 #include "comp/identifiers/floor.h"
+#include "comp/identifiers/moon.h"
+#include "comp/identifiers/star.h"
 #include "comp/physics/transform.h"
 #include "core/game.h"
+#include "ctx/game_states.h"
 #include "ctx/graphics.h"
 #include "ent/cactii.h"
 #include "ent/cloud.h"
 #include "ent/dino.h"
 #include "ent/floor.h"
+#include "ent/moon.h"
+#include "ent/star.h"
 #include "events/entity/despawn.h"
 #include "events/game/restart.h"
 
@@ -33,7 +38,15 @@ std::mt19937& GetRNG() {
 // Increased min/max spacing for clouds to reduce clustering
 constexpr double kCloudMinSpacing = 300.0;
 constexpr double kCloudMaxSpacing = 600.0;
-}  // namespace
+
+// Star spawn parameters
+constexpr int kMinStars = 5;
+constexpr int kMaxStars = 12;
+constexpr double kStarMinY = 20.0;
+constexpr double kStarMaxY = 80.0;
+constexpr double kStarMinX = 50.0;
+constexpr double kStarMaxX = 750.0;
+}
 
 void systems::Spawn::OnInit() {
   dispatcher_->sink<events::game::Restart>()
@@ -43,12 +56,14 @@ void systems::Spawn::OnInit() {
   Cactii();
   Clouds();
   Floors();
+  MoonAndStars();
 }
 
 void systems::Spawn::Update(const double dt) {
   Cactii();
   Clouds();
   Floors();
+  MoonAndStars();
 }
 
 void systems::Spawn::Cactii() {
@@ -158,6 +173,51 @@ void systems::Spawn::Floors() {
       count++;
     }
   });
+}
+
+void systems::Spawn::MoonAndStars() {
+  // Only spawn during "night"
+  bool is_dark = contexts::game::GetDark(registry_);
+  const auto& kBounds = contexts::graphics::GetBounds(registry_);
+
+  // Moon: only one should exist
+  auto moon_view = registry_->view<components::identifiers::Moon>();
+  if (is_dark) {
+    if (moon_view.size_hint() == 0) {
+      // Random moon position (upper right quadrant)
+      std::uniform_real_distribution<double> moon_x_dist(kBounds.position.w * 0.6, kBounds.position.w * 0.85);
+      std::uniform_real_distribution<double> moon_y_dist(10.0, kBounds.position.h * 0.3);
+      double moon_x = moon_x_dist(GetRNG());
+      double moon_y = moon_y_dist(GetRNG());
+      entities::background::CreateMoon(registry_, game_->res_manager(), moon_x, moon_y);
+    }
+  } else {
+    // Despawn moon if present
+    moon_view.each([&](auto entity) {
+      dispatcher_->trigger(events::entity::Despawn{&entity});
+    });
+  }
+
+  // Stars: random number, random positions, only during night
+  auto star_view = registry_->view<components::identifiers::Star>();
+  if (is_dark) {
+    if (star_view.size_hint() == 0) {
+      std::uniform_int_distribution<int> star_count_dist(kMinStars, kMaxStars);
+      int star_count = star_count_dist(GetRNG());
+      std::uniform_real_distribution<double> star_x_dist(kStarMinX, kStarMaxX);
+      std::uniform_real_distribution<double> star_y_dist(kStarMinY, kStarMaxY);
+      for (int i = 0; i < star_count; ++i) {
+        double star_x = star_x_dist(GetRNG());
+        double star_y = star_y_dist(GetRNG());
+        entities::background::CreateStar(registry_, game_->res_manager(), star_x, star_y);
+      }
+    }
+  } else {
+    // Despawn stars if present
+    star_view.each([&](auto entity) {
+      dispatcher_->trigger(events::entity::Despawn{&entity});
+    });
+  }
 }
 
 void systems::Spawn::OnRestart() {
