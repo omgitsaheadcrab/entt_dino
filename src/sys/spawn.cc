@@ -27,14 +27,9 @@
 #include "ent/star.h"
 #include "events/entity/despawn.h"
 #include "events/game/restart.h"
+#include "util/random.h"
 
 namespace {
-// Helper for random cloud spawn intervals
-std::mt19937& GetRNG() {
-  static std::mt19937 rng(static_cast<unsigned int>(
-      std::chrono::system_clock::now().time_since_epoch().count()));
-  return rng;
-}
 // Increased min/max spacing for clouds to reduce clustering
 constexpr double kCloudMinSpacing = 300.0;
 constexpr double kCloudMaxSpacing = 600.0;
@@ -46,6 +41,17 @@ constexpr double kStarMinY = 20.0;
 constexpr double kStarMaxY = 80.0;
 constexpr double kStarMinX = 50.0;
 constexpr double kStarMaxX = 750.0;
+
+// Helper for random double in [min, max]
+double UniformRandomDouble(double min, double max) {
+  // utils::UniformRandom only works for int, so we use it to get a random int in a range,
+  // then scale to double.
+  constexpr int kScale = 10000;
+  int imin = static_cast<int>(min * kScale);
+  int imax = static_cast<int>(max * kScale);
+  int irand = utils::UniformRandom(imin, imax);
+  return static_cast<double>(irand) / kScale;
+}
 }  // namespace
 
 void systems::Spawn::OnInit() {
@@ -113,9 +119,7 @@ void systems::Spawn::Clouds() {
 
     // Spawn up to kMaxCount clouds with random spacing
     while (count < kMaxCount) {
-      std::uniform_real_distribution<double> dist(kCloudMinSpacing,
-                                                  kCloudMaxSpacing);
-      double spacing = dist(GetRNG());
+      double spacing = UniformRandomDouble(kCloudMinSpacing, kCloudMaxSpacing);
       next_cloud_spawn_x += spacing;
       entities::background::CreateCloud(registry_, game_->res_manager(),
                                         static_cast<int>(next_cloud_spawn_x));
@@ -126,9 +130,7 @@ void systems::Spawn::Clouds() {
   kCloudView.each([&](auto entity, const auto& kTransform) {
     if (kTransform.position.x <= -kTransform.position.w) {
       // When a cloud despawns, spawn a new one at a random distance ahead
-      std::uniform_real_distribution<double> dist(kCloudMinSpacing,
-                                                  kCloudMaxSpacing);
-      double spacing = dist(GetRNG());
+      double spacing = UniformRandomDouble(kCloudMinSpacing, kCloudMaxSpacing);
       const auto kPos = kTransform.position.x + kTransform.position.w +
                         spacing + kBounds.position.w;
       entities::background::CreateCloud(registry_, game_->res_manager(),
@@ -191,12 +193,8 @@ void systems::Spawn::MoonAndStars() {
     }
     if (!moon_exists) {
       // Random moon position (upper right quadrant)
-      std::uniform_real_distribution<double> moon_x_dist(
-          kBounds.position.w * 0.6, kBounds.position.w * 0.85);
-      std::uniform_real_distribution<double> moon_y_dist(
-          10.0, kBounds.position.h * 0.3);
-      double moon_x = moon_x_dist(GetRNG());
-      double moon_y = moon_y_dist(GetRNG());
+      double moon_x = UniformRandomDouble(kBounds.position.w * 0.6, kBounds.position.w * 0.85);
+      double moon_y = UniformRandomDouble(10.0, kBounds.position.h * 0.3);
       entities::background::CreateMoon(registry_, game_->res_manager(), moon_x,
                                        moon_y);
     }
@@ -216,13 +214,10 @@ void systems::Spawn::MoonAndStars() {
       break;
     }
     if (!stars_exist) {
-      std::uniform_int_distribution<int> star_count_dist(kMinStars, kMaxStars);
-      int star_count = star_count_dist(GetRNG());
-      std::uniform_real_distribution<double> star_x_dist(kStarMinX, kStarMaxX);
-      std::uniform_real_distribution<double> star_y_dist(kStarMinY, kStarMaxY);
+      int star_count = utils::UniformRandom(kMinStars, kMaxStars);
       for (int i = 0; i < star_count; ++i) {
-        double star_x = star_x_dist(GetRNG());
-        double star_y = star_y_dist(GetRNG());
+        double star_x = UniformRandomDouble(kStarMinX, kStarMaxX);
+        double star_y = UniformRandomDouble(kStarMinY, kStarMaxY);
         entities::background::CreateStar(registry_, game_->res_manager(),
                                          star_x, star_y);
       }
