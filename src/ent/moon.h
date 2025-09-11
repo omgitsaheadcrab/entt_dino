@@ -10,6 +10,7 @@
 #define ENTT_DINO_SRC_ENT_MOON_H_
 
 #include <entt/entity/registry.hpp>
+
 #include "core/res_manager.h"
 
 namespace entities {
@@ -18,8 +19,8 @@ namespace background {
 
 // Create a moon entity at (x, y)
 inline void CreateMoon(entt::registry* registry,
-                       const omg::ResourceManager& res_manager,
-                       double x, double y) {
+                       const omg::ResourceManager& res_manager, double x,
+                       double y) {
   auto entity = registry->create();
   // Add identifier
   registry->emplace<components::identifiers::Moon>(entity);
@@ -33,7 +34,7 @@ inline void CreateMoon(entt::registry* registry,
     rect.x = static_cast<int>(x);
     rect.y = static_cast<int>(y);
   } else {
-    rect = {static_cast<int>(x), static_cast<int>(y), 32, 32}; // fallback size
+    rect = {static_cast<int>(x), static_cast<int>(y), 32, 32};  // fallback size
   }
   registry->emplace<components::physics::Transform>(entity, rect);
 }

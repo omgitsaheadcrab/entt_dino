@@ -46,7 +46,7 @@ constexpr double kStarMinY = 20.0;
 constexpr double kStarMaxY = 80.0;
 constexpr double kStarMinX = 50.0;
 constexpr double kStarMaxX = 750.0;
-}
+}  // namespace
 
 void systems::Spawn::OnInit() {
   dispatcher_->sink<events::game::Restart>()
@@ -185,16 +185,19 @@ void systems::Spawn::MoonAndStars() {
   if (is_dark) {
     if (moon_view.size_hint() == 0) {
       // Random moon position (upper right quadrant)
-      std::uniform_real_distribution<double> moon_x_dist(kBounds.position.w * 0.6, kBounds.position.w * 0.85);
-      std::uniform_real_distribution<double> moon_y_dist(10.0, kBounds.position.h * 0.3);
+      std::uniform_real_distribution<double> moon_x_dist(
+          kBounds.position.w * 0.6, kBounds.position.w * 0.85);
+      std::uniform_real_distribution<double> moon_y_dist(
+          10.0, kBounds.position.h * 0.3);
       double moon_x = moon_x_dist(GetRNG());
       double moon_y = moon_y_dist(GetRNG());
-      entities::background::CreateMoon(registry_, game_->res_manager(), moon_x, moon_y);
+      entities::background::CreateMoon(registry_, game_->res_manager(), moon_x,
+                                       moon_y);
     }
   } else {
     // Despawn moon if present
     moon_view.each([&](auto entity) {
-      dispatcher_->trigger(events::entity::Despawn{&entity});
+      dispatcher_->trigger(events::entity::Despawn {&entity});
     });
   }
 
@@ -209,13 +212,14 @@ void systems::Spawn::MoonAndStars() {
       for (int i = 0; i < star_count; ++i) {
         double star_x = star_x_dist(GetRNG());
         double star_y = star_y_dist(GetRNG());
-        entities::background::CreateStar(registry_, game_->res_manager(), star_x, star_y);
+        entities::background::CreateStar(registry_, game_->res_manager(),
+                                         star_x, star_y);
       }
     }
   } else {
     // Despawn stars if present
     star_view.each([&](auto entity) {
-      dispatcher_->trigger(events::entity::Despawn{&entity});
+      dispatcher_->trigger(events::entity::Despawn {&entity});
     });
   }
 }

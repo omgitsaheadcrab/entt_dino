@@ -10,6 +10,7 @@
 #define ENTT_DINO_SRC_ENT_STAR_H_
 
 #include <entt/entity/registry.hpp>
+
 #include "core/res_manager.h"
 
 namespace entities {
@@ -18,8 +19,8 @@ namespace background {
 
 // Create a star entity at (x, y)
 inline void CreateStar(entt::registry* registry,
-                       const omg::ResourceManager& res_manager,
-                       double x, double y) {
+                       const omg::ResourceManager& res_manager, double x,
+                       double y) {
   auto entity = registry->create();
   // Add identifier
   registry->emplace<components::identifiers::Star>(entity);
@@ -33,7 +34,7 @@ inline void CreateStar(entt::registry* registry,
     rect.x = static_cast<int>(x);
     rect.y = static_cast<int>(y);
   } else {
-    rect = {static_cast<int>(x), static_cast<int>(y), 8, 8}; // fallback size
+    rect = {static_cast<int>(x), static_cast<int>(y), 8, 8};  // fallback size
   }
   registry->emplace<components::physics::Transform>(entity, rect);
 }
