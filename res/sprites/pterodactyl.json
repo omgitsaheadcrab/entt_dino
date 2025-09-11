@@ -21,8 +21,8 @@
    { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
   ],
   "slices": [
-   { "name": "2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 42, "y": 0, "w": 42, "h": 36 } }] },
-   { "name": "1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 0, "w": 42, "h": 36 } }] }
+   { "name": "pterodactyl_0", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 42, "y": 0, "w": 42, "h": 36 } }] },
+   { "name": "pterodactyl_1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 0, "w": 42, "h": 36 } }] }
   ]
  }
 }
