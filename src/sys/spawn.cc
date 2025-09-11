@@ -31,27 +31,16 @@
 
 namespace {
 // Increased min/max spacing for clouds to reduce clustering
-constexpr double kCloudMinSpacing = 300.0;
-constexpr double kCloudMaxSpacing = 600.0;
+constexpr int kCloudMinSpacing = 300;
+constexpr int kCloudMaxSpacing = 600;
 
 // Star spawn parameters
 constexpr int kMinStars = 1;
 constexpr int kMaxStars = 3;
-constexpr double kStarMinY = 20.0;
-constexpr double kStarMaxY = 80.0;
-constexpr double kStarMinX = 50.0;
-constexpr double kStarMaxX = 750.0;
-
-// Helper for random double in [min, max]
-double UniformRandomDouble(double min, double max) {
-  // utils::UniformRandom only works for int, so we use it to get a random int in a range,
-  // then scale to double.
-  constexpr int kScale = 10000;
-  int imin = static_cast<int>(min * kScale);
-  int imax = static_cast<int>(max * kScale);
-  int irand = utils::UniformRandom(imin, imax);
-  return static_cast<double>(irand) / kScale;
-}
+constexpr int kStarMinY = 20;
+constexpr int kStarMaxY = 80;
+constexpr int kStarMinX = 50;
+constexpr int kStarMaxX = 750;
 }  // namespace
 
 void systems::Spawn::OnInit() {
@@ -109,20 +98,20 @@ void systems::Spawn::Clouds() {
   auto count = kCloudView.size_hint();
 
   // Static variable to track next cloud spawn position
-  static double next_cloud_spawn_x = kBounds.position.w / 4.0;
+  static int next_cloud_spawn_x = kBounds.position.w / 4;
 
   if (count == 0) {
     // First cloud
     entities::background::CreateCloud(registry_, game_->res_manager(),
-                                      static_cast<int>(next_cloud_spawn_x));
+                                      next_cloud_spawn_x);
     ++count;
 
     // Spawn up to kMaxCount clouds with random spacing
     while (count < kMaxCount) {
-      double spacing = UniformRandomDouble(kCloudMinSpacing, kCloudMaxSpacing);
+      int spacing = utils::UniformRandom(kCloudMinSpacing, kCloudMaxSpacing);
       next_cloud_spawn_x += spacing;
       entities::background::CreateCloud(registry_, game_->res_manager(),
-                                        static_cast<int>(next_cloud_spawn_x));
+                                        next_cloud_spawn_x);
       ++count;
     }
   }
@@ -130,11 +119,10 @@ void systems::Spawn::Clouds() {
   kCloudView.each([&](auto entity, const auto& kTransform) {
     if (kTransform.position.x <= -kTransform.position.w) {
       // When a cloud despawns, spawn a new one at a random distance ahead
-      double spacing = UniformRandomDouble(kCloudMinSpacing, kCloudMaxSpacing);
-      const auto kPos = kTransform.position.x + kTransform.position.w +
-                        spacing + kBounds.position.w;
-      entities::background::CreateCloud(registry_, game_->res_manager(),
-                                        static_cast<int>(kPos));
+      int spacing = utils::UniformRandom(kCloudMinSpacing, kCloudMaxSpacing);
+      int kPos = static_cast<int>(kTransform.position.x + kTransform.position.w +
+                                  spacing + kBounds.position.w);
+      entities::background::CreateCloud(registry_, game_->res_manager(), kPos);
       dispatcher_->trigger(events::entity::Despawn {&entity});
       count++;
     }
@@ -193,8 +181,9 @@ void systems::Spawn::MoonAndStars() {
     }
     if (!moon_exists) {
       // Random moon position (upper right quadrant)
-      double moon_x = UniformRandomDouble(kBounds.position.w * 0.6, kBounds.position.w * 0.85);
-      double moon_y = UniformRandomDouble(10.0, kBounds.position.h * 0.3);
+      int moon_x = utils::UniformRandom(static_cast<int>(kBounds.position.w * 0.6),
+                                        static_cast<int>(kBounds.position.w * 0.85));
+      int moon_y = utils::UniformRandom(10, static_cast<int>(kBounds.position.h * 0.3));
       entities::background::CreateMoon(registry_, game_->res_manager(), moon_x,
                                        moon_y);
     }
@@ -216,8 +205,8 @@ void systems::Spawn::MoonAndStars() {
     if (!stars_exist) {
       int star_count = utils::UniformRandom(kMinStars, kMaxStars);
       for (int i = 0; i < star_count; ++i) {
-        double star_x = UniformRandomDouble(kStarMinX, kStarMaxX);
-        double star_y = UniformRandomDouble(kStarMinY, kStarMaxY);
+        int star_x = utils::UniformRandom(kStarMinX, kStarMaxX);
+        int star_y = utils::UniformRandom(kStarMinY, kStarMaxY);
         entities::background::CreateStar(registry_, game_->res_manager(),
                                          star_x, star_y);
       }
