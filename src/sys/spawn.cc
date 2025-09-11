@@ -7,6 +7,9 @@
  */
 #include "sys/spawn.h"
 
+#include <chrono>
+#include <random>
+
 #include "comp/identifiers/cloud.h"
 #include "comp/identifiers/enemy.h"
 #include "comp/identifiers/floor.h"
@@ -19,6 +22,18 @@
 #include "ent/floor.h"
 #include "events/entity/despawn.h"
 #include "events/game/restart.h"
+
+namespace {
+// Helper for random cloud spawn intervals
+std::mt19937& GetRNG() {
+  static std::mt19937 rng(static_cast<unsigned int>(
+      std::chrono::system_clock::now().time_since_epoch().count()));
+  return rng;
+}
+// Increased min/max spacing for clouds to reduce clustering
+constexpr double kCloudMinSpacing = 300.0;
+constexpr double kCloudMaxSpacing = 600.0;
+}  // namespace
 
 void systems::Spawn::OnInit() {
   dispatcher_->sink<events::game::Restart>()
@@ -72,23 +87,35 @@ void systems::Spawn::Clouds() {
 
   auto count = kCloudView.size_hint();
 
+  // Static variable to track next cloud spawn position
+  static double next_cloud_spawn_x = kBounds.position.w / 4.0;
+
   if (count == 0) {
-    double pos = kBounds.position.w / 4.0;
-    entities::background::CreateCloud(registry_, game_->res_manager(), pos);
+    // First cloud
+    entities::background::CreateCloud(registry_, game_->res_manager(),
+                                      next_cloud_spawn_x);
     ++count;
 
+    // Spawn up to kMaxCount clouds with random spacing
     while (count < kMaxCount) {
-      pos += kBounds.position.w / 2.0;
-      entities::background::CreateCloud(registry_, game_->res_manager(), pos);
+      std::uniform_real_distribution<double> dist(kCloudMinSpacing,
+                                                  kCloudMaxSpacing);
+      double spacing = dist(GetRNG());
+      next_cloud_spawn_x += spacing;
+      entities::background::CreateCloud(registry_, game_->res_manager(),
+                                        next_cloud_spawn_x);
       ++count;
     }
   }
 
   kCloudView.each([&](auto entity, const auto& kTransform) {
     if (kTransform.position.x <= -kTransform.position.w) {
+      // When a cloud despawns, spawn a new one at a random distance ahead
+      std::uniform_real_distribution<double> dist(kCloudMinSpacing,
+                                                  kCloudMaxSpacing);
+      double spacing = dist(GetRNG());
       const auto kPos = kTransform.position.x + kTransform.position.w +
-                        (kBounds.position.w / 2.0 * kMaxCount);
-
+                        spacing + kBounds.position.w;
       entities::background::CreateCloud(registry_, game_->res_manager(), kPos);
       dispatcher_->trigger(events::entity::Despawn {&entity});
       count++;
