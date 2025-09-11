@@ -108,7 +108,7 @@ void systems::Spawn::Clouds() {
   if (count == 0) {
     // First cloud
     entities::background::CreateCloud(registry_, game_->res_manager(),
-                                      next_cloud_spawn_x);
+                                      static_cast<int>(next_cloud_spawn_x));
     ++count;
 
     // Spawn up to kMaxCount clouds with random spacing
@@ -118,7 +118,7 @@ void systems::Spawn::Clouds() {
       double spacing = dist(GetRNG());
       next_cloud_spawn_x += spacing;
       entities::background::CreateCloud(registry_, game_->res_manager(),
-                                        next_cloud_spawn_x);
+                                        static_cast<int>(next_cloud_spawn_x));
       ++count;
     }
   }
@@ -131,7 +131,7 @@ void systems::Spawn::Clouds() {
       double spacing = dist(GetRNG());
       const auto kPos = kTransform.position.x + kTransform.position.w +
                         spacing + kBounds.position.w;
-      entities::background::CreateCloud(registry_, game_->res_manager(), kPos);
+      entities::background::CreateCloud(registry_, game_->res_manager(), static_cast<int>(kPos));
       dispatcher_->trigger(events::entity::Despawn {&entity});
       count++;
     }
