@@ -106,8 +106,9 @@ void systems::Spawn::Clouds() {
     if (kTransform.position.x <= -kTransform.position.w) {
       // When a cloud despawns, spawn a new one at a random distance ahead
       int spacing = utils::UniformRandom(kCloudMinSpacing_, kCloudMaxSpacing_);
-      int kPos = static_cast<int>(kTransform.position.x + kTransform.position.w +
-                                  spacing + kBounds.position.w);
+      int kPos =
+          static_cast<int>(kTransform.position.x + kTransform.position.w +
+                           spacing + kBounds.position.w);
       entities::background::CreateCloud(registry_, game_->res_manager(), kPos);
       dispatcher_->trigger(events::entity::Despawn {&entity});
       count++;
@@ -167,9 +168,11 @@ void systems::Spawn::MoonAndStars() {
     }
     if (!moon_exists) {
       // Random moon position (upper right quadrant)
-      int moon_x = utils::UniformRandom(static_cast<int>(kBounds.position.w * 0.6),
-                                        static_cast<int>(kBounds.position.w * 0.85));
-      int moon_y = utils::UniformRandom(10, static_cast<int>(kBounds.position.h * 0.3));
+      int moon_x =
+          utils::UniformRandom(static_cast<int>(kBounds.position.w * 0.6),
+                               static_cast<int>(kBounds.position.w * 0.85));
+      int moon_y =
+          utils::UniformRandom(10, static_cast<int>(kBounds.position.h * 0.3));
       entities::background::CreateMoon(registry_, game_->res_manager(), moon_x,
                                        moon_y);
     }
