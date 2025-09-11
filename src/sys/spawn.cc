@@ -94,7 +94,7 @@ void systems::Spawn::Clouds() {
 
     // Spawn up to kMaxCount clouds with random spacing
     while (count < kMaxCount) {
-      int spacing = utils::UniformRandom(kCloudMinSpacing, kCloudMaxSpacing);
+      int spacing = utils::UniformRandom(kCloudMinSpacing_, kCloudMaxSpacing_);
       next_cloud_spawn_x += spacing;
       entities::background::CreateCloud(registry_, game_->res_manager(),
                                         next_cloud_spawn_x);
@@ -105,7 +105,7 @@ void systems::Spawn::Clouds() {
   kCloudView.each([&](auto entity, const auto& kTransform) {
     if (kTransform.position.x <= -kTransform.position.w) {
       // When a cloud despawns, spawn a new one at a random distance ahead
-      int spacing = utils::UniformRandom(kCloudMinSpacing, kCloudMaxSpacing);
+      int spacing = utils::UniformRandom(kCloudMinSpacing_, kCloudMaxSpacing_);
       int kPos = static_cast<int>(kTransform.position.x + kTransform.position.w +
                                   spacing + kBounds.position.w);
       entities::background::CreateCloud(registry_, game_->res_manager(), kPos);
@@ -189,10 +189,10 @@ void systems::Spawn::MoonAndStars() {
       break;
     }
     if (!stars_exist) {
-      int star_count = utils::UniformRandom(kMinStars, kMaxStars);
+      int star_count = utils::UniformRandom(kMinStars_, kMaxStars_);
       for (int i = 0; i < star_count; ++i) {
-        int star_x = utils::UniformRandom(kStarMinX, kStarMaxX);
-        int star_y = utils::UniformRandom(kStarMinY, kStarMaxY);
+        int star_x = utils::UniformRandom(kStarMinX_, kStarMaxX_);
+        int star_y = utils::UniformRandom(kStarMinY_, kStarMaxY_);
         entities::background::CreateStar(registry_, game_->res_manager(),
                                          star_x, star_y);
       }

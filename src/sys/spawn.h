@@ -30,16 +30,16 @@ class Spawn : public omg::BaseSystem {
   void OnRestart();
   void MoonAndStars();
 
-  // Cloud and star spawn constants as private members
-  static constexpr int kCloudMinSpacing = 300;
-  static constexpr int kCloudMaxSpacing = 600;
+  // Cloud and star spawn constants as private members (with trailing _)
+  static constexpr int kCloudMinSpacing_ = 300;
+  static constexpr int kCloudMaxSpacing_ = 600;
 
-  static constexpr int kMinStars = 1;
-  static constexpr int kMaxStars = 3;
-  static constexpr int kStarMinY = 20;
-  static constexpr int kStarMaxY = 80;
-  static constexpr int kStarMinX = 50;
-  static constexpr int kStarMaxX = 750;
+  static constexpr int kMinStars_ = 1;
+  static constexpr int kMaxStars_ = 3;
+  static constexpr int kStarMinY_ = 20;
+  static constexpr int kStarMaxY_ = 80;
+  static constexpr int kStarMinX_ = 50;
+  static constexpr int kStarMaxX_ = 750;
 };
 
 }  // namespace systems
