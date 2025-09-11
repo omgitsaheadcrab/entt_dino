@@ -30,18 +30,8 @@
 #include "util/random.h"
 
 namespace {
-// Increased min/max spacing for clouds to reduce clustering
-constexpr int kCloudMinSpacing = 300;
-constexpr int kCloudMaxSpacing = 600;
-
-// Star spawn parameters
-constexpr int kMinStars = 1;
-constexpr int kMaxStars = 3;
-constexpr int kStarMinY = 20;
-constexpr int kStarMaxY = 80;
-constexpr int kStarMinX = 50;
-constexpr int kStarMaxX = 750;
-}  // namespace
+  // No constants here; all moved to spawn.h
+}
 
 void systems::Spawn::OnInit() {
   dispatcher_->sink<events::game::Restart>()
