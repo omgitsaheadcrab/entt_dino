@@ -41,7 +41,8 @@ void entities::background::CreateMoon(entt::registry* registry,
 
   auto e = registry->create();
   registry->emplace<components::identifiers::Moon>(e);
-  registry->emplace<components::physics::RigidBody>(e, kVelocity, kAcceleration);
+  registry->emplace<components::physics::RigidBody>(e, kVelocity,
+                                                    kAcceleration);
   registry->emplace<components::physics::Transform>(e, position);
   registry->emplace<components::graphics::Transform>(e, position);
   if (!kClips.empty()) {

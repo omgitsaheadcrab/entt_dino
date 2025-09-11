@@ -28,7 +28,7 @@ class Spawn : public omg::BaseSystem {
   void Clouds();
   void Floors();
   void OnRestart();
-  void MoonAndStars(); // <-- Added declaration for MoonAndStars
+  void MoonAndStars();
 };
 
 }  // namespace systems

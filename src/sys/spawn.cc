@@ -131,7 +131,8 @@ void systems::Spawn::Clouds() {
       double spacing = dist(GetRNG());
       const auto kPos = kTransform.position.x + kTransform.position.w +
                         spacing + kBounds.position.w;
-      entities::background::CreateCloud(registry_, game_->res_manager(), static_cast<int>(kPos));
+      entities::background::CreateCloud(registry_, game_->res_manager(),
+                                        static_cast<int>(kPos));
       dispatcher_->trigger(events::entity::Despawn {&entity});
       count++;
     }
