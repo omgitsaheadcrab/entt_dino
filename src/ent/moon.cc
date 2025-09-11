@@ -33,7 +33,7 @@ void CreateMoon(entt::registry* registry,
 
   // Try slices first, fallback to frame tag
   auto kClips = kResManager.GetSpriteClipsFromSlices("moon", "moon");
-const auto kClip = utils::UniformRandom(0, kClips.size() - 1);
+  const auto kClip = utils::UniformRandom(0, kClips.size() - 1);
 
   SDL_Rect position;
   position.x = static_cast<int>(x);
@@ -45,11 +45,13 @@ const auto kClip = utils::UniformRandom(0, kClips.size() - 1);
 
   auto e = registry->create();
   registry->emplace<components::identifiers::Moon>(e);
-  registry->emplace<components::physics::RigidBody>(e, kVelocity, kAcceleration);
+  registry->emplace<components::physics::RigidBody>(e, kVelocity,
+                                                    kAcceleration);
   registry->emplace<components::physics::Transform>(e, position);
   registry->emplace<components::graphics::Transform>(e, position);
   registry->emplace<components::graphics::Sprite>(e, texture, kClips[kClip]);
-  SPDLOG_DEBUG("Moon entity {} was created at ({}, {})", static_cast<int>(e), position.x, position.y);
+  SPDLOG_DEBUG("Moon entity {} was created at ({}, {})", static_cast<int>(e),
+               position.x, position.y);
 }
 
 }  // namespace background

@@ -22,7 +22,6 @@
 #include "core/vec2d.h"
 #include "util/random.h"
 
-
 namespace entities {
 namespace background {
 
@@ -46,11 +45,13 @@ void CreateStar(entt::registry* registry,
 
   auto e = registry->create();
   registry->emplace<components::identifiers::Star>(e);
-  registry->emplace<components::physics::RigidBody>(e, kVelocity, kAcceleration);
+  registry->emplace<components::physics::RigidBody>(e, kVelocity,
+                                                    kAcceleration);
   registry->emplace<components::physics::Transform>(e, position);
   registry->emplace<components::graphics::Transform>(e, position);
   registry->emplace<components::graphics::Sprite>(e, texture, kClips[kClip]);
-  SPDLOG_DEBUG("Star entity {} was created at ({}, {})", static_cast<int>(e), position.x, position.y);
+  SPDLOG_DEBUG("Star entity {} was created at ({}, {})", static_cast<int>(e),
+               position.x, position.y);
 }
 
 }  // namespace background
