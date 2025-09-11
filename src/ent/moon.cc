@@ -26,8 +26,8 @@ namespace background {
 
 void CreateMoon(entt::registry* registry,
                 const omg::ResourceManager& kResManager, double x, double y) {
-  // Moon doesn't move, so velocity and acceleration are zero
-  const vf2d kVelocity {0.0, 0.0};
+  // Moon moves slowly to the left (parallax effect)
+  const vf2d kVelocity {-0.3, 0.0}; // slower than clouds
   const vf2d kAcceleration {0.0, 0.0};
 
   const auto& kClips = kResManager.GetSpriteClipsFromSlices("moon", "moon");
