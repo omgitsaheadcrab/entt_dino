@@ -30,7 +30,7 @@ void CreateMoon(entt::registry* registry,
   const vf2d kVelocity {0.0, 0.0};
   const vf2d kAcceleration {0.0, 0.0};
 
-  const auto& kClips = kResManager.GetSpriteClips("moon", "moon");
+  const auto& kClips = kResManager.GetSpriteClipsFromSlices("moon", "moon");
   SDL_Rect position;
   position.x = static_cast<int>(x);
   position.y = static_cast<int>(y);

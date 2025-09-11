@@ -30,7 +30,7 @@ void CreateStar(entt::registry* registry,
   const vf2d kVelocity {0.0, 0.0};
   const vf2d kAcceleration {0.0, 0.0};
 
-  const auto& kClips = kResManager.GetSpriteClips("star", "star");
+  const auto& kClips = kResManager.GetSpriteClipsFromSlices("star", "star");
   SDL_Rect position;
   position.x = static_cast<int>(x);
   position.y = static_cast<int>(y);
