@@ -11,17 +11,6 @@
 
 #include "core/base_system.h"
 
-// Cloud and star spawn constants
-constexpr int kCloudMinSpacing = 300;
-constexpr int kCloudMaxSpacing = 600;
-
-constexpr int kMinStars = 1;
-constexpr int kMaxStars = 3;
-constexpr int kStarMinY = 20;
-constexpr int kStarMaxY = 80;
-constexpr int kStarMinX = 50;
-constexpr int kStarMaxX = 750;
-
 namespace systems {
 
 class Spawn : public omg::BaseSystem {
@@ -40,6 +29,17 @@ class Spawn : public omg::BaseSystem {
   void Floors();
   void OnRestart();
   void MoonAndStars();
+
+  // Cloud and star spawn constants as private members
+  static constexpr int kCloudMinSpacing = 300;
+  static constexpr int kCloudMaxSpacing = 600;
+
+  static constexpr int kMinStars = 1;
+  static constexpr int kMaxStars = 3;
+  static constexpr int kStarMinY = 20;
+  static constexpr int kStarMaxY = 80;
+  static constexpr int kStarMinX = 50;
+  static constexpr int kStarMaxX = 750;
 };
 
 }  // namespace systems

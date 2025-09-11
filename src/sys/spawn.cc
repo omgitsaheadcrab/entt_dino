@@ -29,10 +29,6 @@
 #include "events/game/restart.h"
 #include "util/random.h"
 
-namespace {
-  // No constants here; all moved to spawn.h
-}
-
 void systems::Spawn::OnInit() {
   dispatcher_->sink<events::game::Restart>()
       .connect<&systems::Spawn::OnRestart>(this);
