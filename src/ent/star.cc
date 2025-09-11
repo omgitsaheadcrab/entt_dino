@@ -21,17 +21,16 @@
 #include "core/res_manager.h"
 #include "core/vec2d.h"
 
-namespace {
+namespace entities {
+namespace background {
 
-// Stars don't move, so velocity and acceleration are zero
-const vf2d kVelocity {0.0, 0.0};
-const vf2d kAcceleration {0.0, 0.0};
+void CreateStar(entt::registry* registry,
+                const omg::ResourceManager& kResManager,
+                double x, double y) {
+  // Stars don't move, so velocity and acceleration are zero
+  const vf2d kVelocity {0.0, 0.0};
+  const vf2d kAcceleration {0.0, 0.0};
 
-}  // namespace
-
-void entities::background::CreateStar(entt::registry* registry,
-                                      const omg::ResourceManager& kResManager,
-                                      double x, double y) {
   const auto& kClips = kResManager.GetSpriteClips("star", "star");
   SDL_Rect position;
   position.x = static_cast<int>(x);
@@ -51,3 +50,6 @@ void entities::background::CreateStar(entt::registry* registry,
   }
   SPDLOG_DEBUG("Star entity {} was created", static_cast<int>(e));
 }
+
+}  // namespace background
+}  // namespace entities

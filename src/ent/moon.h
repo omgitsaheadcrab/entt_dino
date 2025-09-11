@@ -10,7 +10,6 @@
 #define ENTT_DINO_SRC_ENT_MOON_H_
 
 #include <entt/entity/registry.hpp>
-
 #include "core/res_manager.h"
 
 namespace entities {
@@ -18,7 +17,8 @@ namespace background {
 
 // Create a moon entity at (x, y)
 void CreateMoon(entt::registry* registry,
-                const omg::ResourceManager& kResManager, double x, double y);
+                const omg::ResourceManager& kResManager,
+                double x, double y);
 
 }  // namespace background
 }  // namespace entities

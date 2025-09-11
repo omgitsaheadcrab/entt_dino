@@ -21,17 +21,16 @@
 #include "core/res_manager.h"
 #include "core/vec2d.h"
 
-namespace {
+namespace entities {
+namespace background {
 
-// Moon doesn't move, so velocity and acceleration are zero
-const vf2d kVelocity {0.0, 0.0};
-const vf2d kAcceleration {0.0, 0.0};
+void CreateMoon(entt::registry* registry,
+                const omg::ResourceManager& kResManager,
+                double x, double y) {
+  // Moon doesn't move, so velocity and acceleration are zero
+  const vf2d kVelocity {0.0, 0.0};
+  const vf2d kAcceleration {0.0, 0.0};
 
-}  // namespace
-
-void entities::background::CreateMoon(entt::registry* registry,
-                                      const omg::ResourceManager& kResManager,
-                                      double x, double y) {
   const auto& kClips = kResManager.GetSpriteClips("moon", "moon");
   SDL_Rect position;
   position.x = static_cast<int>(x);
@@ -51,3 +50,6 @@ void entities::background::CreateMoon(entt::registry* registry,
   }
   SPDLOG_DEBUG("Moon entity {} was created", static_cast<int>(e));
 }
+
+}  // namespace background
+}  // namespace entities
