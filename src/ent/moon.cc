@@ -20,6 +20,7 @@
 #include "comp/physics/transform.h"
 #include "core/res_manager.h"
 #include "core/vec2d.h"
+#include "util/random.h"
 
 namespace entities {
 namespace background {
@@ -32,14 +33,13 @@ void CreateMoon(entt::registry* registry,
 
   // Try slices first, fallback to frame tag
   auto kClips = kResManager.GetSpriteClipsFromSlices("moon", "moon");
-  if (kClips.empty()) {
-    kClips = kResManager.GetSpriteClips("moon", "moon");
-  }
+const auto kClip = utils::UniformRandom(0, kClips.size() - 1);
+
   SDL_Rect position;
   position.x = static_cast<int>(x);
   position.y = static_cast<int>(y);
-  position.h = kClips.empty() ? 32 : kClips.front().h;
-  position.w = kClips.empty() ? 32 : kClips.front().w;
+  position.h = kClips[kClip].h;
+  position.w = kClips[kClip].w;
 
   auto texture = kResManager.GetSpriteTexture("moon");
 
@@ -48,9 +48,7 @@ void CreateMoon(entt::registry* registry,
   registry->emplace<components::physics::RigidBody>(e, kVelocity, kAcceleration);
   registry->emplace<components::physics::Transform>(e, position);
   registry->emplace<components::graphics::Transform>(e, position);
-  if (texture && !kClips.empty()) {
-    registry->emplace<components::graphics::Sprite>(e, texture, kClips.front());
-  }
+  registry->emplace<components::graphics::Sprite>(e, texture, kClips[kClip]);
   SPDLOG_DEBUG("Moon entity {} was created at ({}, {})", static_cast<int>(e), position.x, position.y);
 }
 
