@@ -30,24 +30,28 @@ void CreateStar(entt::registry* registry,
   const vf2d kVelocity {-0.15, 0.0};  // much slower than clouds
   const vf2d kAcceleration {0.0, 0.0};
 
-  const auto& kClips = kResManager.GetSpriteClipsFromSlices("star", "star");
+  // Try slices first, fallback to frame tag
+  auto kClips = kResManager.GetSpriteClipsFromSlices("star", "star");
+  if (kClips.empty()) {
+    kClips = kResManager.GetSpriteClips("star", "star");
+  }
   SDL_Rect position;
   position.x = static_cast<int>(x);
   position.y = static_cast<int>(y);
   position.h = kClips.empty() ? 8 : kClips.front().h;
   position.w = kClips.empty() ? 8 : kClips.front().w;
 
+  auto texture = kResManager.GetSpriteTexture("star");
+
   auto e = registry->create();
   registry->emplace<components::identifiers::Star>(e);
-  registry->emplace<components::physics::RigidBody>(e, kVelocity,
-                                                    kAcceleration);
+  registry->emplace<components::physics::RigidBody>(e, kVelocity, kAcceleration);
   registry->emplace<components::physics::Transform>(e, position);
   registry->emplace<components::graphics::Transform>(e, position);
-  if (!kClips.empty()) {
-    registry->emplace<components::graphics::Sprite>(
-        e, kResManager.GetSpriteTexture("star"), kClips.front());
+  if (texture && !kClips.empty()) {
+    registry->emplace<components::graphics::Sprite>(e, texture, kClips.front());
   }
-  SPDLOG_DEBUG("Star entity {} was created", static_cast<int>(e));
+  SPDLOG_DEBUG("Star entity {} was created at ({}, {})", static_cast<int>(e), position.x, position.y);
 }
 
 }  // namespace background
