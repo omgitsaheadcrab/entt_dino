@@ -30,9 +30,9 @@ namespace {
       std::chrono::system_clock::now().time_since_epoch().count()));
     return rng;
   }
-  // You can tweak these values for min/max cloud spacing
-  constexpr double kCloudMinSpacing = 200.0;
-  constexpr double kCloudMaxSpacing = 400.0;
+  // Increased min/max spacing for clouds to reduce clustering
+  constexpr double kCloudMinSpacing = 300.0;
+  constexpr double kCloudMaxSpacing = 600.0;
 }
 
 void systems::Spawn::OnInit() {
