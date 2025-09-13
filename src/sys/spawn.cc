@@ -50,7 +50,7 @@ void systems::Spawn::Update(const double dt) {
   CactiiOrPterodactyl();
 }
 
-// New function to spawn either cactii or pterodactyl after score threshold
+// Improved function to spawn either cactii or pterodactyl after score threshold
 void systems::Spawn::CactiiOrPterodactyl() {
   const auto kEnemyView = registry_->view<components::physics::Transform,
                                           components::identifiers::Enemy>();
@@ -58,44 +58,50 @@ void systems::Spawn::CactiiOrPterodactyl() {
   auto score = contexts::game::GetScore(registry_).value;
   bool allow_pterodactyl = score >= 100;
 
-  // Find the rightmost enemy position
-  int rightmost_x = 0;
+  // Gather all enemy positions
+  std::vector<int> enemy_x_positions;
   for (auto entity : kEnemyView) {
     const auto& kTransform = kEnemyView.get<components::physics::Transform>(entity);
-    if (kTransform.position.x > rightmost_x) {
-      rightmost_x = kTransform.position.x;
-    }
+    enemy_x_positions.push_back(kTransform.position.x);
   }
 
   auto count = kEnemyView.size_hint();
 
-  // Only spawn if we have less than kMaxEnemies_ and the rightmost enemy is far enough left
+  // Only spawn if we have less than kMaxEnemies_
   if (count < kMaxEnemies_) {
-    // Calculate spawn position: either at the edge or after minimum spacing from rightmost enemy
-    double pos = kBounds.position.w;
-    if (count > 0) {
-      pos = std::max(static_cast<double>(rightmost_x + kEnemyMinSpacing_), static_cast<double>(kBounds.position.w));
+    // Proposed spawn position is at the right edge
+    int proposed_x = kBounds.position.w;
+
+    // Check spacing: only spawn if proposed_x is at least kEnemyMinSpacing_ away from all existing enemies
+    bool can_spawn = true;
+    for (int x : enemy_x_positions) {
+      if (std::abs(proposed_x - x) < kEnemyMinSpacing_) {
+        can_spawn = false;
+        break;
+      }
     }
 
-    // Randomly choose cactus or pterodactyl (if allowed)
-    bool spawn_pterodactyl =
-        allow_pterodactyl &&
-        (utils::UniformRandom(0, 4) == 0);  // 1 in 5 chance for pterodactyl
-    bool spawn_cactus = !spawn_pterodactyl || !allow_pterodactyl;
+    if (can_spawn) {
+      // Randomly choose cactus or pterodactyl (if allowed)
+      bool spawn_pterodactyl =
+          allow_pterodactyl &&
+          (utils::UniformRandom(0, 4) == 0);  // 1 in 5 chance for pterodactyl
+      bool spawn_cactus = !spawn_pterodactyl || !allow_pterodactyl;
 
-    if (spawn_pterodactyl) {
-      // Spawn pterodactyl at a random height above ground
-      const auto& kFloorClips =
-          game_->res_manager().GetSpriteClips("floor", "floor");
-      int min_y = 10;
-      int max_y =
-          kBounds.position.h - kFloorClips.front().h - 40;  // keep above ground
-      int y = utils::UniformRandom(min_y, max_y);
-      entities::enemies::CreatePterodactyl(registry_, game_->res_manager(),
-                                           static_cast<int>(pos), y);
-    } else if (spawn_cactus) {
-      entities::enemies::CreateCactii(registry_, game_->res_manager(),
-                                      static_cast<int>(pos));
+      if (spawn_pterodactyl) {
+        // Spawn pterodactyl at a random height above ground
+        const auto& kFloorClips =
+            game_->res_manager().GetSpriteClips("floor", "floor");
+        int min_y = 10;
+        int max_y =
+            kBounds.position.h - kFloorClips.front().h - 40;  // keep above ground
+        int y = utils::UniformRandom(min_y, max_y);
+        entities::enemies::CreatePterodactyl(registry_, game_->res_manager(),
+                                             proposed_x, y);
+      } else if (spawn_cactus) {
+        entities::enemies::CreateCactii(registry_, game_->res_manager(),
+                                        proposed_x);
+      }
     }
   }
 
@@ -106,23 +112,35 @@ void systems::Spawn::CactiiOrPterodactyl() {
       // Only spawn a new enemy if none exist after despawn
       auto remaining = kEnemyView.size_hint();
       if (remaining == 1) {  // This entity is about to be despawned
-        double pos = kBounds.position.w;
-        int score = contexts::game::GetScore(registry_).value;
-        bool allow_pterodactyl = score >= 100;
-        bool spawn_pterodactyl =
-            allow_pterodactyl && (utils::UniformRandom(0, 4) == 0);
-        bool spawn_cactus = !spawn_pterodactyl || !allow_pterodactyl;
-        if (spawn_pterodactyl) {
-          const auto& kFloorClips =
-              game_->res_manager().GetSpriteClips("floor", "floor");
-          int min_y = 10;
-          int max_y = kBounds.position.h - kFloorClips.front().h - 40;
-          int y = utils::UniformRandom(min_y, max_y);
-          entities::enemies::CreatePterodactyl(registry_, game_->res_manager(),
-                                               static_cast<int>(pos), y);
-        } else if (spawn_cactus) {
-          entities::enemies::CreateCactii(registry_, game_->res_manager(),
-                                          static_cast<int>(pos));
+        int proposed_x = kBounds.position.w;
+        // Check spacing: only spawn if proposed_x is at least kEnemyMinSpacing_ away from all existing enemies
+        bool can_spawn = true;
+        for (auto e : kEnemyView) {
+          if (e == entity) continue; // skip the one being despawned
+          const auto& t = kEnemyView.get<components::physics::Transform>(e);
+          if (std::abs(proposed_x - t.position.x) < kEnemyMinSpacing_) {
+            can_spawn = false;
+            break;
+          }
+        }
+        if (can_spawn) {
+          int score = contexts::game::GetScore(registry_).value;
+          bool allow_pterodactyl = score >= 100;
+          bool spawn_pterodactyl =
+              allow_pterodactyl && (utils::UniformRandom(0, 4) == 0);
+          bool spawn_cactus = !spawn_pterodactyl || !allow_pterodactyl;
+          if (spawn_pterodactyl) {
+            const auto& kFloorClips =
+                game_->res_manager().GetSpriteClips("floor", "floor");
+            int min_y = 10;
+            int max_y = kBounds.position.h - kFloorClips.front().h - 40;
+            int y = utils::UniformRandom(min_y, max_y);
+            entities::enemies::CreatePterodactyl(registry_, game_->res_manager(),
+                                                 proposed_x, y);
+          } else if (spawn_cactus) {
+            entities::enemies::CreateCactii(registry_, game_->res_manager(),
+                                            proposed_x);
+          }
         }
       }
     }
