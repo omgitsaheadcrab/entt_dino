@@ -28,8 +28,8 @@
 #include "util/random.h"
 
 namespace {
-constexpr int kMaxEnemies_ = 3; // Maximum number of enemies at once
-constexpr int kEnemyMinSpacing_ = 120; // Minimum spacing between enemies (pixels)
+constexpr int kMaxEnemies_ = 2; // Maximum number of enemies at once
+constexpr int kEnemyMinSpacing_ = 400; // Minimum spacing between enemies (pixels)
 }
 
 void systems::Spawn::OnInit() {
