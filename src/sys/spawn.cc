@@ -29,7 +29,8 @@
 
 namespace {
 constexpr int kMaxEnemies_ = 2; // Maximum number of enemies at once
-constexpr int kEnemyMinSpacing_ = 400; // Minimum spacing between enemies (pixels)
+constexpr int kEnemyMinSpacing_ = 400; // Minimum base spacing between enemies (pixels)
+constexpr int kEnemySpacingVariance_ = 200; // Additional random spacing (pixels)
 }
 
 void systems::Spawn::OnInit() {
@@ -69,13 +70,17 @@ void systems::Spawn::CactiiOrPterodactyl() {
 
   // Only spawn if we have less than kMaxEnemies_
   if (count < kMaxEnemies_) {
+    // Add variability to spacing
+    int spacing_variance = utils::UniformRandom(0, kEnemySpacingVariance_);
+    int min_spacing = kEnemyMinSpacing_ + spacing_variance;
+
     // Proposed spawn position is at the right edge
     int proposed_x = kBounds.position.w;
 
-    // Check spacing: only spawn if proposed_x is at least kEnemyMinSpacing_ away from all existing enemies
+    // Check spacing: only spawn if proposed_x is at least min_spacing away from all existing enemies
     bool can_spawn = true;
     for (int x : enemy_x_positions) {
-      if (std::abs(proposed_x - x) < kEnemyMinSpacing_) {
+      if (std::abs(proposed_x - x) < min_spacing) {
         can_spawn = false;
         break;
       }
@@ -112,13 +117,15 @@ void systems::Spawn::CactiiOrPterodactyl() {
       // Only spawn a new enemy if none exist after despawn
       auto remaining = kEnemyView.size_hint();
       if (remaining == 1) {  // This entity is about to be despawned
+        int spacing_variance = utils::UniformRandom(0, kEnemySpacingVariance_);
+        int min_spacing = kEnemyMinSpacing_ + spacing_variance;
         int proposed_x = kBounds.position.w;
-        // Check spacing: only spawn if proposed_x is at least kEnemyMinSpacing_ away from all existing enemies
+        // Check spacing: only spawn if proposed_x is at least min_spacing away from all existing enemies
         bool can_spawn = true;
         for (auto e : kEnemyView) {
           if (e == entity) continue; // skip the one being despawned
           const auto& t = kEnemyView.get<components::physics::Transform>(e);
-          if (std::abs(proposed_x - t.position.x) < kEnemyMinSpacing_) {
+          if (std::abs(proposed_x - t.position.x) < min_spacing) {
             can_spawn = false;
             break;
           }
