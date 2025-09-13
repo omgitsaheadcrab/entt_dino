@@ -7,9 +7,6 @@
  */
 #include "sys/spawn.h"
 
-#include <chrono>
-#include <random>
-
 #include "comp/identifiers/cloud.h"
 #include "comp/identifiers/enemy.h"
 #include "comp/identifiers/floor.h"
@@ -34,18 +31,18 @@ void systems::Spawn::OnInit() {
   dispatcher_->sink<events::game::Restart>()
       .connect<&systems::Spawn::OnRestart>(this);
 
+  Floors();
+  Clouds();
+  MoonAndStars();
   entities::dino::Create(registry_, game_->res_manager());
   CactiiOrPterodactyl();
-  Clouds();
-  Floors();
-  MoonAndStars();
 }
 
 void systems::Spawn::Update(const double dt) {
-  CactiiOrPterodactyl();
-  Clouds();
   Floors();
+  Clouds();
   MoonAndStars();
+  CactiiOrPterodactyl();
 }
 
 // New function to spawn either cactii or pterodactyl after score threshold
@@ -55,7 +52,7 @@ void systems::Spawn::CactiiOrPterodactyl() {
   const auto& kBounds = contexts::graphics::GetBounds(registry_);
   constexpr auto kMaxCount = 3;
 
-  int score = contexts::game::GetScore(registry_).value;
+  auto score = contexts::game::GetScore(registry_).value;
   bool allow_pterodactyl = score >= 100;
 
   auto count = kEnemyView.size_hint();

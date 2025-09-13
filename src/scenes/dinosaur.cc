@@ -98,10 +98,10 @@ void scenes::Dinosaur::Init() {
   entity_manager_.AddRenderSystem(
       std::make_unique<systems::Render>(&game_->window()));
 
+  entity_manager_.AddUpdateSystem(std::make_unique<systems::Score>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Spawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Despawn>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Move>());
-  entity_manager_.AddUpdateSystem(std::make_unique<systems::Score>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Collide>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::State>());
   entity_manager_.AddUpdateSystem(std::make_unique<systems::Sync>());
