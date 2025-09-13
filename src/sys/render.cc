@@ -13,7 +13,6 @@
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
 #include "core/colors.h"
-#include "core/game.h"
 #include "core/window.h"
 #include "ctx/game_states.h"
 #include "ctx/graphics.h"

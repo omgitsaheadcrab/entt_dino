@@ -26,7 +26,7 @@
 namespace {
 
 // Rigid Body
-const vf2d kVelocity {-2.5, 0.0};  // Slightly faster than cactii
+const vf2d kVelocity {-2.2, 0.0};  // Slightly faster than cactii
 const vf2d kAcceleration {0.0, 0.0};
 
 }  // namespace
