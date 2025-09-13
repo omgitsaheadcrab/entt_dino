@@ -15,12 +15,8 @@
 #include "comp/identifiers/enemy.h"
 #include "comp/identifiers/floor.h"
 #include "comp/physics/collider.h"
-#include "comp/physics/rigid_body.h"
 #include "comp/physics/transform.h"
-#include "ctx/game_states.h"
-#include "ent/dino.h"
 #include "events/dino/dead.h"
-#include "events/dino/ducking.h"
 #include "events/dino/running.h"
 
 void systems::Collide::Update(const double dt) {
