@@ -15,6 +15,7 @@
 
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
+#include "comp/graphics/animation.h"
 #include "comp/identifiers/enemy.h"
 #include "comp/physics/collider.h"
 #include "comp/physics/rigid_body.h"
@@ -64,7 +65,8 @@ void entities::enemies::CreatePterodactyl(
   registry->emplace<components::physics::Collider>(e, box);
   registry->emplace<components::graphics::Sprite>(
       e, kResManager.GetSpriteTexture("pterodactyl"), kClips[kClip]);
-  // Store animation state in registry context or as a component if you have one
+  // Add animation component
+  registry->emplace<components::graphics::Animation>(e, components::graphics::Animation{std::vector<SDL_Rect>(kClips.begin(), kClips.end()), kClip, 0, 120});
 
   SPDLOG_DEBUG("Pterodactyl entity {} was created at ({}, {})",
                static_cast<int>(e), position.x, position.y);
