@@ -24,22 +24,23 @@ class Spawn : public omg::BaseSystem {
   void OnInit() override;
 
  private:
-  void CactiiOrPterodactyl();  // Renamed from Cactii
+  void CactiiOrPterodactyl();
   void Clouds();
   void Floors();
   void OnRestart();
   void MoonAndStars();
 
-  // Cloud and star spawn constants as private members (with trailing _)
   static constexpr int kCloudMinSpacing_ = 300;
   static constexpr int kCloudMaxSpacing_ = 600;
-
   static constexpr int kMinStars_ = 1;
   static constexpr int kMaxStars_ = 3;
   static constexpr int kStarMinY_ = 20;
   static constexpr int kStarMaxY_ = 80;
   static constexpr int kStarMinX_ = 50;
   static constexpr int kStarMaxX_ = 750;
+  static constexpr int kMaxEnemies_ = 2;
+  static constexpr int kEnemyMinSpacing_ = 400;
+  static constexpr int kEnemySpacingVariance_ = 200;
 };
 
 }  // namespace systems
