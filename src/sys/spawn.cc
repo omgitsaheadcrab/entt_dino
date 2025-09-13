@@ -27,6 +27,11 @@
 #include "events/game/restart.h"
 #include "util/random.h"
 
+namespace {
+constexpr int kMaxEnemies_ = 3; // Maximum number of enemies at once
+constexpr int kEnemyMinSpacing_ = 120; // Minimum spacing between enemies (pixels)
+}
+
 void systems::Spawn::OnInit() {
   dispatcher_->sink<events::game::Restart>()
       .connect<&systems::Spawn::OnRestart>(this);
@@ -50,21 +55,33 @@ void systems::Spawn::CactiiOrPterodactyl() {
   const auto kEnemyView = registry_->view<components::physics::Transform,
                                           components::identifiers::Enemy>();
   const auto& kBounds = contexts::graphics::GetBounds(registry_);
-  constexpr auto kMaxCount = 1;  // Only one enemy at a time
-
   auto score = contexts::game::GetScore(registry_).value;
   bool allow_pterodactyl = score >= 100;
 
-  // Reduce spawn frequency: only spawn if no enemies exist
+  // Find the rightmost enemy position
+  int rightmost_x = 0;
+  for (auto entity : kEnemyView) {
+    const auto& kTransform = kEnemyView.get<components::physics::Transform>(entity);
+    if (kTransform.position.x > rightmost_x) {
+      rightmost_x = kTransform.position.x;
+    }
+  }
+
   auto count = kEnemyView.size_hint();
-  if (count == 0) {
+
+  // Only spawn if we have less than kMaxEnemies_ and the rightmost enemy is far enough left
+  if (count < kMaxEnemies_) {
+    // Calculate spawn position: either at the edge or after minimum spacing from rightmost enemy
+    double pos = kBounds.position.w;
+    if (count > 0) {
+      pos = std::max(static_cast<double>(rightmost_x + kEnemyMinSpacing_), static_cast<double>(kBounds.position.w));
+    }
+
     // Randomly choose cactus or pterodactyl (if allowed)
     bool spawn_pterodactyl =
         allow_pterodactyl &&
-        (utils::UniformRandom(0, 2) == 0);  // 1 in 5 chance for pterodactyl
+        (utils::UniformRandom(0, 4) == 0);  // 1 in 5 chance for pterodactyl
     bool spawn_cactus = !spawn_pterodactyl || !allow_pterodactyl;
-
-    double pos = kBounds.position.w + kBounds.position.w / 5.0;
 
     if (spawn_pterodactyl) {
       // Spawn pterodactyl at a random height above ground

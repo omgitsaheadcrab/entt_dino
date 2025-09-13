@@ -49,9 +49,9 @@ void entities::enemies::CreatePterodactyl(
 
   // Collider (simple box, can be improved)
   SDL_Rect box;
-  box.x = position.x;
-  box.y = position.y;
-  box.w = position.w;
+  box.x = position.w / 8;
+  box.y = 0;
+  box.w = 3 * position.w / 4;
   box.h = position.h;
 
   auto e = registry->create();
