@@ -11,11 +11,13 @@
 #include <SDL2/SDL_rect.h>
 #include <spdlog/spdlog.h>
 
+#include <vector>
+
 #include <entt/entity/registry.hpp>
 
+#include "comp/graphics/animation.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
-#include "comp/graphics/animation.h"
 #include "comp/identifiers/enemy.h"
 #include "comp/physics/collider.h"
 #include "comp/physics/rigid_body.h"
@@ -67,9 +69,9 @@ void entities::enemies::CreatePterodactyl(
       e, kResManager.GetSpriteTexture("pterodactyl"), kClips[kClip]);
   // Add animation component using the new constructor
   registry->emplace<components::graphics::Animation>(
-      e, components::graphics::Animation(
-             std::vector<SDL_Rect>(kClips.begin(), kClips.end()),
-             kClip, 0, 120));
+      e,
+      components::graphics::Animation(
+          std::vector<SDL_Rect>(kClips.begin(), kClips.end()), kClip, 0, 120));
 
   SPDLOG_DEBUG("Pterodactyl entity {} was created at ({}, {})",
                static_cast<int>(e), position.x, position.y);

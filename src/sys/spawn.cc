@@ -7,6 +7,8 @@
  */
 #include "sys/spawn.h"
 
+#include <vector>
+
 #include "comp/identifiers/cloud.h"
 #include "comp/identifiers/enemy.h"
 #include "comp/identifiers/floor.h"
@@ -28,10 +30,12 @@
 #include "util/random.h"
 
 namespace {
-constexpr int kMaxEnemies_ = 2; // Maximum number of enemies at once
-constexpr int kEnemyMinSpacing_ = 400; // Minimum base spacing between enemies (pixels)
-constexpr int kEnemySpacingVariance_ = 200; // Additional random spacing (pixels)
-}
+constexpr int kMaxEnemies_ = 2;  // Maximum number of enemies at once
+constexpr int kEnemyMinSpacing_ =
+    400;  // Minimum base spacing between enemies (pixels)
+constexpr int kEnemySpacingVariance_ =
+    200;  // Additional random spacing (pixels)
+}  // namespace
 
 void systems::Spawn::OnInit() {
   dispatcher_->sink<events::game::Restart>()
@@ -62,7 +66,8 @@ void systems::Spawn::CactiiOrPterodactyl() {
   // Gather all enemy positions
   std::vector<int> enemy_x_positions;
   for (auto entity : kEnemyView) {
-    const auto& kTransform = kEnemyView.get<components::physics::Transform>(entity);
+    const auto& kTransform =
+        kEnemyView.get<components::physics::Transform>(entity);
     enemy_x_positions.push_back(kTransform.position.x);
   }
 
@@ -77,7 +82,8 @@ void systems::Spawn::CactiiOrPterodactyl() {
     // Proposed spawn position is at the right edge
     int proposed_x = kBounds.position.w;
 
-    // Check spacing: only spawn if proposed_x is at least min_spacing away from all existing enemies
+    // Check spacing: only spawn if proposed_x is at least min_spacing away from
+    // all existing enemies
     bool can_spawn = true;
     for (int x : enemy_x_positions) {
       if (std::abs(proposed_x - x) < min_spacing) {
@@ -98,8 +104,8 @@ void systems::Spawn::CactiiOrPterodactyl() {
         const auto& kFloorClips =
             game_->res_manager().GetSpriteClips("floor", "floor");
         int min_y = 10;
-        int max_y =
-            kBounds.position.h - kFloorClips.front().h - 40;  // keep above ground
+        int max_y = kBounds.position.h - kFloorClips.front().h -
+                    40;  // keep above ground
         int y = utils::UniformRandom(min_y, max_y);
         entities::enemies::CreatePterodactyl(registry_, game_->res_manager(),
                                              proposed_x, y);
@@ -120,10 +126,11 @@ void systems::Spawn::CactiiOrPterodactyl() {
         int spacing_variance = utils::UniformRandom(0, kEnemySpacingVariance_);
         int min_spacing = kEnemyMinSpacing_ + spacing_variance;
         int proposed_x = kBounds.position.w;
-        // Check spacing: only spawn if proposed_x is at least min_spacing away from all existing enemies
+        // Check spacing: only spawn if proposed_x is at least min_spacing away
+        // from all existing enemies
         bool can_spawn = true;
         for (auto e : kEnemyView) {
-          if (e == entity) continue; // skip the one being despawned
+          if (e == entity) continue;  // skip the one being despawned
           const auto& t = kEnemyView.get<components::physics::Transform>(e);
           if (std::abs(proposed_x - t.position.x) < min_spacing) {
             can_spawn = false;
@@ -142,8 +149,8 @@ void systems::Spawn::CactiiOrPterodactyl() {
             int min_y = 10;
             int max_y = kBounds.position.h - kFloorClips.front().h - 40;
             int y = utils::UniformRandom(min_y, max_y);
-            entities::enemies::CreatePterodactyl(registry_, game_->res_manager(),
-                                                 proposed_x, y);
+            entities::enemies::CreatePterodactyl(
+                registry_, game_->res_manager(), proposed_x, y);
           } else if (spawn_cactus) {
             entities::enemies::CreateCactii(registry_, game_->res_manager(),
                                             proposed_x);

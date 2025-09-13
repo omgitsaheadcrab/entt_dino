@@ -11,9 +11,9 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
 
+#include "comp/graphics/animation.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
-#include "comp/graphics/animation.h"
 #include "core/colors.h"
 #include "core/window.h"
 #include "ctx/game_states.h"
@@ -32,7 +32,8 @@ void systems::Render::Update(const double alpha) {
   }
 
   // Animate pterodactyls (and any entity with Animation component)
-  auto animView = registry_->view<components::graphics::Sprite, components::graphics::Animation>();
+  auto animView = registry_->view<components::graphics::Sprite,
+                                  components::graphics::Animation>();
   uint32_t dt = static_cast<uint32_t>(alpha);
   animView.each([dt](auto& sprite, auto& anim) {
     anim.elapsed += dt;
