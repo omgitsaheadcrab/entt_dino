@@ -39,13 +39,13 @@ void entities::enemies::CreatePterodactyl(
       kResManager.GetSpriteClipsFromSlices("pterodactyl", "pterodactyl");
 
   // Pick a random frame to start with
-  int frame = utils::UniformRandom(0, 1);
+  const auto kClip = utils::UniformRandom(0, 1);
 
   SDL_Rect position;
   position.x = x;
   position.y = y;
-  position.h = kClips[frame].h;
-  position.w = kClips[frame].w;
+  position.h = kClips[kClip].h;
+  position.w = kClips[kClip].w;
 
   // Collider (simple box, can be improved)
   SDL_Rect box;
@@ -63,7 +63,7 @@ void entities::enemies::CreatePterodactyl(
   registry->emplace<components::physics::Transform>(e, position);
   registry->emplace<components::physics::Collider>(e, box);
   registry->emplace<components::graphics::Sprite>(
-      e, kResManager.GetSpriteTexture("pterodactyl"), kClips[frame]);
+      e, kResManager.GetSpriteTexture("pterodactyl"), kClips[kClip]);
   // Store animation state in registry context or as a component if you have one
 
   SPDLOG_DEBUG("Pterodactyl entity {} was created at ({}, {})",
