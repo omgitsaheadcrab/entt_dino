@@ -10,6 +10,7 @@
 #define ENTT_DINO_SRC_ENT_PTERODACTYL_H_
 
 #include <entt/entity/registry.hpp>
+
 #include "core/res_manager.h"
 
 namespace entities {
@@ -17,8 +18,7 @@ namespace enemies {
 
 // Create a pterodactyl entity at (x, y)
 void CreatePterodactyl(entt::registry* registry,
-                       const omg::ResourceManager& kResManager,
-                       int x, int y);
+                       const omg::ResourceManager& kResManager, int x, int y);
 
 }  // namespace enemies
 }  // namespace entities

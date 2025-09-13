@@ -10,6 +10,7 @@
 
 #include <SDL2/SDL_rect.h>
 #include <spdlog/spdlog.h>
+
 #include <entt/entity/registry.hpp>
 
 #include "comp/graphics/sprite.h"
@@ -25,20 +26,17 @@
 namespace {
 
 // Rigid Body
-const vf2d kVelocity {-2.5, 0.0}; // Slightly faster than cactii
+const vf2d kVelocity {-2.5, 0.0};  // Slightly faster than cactii
 const vf2d kAcceleration {0.0, 0.0};
 
 }  // namespace
 
-void entities::enemies::CreatePterodactyl(entt::registry* registry,
-                                          const omg::ResourceManager& kResManager,
-                                          int x, int y) {
+void entities::enemies::CreatePterodactyl(
+    entt::registry* registry, const omg::ResourceManager& kResManager, int x,
+    int y) {
   // Get both animation frames for the pterodactyl
-  const auto& kClips = kResManager.GetSpriteClips("pterodactyl", "pterodactyl");
-  if (kClips.size() < 2) {
-    SPDLOG_ERROR("Pterodactyl sprite must have at least 2 frames for animation!");
-    return;
-  }
+  const auto& kClips =
+      kResManager.GetSpriteClipsFromSlices("pterodactyl", "pterodactyl");
 
   // Pick a random frame to start with
   int frame = utils::UniformRandom(0, 1);
@@ -59,7 +57,8 @@ void entities::enemies::CreatePterodactyl(entt::registry* registry,
   auto e = registry->create();
 
   registry->emplace<components::identifiers::Enemy>(e);
-  registry->emplace<components::physics::RigidBody>(e, kVelocity, kAcceleration);
+  registry->emplace<components::physics::RigidBody>(e, kVelocity,
+                                                    kAcceleration);
   registry->emplace<components::graphics::Transform>(e, position);
   registry->emplace<components::physics::Transform>(e, position);
   registry->emplace<components::physics::Collider>(e, box);
@@ -67,5 +66,6 @@ void entities::enemies::CreatePterodactyl(entt::registry* registry,
       e, kResManager.GetSpriteTexture("pterodactyl"), kClips[frame]);
   // Store animation state in registry context or as a component if you have one
 
-  SPDLOG_DEBUG("Pterodactyl entity {} was created at ({}, {})", static_cast<int>(e), position.x, position.y);
+  SPDLOG_DEBUG("Pterodactyl entity {} was created at ({}, {})",
+               static_cast<int>(e), position.x, position.y);
 }
