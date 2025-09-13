@@ -71,7 +71,7 @@ void entities::enemies::CreatePterodactyl(
   registry->emplace<components::graphics::Animation>(
       e,
       components::graphics::Animation(
-          std::vector<SDL_Rect>(kClips.begin(), kClips.end()), kClip, 0, 120));
+          std::vector<SDL_Rect>(kClips.begin(), kClips.end()), kClip, 0, 160));
 
   SPDLOG_DEBUG("Pterodactyl entity {} was created at ({}, {})",
                static_cast<int>(e), position.x, position.y);

@@ -96,7 +96,7 @@ void systems::Spawn::CactiiOrPterodactyl() {
       // Randomly choose cactus or pterodactyl (if allowed)
       bool spawn_pterodactyl =
           allow_pterodactyl &&
-          (utils::UniformRandom(0, 4) == 0);  // 1 in 5 chance for pterodactyl
+          (utils::UniformRandom(0, 2) == 0);  // 1 in 3 chance for pterodactyl
       bool spawn_cactus = !spawn_pterodactyl || !allow_pterodactyl;
 
       if (spawn_pterodactyl) {
@@ -105,7 +105,7 @@ void systems::Spawn::CactiiOrPterodactyl() {
             game_->res_manager().GetSpriteClips("floor", "floor");
         int min_y = 10;
         int max_y = kBounds.position.h - kFloorClips.front().h -
-                    40;  // keep above ground
+                    20;  // keep above ground
         int y = utils::UniformRandom(min_y, max_y);
         entities::enemies::CreatePterodactyl(registry_, game_->res_manager(),
                                              proposed_x, y);
