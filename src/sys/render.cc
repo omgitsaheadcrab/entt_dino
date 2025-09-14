@@ -9,11 +9,12 @@
 #include "sys/render.h"
 
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_timer.h>
 
+#include "comp/graphics/animation.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
 #include "core/colors.h"
-#include "core/game.h"
 #include "core/window.h"
 #include "ctx/game_states.h"
 #include "ctx/graphics.h"
@@ -29,6 +30,19 @@ void systems::Render::Update(const double alpha) {
   if (contexts::game::GetDark(registry_)) {
     color = colors::kDinoLight;
   }
+
+  // Animate pterodactyls (and any entity with Animation component)
+  auto animView = registry_->view<components::graphics::Sprite,
+                                  components::graphics::Animation>();
+  uint32_t dt = static_cast<uint32_t>(alpha);
+  animView.each([dt](auto& sprite, auto& anim) {
+    anim.elapsed += dt;
+    if (anim.elapsed >= anim.frame_duration) {
+      anim.elapsed = 0;
+      anim.current_frame = (anim.current_frame + 1) % anim.frames.size();
+      sprite.clip = anim.frames[anim.current_frame];
+    }
+  });
 
   const auto kView = registry_->view<components::graphics::Sprite,
                                      components::graphics::Transform>();
