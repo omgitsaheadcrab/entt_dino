@@ -15,6 +15,7 @@
 
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
+#include "comp/graphics/animation.h"
 #include "comp/identifiers/dino.h"
 #include "comp/physics/collider.h"
 #include "comp/physics/rigid_body.h"
@@ -61,5 +62,9 @@ void entities::dino::Create(entt::registry* registry,
   registry->emplace<components::physics::Collider>(e, box);
   registry->emplace<components::graphics::Sprite>(
       e, kResManager.GetSpriteTexture("dino"), kClips.front());
+  registry->emplace<components::graphics::Animation>(
+      e,
+      components::graphics::Animation(
+          std::vector<SDL_Rect>(kClips.begin(), kClips.end()), 0, 0, 120));
   SPDLOG_DEBUG("{} was created", static_cast<int>(e));
 }
