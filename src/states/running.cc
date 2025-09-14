@@ -9,9 +9,11 @@
 #include "states/running.h"
 
 #include <cstdint>
+#include <vector>
 
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
+#include "comp/graphics/animation.h"
 #include "comp/identifiers/dino.h"
 #include "comp/physics/collider.h"
 #include "comp/physics/rigid_body.h"
@@ -21,28 +23,37 @@
 #include "ctx/graphics.h"
 
 void states::Running::OnInit() {
-  const auto& kClips =
-      game_->res_manager().GetSpriteClipsFromSlices("dino", name_);
-  for (auto& clip : kClips) {
-    animation_frames_.push({clip});
-  }
+  // No need to store animation frames in a queue anymore
 }
 
 void states::Running::Set() {
-  animation_elapsed_ = 0;
   const auto& kFloorClips =
       game_->res_manager().GetSpriteClips("floor", "floor");
   const auto& kBounds = contexts::graphics::GetBounds(registry_);
   const auto& kView = registry_->view<
       components::identifiers::Dino, components::physics::RigidBody,
       components::graphics::Sprite, components::graphics::Transform,
-      components::physics::Transform, components::physics::Collider>();
+      components::physics::Transform, components::physics::Collider,
+      components::graphics::Animation>();
+
+  // Get animation frames for dino running
+  const auto& kClips =
+      game_->res_manager().GetSpriteClipsFromSlices("dino", name_);
 
   kView.each([&](auto& rigid_body, auto& sprite, auto& gtransform,
-                 auto& ptransform, auto& collider) {
+                 auto& ptransform, auto& collider, auto& animation) {
     rigid_body.velocity.y = 0;
     rigid_body.acceleration.y = 0;
-    sprite.clip = animation_frames_.front();
+
+    // Set up animation component
+    animation.frames = std::vector<SDL_Rect>(kClips.begin(), kClips.end());
+    animation.current_frame = 0;
+    animation.elapsed = 0;
+    animation.frame_duration = 120; // ms per frame, adjust as needed
+
+    // Set initial sprite frame
+    sprite.clip = animation.frames[animation.current_frame];
+
     gtransform.position.w = sprite.clip.w;
     gtransform.position.h = sprite.clip.h;
     gtransform.position.y =
@@ -58,18 +69,5 @@ void states::Running::Set() {
 }
 
 void states::Running::Update(const double dt) {
-  animation_elapsed_ += static_cast<uint32_t>(dt);
-  const auto kBaseSpeed = contexts::game::GetSpeed(registry_).value;
-
-  if (animation_elapsed_ >= kAnimation_base_duration_ * (1.0 - kBaseSpeed)) {
-    animation_elapsed_ = 0;
-    animation_frames_.push(animation_frames_.front());
-    animation_frames_.pop();
-  }
-
-  const auto& kView =
-      registry_
-          ->view<components::identifiers::Dino, components::graphics::Sprite>();
-
-  kView.each([&](auto& sprite) { sprite.clip = animation_frames_.front(); });
+  // No custom animation logic needed; handled by Animation component and render system
 }
