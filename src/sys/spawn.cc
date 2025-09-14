@@ -29,14 +29,6 @@
 #include "events/game/restart.h"
 #include "util/random.h"
 
-namespace {
-constexpr int kMaxEnemies_ = 2;  // Maximum number of enemies at once
-constexpr int kEnemyMinSpacing_ =
-    400;  // Minimum base spacing between enemies (pixels)
-constexpr int kEnemySpacingVariance_ =
-    200;  // Additional random spacing (pixels)
-}  // namespace
-
 void systems::Spawn::OnInit() {
   dispatcher_->sink<events::game::Restart>()
       .connect<&systems::Spawn::OnRestart>(this);
