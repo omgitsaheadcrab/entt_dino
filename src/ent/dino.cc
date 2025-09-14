@@ -11,6 +11,8 @@
 #include <SDL2/SDL_rect.h>
 #include <spdlog/spdlog.h>
 
+#include <vector>
+
 #include <entt/entity/registry.hpp>
 
 #include "comp/graphics/animation.h"
