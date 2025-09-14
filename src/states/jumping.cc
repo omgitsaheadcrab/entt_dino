@@ -8,9 +8,9 @@
 
 #include "states/jumping.h"
 
+#include "comp/graphics/animation.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
-#include "comp/graphics/animation.h"
 #include "comp/identifiers/dino.h"
 #include "comp/physics/collider.h"
 #include "comp/physics/rigid_body.h"
@@ -44,7 +44,7 @@ void states::Jumping::Set() {
     animation.frames = {kClips.front()};
     animation.current_frame = 0;
     animation.elapsed = 0;
-    animation.frame_duration = 1000; // Large value, disables animation
+    animation.frame_duration = 1000;  // Large value, disables animation
 
     sprite.clip = animation.frames[animation.current_frame];
     rigid_body.acceleration.y = kGravity_;

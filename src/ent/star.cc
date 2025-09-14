@@ -15,9 +15,9 @@
 
 #include <entt/entity/registry.hpp>
 
+#include "comp/graphics/animation.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
-#include "comp/graphics/animation.h"
 #include "comp/identifiers/star.h"
 #include "comp/physics/rigid_body.h"
 #include "comp/physics/transform.h"

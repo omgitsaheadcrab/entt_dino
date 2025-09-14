@@ -11,9 +11,9 @@
 #include <cstdint>
 #include <vector>
 
+#include "comp/graphics/animation.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
-#include "comp/graphics/animation.h"
 #include "comp/identifiers/dino.h"
 #include "comp/physics/collider.h"
 #include "comp/physics/rigid_body.h"
@@ -30,11 +30,12 @@ void states::Running::Set() {
   const auto& kFloorClips =
       game_->res_manager().GetSpriteClips("floor", "floor");
   const auto& kBounds = contexts::graphics::GetBounds(registry_);
-  const auto& kView = registry_->view<
-      components::identifiers::Dino, components::physics::RigidBody,
-      components::graphics::Sprite, components::graphics::Transform,
-      components::physics::Transform, components::physics::Collider,
-      components::graphics::Animation>();
+  const auto& kView =
+      registry_
+          ->view<components::identifiers::Dino, components::physics::RigidBody,
+                 components::graphics::Sprite, components::graphics::Transform,
+                 components::physics::Transform, components::physics::Collider,
+                 components::graphics::Animation>();
 
   // Get animation frames for dino running
   const auto& kClips =
@@ -49,7 +50,7 @@ void states::Running::Set() {
     animation.frames = std::vector<SDL_Rect>(kClips.begin(), kClips.end());
     animation.current_frame = 0;
     animation.elapsed = 0;
-    animation.frame_duration = 120; // ms per frame, adjust as needed
+    animation.frame_duration = 120;  // ms per frame, adjust as needed
 
     // Set initial sprite frame
     sprite.clip = animation.frames[animation.current_frame];
@@ -69,5 +70,6 @@ void states::Running::Set() {
 }
 
 void states::Running::Update(const double dt) {
-  // No custom animation logic needed; handled by Animation component and render system
+  // No custom animation logic needed; handled by Animation component and render
+  // system
 }
