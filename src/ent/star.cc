@@ -11,10 +11,13 @@
 #include <SDL2/SDL_rect.h>
 #include <spdlog/spdlog.h>
 
+#include <vector>
+
 #include <entt/entity/registry.hpp>
 
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
+#include "comp/graphics/animation.h"
 #include "comp/identifiers/star.h"
 #include "comp/physics/rigid_body.h"
 #include "comp/physics/transform.h"
@@ -33,6 +36,7 @@ void CreateStar(entt::registry* registry,
 
   // Try slices first, fallback to frame tag
   auto kClips = kResManager.GetSpriteClipsFromSlices("star", "star");
+  // Pick a random frame to start with
   const auto kClip = utils::UniformRandom(0, kClips.size() - 1);
 
   SDL_Rect position;
@@ -50,6 +54,11 @@ void CreateStar(entt::registry* registry,
   registry->emplace<components::physics::Transform>(e, position);
   registry->emplace<components::graphics::Transform>(e, position);
   registry->emplace<components::graphics::Sprite>(e, texture, kClips[kClip]);
+  // Add animation component for star (slow cycle between frames)
+  registry->emplace<components::graphics::Animation>(
+      e,
+      components::graphics::Animation(
+          std::vector<SDL_Rect>(kClips.begin(), kClips.end()), kClip, 0, 600));
   SPDLOG_DEBUG("Star entity {} was created at ({}, {})", static_cast<int>(e),
                position.x, position.y);
 }
