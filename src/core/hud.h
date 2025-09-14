@@ -40,6 +40,10 @@ class HUD {
 
   omg::Game* game_;
   entt::registry* registry_;
+
+  // Members for score flashing
+  int score_flash_frames_left_ = 0;
+  int last_score_flash_ = 0;
 };
 
 }  // namespace omg
