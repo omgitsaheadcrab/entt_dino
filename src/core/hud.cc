@@ -20,11 +20,6 @@
 #include "ctx/game_states.h"
 #include "util/str.h"
 
-namespace {
-constexpr int kScoreFlashInterval = 100; // Points interval for flashing
-constexpr int kScoreFlashFrames = 20;    // Number of frames to flash (about 1/3 second at 60fps)
-}
-
 void omg::HUD::Init(entt::registry* registry, omg::Game* game) {
   game_ = game;
   registry_ = registry;
@@ -67,8 +62,9 @@ void omg::HUD::Update() {
 
   // Score flashing logic
   // If score is a multiple of kScoreFlashInterval and not zero, start flash
-  if (kScore > 0 && kScore % kScoreFlashInterval == 0 && last_score_flash_ != kScore) {
-    score_flash_frames_left_ = kScoreFlashFrames;
+  if (kScore > 0 && kScore % omg::HUD::kScoreFlashInterval_ == 0 &&
+      last_score_flash_ != kScore) {
+    score_flash_frames_left_ = omg::HUD::kScoreFlashFrames_;
     last_score_flash_ = kScore;
   }
 

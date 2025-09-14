@@ -41,9 +41,11 @@ class HUD {
   omg::Game* game_;
   entt::registry* registry_;
 
-  // Members for score flashing
   int score_flash_frames_left_ = 0;
   int last_score_flash_ = 0;
+
+  static constexpr int kScoreFlashInterval_ = 100;
+  static constexpr int kScoreFlashFrames_ = 15;
 };
 
 }  // namespace omg
