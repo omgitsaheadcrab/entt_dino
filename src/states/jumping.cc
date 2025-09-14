@@ -8,6 +8,7 @@
 
 #include "states/jumping.h"
 
+#include "comp/graphics/animation.h"
 #include "comp/graphics/sprite.h"
 #include "comp/graphics/transform.h"
 #include "comp/identifiers/dino.h"
@@ -34,11 +35,18 @@ void states::Jumping::Set() {
   const auto& kView = registry_->view<
       components::identifiers::Dino, components::graphics::Sprite,
       components::physics::RigidBody, components::graphics::Transform,
-      components::physics::Transform, components::physics::Collider>();
+      components::physics::Transform, components::physics::Collider,
+      components::graphics::Animation>();
 
   kView.each([&](auto& sprite, auto& rigid_body, auto& gtransform,
-                 auto& ptransform, auto& collider) {
-    sprite.clip = kClips.front();
+                 auto& ptransform, auto& collider, auto& animation) {
+    // For jumping, use only the first frame (not animated)
+    animation.frames = {kClips.front()};
+    animation.current_frame = 0;
+    animation.elapsed = 0;
+    animation.frame_duration = 1000;  // Large value, disables animation
+
+    sprite.clip = animation.frames[animation.current_frame];
     rigid_body.acceleration.y = kGravity_;
     rigid_body.velocity.y = kV0_;
     gtransform.position.w = sprite.clip.w;
