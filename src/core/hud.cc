@@ -20,6 +20,11 @@
 #include "ctx/game_states.h"
 #include "util/str.h"
 
+namespace {
+constexpr int kScoreFlashInterval = 100; // Points interval for flashing
+constexpr int kScoreFlashFrames = 20;    // Number of frames to flash (about 1/3 second at 60fps)
+}
+
 void omg::HUD::Init(entt::registry* registry, omg::Game* game) {
   game_ = game;
   registry_ = registry;
@@ -35,6 +40,10 @@ void omg::HUD::Init(entt::registry* registry, omg::Game* game) {
                                    font, 12, colors::kDinoDark, registry);
   retry_ = omg::ui::CreateIcon("retry", 0.48, 0.52, colors::kDinoDark,
                                game_->res_manager(), registry);
+
+  // Score flash state
+  score_flash_frames_left_ = 0;
+  last_score_flash_ = 0;
 }
 
 void omg::HUD::Update() {
@@ -52,10 +61,28 @@ void omg::HUD::Update() {
     color_hi = colors::kHighscoreLight;
   }
   fps_.color = color;
-  current_score_.color = color;
   high_score_.color = color_hi;
   game_over_.color = color;
   retry_.color = color;
+
+  // Score flashing logic
+  // If score is a multiple of kScoreFlashInterval and not zero, start flash
+  if (kScore > 0 && kScore % kScoreFlashInterval == 0 && last_score_flash_ != kScore) {
+    score_flash_frames_left_ = kScoreFlashFrames;
+    last_score_flash_ = kScore;
+  }
+
+  // If flashing, set score color to opposite
+  if (score_flash_frames_left_ > 0) {
+    if (kDark) {
+      current_score_.color = colors::kDinoDark;
+    } else {
+      current_score_.color = colors::kDinoLight;
+    }
+    score_flash_frames_left_--;
+  } else {
+    current_score_.color = color;
+  }
 
   if (contexts::game::GetState(registry_).value == "dead") {
     high_score_.str = "HI  " + utils::ToStringZeroPad(kHighScore, 5);
