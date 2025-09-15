@@ -2,8 +2,8 @@
  * @file      fonts.h
  * @brief     Font utility functions
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2022-07-29
- * @copyright Copyright © 2022 Tobias Backer Dirks
+ * @date      2025-09-15
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #ifndef ENTT_DINO_SRC_CORE_FONTS_H_

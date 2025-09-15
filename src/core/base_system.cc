@@ -2,8 +2,8 @@
  * @file      base_system.cc
  * @brief     Base system
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2022-08-25
- * @copyright Copyright © 2022 Tobias Backer Dirks
+ * @date      2025-09-15
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #include "core/base_system.h"

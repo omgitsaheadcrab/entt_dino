@@ -2,8 +2,8 @@
  * @file      dino.cc
  * @brief     Dino entity
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2021-11-25
- * @copyright Copyright © 2021 Tobias Backer Dirks
+ * @date      2025-09-15
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #include "ent/dino.h"

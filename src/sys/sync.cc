@@ -2,8 +2,8 @@
  * @file      sync.cc
  * @brief     Synchronize graphics with physics
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2022-08-10
- * @copyright Copyright © 2022 Tobias Backer Dirks
+ * @date      2025-09-15
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #include "sys/sync.h"

@@ -69,6 +69,6 @@ The resultant `entt_dino` executable can then be found in `bin/`.
 
 ## Licence
 
-Copyright (c) 2021 Tobias Backer Dirks.
+Copyright (c) 2025 Tobias Backer Dirks.
 
 Code released under [the MIT licence](LICENCE).

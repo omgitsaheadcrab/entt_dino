@@ -2,8 +2,8 @@
  * @file      animation.h
  * @brief     Animation component for entities
  * @author    (added by assistant)
- * @date      2024-06-12
- * @copyright Copyright © 2024 Tobias Backer Dirks
+ * @date      2025-09-15
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #ifndef ENTT_DINO_SRC_COMP_GRAPHICS_ANIMATION_H_

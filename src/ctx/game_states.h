@@ -2,8 +2,8 @@
  * @file      game_states.h
  * @brief     Game state contexts
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2022-08-11
- * @copyright Copyright © 2022 Tobias Backer Dirks
+ * @date      2025-09-15
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #ifndef ENTT_DINO_SRC_CTX_GAME_STATES_H_

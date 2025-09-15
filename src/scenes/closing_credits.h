@@ -2,8 +2,8 @@
  * @file      closing_credits.h
  * @brief     Closing credits scene header
  * @author    Tobias Backer Dirks <omgitsaheadcrab@gmail.com>
- * @date      2024-06-10
- * @copyright Copyright © 2024 Tobias Backer Dirks
+ * @date      2025-09-15
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #ifndef ENTT_DINO_SRC_SCENES_CLOSING_CREDITS_H_
