@@ -2,8 +2,8 @@
  * @file      state.cc
  * @brief     State system
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2022-09-09
- * @copyright Copyright © 2022 Tobias Backer Dirks
+ * @date      2025-09-09
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #include "sys/state.h"

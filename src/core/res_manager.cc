@@ -2,8 +2,8 @@
  * @file      res_manager.cc
  * @brief     Resource Manager
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2021-12-22
- * @copyright Copyright © 2021 Tobias Backer Dirks
+ * @date      2025-12-22
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #include "core/res_manager.h"

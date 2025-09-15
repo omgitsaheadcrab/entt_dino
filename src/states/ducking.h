@@ -2,8 +2,8 @@
  * @file      ducking.h
  * @brief     Ducking state
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2022-09-09
- * @copyright Copyright © 2022 Tobias Backer Dirks
+ * @date      2025-09-15
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #ifndef ENTT_DINO_SRC_STATES_DUCKING_H_

@@ -2,8 +2,8 @@
  * @file      graphics.cc
  * @brief     Graphics contexts
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2022-08-11
- * @copyright Copyright © 2022 Tobias Backer Dirks
+ * @date      2025-08-11
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #include "ctx/graphics.h"

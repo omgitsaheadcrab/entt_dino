@@ -2,8 +2,8 @@
  * @file      transform.h
  * @brief     Physics transform component
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2021-06-08
- * @copyright Copyright © 2021 Tobias Backer Dirks
+ * @date      2025-09-15
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #ifndef ENTT_DINO_SRC_COMP_PHYSICS_TRANSFORM_H_

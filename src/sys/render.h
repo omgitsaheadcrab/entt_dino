@@ -2,8 +2,8 @@
  * @file      render.h
  * @brief     Render system
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2021-06-13
- * @copyright Copyright © 2021 Tobias Backer Dirks
+ * @date      2025-09-15
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #ifndef ENTT_DINO_SRC_SYS_RENDER_H_

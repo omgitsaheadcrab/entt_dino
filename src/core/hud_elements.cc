@@ -2,8 +2,8 @@
  * @file      hud_elements.cc
  * @brief     HUD Elements
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2022-08-02
- * @copyright Copyright © 2022 Tobias Backer Dirks
+ * @date      2025-08-02
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #include "core/hud_elements.h"

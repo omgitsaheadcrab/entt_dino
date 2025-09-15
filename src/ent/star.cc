@@ -2,8 +2,8 @@
  * @file      star.cc
  * @brief     Star entity
  * @author    Tobias Backer Dirks <omgitsaheadcrab@gmail.com>
- * @date      2024-06-10
- * @copyright Copyright © 2024 Tobias Backer Dirks
+ * @date      2025-06-10
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #include "ent/star.h"

@@ -2,8 +2,8 @@
  * @file      graphics.cc
  * @brief     Graphics utility functions
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2021-06-09
- * @copyright Copyright © 2021 Tobias Backer Dirks
+ * @date      2025-06-09
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #include "core/graphics.h"

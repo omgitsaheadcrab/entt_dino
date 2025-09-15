@@ -2,8 +2,8 @@
  * @file      window.h
  * @brief     Class handling SDL window and renderer creation
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2021-05-27
- * @copyright Copyright © 2021 Tobias Backer Dirks
+ * @date      2025-09-15
+ * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
 #ifndef ENTT_DINO_SRC_CORE_WINDOW_H_
