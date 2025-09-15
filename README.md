@@ -1,9 +1,22 @@
 # EnTT Dino
+
+<p align="center">
+  <img src="res/logo.png" alt="EnTT Dino Logo" width="400"/>
+</p>
+
 [![MITLicensed](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Build status](https://github.com/omgitsaheadcrab/entt_dino/actions/workflows/cmake.yml/badge.svg)
 
 A [Dinosaur Game](https://en.wikipedia.org/wiki/Dinosaur_Game) clone using the
 Entity Component System (ECS) from the [EnTT library](https://github.com/skypjack/entt).
+
+<p align="center">
+  <img src="entt_dino_demo.gif" alt="EnTT Dino Demo" width="600"/>
+</p>
+
+## Demo
+
+Above is a short gameplay demo of EnTT Dino.
 
 ## Dependencies
 
