@@ -39,10 +39,6 @@ By using just SDL2 and EnTT, the project remains lightweight and focused, allowi
 - [x] **Parallax Background**: Clouds, moon, and stars move at different speeds.
 - [x] **FPS Counter**: Real-time frames-per-second display in the HUD.
 
-## Demo
-
-Above is a short gameplay demo of EnTT Dino.
-
 ## Dependencies
 
 - [CMake](https://cmake.org/) version 3.7 or later.
