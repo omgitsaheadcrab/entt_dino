@@ -2,7 +2,7 @@
  * @file      window.cc
  * @brief     Class handling SDL window and renderer creation
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2025-05-27
+ * @date      2025-09-15
  * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 

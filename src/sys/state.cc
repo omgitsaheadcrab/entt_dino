@@ -2,7 +2,7 @@
  * @file      state.cc
  * @brief     State system
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2025-09-09
+ * @date      2025-09-15
  * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 

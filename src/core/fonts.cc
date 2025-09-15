@@ -2,7 +2,7 @@
  * @file      fonts.cc
  * @brief     Font utility functions
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2025-07-29
+ * @date      2025-09-15
  * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 

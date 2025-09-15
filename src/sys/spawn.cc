@@ -2,7 +2,7 @@
  * @file      spawn.cc
  * @brief     Spawn system
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2025-11-18
+ * @date      2025-09-15
  * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 #include "sys/spawn.h"

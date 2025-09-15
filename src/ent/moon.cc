@@ -2,7 +2,7 @@
  * @file      moon.cc
  * @brief     Moon entity
  * @author    Tobias Backer Dirks <omgitsaheadcrab@gmail.com>
- * @date      2025-06-10
+ * @date      2025-09-15
  * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 

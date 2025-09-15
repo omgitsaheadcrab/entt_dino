@@ -2,7 +2,7 @@
  * @file      scene_manager.cc
  * @brief     Scene manager
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2025-08-25
+ * @date      2025-09-15
  * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 

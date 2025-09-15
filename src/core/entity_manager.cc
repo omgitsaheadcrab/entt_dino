@@ -2,7 +2,7 @@
  * @file      entity_manager.cc
  * @brief     Entity manager
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2025-08-25
+ * @date      2025-09-15
  * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 

@@ -2,7 +2,7 @@
  * @file      sync.cc
  * @brief     Synchronize graphics with physics
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2025-08-10
+ * @date      2025-09-15
  * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 

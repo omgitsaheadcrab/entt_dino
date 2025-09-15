@@ -2,7 +2,7 @@
  * @file      opening_credits.cc
  * @brief     Opening credits scene
  * @author    Tobias Backer Dirks <omgitsaheadcrab[at]gmail.com>
- * @date      2025-06-10
+ * @date      2025-09-15
  * @copyright Copyright © 2025 Tobias Backer Dirks
  */
 
