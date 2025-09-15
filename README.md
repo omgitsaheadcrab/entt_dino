@@ -44,12 +44,12 @@ By using just SDL2 and EnTT, the project remains lightweight and focused, allowi
 - [CMake](https://cmake.org/) version 3.7 or later.
 - [SDL2](https://www.libsdl.org/),
 [SDL2_image](https://www.libsdl.org/projects/SDL_image/) for input and
-rendering and [SDL2_ttf](https://www.libsdl.org/projects/SDL_ttf/) for fonts.
+rendering, [SDL2_ttf](https://www.libsdl.org/projects/SDL_ttf/) for fonts and [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/) for sounds.
 
 To install these on `Arch Linux`:
 
 ```sh
-sudo pacman -S cmake sdl2 sdl2_image sdl2_ttf
+sudo pacman -S cmake sdl2 sdl2_image sdl2_ttf sdl2_mixer
 ```
 
 For other platforms and distributions please refer to your package manager's
