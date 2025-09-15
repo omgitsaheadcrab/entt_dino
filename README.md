@@ -14,7 +14,7 @@ The motivation behind this project is to gain experience with the foundational f
 By using just SDL2 and EnTT, the project remains lightweight and focused, allowing for a deeper understanding of how these systems interact and how to build up game engine features from scratch.
 
 <p align="center">
-  <img src="entt_dino_demo.gif" alt="EnTT Dino Demo" width="600"/>
+  <img src="res/entt_dino_demo.gif" alt="EnTT Dino Demo" width="600"/>
 </p>
 
 ## Engine Features
